@@ -36,9 +36,10 @@ This list is non-exhaustive and may change, and is not indicative of future plan
 1. Download the ``AR_Code.txt`` from https://github.com/BrinchEbsen/AHT_Archipelago
 2. Download and install the apworld under the releases on this repo
 3. Toggle ``Enable Cheats`` in Dolphins settings
-4. Launch the game and add the contents of ``AR_Code.txt`` into Dolphins cheats manager
-5. Launch the client via Archipelago, connect to the multiworld, and type ``/client dolphin`` to hook into Dolphin
-6. Enjoy!
+4. Add the contents of ``AR_Code.txt`` into Dolphins cheats manager
+5. Launch the game
+6. Launch the client via Archipelago, connect to the multiworld, and type ``/client dolphin`` to hook into Dolphin
+7. Enjoy!
 
 ## Checklist
 
