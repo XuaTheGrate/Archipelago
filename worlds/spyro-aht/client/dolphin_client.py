@@ -188,10 +188,9 @@ class DolphinClient(GenericClient):
 
         if ctx.slot_data['randomize_shop_items']:
             locations = list(range(1000, 1004))
-            if ctx.slot_data["key_rings"]:
-                locations.extend(range(2000, 2014))
-            else:
-                locations.extend(range(3000, 3052))
+            locations.extend(range(2000, 2013))
+            if not ctx.slot_data['key_rings']:
+                locations.extend(range(3013, 3052))
             await ctx.send_msgs([{"cmd": "LocationScouts", "locations": locations, "create_as_hint": 0}])
             await ctx._shop_items_received.wait()
             await self._prepare_shop_items(ctx, *ctx._shop_items)
