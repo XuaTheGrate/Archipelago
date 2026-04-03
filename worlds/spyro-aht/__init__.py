@@ -382,7 +382,7 @@ class SpyroAHTWorld(World):
         if self.options.realm_access.value != 0:
             bosses, cards = list(self._access_placements.keys()), list(self._access_placements.values())
 
-            self.multiworld.itempool.append(self.create_item("Gem Pack"))
+            #self.multiworld.itempool.append(self.create_item("Gem Pack"))
             start = self.get_location("Starter Checks: Starting Realm Access")
             target = ""
             match self._starting_realm:
@@ -455,7 +455,6 @@ class SpyroAHTWorld(World):
         smax = self.options.shop_prices_max.value
         if smin > smax:
             smin, smax = smax, smin
-        print(self.options.misc_easy_bosses.value)
 
         r: dict[str, Any] = {
             "misc_goal": self.options.misc_goal.value,

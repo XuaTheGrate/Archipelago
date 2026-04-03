@@ -69,26 +69,6 @@ class RandomizeShopItems(Toggle):
     display_name = "Randomize Shop Items"
     default = 0
 
-
-class RandomizeShopPrices(Choice):
-    """Sets Moneybags shop prices.
-    NOTE: ``default`` currently does nothing.
-
-    default: No changes to price. If ``Randomize Shop Items`` is enabled, this setting will automatically change to ``random``.
-    random: Randomizes the price, defined by the range in **Minimum Shop Price** and **Maximum Shop Price**.
-    random_low: Randomizes the price, with a bias towards a lower price.
-    random_high: Randomizes the price, with a bias towards a higher price.
-    """
-
-    display_name = "Shop Prices"
-    rich_text_doc = True
-    option_default = 0
-    option_randomized = 1
-    option_randomized_low = 2
-    option_randomized_high = 3
-    default = 0
-
-
 class ShopPricesMin(Range):
     """The minimum price for items in the shop."""
     display_name = "Minimum Shop Price"
@@ -269,7 +249,6 @@ class SpyroAHTOptions(PerGameCommonOptions):
     key_rings: KeyRings
 
     randomize_shop_items: RandomizeShopItems
-    randomize_shop_prices: RandomizeShopPrices
     shop_prices_min: ShopPricesMin
     shop_prices_max: ShopPricesMax
 

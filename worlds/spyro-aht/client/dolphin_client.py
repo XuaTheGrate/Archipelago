@@ -97,15 +97,15 @@ class DolphinClient(GenericClient):
                 if purchase_flag:
                     result.add(1000 + i)
             offset = 4
-            if key_rings:
-                for i in range(14):
-                    await asyncio.sleep(0)
+            for i in range(13):
+                await asyncio.sleep(0)
 
-                    purchase_flag = dolphin_memory_engine.read_byte(self.addresses.g_SHOP_TEXT + (0x32 * (i + offset)))
-                    if purchase_flag:
-                        result.add(2000 + i)
-            else:
-                for i in range(52):
+                purchase_flag = dolphin_memory_engine.read_byte(self.addresses.g_SHOP_TEXT + (0x32 * (i + offset)))
+                if purchase_flag:
+                    result.add(2000 + i)
+            offset += 14
+            if not key_rings:
+                for i in range(13, 52):
                     await asyncio.sleep(0)
 
                     purchase_flag = dolphin_memory_engine.read_byte(self.addresses.g_SHOP_TEXT + (0x32 * (i + offset)))
@@ -187,13 +187,11 @@ class DolphinClient(GenericClient):
         dolphin_memory_engine.write_byte(self.addresses.p_USE_KEY_RINGS, ctx.slot_data['key_rings'])
 
         if ctx.slot_data['randomize_shop_items']:
-            print("RANDOMIZED SHOP ITEMS")
             locations = list(range(1000, 1004))
             if ctx.slot_data["key_rings"]:
                 locations.extend(range(2000, 2014))
             else:
                 locations.extend(range(3000, 3052))
-            print("Adding", len(locations), "shop items")
             await ctx.send_msgs([{"cmd": "LocationScouts", "locations": locations, "create_as_hint": 0}])
             await ctx._shop_items_received.wait()
             await self._prepare_shop_items(ctx, *ctx._shop_items)

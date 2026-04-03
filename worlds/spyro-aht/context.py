@@ -4,16 +4,24 @@ import collections
 import Utils
 from kvui import GameManager
 
-from CommonClient import CommonContext, logger
+from CommonClient import ClientCommandProcessor, CommonContext, logger
 from NetUtils import ClientStatus, NetworkItem
 
 from .client import GenericClient, DolphinClient
 from .data import consts
 
 
+class SpyroAHTCommands(ClientCommandProcessor):
+    def _cmd_debug_send(self, location: str) -> bool:
+        Utils.async_start(self.ctx.send_msgs([{"cmd": "LocationChecks","locations":[int(location)]}]))
+        return True
+
+
+
 class SpyroAHTContext(CommonContext):
     items_handling = 0b111
     game = "Spyro: A Hero's Tail"
+    command_processor = SpyroAHTCommands
 
     def __init__(self, server_address: str | None = None, password: str | None = None) -> None:
         super().__init__(server_address, password)
@@ -76,12 +84,11 @@ class SpyroAHTContext(CommonContext):
                             item = args['item']
                             location = self.location_names.lookup_in_slot(item.location, self.slot)
                             player = self.player_names[args['receiving']]
-                            msg = f"[Hint] {player}'s {self.item_names.lookup_in_slot(args['receiving'])} is at {location}"
+                            msg = f"[Hint] {player}'s {self.item_names.lookup_in_slot(item.item, args['receiving'])} is at {location}"
                             self.emu_client.msg_queue.put_nowait((consts.COLOUR_WHITE, msg))
     
     async def start_emu_client(self):
         # TODO: pcsx2 client
-        print("Starting dolphin connector")
         self.emu_client = DolphinClient()
         await self.emu_client.connect()
         await self.emu_client.apply_patch(self)
