@@ -3,8 +3,6 @@ An implementation of the Archipelago randomizer for Spyro: A Hero's Tail for Pla
 
 ## What is randomized?
 
-This list is non-exhaustive and may change, and is not indicative of future plans.
-
 - [x] Dark Gems
 - [x] Light Gems
 - [x] Dragon Eggs
