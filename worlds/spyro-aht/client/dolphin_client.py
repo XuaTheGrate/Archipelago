@@ -34,7 +34,7 @@ class DolphinClient(GenericClient):
                 await asyncio.sleep(0.5)
                 if await self.should_process_checks():
                     await asyncio.sleep(5)
-                    dolphin_memory_engine.write_word(self.addresses.n_AP_NOTIFICATION_TIMER, 4)
+                    dolphin_memory_engine.write_word(self.addresses.n_AP_NOTIFICATION_TIMER, 0)
                     col, msg = await self.msg_queue.get()
 
                     if len(msg) > 254:
@@ -103,14 +103,14 @@ class DolphinClient(GenericClient):
                 purchase_flag = dolphin_memory_engine.read_byte(self.addresses.g_SHOP_TEXT + (0x32 * (i + offset)))
                 if purchase_flag:
                     result.add(2000 + i)
-            offset += 14
+            offset += 13
             if not key_rings:
-                for i in range(13, 52):
+                for i in range(39):
                     await asyncio.sleep(0)
 
                     purchase_flag = dolphin_memory_engine.read_byte(self.addresses.g_SHOP_TEXT + (0x32 * (i + offset)))
                     if purchase_flag:
-                        result.add(3000 + i)
+                        result.add(3013 + i)
 
         return result
 
@@ -206,7 +206,7 @@ class DolphinClient(GenericClient):
         dolphin_memory_engine.write_byte(self.addresses.p_SUPERCHARGE_COST, s)
 
         dolphin_memory_engine.write_byte(self.addresses.p_STARTING_REALM, ctx.slot_data['starting_realm'])
-        if ctx.slot_data['realm_access'] != 1:
+        if ctx.slot_data['realm_access'] != 0:
             realm_access = [False, False, False, False]
             realm_access[ctx.slot_data['starting_realm']] = True
             dolphin_memory_engine.write_bytes(self.addresses.p_REALM_ACCESS, struct.pack(">????", *realm_access))

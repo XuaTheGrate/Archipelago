@@ -1,3 +1,9 @@
+1.0.1
+- Fixed shop item patch causing client disconnect
+- Fixed 4 frame notification appearing
+- Fixed mismatched item count for key_rings and realm_access options
+- Fixed non-key ring shop having mismatched item ids
+
 1.0.0
 - Added Firework randomization option
 - Added realm access randomization options
