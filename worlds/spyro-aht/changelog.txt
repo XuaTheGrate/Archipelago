@@ -3,6 +3,8 @@
 - Fixed 4 frame notification appearing
 - Fixed mismatched item count for key_rings and realm_access options
 - Fixed non-key ring shop having mismatched item ids
+- Fixed regression in realm access patch
+- Fixed regression in breath rules
 
 1.0.0
 - Added Firework randomization option
