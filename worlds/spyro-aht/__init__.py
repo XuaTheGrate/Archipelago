@@ -447,7 +447,7 @@ class SpyroAHTWorld(World):
 
             for k, v in zip(cards, bosses):
                 self.get_location(v).place_locked_item(self.create_item(k))
-        elif self.options.realm_access == 2: # Randomized:
+        elif self.options.realm_access.value == 2: # Randomized:
             self.multiworld.itempool.extend([self.create_item(i) for i in self._access_placements.values()])
     
     def fill_slot_data(self):
