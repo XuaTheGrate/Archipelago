@@ -3,8 +3,6 @@ An implementation of the Archipelago randomizer for Spyro: A Hero's Tail for Pla
 
 ## What is randomized?
 
-This list is non-exhaustive and may change, and is not indicative of future plans.
-
 - [x] Dark Gems
 - [x] Light Gems
 - [x] Dragon Eggs
@@ -38,7 +36,7 @@ This list is non-exhaustive and may change, and is not indicative of future plan
 3. Toggle ``Enable Cheats`` in Dolphins settings
 4. Add the contents of ``AR_Code.txt`` into Dolphins cheats manager
 5. Launch the game
-6. Launch the client via Archipelago, connect to the multiworld, and type ``/client dolphin`` to hook into Dolphin
+6. Launch the client via Archipelago and connect to the multiworld (it will automatically hook into Dolphin).
 7. Enjoy!
 
 ## Checklist
