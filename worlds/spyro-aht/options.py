@@ -206,7 +206,7 @@ class MiscGoal(Choice):
 
 
 class MiscSkipCutscenes(Toggle):
-    """Enable a patch that skips realm intro cutscenes. USE WITH CAUTION, maybe have glitchy side-effects."""
+    """Enable a patch that skips dialogue cutscenes. USE WITH CAUTION, maybe have glitchy side-effects."""
     display_name = "Auto Skip Cutscenes"
     default = 0
 

@@ -1,3 +1,16 @@
+1.0.3
+- Modified disconnection logic
+  - In game will now correctly tell you the client is not connected if you disconnect the client
+- Modified Double Gems logic
+  - Backend modifications only, functionally exactly the same
+- Fireworks will no longer appear on the tracker if they are not randomized
+- Fixed Starting Realm Access check not being assigned an access card
+- Fixed realm access cards not updating the in game tracker
+- Fixed invalid location being scouted in the shop
+- Fixed incorrect amount of shop locations
+- Fixed mismatched gem pack count
+- Receiving a death link no longer glitches the player if they are climbing a wall as Hunter or Blink
+
 1.0.2
 - Fixed DeathLink not being received
 - Fixed possible softlock with gadgets

@@ -40,7 +40,7 @@ class SpyroAHTContext(CommonContext):
         super().__init__(server_address, password)
 
         self.emu_client: GenericClient = None # type: ignore
-        self.emu_loop = asyncio.create_task(self._emu_loop())
+        self.emu_loop: asyncio.Task = None # type: ignore
         self.auth_ready = asyncio.Event()
 
         self.slot_data = {}
@@ -56,18 +56,6 @@ class SpyroAHTContext(CommonContext):
         self._checked_gadgets = set()
 
         self._scouted_locations: set[int] = set()
-
-        self.__first_pass = False
-    
-    def disconnect(self, allow_autoreconnect: bool = False):
-        # note to self: it's possible this causes issues further down the line
-        if not self.__first_pass:
-            self.__first_pass = True
-        else:
-            if self.emu_client:
-                self.emu_loop.cancel()
-                Utils.async_start(self.emu_client.disconnect())
-        return super().disconnect(allow_autoreconnect)
     
     def make_gui(self) -> type[GameManager]:
         ui = super().make_gui()
@@ -87,6 +75,9 @@ class SpyroAHTContext(CommonContext):
                 if self.slot_data['death_link'] != 0:
                     self.tags.add("DeathLink")
                     Utils.async_start(self.send_msgs([{"cmd": "ConnectUpdate", "tags": self.tags}]))
+                if self.emu_loop and not self.emu_loop.cancelled():
+                    self.emu_loop.cancel()
+                self.emu_loop = asyncio.create_task(self._emu_loop())
                 self.auth_ready.set()
             case 'RoomInfo':
                 self._seed = args['seed_name']
@@ -333,6 +324,11 @@ class SpyroAHTContext(CommonContext):
             await self.emu_client.update_tracker(self, items)
 
             while not self.exit_event.is_set():
+                if not self.server or self.server.socket.closed:
+                    logger.info("Client disconnected")
+                    await self.emu_client.disconnect()
+                    return
+
                 try:
                     await asyncio.wait_for(self.watcher_event.wait(), 1.0)
                 except asyncio.TimeoutError:
