@@ -162,15 +162,12 @@ class RandomizeGadgetCost(Range):
 
 class RealmAccess(Choice):
     """Set realm access mode.
-    
-    default: Vanilla behaviour
+
     always: Access any realm at any time
-    shuffled: Shuffles access between the 4 bosses
     randomized: Shuffles access into the multiworld
     """
     display_name = "Realm Access"
     option_always = 0
-    option_shuffled = 1
     option_randomized = 2
     default = 0
 

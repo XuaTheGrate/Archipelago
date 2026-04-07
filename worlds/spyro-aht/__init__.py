@@ -4,7 +4,7 @@ from dataclasses import dataclass
 import functools
 import pkgutil
 from collections import defaultdict
-from typing import Any, override
+from typing import Any, TextIO, override
 
 import orjson
 
@@ -155,27 +155,25 @@ class SpyroAHTWorld(World):
         self._starting_realm = 0
         self._starting_breath = -1
 
-        self._access_placements = {
-            "RL: Defeat Mecha-Red": "Dragon Village Access Card",
-            "DV: Defeat Gnasty Gnorc": "Coastal Remains Access Card",
-            "CR: Defeat Ineptune": "Frostbite Village Access Card",
-            "FV: Defeat Red": "Stormy Beach Access Card"
-        }
+        self._access_cards = [
+            "Dragon Village Access Card",
+            "Coastal Remains Access Card",
+            "Frostbite Village Access Card",
+            "Stormy Beach Access Card"
+        ]
     
     def generate_early(self) -> None:
-        if self.options.randomize_boss_lair_doors.value != 0:
-            if self.options.realm_access.value == 1:
-                raise OptionError("randomize_boss_lair_doors must be default if realm_access is shuffled")
-        if self.options.realm_access.value == 1:
-            if self.options.misc_goal.value != 4 and self.options.misc_goal.value == self.options.starting_realm.value:
-                raise OptionError("Cannot start in the same realm as your goal boss when realm_access is set to shuffled")
-        if self.options.misc_goal.value == 4:
-            raise OptionError("all goal currently unavailable")
+        if self.options.starting_realm.value != 0: # not dragon village
+            if self.options.randomize_movement.value == 0 and self.options.randomize_shop_items.value == 0:
+                raise OptionError("Cannot start outside Dragon Village if Movement and Shop randomization is off")
     
     def create_item(self, name: str) -> Item:
         return Item(name, classifications[name], self.item_name_to_id[name], self.player)
 
     def create_regions(self):
+        if self.options.randomize_gadget_costs.value > 0:
+            self._gadget_costs = [self.random.randint(0, self.options.randomize_gadget_costs.value), self.random.randint(0, self.options.randomize_gadget_costs.value), self.random.randint(0, self.options.randomize_gadget_costs.value)]
+
         match self.options.starting_realm.value:
             case 4: # Randomized:
                 self._starting_realm = self.random.randint(0, 3)
@@ -183,12 +181,6 @@ class SpyroAHTWorld(World):
                     self._starting_realm = self.random.randint(0, 3)
             case _:
                 self._starting_realm = self.options.starting_realm.value
-
-        if self.options.realm_access.value == 1:
-            k, v = list(self._access_placements.keys()), list(self._access_placements.values())
-            self.random.shuffle(v)
-            for i in range(4):
-                self._access_placements[k[i]] = v[i]
 
         if self.options.randomize_boss_lair_doors.value != 0:
             if self.options.randomize_boss_lair_doors.value == 2: # shuffled:
@@ -377,78 +369,15 @@ class SpyroAHTWorld(World):
                 for _ in range(count):
                     itempool.append(self.create_item(item['name']))
 
-        self.multiworld.itempool.extend(itempool)
-
-        if self.options.realm_access.value != 0:
-            bosses, cards = list(self._access_placements.keys()), list(self._access_placements.values())
-
-            self.multiworld.itempool.append(self.create_item("Gem Pack"))
-            start = self.get_location("Starter Checks: Starting Realm Access")
-            target = ""
-            match self._starting_realm:
-                case 0:
-                    target = bosses[cards.index("Dragon Village Access Card")]
-                    self._access_placements[target] = "INVALID"
-                    start.place_locked_item(self.create_item("Dragon Village Access Card"))
-                case 1:
-                    target = bosses[cards.index("Coastal Remains Access Card")]
-                    self._access_placements[target] = "INVALID"
-                    start.place_locked_item(self.create_item("Coastal Remains Access Card"))
-                case 2:
-                    target = bosses[cards.index("Frostbite Village Access Card")]
-                    self._access_placements[target] = "INVALID"
-                    start.place_locked_item(self.create_item("Frostbite Village Access Card"))
-                case 3:
-                    target = bosses[cards.index("Stormy Beach Access Card")]
-                    self._access_placements[target] = "INVALID"
-                    start.place_locked_item(self.create_item("Stormy Beach Access Card"))
+        if self.options.realm_access.value == 2:
+            itempool.append(self.create_item("Gem Pack"))
+        
+            start = self._access_cards.pop(self._starting_realm)
+            self.get_location("Starter Checks: Starting Realm Access").place_locked_item(self.create_item(start))
+            for i in self._access_cards:
+                itempool.append(self.create_item(i))
             
-            goal_boss = ""
-            goal_boss_item = ""
-            match self.options.misc_goal.value:
-                case 0:
-                    goal_boss = "DV: Defeat Gnasty Gnorc"
-                    goal_boss_item = self._access_placements.pop(goal_boss)
-                case 1:
-                    goal_boss = "CR: Defeat Ineptune"
-                    goal_boss_item = self._access_placements.pop(goal_boss)
-                case 2:
-                    goal_boss = "FV: Defeat Red"
-                    goal_boss_item = self._access_placements.pop(goal_boss)
-                case 3:
-                    goal_boss = "RL: Defeat Mecha-Red"
-                    goal_boss_item = self._access_placements.pop(goal_boss)
-            bosses, cards = list(self._access_placements.keys()), list(self._access_placements.values())
-            try:
-                r = cards.index("INVALID")
-            except ValueError:
-                # failing to index the INVALID card means it was placed onto the goal boss
-                pass
-            else:
-                boss = bosses[r]
-                assert boss != goal_boss
-                assert self._access_placements[boss] == "INVALID"
-                self._access_placements[boss] = goal_boss_item
-
-        if self.options.realm_access.value == 1:
-            bosses, cards = list(self._access_placements.keys()), list(self._access_placements.values())
-            while True:
-                for i in range(3):
-                    if (
-                        (cards[i] == "Dragon Village Access Card" and bosses[i] == "DV: Defeat Gnasty Gnorc")
-                        or (cards[i] == "Coastal Remains Access Card" and bosses[i] == "CR: Defeat Ineptune")
-                        or (cards[i] == "Frostbite Village Access Card" and bosses[i] == "FV: Defeat Red")
-                        or (cards[i] == "Stormy Beach Access Card" and bosses[i] == "RL: Defeat Mecha-Red")
-                    ):
-                        self.random.shuffle(bosses)
-                        break
-                else:
-                    break
-
-            for k, v in zip(cards, bosses):
-                self.get_location(v).place_locked_item(self.create_item(k))
-        elif self.options.realm_access.value == 2: # Randomized:
-            self.multiworld.itempool.extend([self.create_item(i) for i in self._access_placements.values()])
+        self.multiworld.itempool.extend(itempool)
     
     def fill_slot_data(self):
         smin = self.options.shop_prices_min.value
@@ -475,18 +404,16 @@ class SpyroAHTWorld(World):
             "randomize_light_gem_door_costs": self.options.randomize_light_gem_door_costs.value,
             "light_gem_door_costs": self._lg_doors,
 
+            "randomize_gadget_costs": self._gadget_costs,
+
             "randomize_movement": self.options.randomize_movement.value,
             "randomize_breath": self.options.randomize_breath.value,
+            "randomize_fireworks": self.options.randomize_fireworks.value,
 
             "easy_bosses": self.options.misc_easy_bosses.value,
 
             "death_link": self.options.death_link.value
         }
-
-        if self.options.randomize_gadget_costs.value > 0:
-            r['randomize_gadget_costs'] = self._gadget_costs = [self.random.randint(0, self.options.randomize_gadget_costs.value), self.random.randint(0, self.options.randomize_gadget_costs.value), self.random.randint(0, self.options.randomize_gadget_costs.value)]
-        else:
-            r['randomize_gadget_costs'] = self._gadget_costs
 
         if self.options.randomize_shop_items.value:
             if self.options.key_rings.value:
@@ -494,6 +421,13 @@ class SpyroAHTWorld(World):
             else:
                 r['randomized_shop_prices'] = [self.random.randint(smin, smax) for _ in range(57)]
         return r
+    
+    def write_spoiler(self, spoiler_handle: TextIO) -> None:
+        super().write_spoiler(spoiler_handle)
+        spoiler_handle.write(f"Starting Realm:                  {self._starting_realm}\n")
+        spoiler_handle.write(f"Randomized Gadget Costs:         {self._gadget_costs}\n")
+        spoiler_handle.write(f"Randomized Boss Lair Costs:      {self._boss_lairs}\n")
+        spoiler_handle.write(f"Randomized Light Gem Door Costs: {self._lg_doors}\n")
 
 
 @dataclass

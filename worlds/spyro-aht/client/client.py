@@ -58,3 +58,6 @@ class GenericClient(ABC):
 
     @abstractmethod
     async def allow_realm_access(self, id: int): ...
+
+    @abstractmethod
+    async def toggle_double_gems(self, to: bool): ...

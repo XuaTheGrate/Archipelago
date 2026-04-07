@@ -152,7 +152,8 @@ class DolphinClient(GenericClient):
     
     async def add_gem_pack(self):
         value = random.randint(400, 600)
-        if await self.get_flag(self.addresses.ABILITY_FLAGS, consts.AbilityFlags.DoubleGems):
+        double = dolphin_memory_engine.read_byte(self.addresses.g_INFINITE_DOUBLE_GEM)
+        if double:
             value *= 2
         count = dolphin_memory_engine.read_word(self.addresses.GEMS)
         total = dolphin_memory_engine.read_word(self.addresses.TOTAL_GEMS)
@@ -185,12 +186,13 @@ class DolphinClient(GenericClient):
         dolphin_memory_engine.write_byte(self.addresses.p_INSTANT_ELEVATORS, ctx.slot_data['misc_skip_elevators'])
         dolphin_memory_engine.write_word(self.addresses.p_MW_SEED, (int(ctx._seed) & 0xffffffff))
         dolphin_memory_engine.write_byte(self.addresses.p_USE_KEY_RINGS, ctx.slot_data['key_rings'])
+        dolphin_memory_engine.write_byte(self.addresses.p_FIREWORKS_ARE_RANDOMIZED, ctx.slot_data['randomize_fireworks'])
 
         if ctx.slot_data['randomize_shop_items']:
             locations = list(range(1000, 1004))
             locations.extend(range(2000, 2013))
             if not ctx.slot_data['key_rings']:
-                locations.extend(range(3013, 3052))
+                locations.extend(range(3013, 3051))
             await ctx.send_msgs([{"cmd": "LocationScouts", "locations": locations, "create_as_hint": 0}])
             await ctx._shop_items_received.wait()
             await self._prepare_shop_items(ctx, *ctx._shop_items)
@@ -206,7 +208,7 @@ class DolphinClient(GenericClient):
         dolphin_memory_engine.write_byte(self.addresses.p_SUPERCHARGE_COST, s)
 
         dolphin_memory_engine.write_byte(self.addresses.p_STARTING_REALM, ctx.slot_data['starting_realm'])
-        if ctx.slot_data['realm_access'] != 0:
+        if ctx.slot_data['realm_access'] == 2:
             realm_access = [False, False, False, False]
             realm_access[ctx.slot_data['starting_realm']] = True
             dolphin_memory_engine.write_bytes(self.addresses.p_REALM_ACCESS, struct.pack(">????", *realm_access))
@@ -231,7 +233,7 @@ class DolphinClient(GenericClient):
     
     async def _prepare_shop_items(self, ctx: "SpyroAHTContext", *shop_items: NetworkItem):
         dolphin_memory_engine.write_byte(self.addresses.p_RANDOMIZE_SHOP, 1)
-        dolphin_memory_engine.write_word(self.addresses.p_XLS_SHOP_ROWCOUNT, len(shop_items))
+        dolphin_memory_engine.write_word(self.addresses.p_XLS_SHOP_ROWCOUNT, len(shop_items)+1)
 
         for idx, item in enumerate(shop_items):
             player = ctx.player_names[item.player]
@@ -311,3 +313,6 @@ class DolphinClient(GenericClient):
         current: list[bool] = list(struct.unpack(">????", dolphin_memory_engine.read_bytes(self.addresses.g_REALM_ACCESS, 4)))
         current[id - 0x30] = True
         dolphin_memory_engine.write_bytes(self.addresses.g_REALM_ACCESS, struct.pack(">????", *current))
+    
+    async def toggle_double_gems(self, to: bool):
+        dolphin_memory_engine.write_byte(self.addresses.g_INFINITE_DOUBLE_GEM, 1 if to else 0)

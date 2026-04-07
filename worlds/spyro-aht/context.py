@@ -1,5 +1,8 @@
+from __future__ import annotations
+
 import asyncio
 import collections
+from typing import Any
 
 import Utils
 from kvui import GameManager
@@ -12,10 +15,18 @@ from .data import consts
 
 
 class SpyroAHTCommands(ClientCommandProcessor):
-    def _cmd_debug_send(self, location: str) -> bool:
-        Utils.async_start(self.ctx.send_msgs([{"cmd": "LocationChecks","locations":[int(location)]}]))
+    ctx: SpyroAHTContext
+    
+    async def _cmd_client(self) -> bool:
+        """Forcibly reconnect the client."""
+        self.ctx.emu_loop.cancel()
+        await self.ctx.emu_client.disconnect()
+        self.ctx.emu_loop = asyncio.create_task(self.ctx._emu_loop())
         return True
 
+    async def _cmd_debug_send(self, location: str) -> bool:
+        await self.ctx.send_msgs([{"cmd": "LocationChecks","locations":[int(location)]}])
+        return True
 
 
 class SpyroAHTContext(CommonContext):
@@ -59,6 +70,9 @@ class SpyroAHTContext(CommonContext):
         match cmd:
             case 'Connected':
                 self.slot_data = args['slot_data']
+                if self.slot_data['death_link'] != 0:
+                    self.tags.add("DeathLink")
+                    Utils.async_start(self.send_msgs([{"cmd": "ConnectUpdate", "tags": self.tags}]))
                 self.auth_ready.set()
             case 'RoomInfo':
                 self._seed = args['seed_name']
@@ -167,7 +181,8 @@ class SpyroAHTContext(CommonContext):
                 case 0x19:
                     await self.emu_client.enable_butterfly_jar()
                 case 0x1A:
-                    await self.emu_client.set_flag(self.emu_client.addresses.ABILITY_FLAGS, consts.AbilityFlags.DoubleGems, True)
+                    #await self.emu_client.set_flag(self.emu_client.addresses.ABILITY_FLAGS, consts.AbilityFlags.DoubleGems, True)
+                    await self.emu_client.toggle_double_gems(True)
                 case 0x1B:
                     await self.emu_client.set_flag(self.emu_client.addresses.ABILITY_FLAGS, consts.AbilityFlags.Shockwave, True)
                 case 0x1D:
@@ -209,6 +224,7 @@ class SpyroAHTContext(CommonContext):
                     updated = True
                 case 0x30 | 0x31 | 0x32 | 0x33: # access cards
                     await self.emu_client.allow_realm_access(item.item)
+                    updated = True
         if updated:
             await self.emu_client.update_tracker(self, item_counts)
 
@@ -330,7 +346,7 @@ class SpyroAHTContext(CommonContext):
         await self.emu_client.import_deathlink(self.slot_data['death_link'])
     
     def on_deathlink(self, data: dict) -> None:
-        Utils.async_start(self._receive_deathlink(data['cause'] or f"{data['source']} died."))
+        Utils.async_start(self._receive_deathlink(data.get('cause') or f"{data['source']} died."))
 
     async def shutdown(self):
         if self.emu_loop:

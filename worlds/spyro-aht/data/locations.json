@@ -356,6 +356,10 @@
                     {
                         "option": "randomize_shop_items",
                         "value": 1
+                    },
+                    {
+                        "option": "key_rings",
+                        "value": 0
                     }
                 ]
             },
@@ -1082,26 +1086,6 @@
             {
                 "name": "Moneybags: Shop Item 56",
                 "id": 3050,
-                "access_rule": {
-                    "rule": "True_",
-                    "options": [],
-                    "filtered_resolution": false,
-                    "args": {}
-                },
-                "options": [
-                    {
-                        "option": "randomize_shop_items",
-                        "value": 1
-                    },
-                    {
-                        "option": "key_rings",
-                        "value": 0
-                    }
-                ]
-            },
-            {
-                "name": "Moneybags: Shop Item 57",
-                "id": 3051,
                 "access_rule": {
                     "rule": "True_",
                     "options": [],

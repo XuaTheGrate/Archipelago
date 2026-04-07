@@ -1,3 +1,12 @@
+1.0.2
+- Fixed DeathLink not being received
+- Fixed possible softlock with gadgets
+- Removed RealmAccess(shuffled)
+  - Caused too many issues to be worth the effort to keep
+- Re-enabled MiscGoal(all)
+- Disallowed starting outside Dragon Village if Movement and Shop randomization is disabled
+  - At least one of Movement or Shop must be enabled to start outside Dragon Village
+
 1.0.1
 - Fixed shop item patch causing client disconnect
 - Fixed 4 frame notification appearing
