@@ -17,10 +17,12 @@ from .data import consts
 class SpyroAHTCommands(ClientCommandProcessor):
     ctx: SpyroAHTContext
     
-    async def _cmd_client(self) -> bool:
+    async def _cmd_reset_client(self) -> bool:
         """Forcibly reconnect the client."""
-        self.ctx.emu_loop.cancel()
-        await self.ctx.emu_client.disconnect()
+        self.output("Resetting client...")
+        if self.ctx.emu_client:
+            self.ctx.emu_loop.cancel()
+            await self.ctx.emu_client.disconnect()
         self.ctx.emu_loop = asyncio.create_task(self.ctx._emu_loop())
         return True
 
@@ -54,6 +56,18 @@ class SpyroAHTContext(CommonContext):
         self._checked_gadgets = set()
 
         self._scouted_locations: set[int] = set()
+
+        self.__first_pass = False
+    
+    def disconnect(self, allow_autoreconnect: bool = False):
+        # note to self: it's possible this causes issues further down the line
+        if not self.__first_pass:
+            self.__first_pass = True
+        else:
+            if self.emu_client:
+                self.emu_loop.cancel()
+                Utils.async_start(self.emu_client.disconnect())
+        return super().disconnect(allow_autoreconnect)
     
     def make_gui(self) -> type[GameManager]:
         ui = super().make_gui()

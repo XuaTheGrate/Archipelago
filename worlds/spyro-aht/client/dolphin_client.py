@@ -57,6 +57,7 @@ class DolphinClient(GenericClient):
         self.ready.set()
     
     async def disconnect(self):
+        dolphin_memory_engine.write_byte(self.addresses.p_PATCH_BEEN_WRITTEN_TO, 0)
         self._notification_task.cancel()
         if dolphin_memory_engine.is_hooked():
             dolphin_memory_engine.un_hook()
