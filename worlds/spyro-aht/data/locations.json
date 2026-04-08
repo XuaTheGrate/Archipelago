@@ -6838,10 +6838,13 @@
                 "name": "FV: Light Gem beyond Light Gem Door",
                 "id": 134,
                 "access_rule": {
-                    "rule": "True_",
+                    "rule": "Has",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {}
+                    "args": {
+                        "item_name": "Pole Spin",
+                        "count": 1
+                    }
                 }
             }
         ]
@@ -8416,10 +8419,7 @@
                 }
             ]
         },
-        "connections": [
-            "DarkMineLightGemDoor",
-            "DarkMineLaserGuns"
-        ],
+        "connections": [],
         "locations": [
             {
                 "name": "DM: Locked Chest at near Light Gem Door",
@@ -8630,7 +8630,25 @@
                         }
                     ]
                 }
-            },
+            }
+        ]
+    },
+    "DarkMineRubbleWall": {
+        "name": "DarkMineRubbleWall",
+        "access_rule": {
+            "rule": "Has",
+            "options": [],
+            "filtered_resolution": false,
+            "args": {
+                "item_name": "Charge",
+                "count": 1
+            }
+        },
+        "connections": [
+            "DarkMineLightGemDoor",
+            "DarkMineLaserGuns"
+        ],
+        "locations": [
             {
                 "name": "DM: Firework at start of piston Wall Kick room",
                 "id": 5020,

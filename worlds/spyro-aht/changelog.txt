@@ -1,3 +1,8 @@
+1.0.4
+- Fixed logic error at FV: Light Gem beyond Light Gem Door
+- Added new region to Dark Mine due to logic error
+  - Besides the 4 early checks (2 locked chests, 2 beyond light gem door), Dark Mine now requires Charge
+
 1.0.3
 - Modified disconnection logic
   - In game will now correctly tell you the client is not connected if you disconnect the client
