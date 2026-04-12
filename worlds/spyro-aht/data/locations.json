@@ -8419,7 +8419,7 @@
                 }
             ]
         },
-        "connections": [],
+        "connections": ["DarkMineLightGemDoor", "DarkMineRubbleWall"],
         "locations": [
             {
                 "name": "DM: Locked Chest at near Light Gem Door",
@@ -8645,7 +8645,6 @@
             }
         },
         "connections": [
-            "DarkMineLightGemDoor",
             "DarkMineLaserGuns"
         ],
         "locations": [

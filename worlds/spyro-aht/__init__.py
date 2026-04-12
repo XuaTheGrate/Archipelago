@@ -149,7 +149,7 @@ class SpyroAHTWorld(World):
         super().__init__(multiworld, player)
         multiworld.early_items[player]['Double Jump'] = 1
 
-        self._lg_doors = [20, 45, 70, 95]
+        self._lg_doors = [70, 20, 95, 45]
         self._boss_lairs = [10, 20, 30, 40]
         self._gadget_costs = [8, 24, 40]
         self._starting_realm = 0

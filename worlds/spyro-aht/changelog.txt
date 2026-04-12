@@ -2,6 +2,7 @@
 - Fixed logic error at FV: Light Gem beyond Light Gem Door
 - Added new region to Dark Mine due to logic error
   - Besides the 4 early checks (2 locked chests, 2 beyond light gem door), Dark Mine now requires Charge
+- Fixed incorrect index checking for light gem doors
 
 1.0.3
 - Modified disconnection logic
