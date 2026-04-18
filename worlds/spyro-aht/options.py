@@ -4,25 +4,29 @@ from Options import OptionSet, PerGameCommonOptions, Toggle, Choice, Range
 
 
 class RandomizeSgtByrdMinigames(Toggle):
-    """Toggle randomizing Sgt. Byrds mini game rewards."""
+    """Toggle randomizing Sgt. Byrds mini game rewards.
+    If set to 'false', it will always be the vanilla Dragon Egg and Light Gem."""
     display_name = "Randomize Sgt. Byrd Mini Games"
     default = 1
 
 
 class RandomizeBlinkMinigames(Toggle):
-    """Toggle randomizing Blinks mini game rewards."""
+    """Toggle randomizing Blinks mini game rewards.
+    If set to 'false', it will always be the vanilla Dragon Egg and Light Gem."""
     display_name = "Randomize Blink Mini Games"
     default = 0
 
 
 class RandomizeTurretMinigames(Toggle):
-    """Toggle randomizing Turret mini game rewards."""
+    """Toggle randomizing Turret mini game rewards.
+    If set to 'false', it will always be the vanilla Dragon Egg and Light Gem."""
     display_name = "Randomize Turret Mini Games"
     default = 1
 
 
 class RandomizeSparxMinigames(Toggle):
-    """Toggle randomizing Sparxs mini game rewards."""
+    """Toggle randomizing Sparxs mini game rewards.
+    If set to 'false', it will always be the vanilla Dragon Egg and Light Gem."""
     display_name = "Randomize Sparx Mini Games"
     default = 1
 
@@ -34,7 +38,7 @@ class MiscHintMinigameRewards(Toggle):
 
 
 class MiscHintBossRewards(Toggle):
-    """Hint out the item for beating a boss."""
+    """Hint out the item for beating a boss when their gate is opened."""
     display_name = "Hint Boss Rewards"
     default = 0
 
@@ -65,7 +69,15 @@ class RandomizeFireworks(Toggle):
 
 
 class RandomizeShopItems(Toggle):
-    """Randomize Moneybags shop items. """
+    """Randomize Moneybags shop items.
+    This will replace the vanilla shop items with various items from the multiworld,
+    and it will put various items from the vanilla shop around in the multiworld.
+    
+    This has a few consequences:
+    - If key rings are disabled, lock-picks have no upper limit. You can view your amount
+    of lock-picks in the pause menu under 'Abilities'.
+    - Health Refill (Butterfly Jar) will replenish on death once obtained.
+    - Double Gems is infinite once obtained."""
     display_name = "Randomize Shop Items"
     default = 0
 
@@ -86,7 +98,11 @@ class ShopPricesMax(Range):
 
 
 class KeyRings(Toggle):
-    """Enable region-specific key rings for locked chests."""
+    """Enable region-specific key rings for locked chests.
+    
+    Instead of obtaining individual lock-picks, there are key rings for reach level
+    that let you unlock all locked chests there.
+    If the shop is not randomized, key rings will appear there instead of lock-picks."""
     display_name = "Key Rings"
     default = 0
 
@@ -187,7 +203,7 @@ class StartingRealm(Choice):
 
 
 class MiscEasyBosses(OptionSet):
-    """Toggle "easy" mode for bosses, making them far quicker to defeat.
+    """Toggle "easy" mode for bosses, making them take triple damage, shortening the fight considerably.
     Valid options: ["Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red"]"""
     display_name = "Easy Bosses"
     valid_keys = ("Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red")
@@ -206,7 +222,8 @@ class MiscGoal(Choice):
 
 
 class MiscSkipCutscenes(Toggle):
-    """Enable a patch that skips dialogue cutscenes. USE WITH CAUTION, maybe have glitchy side-effects."""
+    """Enable skipping most cutscenes with the Y button.
+    In rare cases, this may have glitchty side-effects."""
     display_name = "Auto Skip Cutscenes"
     default = 0
 
@@ -218,7 +235,7 @@ class MiscSkipElevators(Toggle):
 
 
 class MiscDeathLink(Choice):
-    """Enable DeathLinking.
+    """Enable Death-Link.
 
     disabled: Disabled.
     Shielded: The Butterfly Jar will protect you from a DeathLink, if you have it.
