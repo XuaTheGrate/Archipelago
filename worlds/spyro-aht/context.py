@@ -178,8 +178,9 @@ class SpyroAHTContext(CommonContext):
                 case 0x1C:
                     count = await self.emu_client.get_item_count(self.emu_client.addresses.g_NUM_LOCK_PICKS_RECEIVED)
                     if count < item_counts["Lockpick"]:
+                        lc = await self.emu_client.get_item_count(self.emu_client.addresses.LOCKPICKS)
                         await self.emu_client.set_item(self.emu_client.addresses.g_NUM_LOCK_PICKS_RECEIVED, count + 1)
-                        await self.emu_client.set_item(self.emu_client.addresses.LOCKPICKS, count + 1)
+                        await self.emu_client.set_item(self.emu_client.addresses.LOCKPICKS, lc + 1)
                         updated = True
                 case 0xF:
                     await self.emu_client.set_flag(self.emu_client.addresses.ABILITY_FLAGS, consts.AbilityFlags.SparxHealthUpgrade, True)

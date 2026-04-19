@@ -1,6 +1,7 @@
 1.0.5
 - Modified YAML option comments to be more clear
 - Update README to include extra notes about the mod
+- Fixed infinite lock-pick bug
 
 1.0.4
 - Fixed logic error at FV: Light Gem beyond Light Gem Door
