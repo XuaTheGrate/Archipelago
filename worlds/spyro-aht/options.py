@@ -99,6 +99,8 @@ class ShopPricesMax(Range):
 
 class KeyRings(Toggle):
     """Enable region-specific key rings for locked chests.
+    Key rings reduce the required progressive items, thereby letting locked chests
+    have more progressive items inside them.
     
     Instead of obtaining individual lock-picks, there are key rings for reach level
     that let you unlock all locked chests there.

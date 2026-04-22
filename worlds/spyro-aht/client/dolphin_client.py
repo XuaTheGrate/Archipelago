@@ -1,10 +1,10 @@
 from __future__ import annotations
 
 import asyncio
-from collections import defaultdict
-from math import floor
 import random
 import struct
+from collections import defaultdict
+from math import floor
 
 import dolphin_memory_engine
 
@@ -42,7 +42,7 @@ class DolphinClient(GenericClient):
                     
                     colour = struct.pack(">BBBB", *col)
                     dolphin_memory_engine.write_bytes(self.addresses.n_AP_NOTIFICATION_COLOR, colour)
-                    dolphin_memory_engine.write_bytes(self.addresses.n_AP_NOTIFICATION_TEXT_BUFFER, (msg + "\0").encode("ascii"))
+                    dolphin_memory_engine.write_bytes(self.addresses.n_AP_NOTIFICATION_TEXT_BUFFER, (msg + "\0").encode("utf_16_be"))
                     dolphin_memory_engine.write_word(self.addresses.n_AP_NOTIFICATION_TIMER, 5*60)
         except Exception:
             logger.error("ERROR IN NOTIFICATION TASK, REPORT IN THREAD", exc_info=True)
@@ -94,14 +94,14 @@ class DolphinClient(GenericClient):
             for i in range(4):
                 await asyncio.sleep(0)
 
-                purchase_flag = dolphin_memory_engine.read_byte(self.addresses.g_SHOP_TEXT + (0x32 * i))
+                purchase_flag = dolphin_memory_engine.read_byte(self.addresses.g_SHOP_TEXT + (0x62 * i))
                 if purchase_flag:
                     result.add(1000 + i)
             offset = 4
             for i in range(13):
                 await asyncio.sleep(0)
 
-                purchase_flag = dolphin_memory_engine.read_byte(self.addresses.g_SHOP_TEXT + (0x32 * (i + offset)))
+                purchase_flag = dolphin_memory_engine.read_byte(self.addresses.g_SHOP_TEXT + (0x62 * (i + offset)))
                 if purchase_flag:
                     result.add(2000 + i)
             offset += 13
@@ -109,7 +109,7 @@ class DolphinClient(GenericClient):
                 for i in range(39):
                     await asyncio.sleep(0)
 
-                    purchase_flag = dolphin_memory_engine.read_byte(self.addresses.g_SHOP_TEXT + (0x32 * (i + offset)))
+                    purchase_flag = dolphin_memory_engine.read_byte(self.addresses.g_SHOP_TEXT + (0x62 * (i + offset)))
                     if purchase_flag:
                         result.add(3013 + i)
 
@@ -268,7 +268,7 @@ class DolphinClient(GenericClient):
 
             i = consts.XLSShoppingItem(model, consts.TextEntry(idx, f"{player}'s {name}"), (price, floor(price + (price * 0.25))))
             dolphin_memory_engine.write_bytes(self.addresses.p_XLS_SHOP_ITEMS + (0x20 * (idx + 1)), i.to_bytes('big'))
-            dolphin_memory_engine.write_bytes(self.addresses.p_SHOP_TEXT + (0x32 * idx), i.text.to_bytes('big'))
+            dolphin_memory_engine.write_bytes(self.addresses.p_SHOP_TEXT + (0x62 * idx), i.text.to_bytes('big'))
 
     async def update_tracker(self, ctx: "SpyroAHTContext", items: dict[str, int]):
         from .. import location_rules

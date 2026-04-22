@@ -1,3 +1,8 @@
+1.0.6
+- Improved clarity of key rings
+- Fixed Mecha-Red not being marked as reachable in the tracker
+- Unicode support for shop items
+
 1.0.5
 - Modified YAML option comments to be more clear
 - Update README to include extra notes about the mod

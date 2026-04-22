@@ -387,5 +387,4 @@ def main(args, seed=None, baked_server_options: dict[str, object] | None = None)
                 zf.write(file.path, arcname=file.name)
 
     logger.info('Done. Enjoy. Total Time: %s', time.perf_counter() - start)
-    input()
     return multiworld

@@ -67,7 +67,7 @@ LOCATIONS_BITFIELD: dict[int, int] = {
     246: 233, 247: 232, 248: 235, 249: 231, 250: 236, 251: 237,
     252: 238, 253: 239, 254: 240,
     1: 241, 33: 242, 83: 243, 155: 244,
-    17: 245, 79: 246, 136: 247, 228: 248,
+    17: 245, 79: 246, 136: 247, 228: 248, 4003: 248,
 
     5000: 250, 5001: 249, 5002: 252, 5003: 251, 5004: 254,
     5005: 253, 5006: 255, 5007: 256, 5008: 257, 5009: 258,
@@ -273,7 +273,7 @@ class G5SE7D(AddressList):
     p_XLS_SHOP_SHEET_OFFSET_ALWAYS_4 = 0x803d9030
     p_XLS_SHOP_ROWCOUNT = 0x803d9034
     p_XLS_SHOP_ITEMS = 0x803d9038
-    p_SHOP_TEXT = 0x803d9a38
+    p_SHOP_TEXT = 0x803d97d8
 
     g_LOCATION_BITFIELD = 0x80467ce4
     g_KEYRING_BITFIELD = 0x80467d34
@@ -309,11 +309,11 @@ class G5SE7D(AddressList):
     g_XLS_SHOP_SHEET_OFFSET_ALWAYS_4 = 0x80467d6c
     g_XLS_SHOP_ROWCOUNT = 0x80467d70
     g_XLS_SHOP_ITEMS = 0x80467d74
-    g_SHOP_TEXT = 0x80468774
+    g_SHOP_TEXT = 0x80468514
 
-    n_AP_NOTIFICATION_COLOR = 0x8029dbf0
-    n_AP_NOTIFICATION_TIMER = 0x8029dbf4
-    n_AP_NOTIFICATION_TEXT_BUFFER = 0x8029dbf8
+    n_AP_NOTIFICATION_COLOR = 0x8029dc2c
+    n_AP_NOTIFICATION_TIMER = 0x8029dc30
+    n_AP_NOTIFICATION_TEXT_BUFFER = 0x8029dc34
 
     OBJECTIVES = 0x80465C88
     DARK_GEM_COUNT = 0x80465BB7
@@ -396,7 +396,7 @@ class TextEntry:
         return self._text
     
     def to_bytes(self, byteorder: Literal['big', 'little'] = 'big'):
-        return struct.pack(('<' if byteorder == 'little' else '>') + '?B48s', self.been_bought, 0, self.text.encode('ascii'))
+        return struct.pack(('<' if byteorder == 'little' else '>') + '?B48s', self.been_bought, 0, self.text.encode("utf_16_be"))
 
 
 @dataclass
