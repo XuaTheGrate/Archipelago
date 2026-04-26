@@ -136,6 +136,22 @@
                 ]
             },
             {
+                "name": "Moneybags: Shop Item 5",
+                "id": 1004,
+                "access_rule": {
+                    "rule": "True_",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {}
+                },
+                "options": [
+                    {
+                        "option": "randomize_shop_items",
+                        "value": 1
+                    }
+                ]
+            },
+            {
                 "name": "Moneybags: Shop Item 6",
                 "id": 2000,
                 "access_rule": {

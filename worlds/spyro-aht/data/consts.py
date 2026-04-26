@@ -396,7 +396,7 @@ class TextEntry:
         return self._text
     
     def to_bytes(self, byteorder: Literal['big', 'little'] = 'big'):
-        return struct.pack(('<' if byteorder == 'little' else '>') + '?B48s', self.been_bought, 0, self.text.encode("utf_16_be"))
+        return struct.pack(('<' if byteorder == 'little' else '>') + '?B96s', self.been_bought, 0, self.text.encode("utf_16_be"))
 
 
 @dataclass

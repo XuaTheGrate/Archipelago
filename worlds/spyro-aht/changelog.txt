@@ -1,3 +1,7 @@
+1.0.7
+- Fixed shop items for the 3rd time
+- Fixed typo in notificaiton
+
 1.0.6
 - Improved clarity of key rings
 - Fixed Mecha-Red not being marked as reachable in the tracker

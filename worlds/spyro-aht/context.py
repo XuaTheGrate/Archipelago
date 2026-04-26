@@ -249,7 +249,7 @@ class SpyroAHTContext(CommonContext):
                     case 2:
                         msg = consts.COLOUR_WHITE, "You can now access Red's Lair!"
                     case 3:
-                        msg = consts.COLOUR_WHITE, "You can now acccess Mecha-Red's Lair!"
+                        msg = consts.COLOUR_WHITE, "You can now access Mecha-Red's Lair!"
                 self.emu_client.msg_queue.put_nowait(msg)
         
         light = await self.emu_client.get_item_count(self.emu_client.addresses.LIGHT_GEM_COUNT)
