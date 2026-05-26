@@ -91,13 +91,13 @@ class DolphinClient(GenericClient):
                         result.add(aploc)
         
         if shop_items:
-            for i in range(4):
+            for i in range(5):
                 await asyncio.sleep(0)
 
                 purchase_flag = dolphin_memory_engine.read_byte(self.addresses.g_SHOP_TEXT + (0x62 * i))
                 if purchase_flag:
                     result.add(1000 + i)
-            offset = 4
+            offset = 5
             for i in range(13):
                 await asyncio.sleep(0)
 
@@ -190,7 +190,7 @@ class DolphinClient(GenericClient):
         dolphin_memory_engine.write_byte(self.addresses.p_FIREWORKS_ARE_RANDOMIZED, ctx.slot_data['randomize_fireworks'])
 
         if ctx.slot_data['randomize_shop_items']:
-            locations = list(range(1000, 1004))
+            locations = list(range(1000, 1005))
             locations.extend(range(2000, 2013))
             if not ctx.slot_data['key_rings']:
                 locations.extend(range(3013, 3051))
@@ -203,7 +203,7 @@ class DolphinClient(GenericClient):
         if ctx.slot_data["randomize_boss_lair_doors"]:
             dolphin_memory_engine.write_bytes(self.addresses.p_BOSS_COSTS, struct.pack(">BBBB", *ctx.slot_data["boss_lair_costs"]))
         
-        b, i, s = ctx.slot_data['randomize_gadget_costs']
+        b, i, s = ctx.slot_data['gadget_costs']
         dolphin_memory_engine.write_byte(self.addresses.p_BALL_GADGET_COST, b)
         dolphin_memory_engine.write_byte(self.addresses.p_INVINCIBILITY_COST, i)
         dolphin_memory_engine.write_byte(self.addresses.p_SUPERCHARGE_COST, s)

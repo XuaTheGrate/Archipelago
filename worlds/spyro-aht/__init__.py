@@ -38,7 +38,8 @@ KEYS = {
     "MFt": "Magma Falls Top",
     "MFb": "Magma Falls Bottom",
     "DM": "Dark Mine",
-    "RL": "Red's Laboratory"
+    "RL": "Red's Laboratory",
+    "Moneybags": "Shop Items"
 }
 
 
@@ -75,6 +76,15 @@ def create_location_groups() -> dict[str, set[str]]:
         r["Sparx"].update(s)
     for s in TURRET:
         r["Turret"].update(s)
+    return r
+
+
+def create_item_groups() -> dict[str, set[str]]:
+    data = _load_file("items.json")
+    r = defaultdict(set)
+    for item in data:
+        r[item["group"]].add(item["name"])
+
     return r
 
 
@@ -132,15 +142,7 @@ class SpyroAHTWorld(World):
     options_dataclass = SpyroAHTOptions
     options: SpyroAHTOptions # type: ignore
 
-    item_name_groups = {
-        "Breath": {"Fire Breath", "Ice Breath", "Water Breath", "Electric Breath"},
-        "Key Rings": {
-            "Dragon Village Key Ring", "Crocovile Swamp Key Ring", "Dragonfly Falls Key Ring",
-            "Coastal Remains Key Ring", "Sunken Ruins Key Ring", "Cloudy Domain Key Ring",
-            "Frostbite Village Key Ring", "Gloomy Glacier Key Ring", "Ice Citadel Key Ring",
-            "Stormy Beach Key Ring", "Molten Mount Key Ring", "Magma Falls Key Ring", "Dark Mine Key Ring", "Red's Laboratory Key Ring"
-        }
-    }
+    item_name_groups = create_item_groups()
     location_name_groups = create_location_groups()
     item_name_to_id = _item_name_to_id()
     location_name_to_id = _location_name_to_id()
@@ -171,8 +173,15 @@ class SpyroAHTWorld(World):
         return Item(name, classifications[name], self.item_name_to_id[name], self.player)
 
     def create_regions(self):
-        if self.options.randomize_gadget_costs.value > 0:
-            self._gadget_costs = [self.random.randint(0, self.options.randomize_gadget_costs.value), self.random.randint(0, self.options.randomize_gadget_costs.value), self.random.randint(0, self.options.randomize_gadget_costs.value)]
+        if self.options.randomize_gadget_costs.value != 0:
+            if self.options.randomize_gadget_costs.value == 2:  # shuffled:
+                self.random.shuffle(self._gadget_costs)
+            else:  # randomized:
+                lmin, lmax = self.options.gadget_cost_min.value, self.options.gadget_cost_max.value
+                if lmin > lmax:
+                    lmin, lmax = lmax, lmin
+
+                self._gadget_costs = [self.random.randint(lmin, lmax) for _ in range(3)]
 
         match self.options.starting_realm.value:
             case 4: # Randomized:
@@ -404,7 +413,8 @@ class SpyroAHTWorld(World):
             "randomize_light_gem_door_costs": self.options.randomize_light_gem_door_costs.value,
             "light_gem_door_costs": self._lg_doors,
 
-            "randomize_gadget_costs": self._gadget_costs,
+            "randomize_gadget_costs": self.options.randomize_gadget_costs.value,
+            "gadget_costs": self._gadget_costs,
 
             "randomize_movement": self.options.randomize_movement.value,
             "randomize_breath": self.options.randomize_breath.value,
