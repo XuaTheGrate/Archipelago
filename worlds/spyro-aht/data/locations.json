@@ -9069,10 +9069,13 @@
                 "name": "RL: Dragon Egg behind lasers in SE section",
                 "id": 221,
                 "access_rule": {
-                    "rule": "True_",
+                    "rule": "Has",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {}
+                    "args": {
+                        "item_name": "Fire Breath",
+                        "count": 1
+                    }
                 }
             },
             {
