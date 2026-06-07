@@ -9099,7 +9099,7 @@
                 }
             },
             {
-                "name": "RL: Dark Gem in sealed chamber in W section",
+                "name": "RL: Light Gem after pole spin by Dark Gem in W section",
                 "id": 224,
                 "access_rule": {
                     "rule": "True_",
@@ -9109,7 +9109,7 @@
                 }
             },
             {
-                "name": "RL: Light Gem after pole spin by Dark Gem in W section",
+                "name": "RL: Dark Gem in sealed chamber in W section",
                 "id": 225,
                 "access_rule": {
                     "rule": "True_",
@@ -9142,10 +9142,12 @@
                 "name": "RL: Defeat Mecha-Red",
                 "id": 4003,
                 "access_rule": {
-                    "rule": "True_",
+                   "rule": "BossLairRule",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {}
+                    "args": {
+                        "index": 3
+                    }
                 },
                 "options": [
                     {
