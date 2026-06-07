@@ -416,6 +416,11 @@ class SpyroAHTWorld(World):
             "randomize_gadget_costs": self.options.randomize_gadget_costs.value,
             "gadget_costs": self._gadget_costs,
 
+            "randomize_sgt_byrd_minigames": self.options.randomize_sgt_byrd_minigames.value,
+            "randomize_blink_minigames": self.options.randomize_blink_minigames.value,
+            "randomize_turret_minigames": self.options.randomize_turret_minigames.value,
+            "randomize_sparx_minigames": self.options.randomize_sparx_minigames.value,
+
             "randomize_movement": self.options.randomize_movement.value,
             "randomize_breath": self.options.randomize_breath.value,
             "randomize_fireworks": self.options.randomize_fireworks.value,
