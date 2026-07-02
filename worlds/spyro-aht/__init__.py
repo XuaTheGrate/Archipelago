@@ -34,7 +34,7 @@ KEYS = {
     "GG": "Gloomy Glacier",
     "IC": "Ice Citadel",
     "SB": "Stormy Beach",
-    "MM": "Moltem Mount",
+    "MM": "Molten Mount",
     "MFt": "Magma Falls Top",
     "MFb": "Magma Falls Bottom",
     "DM": "Dark Mine",
