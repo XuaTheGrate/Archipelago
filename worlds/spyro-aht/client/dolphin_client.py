@@ -229,6 +229,11 @@ class DolphinClient(GenericClient):
                     case 'Mecha-Red':
                         bosses[3] = True
             dolphin_memory_engine.write_bytes(self.addresses.p_BOSS_EASY_MODE, struct.pack(">????", *bosses))
+
+        if ctx.slot_data['shop_unlock_mode']:
+            dolphin_memory_engine.write_byte(self.addresses.p_SHOP_UNLOCK_MODE, 1)
+        if ctx.slot_data['teleport_anywhere']:
+            dolphin_memory_engine.write_byte(self.addresses.p_TELEPORT_ANYWHERE, 1)
         
         dolphin_memory_engine.write_byte(self.addresses.p_PATCH_BEEN_WRITTEN_TO, 1)
     

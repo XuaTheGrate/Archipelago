@@ -264,7 +264,7 @@ class SpyroAHTContext(CommonContext):
                     count = await self.emu_client.get_item_count(self.emu_client.addresses.g_NUM_GEM_PACKS_RECEIVED)
                     if count < item_counts["Gem Pack"]:
                         await self.emu_client.set_item(self.emu_client.addresses.g_NUM_GEM_PACKS_RECEIVED, count + 1)
-                        await self.emu_client.add_gem_pack()
+                        # await self.emu_client.add_gem_pack()  # todo: figure out a better way to do this
                 case 0x1E:
                     total = await self.emu_client.get_item_count(self.emu_client.addresses.g_NUM_FIRE_AMMO_RECEIVED)
                     if total < item_counts["Fire Bomb"]:

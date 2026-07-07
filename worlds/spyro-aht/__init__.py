@@ -147,6 +147,29 @@ class SpyroAHTWorld(World):
     item_name_to_id = _item_name_to_id()
     location_name_to_id = _location_name_to_id()
 
+    def collect(self, state: "CollectionState", item: "Item") -> bool:
+        """Called when an item is collected in to state. Useful for things such as progressive items or currency."""
+        name = self.collect_item(state, item)
+        if name:
+            state.add_item(name, self.player)
+            if "Gems" in item.name:
+                gem_amount = int(item.name.split(" ")[0])
+                state.add_item("Gems", item.player, count=gem_amount)
+            return True
+        return False
+
+    def remove(self, state: "CollectionState", item: "Item") -> bool:
+        """Called when an item is removed from to state. Useful for things such as progressive items or currency."""
+        name = self.collect_item(state, item, True)
+        if name:
+            state.remove_item(name, self.player)
+
+            if "Gems" in item.name:
+                gem_amount = int(item.name.split(" ")[0])
+                state.remove_item("Gems", item.player, count=gem_amount)
+            return True
+        return False
+
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
         multiworld.early_items[player]['Double Jump'] = 1
@@ -427,7 +450,10 @@ class SpyroAHTWorld(World):
 
             "easy_bosses": self.options.misc_easy_bosses.value,
 
-            "death_link": self.options.death_link.value
+            "death_link": self.options.death_link.value,
+
+            "shop_unlock_mode": self.options.shop_unlock_mode.value,
+            "teleport_anywhere": self.options.teleport_anywhere.value
         }
 
         if self.options.randomize_shop_items.value:

@@ -269,6 +269,17 @@ class MiscDeathLink(Choice):
     option_enabled = 2
     default = 0
 
+class ShopUnlockMode(Toggle):
+    """TBD description for Shop Unlock Mode."""
+    display_name = "Shop Unlock Mode"
+    default = 0
+
+
+class TeleportAnywhere(Toggle):
+    """TBD description for Teleport Anywhere."""
+    display_name = "Teleport Anywhere"
+    default = 0
+
 
 @dataclass
 class SpyroAHTOptions(PerGameCommonOptions):
@@ -312,3 +323,5 @@ class SpyroAHTOptions(PerGameCommonOptions):
 
     death_link: MiscDeathLink
 
+    shop_unlock_mode: ShopUnlockMode
+    teleport_anywhere: TeleportAnywhere
