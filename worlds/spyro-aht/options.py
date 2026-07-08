@@ -281,6 +281,12 @@ class TeleportAnywhere(Toggle):
     default = 0
 
 
+class UnlockAllShops(Toggle):
+    """TBD description for Unlock All Shops."""
+    display_name = "Unlock All Shops"
+    default = 0
+
+
 @dataclass
 class SpyroAHTOptions(PerGameCommonOptions):
     randomize_sgt_byrd_minigames: RandomizeSgtByrdMinigames
@@ -325,3 +331,4 @@ class SpyroAHTOptions(PerGameCommonOptions):
 
     shop_unlock_mode: ShopUnlockMode
     teleport_anywhere: TeleportAnywhere
+    unlock_all_shops: UnlockAllShops

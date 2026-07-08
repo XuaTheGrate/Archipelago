@@ -453,7 +453,8 @@ class SpyroAHTWorld(World):
             "death_link": self.options.death_link.value,
 
             "shop_unlock_mode": self.options.shop_unlock_mode.value,
-            "teleport_anywhere": self.options.teleport_anywhere.value
+            "teleport_anywhere": self.options.teleport_anywhere.value,
+            "unlock_all_shops": self.options.unlock_all_shops.value
         }
 
         if self.options.randomize_shop_items.value:

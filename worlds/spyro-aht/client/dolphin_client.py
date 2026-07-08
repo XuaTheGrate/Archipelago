@@ -234,6 +234,8 @@ class DolphinClient(GenericClient):
             dolphin_memory_engine.write_byte(self.addresses.p_SHOP_UNLOCK_MODE, 1)
         if ctx.slot_data['teleport_anywhere']:
             dolphin_memory_engine.write_byte(self.addresses.p_TELEPORT_ANYWHERE, 1)
+        if ctx.slot_data['unlock_all_shops']:
+            dolphin_memory_engine.write_byte(self.addresses.p_UNLOCK_ALL_SHOPS, 1)
         
         dolphin_memory_engine.write_byte(self.addresses.p_PATCH_BEEN_WRITTEN_TO, 1)
     
