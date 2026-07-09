@@ -39,7 +39,7 @@ class SpyroAHTCommands(ClientCommandProcessor):
         self.output("---------------GOAL & BOSSES---------------")
         # goal
         convert = {0: "Gnasty Gnorc", 1: "Ineptune", 2: "Red", 3: "Mecha-Red", 4: "all bosses"}
-        self.output(f"Your goal is to defeat {convert[self.ctx.slot_data['misc_goal']]}.")
+        self.output(f"Your goal is to defeat {convert[self.ctx.slot_data['goal']]}.")
         # boss cost
         data = self.ctx.slot_data["boss_lair_costs"]
         self.output(f"The Dark Gem gates require, in vanilla realm order: {data[0]}, {data[1]}, {data[2]}, and {data[3]}.")
@@ -89,12 +89,12 @@ class SpyroAHTCommands(ClientCommandProcessor):
         output = "enabled" if self.ctx.slot_data["death_link"] == 1 else "disabled"
         self.output(f"Death link is {output}.")
         # skip cutscenes & elevators
-        output = "can" if self.ctx.slot_data["misc_skip_cutscenes"] else "can't"
-        output_2 = "can" if self.ctx.slot_data["misc_skip_elevators"] else "can't"
+        output = "can" if self.ctx.slot_data["skip_cutscenes"] else "can't"
+        output_2 = "can" if self.ctx.slot_data["skip_elevators"] else "can't"
         self.output(f"Cutscenes {output} be skipped and elevators {output_2} be skipped.")
         # hint rewards
-        output = "will" if self.ctx.slot_data["misc_hint_boss_rewards"] else "won't"
-        output_2 = "will" if self.ctx.slot_data["misc_hint_minigame_rewards"] else "won't"
+        output = "will" if self.ctx.slot_data["hint_boss_rewards"] else "won't"
+        output_2 = "will" if self.ctx.slot_data["hint_minigame_rewards"] else "won't"
         self.output(f"Boss rewards {output} be hinted and minigame rewards {output_2} be hinted.")
 
         return True
@@ -362,13 +362,13 @@ class SpyroAHTContext(CommonContext):
     
     async def _location_scouts(self):
         locations = set()
-        if self.slot_data['misc_hint_minigame_rewards']:
+        if self.slot_data['hint_minigame_rewards']:
             for obj, loc in consts.MINIGAME_OBJECTIVES.items():
                 flag = await self.emu_client.get_objective(obj)
                 if flag:
                     locations.update(loc)
         
-        if self.slot_data['misc_hint_boss_rewards']:
+        if self.slot_data['hint_boss_rewards']:
             for obj, loc in consts.BOSS_OBJECTIVES.items():
                 flag = await self.emu_client.get_objective(obj)
                 if flag:
@@ -379,7 +379,7 @@ class SpyroAHTContext(CommonContext):
             await self.send_msgs([{"cmd":"LocationScouts","locations":locations,"create_as_hint":2}])
 
     async def check_goal(self) -> bool:
-        flag = await self.emu_client.check_goal(self.slot_data['misc_goal'])
+        flag = await self.emu_client.check_goal(self.slot_data['goal'])
         if flag:
             await self.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
         return flag

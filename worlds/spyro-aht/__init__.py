@@ -209,7 +209,7 @@ class SpyroAHTWorld(World):
         match self.options.starting_realm.value:
             case 4: # Randomized:
                 self._starting_realm = self.random.randint(0, 3)
-                while self._starting_realm == self.options.misc_goal.value:
+                while self._starting_realm == self.options.goal.value:
                     self._starting_realm = self.random.randint(0, 3)
             case _:
                 self._starting_realm = self.options.starting_realm.value
@@ -224,11 +224,11 @@ class SpyroAHTWorld(World):
                 
                 self._boss_lairs = [self.random.randint(bmin, bmax) for _ in range(4)]
         
-            if self.options.misc_goal.value != 4:
+            if self.options.goal.value != 4:
                 highest = functools.reduce(max, self._boss_lairs)
                 self._boss_lairs.remove(highest)
-                if self.options.misc_goal < 3:
-                    self._boss_lairs.insert(self.options.misc_goal.value, highest)
+                if self.options.goal < 3:
+                    self._boss_lairs.insert(self.options.goal.value, highest)
                 else:
                     self._boss_lairs.append(highest)
         
@@ -271,12 +271,12 @@ class SpyroAHTWorld(World):
                     f[l['name']] = l['id']
             region.add_locations(f)
         
-        match self.options.misc_goal.value:
+        match self.options.goal.value:
             case 0 | 1 | 2 | 3:
                 self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
             case 4:
                 self.multiworld.completion_condition[self.player] = lambda state: state.has_all(("VictoryCon1", "VictoryCon2", "VictoryCon3", "VictoryCon4"), self.player)
-        match self.options.misc_goal.value:
+        match self.options.goal.value:
             case 0:
                 self.get_region("DragonVillageGnastysCave").add_event("DragonVillageDefeatGnasty", "Victory", rule=(
                     Has("Fire Breath", options=[OptionFilter(RandomizeBreath, 0, "ne")]) |
@@ -418,11 +418,11 @@ class SpyroAHTWorld(World):
             smin, smax = smax, smin
 
         r: dict[str, Any] = {
-            "misc_goal": self.options.misc_goal.value,
-            "misc_skip_cutscenes": self.options.misc_skip_cutscenes.value,
-            "misc_hint_boss_rewards": self.options.misc_hint_boss_rewards.value,
-            "misc_hint_minigame_rewards": self.options.misc_hint_minigame_rewards.value,
-            "misc_skip_elevators": self.options.misc_skip_elevators.value,
+            "goal": self.options.goal.value,
+            "skip_cutscenes": self.options.skip_cutscenes.value,
+            "hint_boss_rewards": self.options.hint_boss_rewards.value,
+            "hint_minigame_rewards": self.options.hint_minigame_rewards.value,
+            "skip_elevators": self.options.skip_elevators.value,
 
             "realm_access": self.options.realm_access.value,
             "starting_realm": self._starting_realm,
@@ -448,7 +448,7 @@ class SpyroAHTWorld(World):
             "randomize_breath": self.options.randomize_breath.value,
             "randomize_fireworks": self.options.randomize_fireworks.value,
 
-            "easy_bosses": self.options.misc_easy_bosses.value,
+            "easy_bosses": self.options.easy_bosses.value,
 
             "death_link": self.options.death_link.value,
 

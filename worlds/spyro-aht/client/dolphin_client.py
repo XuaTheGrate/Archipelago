@@ -181,10 +181,10 @@ class DolphinClient(GenericClient):
         return False
 
     async def apply_patch(self, ctx: "SpyroAHTContext"):
-        dolphin_memory_engine.write_byte(self.addresses.p_SKIP_CUTSCENE_BUTTON, ctx.slot_data['misc_skip_cutscenes'])
+        dolphin_memory_engine.write_byte(self.addresses.p_SKIP_CUTSCENE_BUTTON, ctx.slot_data['skip_cutscenes'])
         dolphin_memory_engine.write_byte(self.addresses.p_ALLOW_TELEPORT_TO_HUB, 1)
         dolphin_memory_engine.write_byte(self.addresses.p_DISABLE_POPUPS, 1)
-        dolphin_memory_engine.write_byte(self.addresses.p_INSTANT_ELEVATORS, ctx.slot_data['misc_skip_elevators'])
+        dolphin_memory_engine.write_byte(self.addresses.p_INSTANT_ELEVATORS, ctx.slot_data['skip_elevators'])
         dolphin_memory_engine.write_word(self.addresses.p_MW_SEED, (int(ctx._seed) & 0xffffffff))
         dolphin_memory_engine.write_byte(self.addresses.p_USE_KEY_RINGS, ctx.slot_data['key_rings'])
         dolphin_memory_engine.write_byte(self.addresses.p_FIREWORKS_ARE_RANDOMIZED, ctx.slot_data['randomize_fireworks'])

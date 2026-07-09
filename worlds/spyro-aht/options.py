@@ -1,52 +1,52 @@
 from dataclasses import dataclass
 
-from Options import OptionSet, PerGameCommonOptions, Toggle, Choice, Range
+from Options import OptionSet, PerGameCommonOptions, Toggle, Choice, Range, OptionGroup
 
 
 class RandomizeSgtByrdMinigames(Toggle):
-    """Toggle randomizing Sgt. Byrds mini game rewards.
-    If set to 'false', it will always be the vanilla Dragon Egg and Light Gem."""
+    """Whether to enable randomized locations for Sgt. Byrd's mini-games.
+    If set to 'false', they will not be AP locations, and you will get the vanilla Dragon Eggs and Light Gems."""
     display_name = "Randomize Sgt. Byrd Mini Games"
     default = 1
 
 
 class RandomizeBlinkMinigames(Toggle):
-    """Toggle randomizing Blinks mini game rewards.
-    If set to 'false', it will always be the vanilla Dragon Egg and Light Gem."""
+    """Whether to enable randomized locations for Blink's mini-games.
+    If set to 'false', they will not be AP locations, and you will get the vanilla Dragon Eggs and Light Gems."""
     display_name = "Randomize Blink Mini Games"
     default = 0
 
 
 class RandomizeTurretMinigames(Toggle):
-    """Toggle randomizing Turret mini game rewards.
-    If set to 'false', it will always be the vanilla Dragon Egg and Light Gem."""
+    """Whether to enable randomized locations for the turret mini-games.
+    If set to 'false', they will not be AP locations, and you will get the vanilla Dragon Eggs and Light Gems."""
     display_name = "Randomize Turret Mini Games"
     default = 1
 
 
 class RandomizeSparxMinigames(Toggle):
-    """Toggle randomizing Sparxs mini game rewards.
-    If set to 'false', it will always be the vanilla Dragon Egg and Light Gem."""
+    """Whether to enable randomized locations for Sparx's mini-games.
+    If set to 'false', they will not be AP locations, and you will get the vanilla Dragon Eggs and Light Gems."""
     display_name = "Randomize Sparx Mini Games"
     default = 1
 
 
-class MiscHintMinigameRewards(Toggle):
-    """When talking to a mini game npc, hint out their rewards."""
+class HintMinigameRewards(Toggle):
+    """Whether to auto-hint a mini-game's reward when talking to its NPC."""
     display_name = "Hint Mini Game Rewards"
     default = 1
 
 
-class MiscHintBossRewards(Toggle):
-    """Hint out the item for beating a boss when their gate is opened."""
+class HintBossRewards(Toggle):
+    """Whether to auto-hint a boss's reward(s) when their gate is opened."""
     display_name = "Hint Boss Rewards"
     default = 0
 
 
 class RandomizeBreath(Choice):
-    """Determines which starting elemental breath you have.
+    """Determines breath starting behavior.
     
-    default: Fire breath.
+    default: Start with fire breath.
     random: Start with a random breath.
     none: Start with no breath. Adds a starting check.
     """
@@ -57,32 +57,33 @@ class RandomizeBreath(Choice):
     default = 0
 
 class RandomizeMovement(Toggle):
-    """Randomize the 3 movement abilities (Glide, Swim, Charge).
-    If you don't want to randomize one of these, add it to your start inventory."""
+    """Whether to randomize the ability to glide, swim, and charge.
+    If you don't want to randomize a subset of these, add them to your start inventory."""
     display_name = "Randomize Movement"
     default = 0
 
 class RandomizeFireworks(Toggle):
-    """Adds Fireworks as a location check. Requires Fire Breath."""
+    """Whether to enable randomized locations for flaming fireworks.
+    Each one requires fire breath."""
     display_name = "Randomize Fireworks"
     default = 0
 
 
 class RandomizeShopItems(Toggle):
-    """Randomize Moneybags shop items.
-    This will replace the vanilla shop items with various items from the multiworld,
-    and it will put various items from the vanilla shop around in the multiworld.
-    
-    This has a few consequences:
+    """Whether to randomize the items in Moneybags' shop.
+    If enabled, vanilla game items will be replaced with items from AP,
+    and many of the vanilla shop items will be placed in other locations.
+
+    Some consequences of this include:
     - If key rings are disabled, lock-picks have no upper limit. You can view your amount
     of lock-picks in the pause menu under 'Abilities'.
-    - Health Refill (Butterfly Jar) will replenish on death once obtained.
-    - Double Gems is infinite once obtained."""
+    - Butterfly Jar (Health Refill) will heal you automatically and refill after a death.
+    - Double Gems is permanent once obtained."""
     display_name = "Randomize Shop Items"
     default = 0
 
 class ShopPricesMin(Range):
-    """The minimum price for items in the shop."""
+    """The minimum price for shop items."""
     display_name = "Minimum Shop Price"
     range_start = 1
     range_end = 10000
@@ -90,7 +91,7 @@ class ShopPricesMin(Range):
 
 
 class ShopPricesMax(Range):
-    """The maximum price for items in the shop."""
+    """The maximum price for shop items."""
     display_name = "Maximum Shop Price"
     range_start = 1
     range_end = 10000
@@ -98,24 +99,21 @@ class ShopPricesMax(Range):
 
 
 class KeyRings(Toggle):
-    """Enable region-specific key rings for locked chests.
-    Key rings reduce the required progressive items, thereby letting locked chests
-    have more progressive items inside them.
-    
-    Instead of obtaining individual lock-picks, there are key rings for reach level
-    that let you unlock all locked chests there.
-    If the shop is not randomized, key rings will appear there instead of lock-picks."""
+    """Enable level-specific key rings for locked chests.
+    Once a level's key ring is obtained, all chests within it can be opened.
+    If Moneybags' shop is not randomized, key rings will be purchasable, otherwise they will
+    be placed elsewhere in the world."""
     display_name = "Key Rings"
     default = 0
 
 
 class RandomizeBossLairDoorCosts(Choice):
-    """Sets the Dark Gem requirement of the Boss Lairs.
-    Note: The door to your goal boss will always be the most expensive of the 4.
+    """Determines Dark Gem cost for each boss lair.
+    Whichever boss is your goal (if not all bosses) will always be the most expensive.
 
-    default: No changes to cost.
-    randomized: Randomizes the cost, defined by the range in **Minimum Boss Lair Door Cost** and **Maximum Boss Lair Door Cost**.
-    shuffle: Shuffles the existing costs (10, 20, 30, 40)
+    default: Each boss lair has their vanilla cost (10, 20, 30, 40).
+    randomized: Randomly picks costs in the range defined by boss_lair_door_cost_min and boss_lair_door_cost_max.
+    shuffle: Each boss lair has their vanilla cost shuffled with the others (10, 20, 30, 40).
     """
     display_name = "Randomize Boss Lair Requirements"
     option_default = 0
@@ -125,7 +123,7 @@ class RandomizeBossLairDoorCosts(Choice):
 
 
 class BossLairDoorCostMin(Range):
-    """Sets the minimum cost for the boss lairs."""
+    """Minimum cost for boss lairs."""
     display_name = "Boss Lair Door Cost Minimum"
     range_start = 1
     range_end = 40
@@ -133,7 +131,7 @@ class BossLairDoorCostMin(Range):
 
 
 class BossLairDoorCostMax(Range):
-    """Sets the maximum cost for the boss lairs."""
+    """Maximum cost for boss lairs."""
     display_name = "Boss Lair Door Cost Maximum"
     range_start = 1
     range_end = 40
@@ -141,11 +139,12 @@ class BossLairDoorCostMax(Range):
 
 
 class RandomizeLightGemDoorCosts(Choice):
-    """Sets the cost of light gem doors.
-    
-    default: No changes to cost.
-    randomized: Randomizes the cost, defined by the range in **Minimum Light Gem Door Cost** and **Maximum Light Gem Door Cost**.
-    shuffle: Shuffles the existing prices (20, 45, 70 and 95)."""
+    """Determines Light Gem door costs.
+
+    default: Each door has their vanilla cost (20, 45, 70, 95).
+    randomized: Randomly picks costs in the range defined by light_gem_door_cost_min and light_gem_door_cost_max.
+    shuffle: Each door has their vanilla cost shuffled with the others (20, 45, 70, 95).
+    """
     display_name = "Randomize Light Gem Door Cost"
     option_default = 0
     option_randomized = 1
@@ -154,7 +153,7 @@ class RandomizeLightGemDoorCosts(Choice):
 
 
 class LightGemDoorCostMin(Range):
-    """Sets the minimum cost for light gem doors."""
+    """Minimum cost for light gem doors."""
     display_name = "Minimum Light Gem Door Cost"
     range_start = 1
     range_end = 100
@@ -162,7 +161,7 @@ class LightGemDoorCostMin(Range):
 
 
 class LightGemDoorCostMax(Range):
-    """Sets the maximum cost for light gem doors."""
+    """Maximum cost for light gem doors."""
     display_name = "Maximum Light Gem Door Cost"
     range_start = 1
     range_end = 100
@@ -170,11 +169,12 @@ class LightGemDoorCostMax(Range):
 
 
 class RandomizeGadgetCosts(Choice):
-    """Sets the cost of gadgets (ball, invincibilty, supercharge).
+    """Determines gadget costs.
 
-    default: No changes to cost.
-    randomized: Randomizes the cost, defined by the range in **Minimum Gadget Cost** and **Maximum Gadget Cost**.
-    shuffle: Shuffles the existing prices (8, 24, 40)."""
+    default: Each gadget has their vanilla cost (8, 24, 40).
+    randomized: Randomly picks costs in the range defined by gadget_cost_min and gadget_cost_max.
+    shuffle: Each door has their vanilla cost shuffled with the others (8, 24, 40).
+    """
     display_name = "Randomize Gadget Cost"
     option_default = 0
     option_randomized = 1
@@ -183,7 +183,7 @@ class RandomizeGadgetCosts(Choice):
 
 
 class GadgetCostMin(Range):
-    """Sets the minimum cost for gadgets."""
+    """Minimum cost for gadgets."""
     display_name = "Minimum Gadget Cost"
     range_start = 1
     range_end = 100
@@ -191,7 +191,7 @@ class GadgetCostMin(Range):
 
 
 class GadgetCostMax(Range):
-    """Sets the maximum cost for gadgets."""
+    """Maximum cost for gadgets."""
     display_name = "Maximum Gadget Cost"
     range_start = 1
     range_end = 100
@@ -199,10 +199,9 @@ class GadgetCostMax(Range):
 
 
 class RealmAccess(Choice):
-    """Set realm access mode.
-
-    always: Access any realm at any time
-    randomized: Shuffles access into the multiworld
+    """Whether to allow access to all realms at all times or to shuffle "Access Card" items into the world.
+    Setting this to 'always' disables the locations for defeating each boss, as they would normally reward
+    realm access. Breath rewards from bosses stays enabled.
     """
     display_name = "Realm Access"
     option_always = 0
@@ -211,10 +210,7 @@ class RealmAccess(Choice):
 
 
 class StartingRealm(Choice):
-    """Sets starting realm behaviour.
-    
-    randomized: Start in a random realm
-    """
+    """Determines which realm you will start in, or make it random."""
     default = 0
     display_name = "Starting Realm"
     option_dragon_village = 0
@@ -224,16 +220,16 @@ class StartingRealm(Choice):
     option_randomized = 4
 
 
-class MiscEasyBosses(OptionSet):
-    """Toggle "easy" mode for bosses, making them take triple damage, shortening the fight considerably.
+class EasyBosses(OptionSet):
+    """Toggles 'easy mode' for each boss, making them take triple damage to shorten fights considerably.
     Valid options: ["Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red"]"""
     display_name = "Easy Bosses"
     valid_keys = ("Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red")
     default = ("Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red")
 
 
-class MiscGoal(Choice):
-    """Set the goal condition."""
+class Goal(Choice):
+    """Determines your goal boss, or to require all 4 bosses."""
     display_name = "Goal"
     option_gnorc = 0
     option_ineptune = 1
@@ -243,25 +239,25 @@ class MiscGoal(Choice):
     default = 3
 
 
-class MiscSkipCutscenes(Toggle):
+class SkipCutscenes(Toggle):
     """Enable skipping most cutscenes with the Y button.
-    In rare cases, this may have glitchty side-effects."""
+    In rare cases, this may have glitchy side-effects."""
     display_name = "Auto Skip Cutscenes"
     default = 0
 
 
-class MiscSkipElevators(Toggle):
+class SkipElevators(Toggle):
     """Enable a patch to skip the long elevator waits to Cloudy Domain, Sunken Ruins and Magma Falls"""
     display_name = "Skip Elevators"
     default = 1
 
 
-class MiscDeathLink(Choice):
-    """Enable Death-Link.
+class DeathLink(Choice):
+    """Determines death link behavior.
 
     disabled: Disabled.
     Shielded: The Butterfly Jar will protect you from a DeathLink, if you have it.
-    Enabled: Enabled.
+    Enabled: Enabled fully.
     """
     display_name = "DeathLink"
     option_disabled = 0
@@ -270,19 +266,23 @@ class MiscDeathLink(Choice):
     default = 0
 
 class ShopUnlockMode(Toggle):
-    """TBD description for Shop Unlock Mode."""
+    """This feature is currently being worked on. Description soon™ once finalized."""
     display_name = "Shop Unlock Mode"
     default = 0
 
 
 class TeleportAnywhere(Toggle):
-    """TBD description for Teleport Anywhere."""
+    """Allows for teleporting to unlocked Moneybags shop pads in any realm.
+    For example, you could teleport directly from Dragonfly Falls to Dark Mine
+    without needing to use a hub realm teleporter."""
     display_name = "Teleport Anywhere"
     default = 0
 
 
-class UnlockAllShops(Toggle):
-    """TBD description for Unlock All Shops."""
+class OpenWorldMode(Toggle):
+    """Allows for teleporting to any Moneybags' shop pad from the start of your file.
+    NOT CURRENTLY SUPPORTED LOGICALLY. Enabling this option will enable the behavior, which skips
+    significant amounts of logic requirements. Only left in for development purposes currently."""
     display_name = "Unlock All Shops"
     default = 0
 
@@ -320,15 +320,49 @@ class SpyroAHTOptions(PerGameCommonOptions):
     realm_access: RealmAccess
     starting_realm: StartingRealm
 
-    misc_easy_bosses: MiscEasyBosses
-    misc_goal: MiscGoal
-    misc_hint_minigame_rewards: MiscHintMinigameRewards
-    misc_hint_boss_rewards: MiscHintBossRewards
-    misc_skip_cutscenes: MiscSkipCutscenes
-    misc_skip_elevators: MiscSkipElevators
+    easy_bosses: EasyBosses
+    goal: Goal
+    hint_minigame_rewards: HintMinigameRewards
+    hint_boss_rewards: HintBossRewards
+    skip_cutscenes: SkipCutscenes
+    skip_elevators: SkipElevators
 
-    death_link: MiscDeathLink
+    death_link: DeathLink
 
     shop_unlock_mode: ShopUnlockMode
     teleport_anywhere: TeleportAnywhere
     unlock_all_shops: UnlockAllShops
+
+options_groups = [
+    OptionGroup("GOAL & LOCATIONS", [
+        Goal,
+        RandomizeSgtByrdMinigames,
+        RandomizeBlinkMinigames,
+        RandomizeTurretMinigames,
+        RandomizeSparxMinigames,
+        RandomizeFireworks
+    ]),
+    OptionGroup("START OF GAME", [
+        RandomizeBreath,
+        RandomizeMovement,
+        RealmAccess,
+        StartingRealm
+    ]),
+    OptionGroup("COSTS", [
+        RandomizeBossLairDoorCosts, BossLairDoorCostMin, BossLairDoorCostMax,
+        RandomizeLightGemDoorCosts, LightGemDoorCostMin, LightGemDoorCostMax,
+        RandomizeGadgetCosts, GadgetCostMin, GadgetCostMax
+    ]),
+    OptionGroup("SHOP", [
+        RandomizeShopItems,
+        ShopPricesMin, ShopPricesMax,
+        KeyRings,
+        UnlockAllShops,
+        ShopUnlockMode
+    ]),
+    OptionGroup("QUALITY OF LIFE", [
+        HintMinigameRewards, HintBossRewards,
+        SkipCutscenes, SkipElevators,
+        TeleportAnywhere, EasyBosses
+    ])
+]
