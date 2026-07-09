@@ -2,33 +2,15 @@ from dataclasses import dataclass
 
 from Options import OptionSet, PerGameCommonOptions, Toggle, Choice, Range, OptionGroup
 
+class RandomizeMinigames(OptionSet):
+    """Whether to enable randomized locations for each type of mini-game.
+    If a type of mini-game is excluded here, all 8 instances of it will reward their vanilla Dragon Eggs and Light Gems.
 
-class RandomizeSgtByrdMinigames(Toggle):
-    """Whether to enable randomized locations for Sgt. Byrd's mini-games.
-    If set to 'false', they will not be AP locations, and you will get the vanilla Dragon Eggs and Light Gems."""
-    display_name = "Randomize Sgt. Byrd Mini Games"
-    default = 1
-
-
-class RandomizeBlinkMinigames(Toggle):
-    """Whether to enable randomized locations for Blink's mini-games.
-    If set to 'false', they will not be AP locations, and you will get the vanilla Dragon Eggs and Light Gems."""
-    display_name = "Randomize Blink Mini Games"
-    default = 0
-
-
-class RandomizeTurretMinigames(Toggle):
-    """Whether to enable randomized locations for the turret mini-games.
-    If set to 'false', they will not be AP locations, and you will get the vanilla Dragon Eggs and Light Gems."""
-    display_name = "Randomize Turret Mini Games"
-    default = 1
-
-
-class RandomizeSparxMinigames(Toggle):
-    """Whether to enable randomized locations for Sparx's mini-games.
-    If set to 'false', they will not be AP locations, and you will get the vanilla Dragon Eggs and Light Gems."""
-    display_name = "Randomize Sparx Mini Games"
-    default = 1
+    Valid options: ["Sgt. Byrd", "Blink", "Turret", "Sparx"]
+    """
+    display_name = "Randomize Minigames"
+    valid_keys = ("Sgt. Byrd", "Blink", "Turret", "Sparx")
+    default = ()
 
 
 class HintMinigameRewards(Toggle):
@@ -283,16 +265,13 @@ class OpenWorldMode(Toggle):
     """Allows for teleporting to any Moneybags' shop pad from the start of your file.
     NOT CURRENTLY SUPPORTED LOGICALLY. Enabling this option will enable the behavior, which skips
     significant amounts of logic requirements. Only left in for development purposes currently."""
-    display_name = "Unlock All Shops"
+    display_name = "Open World Mode"
     default = 0
 
 
 @dataclass
 class SpyroAHTOptions(PerGameCommonOptions):
-    randomize_sgt_byrd_minigames: RandomizeSgtByrdMinigames
-    randomize_blink_minigames: RandomizeBlinkMinigames
-    randomize_turret_minigames: RandomizeTurretMinigames
-    randomize_sparx_minigames: RandomizeSparxMinigames
+    randomize_minigames: RandomizeMinigames
 
     randomize_breath: RandomizeBreath
     randomize_movement: RandomizeMovement
@@ -331,15 +310,12 @@ class SpyroAHTOptions(PerGameCommonOptions):
 
     shop_unlock_mode: ShopUnlockMode
     teleport_anywhere: TeleportAnywhere
-    unlock_all_shops: UnlockAllShops
+    open_world_mode: OpenWorldMode
 
-options_groups = [
+spyro_options_groups = [
     OptionGroup("GOAL & LOCATIONS", [
         Goal,
-        RandomizeSgtByrdMinigames,
-        RandomizeBlinkMinigames,
-        RandomizeTurretMinigames,
-        RandomizeSparxMinigames,
+        RandomizeMinigames,
         RandomizeFireworks
     ]),
     OptionGroup("START OF GAME", [
@@ -357,7 +333,7 @@ options_groups = [
         RandomizeShopItems,
         ShopPricesMin, ShopPricesMax,
         KeyRings,
-        UnlockAllShops,
+        OpenWorldMode,
         ShopUnlockMode
     ]),
     OptionGroup("QUALITY OF LIFE", [

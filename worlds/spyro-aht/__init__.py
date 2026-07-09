@@ -13,10 +13,10 @@ import Utils
 from BaseClasses import Item, ItemClassification, MultiWorld, Region
 from rule_builder.options import OptionFilter
 from rule_builder.rules import Has, HasAny, Rule, True_
-from worlds.AutoWorld import World
+from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import icon_paths
 
-from .options import RandomizeMovement, SpyroAHTOptions, RandomizeBreath
+from .options import RandomizeMovement, SpyroAHTOptions, RandomizeBreath, spyro_options_groups
 from .client import rules
 
 
@@ -132,6 +132,9 @@ TURRET = {
     ("SB: Dragon Egg from Wally", "SB: Light Gem from Wally")
 }
 
+class SpyroAHTWeb(WebWorld):
+    option_groups = spyro_options_groups
+
 class SpyroAHTWorld(World):
     """
     Spyro: A Hero's Tail is a 3D platformer and collect-a-thon released in 2004 for the Xbox, Playstation 2 and GameCube.
@@ -141,6 +144,7 @@ class SpyroAHTWorld(World):
 
     options_dataclass = SpyroAHTOptions
     options: SpyroAHTOptions # type: ignore
+    web = SpyroAHTWeb()
 
     item_name_groups = create_item_groups()
     location_name_groups = create_location_groups()
@@ -325,27 +329,13 @@ class SpyroAHTWorld(World):
 
         minigames = 0
 
-        if self.options.randomize_sgt_byrd_minigames.value == 0:
-            for d, l in SGT_BYRD:
-                self.get_location(d).place_locked_item(self.create_item("Dragon Egg"))
-                self.get_location(l).place_locked_item(self.create_item("Light Gem"))
-            minigames += 4
-        if self.options.randomize_blink_minigames.value == 0:
-            for d, l in BLINK:
-                self.get_location(d).place_locked_item(self.create_item("Dragon Egg"))
-                self.get_location(l).place_locked_item(self.create_item("Light Gem"))
-            minigames += 4
-        if self.options.randomize_sparx_minigames.value == 0:
-            for d, l in SPARX:
-                self.get_location(d).place_locked_item(self.create_item("Dragon Egg"))
-                self.get_location(l).place_locked_item(self.create_item("Light Gem"))
-            minigames += 4
-        if self.options.randomize_turret_minigames.value == 0:
-            for d, l in TURRET:
-                self.get_location(d).place_locked_item(self.create_item("Dragon Egg"))
-                self.get_location(l).place_locked_item(self.create_item("Light Gem"))
-            minigames += 4
-        
+        for minigame, npc in zip(["Sgt. Byrd", "Blink", "Sparx", "Turret"], [SGT_BYRD, BLINK, SPARX, TURRET]):
+            if minigame in self.options.randomize_minigames.value:
+                for d, l in npc:
+                    self.get_location(d).place_locked_item(self.create_item("Dragon Egg"))
+                    self.get_location(l).place_locked_item(self.create_item("Light Gem"))
+                minigames += 4
+
         if self.options.randomize_fireworks.value == 1:
             for _ in range(22):
                 itempool.append(self.create_item("Gem Pack"))
@@ -439,11 +429,7 @@ class SpyroAHTWorld(World):
             "randomize_gadget_costs": self.options.randomize_gadget_costs.value,
             "gadget_costs": self._gadget_costs,
 
-            "randomize_sgt_byrd_minigames": self.options.randomize_sgt_byrd_minigames.value,
-            "randomize_blink_minigames": self.options.randomize_blink_minigames.value,
-            "randomize_turret_minigames": self.options.randomize_turret_minigames.value,
-            "randomize_sparx_minigames": self.options.randomize_sparx_minigames.value,
-
+            "randomize_minigames": self.options.randomize_minigames.value,
             "randomize_movement": self.options.randomize_movement.value,
             "randomize_breath": self.options.randomize_breath.value,
             "randomize_fireworks": self.options.randomize_fireworks.value,
@@ -454,7 +440,7 @@ class SpyroAHTWorld(World):
 
             "shop_unlock_mode": self.options.shop_unlock_mode.value,
             "teleport_anywhere": self.options.teleport_anywhere.value,
-            "unlock_all_shops": self.options.unlock_all_shops.value
+            "open_world_mode": self.options.open_world_mode.value
         }
 
         if self.options.randomize_shop_items.value:
