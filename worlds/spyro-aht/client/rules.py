@@ -109,9 +109,9 @@ class LockedChestRule(Rule):
     def resolve(self, slot_data: dict[str, Any], items: dict[str, int]) -> bool:
         if slot_data["randomize_shop_items"]:
             if slot_data["key_rings"]:
-                return self.can_resolve(slot_data) and items.get(f"{self.args['level']} Key Ring", 1)
+                return self.can_resolve(slot_data) and items.get(f"{self.args['level']} Key Ring", 0) == 1
             else:
-                return self.can_resolve(slot_data) and items.get("Lockpick", 52)
+                return self.can_resolve(slot_data) and items.get("Lockpick", 0) == 52
         else:
             return True
 
