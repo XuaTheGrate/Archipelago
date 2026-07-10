@@ -1,0 +1,538 @@
+Back End Improvements
+
+[
+	{
+		"option": "realm_access",
+		"value": 0,
+		"operator": "ne"
+	}
+]
+
+START - requires nothing, connected to DVEntry, CREntry, FVEntry, and SBEntry
+	have nothing
+	0 gems (0 rules)
+	Starter Checks: Glide | True_ | 229
+	Starter Checks: Charge | True_ | 230
+	Starter Checks: Breath | True_ | 231
+	Starter Checks: Swim | True_ | 232
+	Starter Checks: Starting Realm Access | True_ | 999
+	Moneybags: Shop Item 1 | True_ | 1000
+		same for items 2-4 having IDs 1001-1003
+	Moneybags: Shop Item 6 | True_ | 2000
+		same for items 7-18 having IDs 2001-2012
+	Moneybags: Shop Item 19 | True_ | 3013
+		same for items 20-56 having IDs 3014-3050
+
+DVEntry - requires access card, connected to DVDoubleJump and DVGnastyCave
+	have nothing
+	1,061 gems (5 rules)
+	DV: Double Jump from Elder Tomas | True_
+
+DVGnastyCave - requires dark gems, connected to nothing
+	have nothing
+	0 gems (0 rules)
+	DV: Dragon Egg in Gnasty's Cave | True_
+	DV: Electric Breath from Gnasty Gnorc | Fire Breath OR Charge
+	DV: Defeat Gnasty Gnorc	| Fire Breath OR Charge
+
+DVDoubleJump - requires Double Jump, connected to DVGlide, DVCharge, and CSEntry
+	have DJ
+	2,192 gems (4 rules)
+	DV: Dark Gem by Ember | True_
+	DV: Dark Gem by Elder Tomas | True_
+	DV: Firework on other side of bridge | Fire Breath
+	DV: Locked Chest before Crocovile Swamp | Lockpick OR Key Ring
+	DV: Locked Chest on starting area Double Jump ledge | Lockpick OR Key Ring
+	DV: Dragon Egg from Sgt. Byrd | True_
+	DV: Light Gem from Sgt. Byrd | True_
+	
+DVGlide - requires Glide, connected to DFEntry
+	have DJ, Glide
+	1,670 gems (5 rules)
+	DV: Dragon Egg from Hunter's gliding tutorial | True_
+	DV: Firework at end of Hunter's Glide Tutorial | Fire Breath
+		FIXED FIRE BREATH
+	DV: Light Gem in Nursery | True_
+	DV: Locked Chest near Ball Gadget | Lockpick OR Key Ring
+	DV: Firework next to Ball Gadget | Fire Breath
+
+DVCharge - requires Charge, connected to nothing
+	have DJ, Charge
+	850 gems (3 rules)
+	DV: Dragon Egg by river grating outside Lab Secret Entrance | True_
+	DV: Light Gem above Lab Secret Entrance | True_
+	DV: Firework after timed platform challenge | Fire Breath
+		FIXED FIRE BREATH
+	DV: Light Gem after timed platforming challenge | True_
+	DV: Dark Gem by Sgt. Byrd | True_
+	DV: Dragon Egg behind Dark Gem by Sgt. Byrd | True_
+--------------------------------------------------------------------------------------
+CSEntry - requires nothing, connected to CSPoleSpin
+	have DJ
+	7,685 gems (8 rules)
+	CS: Dark Gem across from the Perilous Pyramid | True_
+	CS: Locked Chest behind breakable wall | Charge AND (Lockpick OR Key Ring)
+	CS: Firework behind cliff in west-most area | Fire Breath
+	CS: Dragon Egg across platforms in mud | True_
+	CS: Light Gem behind reinforced door | Charge AND Supercharge
+	CS: Light Gem in the top of the Perilous Pyramid | Glide
+	CS: Locked Chest on ledges before the 3 Critters | Lockpick OR Key Ring
+	CS: Locked Chest in Forgotten Temple | Lockpick OR Key Ring
+	CS: Light Gem in Forgotten Temple | True_
+	CS: Light Gem behind lowering brick wall | Charge
+	CS: Dragon Egg from thief in Forgotten Temple | Electric Breath AND Charge
+	CS: Light Gem after sinking platforms | True_
+	CS: Dragon Egg from Blink | True_
+	CS: Light Gem from Blink | True_
+	CS: Dark Gem before Elder Magnus | True_
+	CS: Pole Spin from Elder Magnus | True_
+
+CSPoleSpin - requires Pole Spin, connected to nothing
+	have DJ, Pole Spin
+	1,360 gems (4 rules)
+	CS: Dragon Egg in cave reached by pole spin | NONE
+	CS: Dragon Egg in Elder Magnus' House | Charge OR Glide
+	CS: Firework next to Dragon Egg in Elder's Tree House | Fire Breath AND (Charge OR Glide)
+	CS: Firework atop Elder's Tree House | Fire Breath
+	CS: Light Gem in Elder Magnus' House | NONE
+	CS: Dark Gem through cave above Blink | NONE
+	CS: Dragon Egg from Fredneck | NONE
+	CS: Light Gem from Fredneck | NONE
+	CS: Light Gem next to lilypads | NONE
+-----------------------------------------------------------------------
+DFEntry - requires Ball Gadget, connected to DFLGDoor
+	have DJ, Glide, Ball Gadget
+	7,253 gems (7 rules)
+	DF: Locked Chest shortly after Ball Gadget | Lockpick OR Key Ring
+	DF: Dark Gem behind breakable wall | Charge
+	DF: Dragon Egg after Dark Gem behind breakable wall | Charge
+	DF: Light Gem behind reinforced wall | NONE
+	DF: Dark Gem covering cannon | NONE
+	DF: Dragon Egg in vulture's nest | NONE
+	DF: Dark Gem in dragon statue area | NONE
+	DF: Light Gem behind breakable wall in dragon statue area pool | Swim AND Charge
+	DF: Dragon Egg from Sparx | NONE
+	DF: Light Gem from Sparx | NONE
+	DF: Dragon Egg behind breakable wall above wall kick | Charge
+	DF: Light Gem in Piranha Pool | NONE
+	DF: Locked Chest in Piranha Pool | Lockpick OR Key Ring
+	DF: Dragon Egg in vulture's nest (Hunter) | NONE
+	DF: Light Gem after Hunter's trial | NONE
+	DF: Dark Gem before thermal | NONE
+	DF: Light Gem glide from wall kick | Wall Kick
+
+DFLGDoor - requires Light Gems, connected to nothing
+	have DJ, Glide, Ball Gadget
+	651 gems (4 rules)
+	DF: Light Gem behind breakable wall beyond Light Gem door | Charge
+	DF: Dragon Egg from thief beyond Light Gem door | Charge
+-------------------------------------------------------------------------------------------------------------
+CREntry - requires access card, connected to CRDoubleJump, CRLGDoor, CRSunkenEntrance, and CRWateryTomb
+	have nothing
+	3,442 gems (9 rules)
+	CR: Dragon Egg from Turtle Mother | Charge
+	CR: Light Gem from Turtle Mother | Charge
+	CR: Locked Chest behind Moneybags | Lockpick OR Key Ring
+	CR: Locked Chest hidden on cliff in southern beach | Lockpick OR Key Ring
+
+CRDoubleJump - requires double jump, connected to CRGlide
+	have DJ
+	743 gems (3 rules)
+	CR: Dark Gem in cannon area | NONE
+	CR: Dragon Egg after Piranha pool | NONE
+	CR: Light Gem in southern beach above water mill | Double Jump AND Water Breath
+	CR: Dragon Egg after moving platforms in southern beach | NONE
+
+CRLGDoor - requires Light Gems, connected to nothing
+	have nothing
+	709 gems (9 rules)
+	CR: Dragon Egg from thief beyond Light Gem door | Charge
+	CR: Light Gem beyond Light Gem door | NONE
+
+CRGlide - requires Glide, connected to CDEntry
+	have DJ, Glide
+	3,653 gems (5 rules)
+	CR: Dragon Egg in cannon area | Pole Spin
+	CR: Dark Gem after reinforced door in cannon area | Charge
+  	CR: Light Gem after Windmills | Pole Spin
+	CR: Light Gem beyond moving platform near Cloudy Domain elevator | Electric Breath
+
+CRSunkenEntrance - requires Double Jump and Pole Spin, connected to SREntry
+	have DJ, Pole Spin
+	4,199 gems (5 rules)
+	CR: Dragon Egg from Blink | NONE
+	CR: Light Gem from Blink | NONE
+	CR: Dark Gem near Blink | NONE
+	CR: Light Gem in Otto's pool | Glide
+	CR: Light Gem reward from Otto | NONE
+	CR: Dark Gem to access Sunken Ruins | NONE
+	CR: Light Gem hidden in Sunken Ruins elevator area | NONE
+	CR: Dragon Egg after Bowman Gnorc hallway | NONE
+
+CRWateryTomb - requires dark gems, connected to nothing
+	have nothing
+	100 gems (1 rule)
+	CR: Water Breath from Ineptune | Charge
+	CR: Defeat Ineptune | Charge
+-----------------------------------------------------------------------------
+CDEntry - requires nothing, connected to CDCharge
+	have DJ, Glide
+	732 gems (4 rules)
+	CD: Locked Chest near elevator | Lockpick OR Key Ring
+	CD: Dark Gem to activate thermal leading to Elder Titan | NONE
+	CD: Firework behind generator that creates thermal | Fire Breath
+	CD: Light Gem before Elder Titan | NONE
+
+CDCharge - requires Charge, connected to CDWingShield
+	have DJ, Glide, Charge
+	2,970 gems (6 rules)
+	CD: Wing Shield from Elder Titan | NONE
+	CD: Dragon Egg after Elder Titan | NONE
+	CD: Locked Chest beyond Reinforced Door near Elder Titan | Supercharge
+	CD: Locked Chest after Crossroads left | Lockpick OR Key Ring
+	CD: Light Gem after platforming at Crossroads left | NONE
+	CD: Firework on path from Crossroads left | Fire Breath
+
+CDWingShield - requires Wing Shield, connected to CDBallGadget
+	have DJ, Glide, Charge, Wing Shield
+	2,140 gems (3 rules)
+	CD: Light Gem after Wing Shield Tutorial | NONE
+	CD: Locked Chest beyond hidden path during Wing Shield Tutorial | Lockpick OR Key Ring
+	CD: Light Gem after temporary platforms at Crossroads right | NONE
+	CD: Dragon Egg on temporary platform before orbiting platforms | NONE
+	CD: Dragon Egg from thief after first orbiting platforms | Fire Breath
+	CD: Dark Gem after orbiting platforms | NONE
+	CD: Dragon Egg from Sgt. Byrd | NONE
+	CD: Light Gem from Sgt. Byrd | NONE
+	CD: Light Gem in Wall Kick building | Wall Kick
+	CD: Dark Gem before Ball Gadget station | NONE
+
+CDBallGadget - requires Ball Gadget, connected to nothing
+	have DJ, Glide, Charge, Wing Shield, Ball Gadget
+	1,315 gems (2 rules)
+	CD: Dragon Egg in Ball Gadget | NONE
+	CD: Light Gem in Ball Gadget | NONE
+	CD: Firework after emerging from Ball Gadget area | Fire Breath
+-----------------------------------------------------------------------------------------------
+SREntry - requires nothing, connected to SRSwim
+	have DJ, Pole Spin
+	365 gems (2 rules)
+	SR: Locked Chest at entrance | Lockpick OR Key Ring
+
+SRSwim - requires Swim, connected to SRElectric and SRWallKick
+	have DJ, Pole Spin, Swim
+	7,333 gems (7 rules)
+	SR: Locked Chest behind exit of first swim tunnel | Lockpick OR Key Ring
+	SR: Dark Gem in thermal room | NONE
+	SR: Dragon Egg atop thermal room | Glide
+	SR: Locked Chest atop thermal room | Glide AND (Lockpick OR Key Ring)
+	SR: Firework atop timed thermal challenge room | Glide AND Fire Breath
+	SR: Locked Chest behind Lily | Lockpick OR Key Ring
+	SR: Light Gem in locked room after Acid Swim | Invincibility AND Charge
+	SR: Dragon Egg from Sparx | NONE
+	SR: Light Gem from Sparx | NONE
+	SR: Locked Chest before spitting fish statues | Lockpick OR Key Ring
+	SR: Light Gem after spitting fish statues | NONE
+
+SRWallKick - requires Wall Kick and Invincibility, connected to nothing
+	have DJ, Pole Spin, Swim, Wall Kick, Invincibility
+	1,550 gems (2 rules)
+	SR: Dragon Egg above heated wall kick | NONE
+	SR: Firework above heated wall kick | Fire Breath
+
+SRElectric - requires Electric Breath, connected to SRInvincibility
+	have DJ, Pole Spin, Swim, Electric Breath
+	756 gems (2 rules)
+
+SRInvincibility - requires Invincibility and Charge, connected to SRGlide
+	have DJ, Pole Spin, Swim, Electric Breath, Invincibility, Charge
+	3,741 gems (2 rules)
+	SR: Light Gem inside Acid Swim Debris Tunnel | NONE
+	SR: Dark Gem after Acid Swim Debris Tunnel | NONE
+	SR: Locked Chest after Acid Swim Debris Tunnel | Lockpick OR Key Ring
+	SR: Firework atop spin pole puzzle rooms | Fire Breath
+	SR: Firework in rising statue room | Fire Breath
+	SR: Locked Chest near Acid Pool Dark Gem | Lockpick OR Key Ring
+        last 2 are controversial (can reach just DJ'ing around the middle layer)
+
+SRGlide - requires Glide, connected to nothing
+	have DJ, Pole Spin, Swim, Electric Breath, Invincibility, Charge, Glide
+	900 gems (1 rule)
+	SR: Dark Gem on raising statue in acid pool | NONE
+	SR: Locked Chest in room before circling back to start | Lockpick OR Key Ring
+---------------------------------------------------------------------------------------
+FVEntry - requires access card, connected to FVElectric, FVDoubleJump, and FVRedChamber
+	have nothing
+	105 gems (2 rules)
+
+FVElectric - requires Electric Breath, connected to nothing
+	have Electric Breath
+	570 gems (3 rules)
+	FV: Light Gem beyond gate in skating rink area | Water Breath AND Double Jump
+	FV: Dragon Egg from Peggy | NONE
+	FV: Light Gem from Peggy | NONE
+	FV: Dark Gem near skating rink area | Double Jump
+	FV: Dragon Egg under skating rink area | NONE
+	FV: Locked Chest under skating rink area | Lockpick OR Key Ring
+	
+FVDoubleJump - requires Double Jump, connected to FVWallKick and GGEntry
+	have DJ
+	5,293 gems (5 rules)
+	FV: Dark Gem by avalanche | NONE
+	FV: Dragon Egg from Blink | NONE
+	FV: Light Gem from Blink | NONE
+	FV: Dragon Egg from thief in area after bouncing snowball platforms | Charge
+	FV: Light Gem in area after bouncing snowball platforms | NONE
+	FV: Light Gem at Entrance to Gloomy Glacier | NONE
+
+FVWallKick, requires Wall Kick, connected to nothing
+	have DJ, Wall Kick
+	977 gems (6 rules)
+	FV: Dark Gem in orbiting platforms room | Glide
+	FV: Light Gem atop orbiting platforms room | Glide
+	FV: Dragon Egg behind breakable wall in southern area | Charge
+
+FVRedChamber - requires Dark Gems, connected to nothing
+	have nothing
+	0 gems (0 rules)
+	FV: Ice Breath from Red | Water Breath
+	FV: Defeat Red | Water Breath
+
+FVEntry2 - requires nothing, connected to FVEastPoles and FVLGDoorEntry
+	have DJ, Water Breath, Wall Kick, Charge, Supercharge
+	1,748 gems (2 rules)
+	FV: Dark Gem in area with Light Gem Door | NONE
+	FV: Dark Gem after falling icicles | NONE
+	FV: Locked Chest in falling icicles room | Lockpick OR Key Ring
+	FV: Locked Chest under bridge after falling icicles | Lockpick OR Key Ring
+
+FVEastPoles - requires Pole Spin, connected to nothing
+	have DJ, Water Breath, Wall Kick, Charge, Supercharge, Pole Spin
+	40 gems (1 rule)
+	FV: Light Gem atop pole spin area after falling icicles | NONE
+
+FVLGDoorEntry - requires Light Gems, connected to FVLGDoorGlide
+	have DJ, Water Breath, Wall Kick, Charge, Supercharge
+	420 gems (3 rules)
+	FV: Locked Chest beyond Light Gem Door | Lockpick OR Key Ring
+
+FVLGDoorGlide - requires glide, connected to nothing
+	have DJ, Water Breath, Wall Kick, Charge, Supercharge, Pole Spin, Glide
+	595 gems (3 rules)
+	FV: Light Gem beyond Light Gem Door | NONE
+--------------------------------------------------------------------------------------
+GGEntry - requires nothing, connected to ICEntry
+	have DJ
+	5,631 gems (1 rule)
+	GG: Locked Chest in Bentley's Living Room | Lockpick OR Key Ring
+	GG: Locked Chest in Bentley's Bedroom | Lockpick OR Key Ring
+	GG: Reward from Bentley | NONE
+	GG: Light Gem in Skeleton Ambush room | NONE
+	GG: Locked Chest after Skeleton Ambush room | Lockpick OR Key Ring
+	GG: Dragon Egg behind breakable wall in Swinging Axe Room | NONE
+	GG: Light Gem by Yeti behind breakable Rib Bones | NONE
+	GG: Dragon Egg under Bone Bridge with Barrels | NONE
+	GG: Light Gem behind Yeti in crumbling platform room | NONE
+	GG: Dragon Egg after spinning bones | NONE
+	GG: Dragon Egg from Sparx | NONE
+	GG: Light Gem from Sparx | NONE
+	GG: Light Gem beyond moving platform in Bone Spider room | NONE
+	GG: Light Gem behind locked door in Bone Spider room | NONE
+	GG: Light Gem before reaching Ice Citadel | NONE
+---------------------------------------------------------------------------------
+ICEntry - requires nothing, connected to ICWater
+	have DJ
+	3,153 gems (7 rules)
+	IC: Locked Chest in entrance | Lockpick OR Key Ring
+	IC: Light the boiler in the Courtyard | Fire Breath
+	IC: Light Gem at very top of Courtyard | NONE
+	IC: Firework next to waterwheel in Courtyard | Fire Breath
+
+ICWater - requires Water Breath, connected to ICWallKick
+	have DJ, Water Breath
+	1,208 gems (5 rules)
+	IC: Locked Chest behind breakable wall after Coal Room | Charge AND (Lockpick OR Key Ring)
+	IC: Dark Gem above Elder Astor | NONE
+	IC: Wall Kick from Elder Astor | NONE
+
+ICWallKick - requires Wall Kick, connected to ICBehindQueen and ICReturnToFV
+	have DJ, Water Breath, Wall Kick
+	11,461 gems (8 rules)
+	IC: Locked Chest after Elder Astor | Lockpick OR Key Ring
+	IC: Dark Gem after sewer sprint | Charge AND Supercharge
+	IC: Dragon Egg after Dark Gem in sewer | Charge AND Supercharge
+	IC: Locked Chest in tunnel after supercharge | Lockpick OR Key Ring
+	IC: Locked Chest before reinforced wall | Lockpick OR Key Ring
+	IC: Dragon Egg behind reinforced wall | Charge AND Supercharge
+	IC: Dragon Egg from Sgt. Byrd | NONE
+	IC: Light Gem from Sgt. Byrd | NONE
+	IC: Light the boiler in room after Sgt. Byrd | Fire Breath
+	IC: Locked Chest by Ice Princess | Lockpick OR Key Ring
+	IC: Dark Gem in Cannon Area | NONE
+	IC: Dragon Egg after pole spin after Yetis | Pole Spin AND Glide
+	IC: Dragon Egg behind cannon reinforced wall | NONE
+	IC: Light Gem behind cannon reinforced wall | Glide
+	IC: Light the boiler in room after Cannon Area | Fire Breath
+	IC: Reward for lighting all boilers from Ice Princess | Fire Breath
+	IC: Dark Gem above ice-covered stairs | Charge AND Supercharge
+	IC: Dragon Egg from thief after Dark Gem | Charge AND Supercharge
+
+ICBehindQueen - requires Pole Spin and Electric Breath, connected to nothing
+	have DJ, Water Breath, Wall Kick, Pole Spin, Glide, Electric Breath
+	80 gems (2 rules)
+	IC: Dark Gem after moving electric platform after Yetis | NONE
+
+ICReturnToFV - requires Charge and Supercharge, connected to FVEntry2
+	have DJ, Water Breath, Wall Kick, Charge, Supercharge
+	4,500 gems (1 rule)
+	FV: Light Gem through reinforced door coming from Ice Citadel | NONE
+--------------------------------------------------------------------
+SBEntry - requires access card, connected to SBDoubleJump
+	have nothing
+	3,048 gems (11 rules)
+	SB: Firework next to giant anchor left of Wally's area | Fire Breath
+	SB: Locked Chest in west cove behind hut | Lockpick OR Key Ring
+	SB: Locked Chest in west cove at far end | Lockpick OR Key Ring
+	SB: Firework at far end of west cove | Fire Breath
+	SB: Dragon Egg from thief underneath Moneybags | Charge
+
+SBDoubleJump - requires double jump, connected to SBUpperCave and MMEntry
+	have Double Jump
+	3,994 gems (5 rules)
+	SB: Light Gem in west cove in high up shipwreck | NONE
+	SB: Locked Chest by Wally | Lockpick OR Key Ring
+	SB: Dragon Egg from Wally | NONE
+	SB: Light Gem from Wally | NONE
+	SB: Locked Chest after entering northern tunnel from start | Lockpick OR Key Ring
+	SB: Firework next to hut in moving platforms room | Fire Breath
+	SB: Dark Gem at entrance to volcano | NONE
+
+SBUpperCave - requires Wall Kick and Glide, connected to nothing
+	have Double Jump, Wall Kick, Glide
+	100 gems (2 rules)
+	SB: Locked Chest after oscilating platforms challenge | Lockpick OR Key Ring
+----------------------------------------------------------------------
+MMEntry - requires Glide, connected to MMWaterIce
+	have Double Jump, Glide
+	2,622 gems (4 rules)
+	MM: Firework on log at start of level | Fire Breath
+
+MMWaterIce - requires Water or Ice Breath, connected to MMPoleSpin
+	have Double Jump, Glide, (Water OR Ice Breath)
+	3,120 gems (6 rules)
+	MM: Dark Gem after Rock Monsters | NONE
+	MM: Reward from Teena | Charge
+	MM: Dragon Egg across Imp platforms | NONE
+	MM: Dragon Egg from Sgt. Byrd | NONE
+	MM: Light Gem from Sgt. Byrd | NONE
+	MM: Locked Chest next to Sgt. Byrd | Lockpick OR Key Ring
+	MM: Light Gem in wall-geyser room | NONE
+
+MMPoleSpin - requires Pole Spin, connected to MFtEntry
+	have Double Jump, Glide, (Water OR Ice Breath), Pole Spin
+	6,431 gems (5 rules)
+	MM: Light Gem on distant platform beyond Collapsed Bridge | NONE
+	MM: Dark Gem before lava fall | NONE
+	MM: Light Gem after timed platform challenge | NONE
+	MM: Locked Chest behind breakable wall after swinging axes | Charge AND (Lockpick OR Key Ring)
+	MM: Dragon Egg from thief | Charge
+	MM: Locked Chest in thief room | Lockpick OR Key Ring
+	MM: Locked Chest behind breakable wall before falling rocks | Charge AND (Lockpick OR Key Ring)
+	MM: Dark Gem before Magma Falls elevator | NONE
+---------------------------------------------------------------------
+MFtEntry - requires Wall Kick, connected to MFBallGadget
+	have Double Jump, Glide, (Water OR Ice Breath), Pole Spin, Wall Kick
+	1,600 gems (7 rules)
+	MFt: Light Gem in wall kick room | NONE
+	MFt: Firework atop wall kick room | Fire Breath
+	MFt: Locked Chest behind breakable wall behind Moneybags | Charge AND (Lockpick OR Key Ring)
+	MFt: Locked Chest above narrow platforms | Lockpick OR Key Ring
+
+MFBallGadget - requires Ball Gadget, connected to MFbEntry
+	have Double Jump, Glide, (Water OR Ice Breath), Pole Spin, Wall Kick, Ball Gadget
+	447 gems (1 rule)
+	MFt: Dragon Egg 1 in Ball Gadget | NONE
+	MFt: Light Gem 1 in Ball Gadget | NONE
+	MFt: Dragon Egg 2 in Ball Gadget | NONE
+	MFt: Light Gem 2 in Ball Gadget | NONE
+
+MFbEntry - requires nothing, connected to DMEntry
+	have Double Jump, Glide, (Water OR Ice Breath), Pole Spin, Wall Kick, Ball Gadget
+	3,986 gems (4 rules)
+	MFb: Dark Gem above wall kick | NONE
+	MFb: Locked Chest after Fire Geysers | Lockpick OR Key Ring
+	MFb: Light Gem after Fire Wizard's Imps | NONE
+	MFb: Dragon Egg from Sparx | NONE
+	MFb: Light Gem from Sparx | NONE
+	MFb: Dragon Egg from thief behind breakable wall | Charge
+--------------------------------------------------------------------------------------
+DMEntry - requires nothing, connected to DMLGDoor and DMCharge
+	have Double Jump, Glide, (Water OR Ice Breath), Pole Spin, Wall Kick, Ball Gadget
+	1,125 gems (5 rules)
+	DM: Locked Chest near Light Gem Door | Lockpick OR Key Ring
+	DM: Locked Chest nearby Smasher Bots | Lockpick OR Key Ring
+
+DMLGDoor - requires Light Gems, connected to nothing
+	have Double Jump, Glide, (Water OR Ice Breath), Pole Spin, Wall Kick, Ball Gadget
+	995 gems (3 rules)
+	DM: Light Gem in Acid Pool beyond Light Gem Door | Invincibility AND Swim
+	DM: Dragon Egg in Acid Pool beyond Light Gem Door | Invincibility AND Swim
+
+DMCharge - requires Charge, connected to DMElectric
+	have Double Jump, Glide, (Water OR Ice Breath), Pole Spin, Wall Kick, Ball Gadget, Charge
+	2,140 gems (4 rules)
+	DM: Locked Chest glide from atop piston Wall Kick wall | NONE
+	DM: Firework at start of piston Wall Kick room | Fire Breath
+	DM: Light Gem over wall across from piston Wall Kick wall | NONE
+
+DMElectric - requires Electric Breath, connected to DMIce
+	have Double Jump, Glide, (Water OR Ice Breath), Pole Spin, Wall Kick, Ball Gadget, Charge, Electric Breath
+	13,460 gems (1 rule)
+	DM: Caged Dark Gem in laser turret room | NONE
+	DM: Dragon Egg from Blink | NONE
+	DM: Light Gem from Blink | NONE
+	DM: Dragon Egg below walkway after elevator | NONE
+
+DMIce - requires Ice Breath, connected to RLEntry
+	have Double Jump, Glide, Ice Breath, Pole Spin, Wall Kick, Ball Gadget, Charge, Electric Breath
+	2,431 gems (2 rules)
+	DM: Light Gem at bottom of trapdoor ice pole platforming challenge | NONE
+	DM: Firework at bottom of trapdoor ice pole platforming challenge | Fire Breath
+	DM: Dragon Egg next to Moneybags in seesaw platform room | NONE
+	DM: Light Gem in room with rotating spin poles | NONE
+	DM: Dark Gem in room with rotating spin poles | NONE
+--------------------------------------------------------------------------
+RLEntry - requires nothing, connected to RLSouthEast, RLNorthWest, RLNorthEast, and RLSouthWest
+	have Double Jump, Glide, Ice Breath, Pole Spin, Wall Kick, Ball Gadget, Charge, Electric Breath
+	1,083 gems (1 rule)
+	RL: Locked Chest after pole spin puzzle in starting area | Lockpick OR Key Ring
+	RL: Locked Chest above 4 charge switches | Lockpick OR Key Ring
+	RL: Dragon Egg from thief in hub area | NONE
+
+RLSouthEast - requires nothing, connected to nothing
+	have Double Jump, Glide, Ice Breath, Pole Spin, Wall Kick, Ball Gadget, Charge, Electric Breath
+	750 gems (2 rules)
+	RL: Light Gem after pole spin in SE section | NONE
+	RL: Dark Gem in sealed chamber after laser parkour in SE section | NONE
+	RL: Light Gem above boiler elevator in SE section | Fire Breath
+	RL: Dragon Egg behind lasers in SE section | Fire Breath
+
+RLNorthWest - requires nothing, connected to nothing
+	have Double Jump, Glide, Ice Breath, Pole Spin, Wall Kick, Ball Gadget, Charge, Electric Breath
+	1,119 gems (1 rule)
+	RL: Dragon Egg in piston room NW section | NONE
+	RL: Light Gem after laser parkour in NW section | NONE
+	RL: Light Gem after pole spin by Dark Gem in NW section | NONE
+	RL: Dark Gem in sealed chamber in NW section | NONE
+
+RLNorthEast - requires nothing, connected to nothing
+	have Double Jump, Glide, Ice Breath, Pole Spin, Wall Kick, Ball Gadget, Charge, Electric Breath
+	715 gems (2 rules)
+	RL: Light Gem after metal press machine in NE section | Invincibility
+	RL: Dark Gem guarded by Staff Robo-Gnorcs in NE section | NONE
+
+RLSouthWest - requires nothing, connected to nothing
+	have Double Jump, Glide, Ice Breath, Pole Spin, Wall Kick, Ball Gadget, Charge, Electric Breath
+	140 gems (1 rule)
+	RL: Defeat Mecha-Red | Fire Breath
+

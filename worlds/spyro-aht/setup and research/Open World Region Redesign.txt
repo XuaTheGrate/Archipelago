@@ -1,0 +1,196 @@
+example json format
+
+"DragonVillageDJ"
+{
+	"name": "DragonVillageDJ",
+	"connections":
+	[
+		{
+			"name": "DragonVillageEntry",
+			"access_rule":
+			{
+				rule here ("True_")
+			}
+		},
+		{
+			"name": "DragonVillageGlide",
+			"access_rule":
+			{
+				rule here ("Glide")
+			}
+		},
+		{
+			"name": "DragonVillageCharge",
+			"access_rule":
+			{
+				rule here ("Charge")
+			}
+		}
+	],
+	"locations":
+	[
+		{ location 1 },
+		{ location 2 }
+	],
+	"gems":
+	[
+		{ gem 1 },
+		{ gem 2 }
+	]
+}
+
+Dragon Village
+--------------
+DragonVillageEntry:
+	areas: vanilla spawn, ember pre-bridge, elder pre-dj
+	connected to DragonVillageDJ (requires DJ)
+	connected to DragonVillageToCroc (requires DJ)
+	connected to DragonVillageGnastyCave (requires boss lair rule)
+
+DragonVillageDepotShop
+	shop region
+	connected to DragonVillageEntry (requires shop enabled)
+
+DragonVillageDJ:
+	areas: double jump ledge and lower byrd area, hunter until end of middle cave (ends with charge blocker)
+	connected to DragonVillageEntry (requires nothing)
+	connected to DragonVillageGlide (requires glide)
+	connected to DragonVillageCharge (requires charge)
+
+DragonVillageToCroc:
+	areas: ember post-bridge
+	connected to CrocovileEntry (requires nothing)
+
+DragonVillageGlide:
+	areas: hunter after cave until his gate (ends with hunter gate blocker if coming backwards)
+
+DragonVillageBallGadget:
+	areas: post-hunter and nursery (ends with ball gadget blocker)
+
+DragonVillageCharge:
+	areas: upper byrd area and lab path (ends with no blocker)
+
+DragonVillageGnastyCave:
+	areas: gnasty cave
+	connected to DragonVillageEntry (requires nothing)
+
+Crocovile Swamp
+---------------
+CrocovileEntry:
+	areas: after moving platform and pyramid area
+		has Perilous Pyramid shop
+	connected to DragonVillageToCroc (requires double jump)
+	connected to CrocovileWestOfPyramid (requires double jump)
+
+CrocovilePyramidShop
+	shop region
+	connected to CrocovileEntry (requires shop enabled)
+
+CrocovileWestofPyramid
+	areas: west of pyramid stuff above dark gem
+	connected to nothing
+
+CrocovileOutsideTemple
+	areas: outside of temple AND tunnel leading up to the chargeable wall (but not past the drop-off)
+		has Forgotten Temple shop
+	connected to CrocovileInsideTemple (requires double jump)
+	connected to CrocovileBlink1 (requires nothing)
+
+CrocovileTempleShop
+	shop region
+	connected to CrocovileOutsideTemple (requires shop enabled)
+
+CrocovileInsideTemple
+	areas: inside temple
+	connected to nothing
+
+CrocovileEast
+	areas: after the drop-off next to the chargeable wall, up through to the first set of poles
+	connected to CrocovileOutsideTemple (requires double jump)
+	connected to CrocovileOutsideTree (requires double jump)
+	connected to CrocovilePoles1 (requires pole spin)
+
+CrocovilePoles1
+	areas: cave above first set of poles
+	connected to CrocovileEast (requires nothing)
+	connected to CrocovileOutsideTree (requires nothing)
+
+CrocovileOutsideTree
+	areas: near blink and outside elder magnus tree
+		has Elder's Tree shop
+	connected to CrocovileEast (requires double jump)
+	connected to CrocovilePoles2 (requires pole spin)
+	connected to CrocovileFredneck (requires pole spin)
+	connected to CrocovileInsideTree1 (requires double jump)
+
+CrocovileElderTreeShop
+	shop region
+	connected to CrocovileOutsideTree (requires shop enabled)
+
+CrocovileInsideTree1
+	areas: inside tree on ground (just the Magnus check)
+	connected to CrocovileInsideTree2 (requires pole spin)
+
+CrocovileInsideTree2
+	areas: everything above pole spins in Magnus tree
+	connected to nothing
+
+CrocovilePoles2
+	areas: poles outside elder tree
+	connected to nothing
+
+CrocovilePoles3
+	areas: poles above blink leading to dark gem
+	connected to CrocovileFredneck (requires double jump)
+
+CrocovileFredneck
+	areas: fredneck and the lily pads back to pyramid
+	connected to CrocovileEntry (requires glide)
+
+Dragonfly Falls
+---------------
+
+
+Coastal Remains
+---------------
+
+
+Cloudy Domain
+-------------
+
+
+Sunken Ruins
+------------
+
+
+Frostbite Village
+-----------------
+
+
+Gloomy Glacier
+--------------
+
+
+Ice Citadel
+-----------
+
+
+Stormy Beach
+------------
+
+
+Molten Mount
+------------
+
+
+Magma Falls
+-----------
+
+
+Dark Mine
+---------
+
+
+Red's Lab
+---------
+

@@ -4,19 +4,20 @@ from Options import OptionSet, PerGameCommonOptions, Toggle, Choice, Range, Opti
 
 class RandomizeMinigames(OptionSet):
     """Whether to enable randomized locations for each type of mini-game.
-    If a type of mini-game is excluded here, all 8 instances of it will reward their vanilla Dragon Eggs and Light Gems.
+    If a type of mini-game is taken out of this list, they will still be Archipelago
+    locations, but will award their vanilla Dragon Eggs and Light Gems.
 
     Valid options: ["Sgt. Byrd", "Blink", "Turret", "Sparx"]
     """
     display_name = "Randomize Minigames"
     valid_keys = ("Sgt. Byrd", "Blink", "Turret", "Sparx")
-    default = ()
+    default = ("Sgt. Byrd", "Blink", "Turret", "Sparx")
 
 
 class HintMinigameRewards(Toggle):
     """Whether to auto-hint a mini-game's reward when talking to its NPC."""
     display_name = "Hint Mini Game Rewards"
-    default = 1
+    default = 0
 
 
 class HintBossRewards(Toggle):
@@ -27,10 +28,12 @@ class HintBossRewards(Toggle):
 
 class RandomizeBreath(Choice):
     """Determines breath starting behavior.
+    "Starter Check: Breath" will either give your starting breath,
+    or a random other item, depending on what you choose here.
     
     default: Start with fire breath.
     random: Start with a random breath.
-    none: Start with no breath. Adds a starting check.
+    none: Start with no breath.
     """
     display_name = "Starting Breath"
     option_default = 0
@@ -40,6 +43,7 @@ class RandomizeBreath(Choice):
 
 class RandomizeMovement(Toggle):
     """Whether to randomize the ability to glide, swim, and charge.
+    If not randomized, your 3 movement starter checks will award these abilities.
     If you don't want to randomize a subset of these, add them to your start inventory."""
     display_name = "Randomize Movement"
     default = 0
@@ -182,7 +186,7 @@ class GadgetCostMax(Range):
 
 class RealmAccess(Choice):
     """Whether to allow access to all realms at all times or to shuffle "Access Card" items into the world.
-    Setting this to 'always' disables the locations for defeating each boss, as they would normally reward
+    Setting this to 'always' disables the checks for defeating each boss, as they would normally reward
     realm access. Breath rewards from bosses stays enabled.
     """
     display_name = "Realm Access"
@@ -192,7 +196,7 @@ class RealmAccess(Choice):
 
 
 class StartingRealm(Choice):
-    """Determines which realm you will start in, or make it random."""
+    """Determines which realm you will start in, or to have it randomly chosen."""
     default = 0
     display_name = "Starting Realm"
     option_dragon_village = 0
@@ -231,7 +235,7 @@ class SkipCutscenes(Toggle):
 class SkipElevators(Toggle):
     """Enable a patch to skip the long elevator waits to Cloudy Domain, Sunken Ruins and Magma Falls"""
     display_name = "Skip Elevators"
-    default = 1
+    default = 0
 
 
 class DeathLink(Choice):

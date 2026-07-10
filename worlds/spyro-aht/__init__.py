@@ -496,6 +496,30 @@ class SuperchargeGadget(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
     def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
         return Has("Light Gem", world._gadget_costs[2]).resolve(world)
 
+@dataclass
+class LockedChestRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
+    level: int
+
+    @override
+    def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
+        if world.options.randomize_shop_items.value == 1:
+            if world.options.key_rings.value == 1:
+                return Has(f"{self.level} Key Ring", 1).resolve(world)
+            else:
+                return Has(f"Lockpick", 52).resolve(world)
+        else:  # always true when shops are unrandomized
+            return True_().resolve(world)
+
+@dataclass
+class RealmAccessRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
+    realm: int
+
+    @override
+    def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
+        if world.options.realm_access.value != 0:
+            return Has(f"{self.realm} Access Card", 1).resolve(world)
+        else:
+            return True_().resolve(world)
 
 def _run_client(*args: str):
     import colorama

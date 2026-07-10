@@ -27,6 +27,7 @@ def rule_from_dict(d: dict) -> 'Rule':
         case 'BallGadget': return BallGadget(**d)
         case 'InvincibilityGadget': return InvincibilityGadget(**d)
         case 'SuperchargeGadget': return SuperchargeGadget(**d)
+        case 'LockedChestRule': return LockedChestRule(**d)
         case _: raise TypeError(d['rule'])
 
 
@@ -102,3 +103,20 @@ class InvincibilityGadget(Rule):
 class SuperchargeGadget(Rule):
     def resolve(self, slot_data: dict[str, Any], items: dict[str, int]) -> bool:
         return self.can_resolve(slot_data) and items.get("Light Gem", 0) >= slot_data["gadget_costs"][2]
+
+class LockedChestRule(Rule):
+    def resolve(self, slot_data: dict[str, Any], items: dict[str, int]) -> bool:
+        if slot_data["randomize_shop_items"]:
+            if slot_data["key_rings"]:
+                return self.can_resolve(slot_data) and items.get(f"{self.args['level']} Key Ring", 1)
+            else:
+                return self.can_resolve(slot_data) and items.get("Lockpick", 52)
+        else:
+            return True
+
+class RealmAccessRule(Rule):
+    def resolve(self, slot_data: dict[str, Any], items: dict[str, int]) -> bool:
+        if slot_data["realm_access"] != 0:
+            return self.can_resolve(slot_data) and items.get(f"{self.args['realm']} Access Card", 1)
+        else:
+            return True
