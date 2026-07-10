@@ -28,6 +28,7 @@ def rule_from_dict(d: dict) -> 'Rule':
         case 'InvincibilityGadget': return InvincibilityGadget(**d)
         case 'SuperchargeGadget': return SuperchargeGadget(**d)
         case 'LockedChestRule': return LockedChestRule(**d)
+        case 'RealmAccessRule': return RealmAccessRule(**d)
         case _: raise TypeError(d['rule'])
 
 

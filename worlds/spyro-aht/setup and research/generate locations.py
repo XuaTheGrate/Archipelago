@@ -14,7 +14,7 @@ def handle_lgdoors_bosses(the_rule):
         "options": [],
         "filtered_resolution": "false",
         "args": {
-            "index": the_rule[-1]
+            "index": int(the_rule[-1])
         }
     }
 
@@ -50,7 +50,7 @@ def handle_single_loc_rule(the_name, the_id, the_rule, the_option):
         "name": the_name,
         "id": the_id,
         "access_rule": the_rule,
-        "options": the_option  # currently only if firework
+        "options": the_option
     }
 
 def handle_mult_loc_rules(the_rules, the_sep, the_name, the_id, the_option):
@@ -214,7 +214,7 @@ for line in file_in:
                 "options": option,
                 "access_rule": {
                     "rule": sep,
-                    "options": option,
+                    "options": [],
                     "filtered_resolution": "false",
                     "children": loc_rules
                 }

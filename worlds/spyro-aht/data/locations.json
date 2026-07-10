@@ -1155,7 +1155,7 @@
             "options": [],
             "filtered_resolution": false,
             "args": {
-                "index": "0"
+                "index": 0
             }
         },
         "locations": [
@@ -1651,7 +1651,7 @@
                     "options": [],
                     "filtered_resolution": false,
                     "args": {
-                        "level": "CrocovileSwamp"
+                        "level": "Crocovile Swamp"
                     }
                 }
             },
@@ -1845,12 +1845,7 @@
                 ],
                 "access_rule": {
                     "rule": "And",
-                    "options": [
-                        {
-                            "option": "randomize_fireworks",
-                            "value": 1
-                        }
-                    ],
+                    "options": [],
                     "filtered_resolution": false,
                     "children": [
                         {
@@ -2194,7 +2189,7 @@
             "options": [],
             "filtered_resolution": false,
             "args": {
-                "index": "0"
+                "index": 0
             }
         },
         "locations": [
@@ -2389,7 +2384,7 @@
             "options": [],
             "filtered_resolution": false,
             "args": {
-                "index": "1"
+                "index": 1
             }
         },
         "locations": [
@@ -2625,7 +2620,7 @@
             "options": [],
             "filtered_resolution": false,
             "args": {
-                "index": "1"
+                "index": 1
             }
         },
         "locations": [
@@ -3129,12 +3124,7 @@
                 ],
                 "access_rule": {
                     "rule": "And",
-                    "options": [
-                        {
-                            "option": "randomize_fireworks",
-                            "value": 1
-                        }
-                    ],
+                    "options": [],
                     "filtered_resolution": false,
                     "children": [
                         {
@@ -3733,7 +3723,7 @@
             "options": [],
             "filtered_resolution": false,
             "args": {
-                "index": "2"
+                "index": 2
             }
         },
         "locations": [
@@ -4601,7 +4591,7 @@
             "options": [],
             "filtered_resolution": false,
             "args": {
-                "index": "2"
+                "index": 2
             }
         },
         "locations": [
@@ -5485,7 +5475,7 @@
             "options": [],
             "filtered_resolution": false,
             "args": {
-                "index": "3"
+                "index": 3
             }
         },
         "locations": [
@@ -5971,7 +5961,7 @@
             "options": [],
             "filtered_resolution": false,
             "args": {
-                "index": "3"
+                "index": 3
             }
         },
         "locations": [

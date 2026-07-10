@@ -1,13 +1,3 @@
-Back End Improvements
-
-[
-	{
-		"option": "realm_access",
-		"value": 0,
-		"operator": "ne"
-	}
-]
-
 START - requires nothing, connected to DVEntry, CREntry, FVEntry, and SBEntry
 	have nothing
 	0 gems (0 rules)

@@ -282,31 +282,31 @@ class SpyroAHTWorld(World):
                 self.multiworld.completion_condition[self.player] = lambda state: state.has_all(("VictoryCon1", "VictoryCon2", "VictoryCon3", "VictoryCon4"), self.player)
         match self.options.goal.value:
             case 0:
-                self.get_region("DragonVillageGnastysCave").add_event("DragonVillageDefeatGnasty", "Victory", rule=(
+                self.get_region("DVGnastyCave").add_event("DVDefeatGnasty", "Victory", rule=(
                     Has("Fire Breath", options=[OptionFilter(RandomizeBreath, 0, "ne")]) |
                     Has("Charge", options=[OptionFilter(RandomizeMovement, 1)]) |
                     True_(options=[OptionFilter(RandomizeBreath, 0), OptionFilter(RandomizeMovement, 0)])
                 ))
             case 1:
-                self.get_region("CoastalRemainsWateryTomb").add_event("CoastalRemainsDefeatIneptune", "Victory", rule=True_())
+                self.get_region("CRWateryTomb").add_event("CRDefeatIneptune", "Victory", rule=True_())
             case 2:
-                self.get_region("FrostbiteVillageRedsChamber").add_event("FrostbiteVillageDefeatRed", "Victory", rule=True_())
+                self.get_region("FVRedChamber").add_event("FVDefeatRed", "Victory", rule=True_())
             case 3:
-                self.get_region("RedsLaboratory").add_event("Red's Laboratory: Defeat Mecha-Red", "Victory", rule=(
+                self.get_region("RLMechaRed").add_event("RLDefeatMechaRed", "Victory", rule=(
                     BossLairRule(3) & (
                         Has("Fire Breath", options=[OptionFilter(RandomizeBreath, 0, "ne")]) |
                         True_(options=[OptionFilter(RandomizeBreath, 0)])
                     )
                 ))
             case 4:
-                self.get_region("DragonVillageGnastysCave").add_event("DragonVillageDefeatGnasty", "VictoryCon1", rule=(
+                self.get_region("DVGnastyCave").add_event("DVDefeatGnasty", "VictoryCon1", rule=(
                     Has("Fire Breath", options=[OptionFilter(RandomizeBreath, 0, "ne")]) |
                     Has("Charge", options=[OptionFilter(RandomizeMovement, 1)]) |
                     True_(options=[OptionFilter(RandomizeBreath, 0), OptionFilter(RandomizeMovement, 0)])
                 ))
-                self.get_region("CoastalRemainsWateryTomb").add_event("CoastalRemainsDefeatIneptune", "VictoryCon2", rule=True_())
-                self.get_region("FrostbiteVillageRedsChamber").add_event("FrostbiteVillageDefeatRed", "VictoryCon3", rule=True_())
-                self.get_region("RedsLaboratory").add_event("Red's Laboratory: Defeat Mecha-Red", "VictoryCon4", rule=(
+                self.get_region("CRWateryTomb").add_event("CRDefeatIneptune", "VictoryCon2", rule=True_())
+                self.get_region("FVRedChamber").add_event("FVDefeatRed", "VictoryCon3", rule=True_())
+                self.get_region("RLMechaRed").add_event("RLDefeatMechaRed", "VictoryCon4", rule=(
                     BossLairRule(3) & (
                         Has("Fire Breath", options=[OptionFilter(RandomizeBreath, 0, "ne")]) |
                         True_(options=[OptionFilter(RandomizeBreath, 0)])
