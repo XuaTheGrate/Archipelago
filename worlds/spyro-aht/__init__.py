@@ -328,12 +328,11 @@ class SpyroAHTWorld(World):
         itempool = []
 
         minigames = 0
-
-        for minigame, npc in zip(["Sgt. Byrd", "Blink", "Sparx", "Turret"], [SGT_BYRD, BLINK, SPARX, TURRET]):
-            if minigame in self.options.randomize_minigames.value:
-                for d, l in npc:
-                    self.get_location(d).place_locked_item(self.create_item("Dragon Egg"))
-                    self.get_location(l).place_locked_item(self.create_item("Light Gem"))
+        for npc, npc_list in zip(["Sgt. Byrd", "Blink", "Sparx", "Turret"], [SGT_BYRD, BLINK, SPARX, TURRET]):
+            if npc not in self.options.randomize_minigames.value:
+                for egg, breath_loc in npc_list:
+                    self.get_location(egg).place_locked_item(self.create_item("Dragon Egg"))
+                    self.get_location(breath_loc).place_locked_item(self.create_item("Light Gem"))
                 minigames += 4
 
         if self.options.randomize_fireworks.value == 1:
@@ -346,18 +345,14 @@ class SpyroAHTWorld(World):
             self._starting_breath = self.random.randint(0, 3)
         else:
             self._starting_breath = -1
-        
-        l = self.get_location("Starter Checks: Breath")
+
+        breath_loc = self.get_location("Starter Checks: Breath")
         match self._starting_breath:
-            case 0:
-                l.place_locked_item(self.create_item("Fire Breath"))
-            case 1:
-                l.place_locked_item(self.create_item("Electric Breath"))
-            case 2:
-                l.place_locked_item(self.create_item("Water Breath"))
-            case 3:
-                l.place_locked_item(self.create_item("Ice Breath"))
-        
+            case 0: breath_loc.place_locked_item(self.create_item("Fire Breath"))
+            case 1: breath_loc.place_locked_item(self.create_item("Electric Breath"))
+            case 2: breath_loc.place_locked_item(self.create_item("Water Breath"))
+            case 3: breath_loc.place_locked_item(self.create_item("Ice Breath"))
+
         if self.options.randomize_movement.value == 0:
             self.get_location("Starter Checks: Swim").place_locked_item(self.create_item("Swim"))
             self.get_location("Starter Checks: Charge").place_locked_item(self.create_item("Charge"))
@@ -373,15 +368,15 @@ class SpyroAHTWorld(World):
                 case "Ice Breath": add = self._starting_breath != 3
                 case "Glide" | "Charge" | "Swim": add = self.options.randomize_movement.value == 1
 
-            for options in item.get("option", ()):
-                option = getattr(self.options, options['option'])
-                match options.get('operator', 'eq'):
-                    case 'eq': add = add and option.value == options['value']
-                    case 'ne': add = add and option.value != options['value']
-                    case 'gt': add = add and option.value > options['value']
-                    case 'ge': add = add and option.value >= options['value']
-                    case 'lt': add = add and option.value < options['value']
-                    case 'le': add = add and option.value <= options['value']
+            for curr_option in item.get("option", ()):
+                option = getattr(self.options, curr_option['option'])
+                match curr_option.get('operator', 'eq'):
+                    case 'eq': add = add and option.value == curr_option['value']
+                    case 'ne': add = add and option.value != curr_option['value']
+                    case 'gt': add = add and option.value > curr_option['value']
+                    case 'ge': add = add and option.value >= curr_option['value']
+                    case 'lt': add = add and option.value < curr_option['value']
+                    case 'le': add = add and option.value <= curr_option['value']
 
             if add:
                 count = item.get('count', 1)

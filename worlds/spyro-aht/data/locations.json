@@ -61,7 +61,13 @@
             {
                 "name": "Starter Checks: Starting Realm Access",
                 "id": 999,
-                "options": [],
+                "options": [
+                    {
+                        "option": "realm_access",
+                        "value": 0,
+                        "operator": "ne"
+                    }
+                ],
                 "access_rule": {
                     "rule": "True_",
                     "options": [],
@@ -1203,7 +1209,12 @@
             {
                 "name": "DV: Defeat Gnasty Gnorc",
                 "id": 4000,
-                "options": [],
+                "options": [
+                    {
+                        "option": "realm_access",
+                        "value": 2
+                    }
+                ],
                 "access_rule": {
                     "rule": "Or",
                     "options": [],
@@ -2641,7 +2652,12 @@
             {
                 "name": "CR: Defeat Ineptune",
                 "id": 4001,
-                "options": [],
+                "options": [
+                    {
+                        "option": "realm_access",
+                        "value": 2
+                    }
+                ],
                 "access_rule": {
                     "rule": "Has",
                     "options": [],
@@ -3760,7 +3776,12 @@
             {
                 "name": "FV: Defeat Red",
                 "id": 4002,
-                "options": [],
+                "options": [
+                    {
+                        "option": "realm_access",
+                        "value": 2
+                    }
+                ],
                 "access_rule": {
                     "rule": "And",
                     "options": [],
@@ -6000,7 +6021,12 @@
             {
                 "name": "RL: Defeat Mecha-Red",
                 "id": 4003,
-                "options": [],
+                "options": [
+                    {
+                        "option": "realm_access",
+                        "value": 2
+                    }
+                ],
                 "access_rule": {
                     "rule": "Has",
                     "options": [],

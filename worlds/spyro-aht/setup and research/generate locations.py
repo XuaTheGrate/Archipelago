@@ -158,7 +158,7 @@ for line in file_in:
         split_loc_rule = [r.strip() for r in split_loc_rule]
         loc_rules, option = [], []
 
-        # special case at the location level. Will get appended regardless
+        # special cases at the location level. Will get appended regardless
         if "Firework" in loc_name:
             option.append({
                 "option": "randomize_fireworks",
@@ -174,6 +174,17 @@ for line in file_in:
                     "option": "key_rings",
                     "value": 0
                 })
+        elif "Defeat" in loc_name:
+            option.append({
+                "option": "realm_access",
+                "value": 2
+            })
+        elif "Starting Realm" in loc_name:
+            option.append({
+                "option": "realm_access",
+                "value": 0,
+                "operator": "ne"
+            })
 
 
         for curr_rule in split_loc_rule:
