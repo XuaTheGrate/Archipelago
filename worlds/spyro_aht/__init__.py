@@ -20,7 +20,7 @@ from .options import RandomizeMovement, SpyroAHTOptions, RandomizeBreath, spyro_
 from .client import rules
 
 
-icon_paths['spyro-aht'] = f'ap:{__name__}/icon.png'
+icon_paths['spyro_aht'] = f'ap:{__name__}/icon.png'
 
 
 KEYS = {
@@ -546,4 +546,4 @@ def run_client():
     Process(target=_run_client,name="SpyroAHTClient").start()
 
 from worlds.LauncherComponents import Component, components
-components.append(Component("Spyro AHT Client", func=run_client, icon='spyro-aht'))
+components.append(Component("Spyro AHT Client", func=run_client, icon='spyro_aht'))

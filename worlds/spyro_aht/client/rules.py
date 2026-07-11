@@ -8,11 +8,11 @@ __all__ = ["rule_from_dict", "Rule", "True_", "Has", "Or", "And"]
 
 
 translation = {
-    "worlds.spyro-aht.options.KeyRings": "key_rings",
-    "worlds.spyro-aht.options.RandomizeShopItems": "randomize_shop_items",
-    "worlds.spyro-aht.options.RandomizeMovement": "randomize_movement",
-    "worlds.spyro-aht.options.RealmAccess": "realm_access",
-    "worlds.spyro-aht.options.RandomizeBreath": "randomize_breath"
+    "worlds.spyro_aht.options.KeyRings": "key_rings",
+    "worlds.spyro_aht.options.RandomizeShopItems": "randomize_shop_items",
+    "worlds.spyro_aht.options.RandomizeMovement": "randomize_movement",
+    "worlds.spyro_aht.options.RealmAccess": "realm_access",
+    "worlds.spyro_aht.options.RandomizeBreath": "randomize_breath"
 }
 
 

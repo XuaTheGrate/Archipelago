@@ -26,15 +26,14 @@ class SpyroAHTCommands(ClientCommandProcessor):
         self.ctx.emu_loop = asyncio.create_task(self.ctx._emu_loop())
         return True
 
-    async def _cmd_debug_send(self, location: str) -> bool:
-        await self.ctx.send_msgs([{"cmd": "LocationChecks","locations":[int(location)]}])
-        return True
+    # async def _cmd_debug_send(self, location: str) -> bool:
+    #     await self.ctx.send_msgs([{"cmd": "LocationChecks","locations":[int(location)]}])
+    #     return True
 
     async def _cmd_list_options(self) -> bool:
         # this is grossly repetitive, but it only runs when the player demands it so it's not a big deal
         # even if it was reformatted it'd still be the same amount of output and data lookup, it's just code cleanliness
-        """Displays the options you set for this seed. Data is sourced directly from slot data, so if something doesn't line up here, check your YAML for mistakes.
-        Much of this info is also viewable in-game by pausing and pressing R/L."""
+        """Displays the options you set for this seed. Data is sourced directly from slot data, so if something doesn't line up here, check your YAML for mistakes. Much of this info is also viewable in-game by pausing and pressing R/L."""
 
         self.output("---------------GOAL & BOSSES---------------")
         # goal
