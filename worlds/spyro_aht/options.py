@@ -187,9 +187,9 @@ class GadgetCostMax(Range):
 
 
 class RealmAccess(Choice):
-    """Whether to allow access to all realms at all times or to shuffle "Access Card" items into the world.
-    Setting this to 'always' disables the checks for defeating each boss, as they would normally reward
-    realm access. Breath rewards from bosses stays enabled.
+    """Whether to allow access to all realms at all times or to shuffle realm "Access Card" items into the world.
+    Setting this to 'always' removes the "Defeat <boss name>" checks, as they would normally reward
+    realm access. You still will need to beat any goal-related bosses (and they will still reward their breath checks).
     """
     display_name = "Realm Access"
     option_always = 0

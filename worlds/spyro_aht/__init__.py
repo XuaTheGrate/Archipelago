@@ -151,7 +151,7 @@ class SpyroAHTWorld(World):
     location_name_to_id = _location_name_to_id()
 
     def collect(self, state: "CollectionState", item: "Item") -> bool:
-        """Called when an item is collected in to state. Useful for things such as progressive items or currency."""
+        """Override which does the same base thing but adds a condition to increment the Gems pseudo-item if a gem event."""
         name = self.collect_item(state, item)
         if name:
             state.add_item(name, self.player)
@@ -162,7 +162,7 @@ class SpyroAHTWorld(World):
         return False
 
     def remove(self, state: "CollectionState", item: "Item") -> bool:
-        """Called when an item is removed from to state. Useful for things such as progressive items or currency."""
+        """Override which does the same base thing but adds a condition to decrement the Gems pseudo-item if a gem event."""
         name = self.collect_item(state, item, True)
         if name:
             state.remove_item(name, self.player)
@@ -311,6 +311,13 @@ class SpyroAHTWorld(World):
                         True_(options=[OptionFilter(RandomizeBreath, 0)])
                     )
                 ))
+
+        # set up gem events here
+        # event_name = "test"
+        # item_name = "DVEntry | 150 Gems (behind chargeable wall) | some rule here "
+        # the_rule = item_name.rsplit(" | ", 1)[1]
+        # self.get_region("DVEntry").add_event(event_name, item_name, rule)
+
                 
     def set_rules(self) -> None:
         data = _load_file("locations.json")

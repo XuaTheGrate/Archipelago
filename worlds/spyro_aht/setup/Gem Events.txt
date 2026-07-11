@@ -1,0 +1,40 @@
+DVEntry | 150 Gems (behind chargeable wall near Elder) | Charge
+DVEntry | 300 Gems (dark shards) | Charge Or Double Jump
+DVEntry | 100 Gems (metal chests) | Electric Breath Or Charge Or Double Jump
+DVEntry | 175 Gems (baskets) | Fire Breath Or Electric Breath Or Water Breath Or Ice Breath Or Charge Or Double Jump
+DVEntry | 
+DVDoubleJump | 
+DVDoubleJump | 
+DVDoubleJump | 
+DVDoubleJump | 
+DVGlide | 
+DVGlide | 
+DVGlide | 
+DVGlide | 
+DVGlide | 
+DVCharge | 
+DVCharge | 
+DVCharge | 
+CSEntry | 
+CSEntry | 
+CSEntry | 
+CSEntry | 
+CSEntry | 
+CSEntry | 
+CSEntry | 
+CSEntry | 
+CSPoleSpin | 
+CSPoleSpin | 
+CSPoleSpin | 
+CSPoleSpin | 
+DFEntry | 
+DFEntry | 
+DFEntry | 
+DFEntry | 
+DFEntry | 
+DFEntry | 
+DFEntry | 
+DFLGDoor | 
+DFLGDoor | 
+DFLGDoor | 
+DFLGDoor | 
