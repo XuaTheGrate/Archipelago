@@ -12,7 +12,7 @@ CREntry | Has RealmAccessRule Coastal Remains
 CRDoubleJump | Has Double Jump
 CRLGDoor | Has LGDoorRule 1
 CRGlide | Has Glide
-CRSunkenEntrance | Has Double Jump, Has Pole Spin | And
+CRPoleSpin | Has Double Jump, Has Pole Spin | And
 CRWateryTomb | Has BossLairRule 1
 CDEntry | True_ NONE
 CDCharge | Has Charge

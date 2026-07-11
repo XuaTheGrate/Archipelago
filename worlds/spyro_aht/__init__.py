@@ -11,7 +11,7 @@ from Options import OptionError
 import Utils
 from BaseClasses import Item, ItemClassification, MultiWorld, Region, CollectionState
 from rule_builder.options import OptionFilter
-from rule_builder.rules import Has, Rule, True_
+from rule_builder.rules import Has, Rule, True_, And, Or
 from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import icon_paths
 
@@ -173,6 +173,41 @@ class SpyroAHTWorld(World):
             return True
         return False
 
+    def rule_builder(self, full_rule):
+        or_rules = []
+
+        # have list of every rule that needs to be or'd together
+        # now need to dive into each one and see if any are themselves ones that need to be and'd
+        for rule in full_rule.split(" or "):
+            and_rules = []
+            # if no and, create a singular Has for it and move on
+            if rule.find("and") == -1:
+                if "Invincibility" in rule or "Supercharge" in rule:
+                    or_rules.append(Has("Light Gem", self._gadget_costs[int(rule[-1])]))
+                    continue
+                elif rule == "True_":
+                    or_rules.append(True_())
+                    continue
+                else:
+                    or_rules.append(Has(rule))
+                    continue
+
+            # if there is an and, loop so that all can be gotten
+            for rule2 in rule.split(" and "):
+                if "Invincibility" in rule2 or "Supercharge" in rule2:
+                    and_rules.append(Has("Light Gem", self._gadget_costs[int(rule2[-1])]))
+                elif rule2 == "True_":
+                    and_rules.append(True_())
+                else:
+                    and_rules.append(Has(rule2))
+
+            or_rules.append(And(*and_rules))
+
+        if len(or_rules) == 1:
+            return or_rules[0]
+
+        return Or(*or_rules)
+
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
         multiworld.early_items[player]['Double Jump'] = 1
@@ -313,10 +348,11 @@ class SpyroAHTWorld(World):
                 ))
 
         # set up gem events here
-        # event_name = "test"
-        # item_name = "DVEntry | 150 Gems (behind chargeable wall) | some rule here "
-        # the_rule = item_name.rsplit(" | ", 1)[1]
-        # self.get_region("DVEntry").add_event(event_name, item_name, rule)
+        file_in = open("setup/4 - gem events.txt", "r")
+        for line in file_in:
+            region_name, item_name, event_rule = line.split(" | ")
+            event_name = f"{region_name}: {item_name}"
+            self.get_region(region_name).add_event(event_name, item_name, rule=self.rule_builder(event_rule))
 
                 
     def set_rules(self) -> None:

@@ -2239,7 +2239,7 @@
         "connections": [
             "CRDoubleJump",
             "CRLGDoor",
-            "CRSunkenEntrance",
+            "CRPoleSpin",
             "CRWateryTomb"
         ],
         "access_rule": {
@@ -2499,8 +2499,8 @@
             }
         ]
     },
-    "CRSunkenEntrance": {
-        "name": "CRSunkenEntrance",
+    "CRPoleSpin": {
+        "name": "CRPoleSpin",
         "connections": [
             "SREntry"
         ],
@@ -2615,10 +2615,13 @@
                 "id": 75,
                 "options": [],
                 "access_rule": {
-                    "rule": "True_",
+                    "rule": "Has",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {}
+                    "args": {
+                        "item_name": "Electric Breath",
+                        "count": 1
+                    }
                 }
             }
         ]
@@ -2780,10 +2783,25 @@
                 "id": 85,
                 "options": [],
                 "access_rule": {
-                    "rule": "SuperchargeGadget",
+                    "rule": "And",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {}
+                    "children": [
+                        {
+                            "rule": "SuperchargeGadget",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {}
+                        },
+                        {
+                            "rule": "LockedChestRule",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "level": "Cloudy Domain"
+                            }
+                        }
+                    ]
                 }
             },
             {
@@ -2901,7 +2919,7 @@
                     "options": [],
                     "filtered_resolution": false,
                     "args": {
-                        "item_name": "Fire Breath",
+                        "item_name": "Charge",
                         "count": 1
                     }
                 }
@@ -5608,10 +5626,12 @@
                 "id": 207,
                 "options": [],
                 "access_rule": {
-                    "rule": "True_",
+                    "rule": "LockedChestRule",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {}
+                    "args": {
+                        "level": "Dark Mine"
+                    }
                 }
             },
             {

@@ -1,0 +1,230 @@
+DVEntry | 150 Gems (chargeable wall near Elder) | Charge
+DVEntry | 300 Gems (dark shards) | Charge or Double Jump
+DVEntry | 100 Gems (metal chests) | Electric Breath or Charge or Double Jump
+DVEntry | 175 Gems (baskets) | Fire Breath or Electric Breath or Water Breath or Ice Breath or Charge or Double Jump
+DVEntry | 336 Gems (on the ground) | True_
+DVDoubleJump | 500 Gems (armored chest via firework across the Crocovile bridge) | Fire Breath
+DVDoubleJump | 20 Gems (huge armored gnorc above DJ ledge) |  Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+DVDoubleJump | 20 Gems (huge unarmored gnorc during Hunter glide tutorial) | Fire Breath or Electric Breath or Ice Breath and Charge
+DVDoubleJump | 755 Gems (Byrd minigames) | True_
+DVDoubleJump | 897 Gems (immediates) | True_
+DVGlide | 1000 Gems (armored chests) | Fire Breath
+DVGlide | 60 Gems (armored enemies) | Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+DVGlide | 40 Gems (huge unarmored gnorcs) | Fire Breath or Electric Breath or Ice Breath and Charge
+DVGlide | 20 Gems (unarmored middle gnorc) | Fire Breath or Electric Breath or Charge
+DVGlide | 550 Gems (immediates using glide) | True_
+DVCharge | 310 Gems (immediates using charge) | True_
+DVCharge | 40 Gems (2 gnorc archers) | Fire Breath or Electric Breath or Charge
+DVCharge | 500 Gems (armored chest in Byrd area) | Fire Breath and Glide
+CSEntry | 100 Gems (chargeable gates/walls) | Charge
+CSEntry | 2550 Gems (using supercharge) | Charge and Supercharge2
+CSEntry | 245 Gems (crocoviles in Electric gate of temple) | Electric Breath
+CSEntry | 500 Gems (armored chest in area west of pyramid) | Fire Breath
+CSEntry | 161 Gems (plants & huge unarmored gnorcs) | Fire Breath or Electric Breath or Ice Breath and Charge
+CSEntry | 370 Gems (Crocoviles and Critters) | Fire Breath or Electric Breath or Charge
+CSEntry | 1000 Gems (armored chests on the pyramid) | Glide
+CSEntry | 1806 Gems (Blink minigames) | True_
+CSEntry | 953 Gems (Immediates) | True_
+CSPoleSpin | 500 Gems (armored chest from firework at top of Elder tree) | Fire Breath
+CSPoleSpin | 100 Gems (crocoviles) | Fire Breath or Electric Breath or Charge
+CSPoleSpin | 260 Gems (immediates) | True_
+CSPoleSpin | 500 Gems (armored chest from firework in middle of Elder tree) | Fire Breath and Charge or Fire Breath and Glide
+DFEntry | 1149 Gems (immediates behind chargeable walls) | Charge
+DFEntry | 75 Gems (3 goats) | Fire Breath or Electric Breath
+DFEntry | 100 Gems (huge armored gnorcs) | Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+DFEntry | 55 Gems (plant + huge unarmored gnorcs) | Fire Breath or Electric Breath or Ice Breath and Charge
+DFEntry | 395 Gems (crocoviles + shepherd) | Fire Breath or Electric Breath or Charge
+DFEntry | 3856 Gems (immediates in ball gadget and as Spyro & Hunter) | True_
+DFEntry | 1523 Gems (Sparx minigames) | True_
+DFEntry | 100 Gems (underwater vases in piranha lake) | Swim and Charge
+DFLGDoor | 40 Gems (huge armored gnorcs) | Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+DFLGDoor | 60 Gems (huge unarmored gnorcs) | Fire Breath or Electric Breath or Ice Breath and Charge
+DFLGDoor | 75 Gems (blue monkeys) | Fire Breath or Electric Breath or Charge
+DFLGDoor | 476 Gems (immediates) | True_
+CREntry | 200 Gems (Headbash crates) | Double Jump
+CREntry | 275 Gems (metal crates) | Electric Breath or Charge or Double Jump
+CREntry | 175 Gems (blue crabs) | Electric Breath or Ice Breath and Charge or Charge and Double Jump
+CREntry | 60 Gems (huge armored gnorcs) | Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+CREntry | 20 Gems (huge unarmored gnorc near Otto's pool) | Fire Breath or Electric Breath or Ice Breath and Charge
+CREntry | 590 Gems (various small/middle enemies) | Fire Breath or Electric Breath or Charge
+CREntry | 750 Gems (baskets) | Fire Breath or Electric Breath or Water Breath or Ice Breath or Charge or Double Jump
+CREntry | 722 Gems (on ground) | True_
+CREntry | 650 Gems (underwater stuff including stuff in Otto's Pool) | Swim and Charge
+CRDoubleJump | 50 Gems (pygmies) | Fire Breath or Electric Breath or Charge
+CRDoubleJump | 20 Gems (huge unarmored gnorc in pole spin area by dark gem) | Fire Breath or Electric Breath or Ice Breath and Charge
+CRDoubleJump | 673 Gems (immediates mostly around piranha pool and windmill area) | True_
+CRLGDoor | 50 Gems (headbash crates) | Double Jump
+CRLGDoor | 50 Gems (metal crates) | Electric Breath or Charge or Double Jump
+CRLGDoor | 20 Gems (huge armored gnorcs) | Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+CRLGDoor | 40 Gems (middle enemies) | Fire Breath or Electric Breath or Charge
+CRLGDoor | 125 Gems (baskets) | Fire Breath or Electric Breath or Water Breath or Ice Breath or Charge or Double Jump
+CRLGDoor | 239 Gems (on ground) | True_
+CRLGDoor | 20 Gems (huge armored gnorc) | Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+CRLGDoor | 40 Gems (gnorc archers up high) | Double Jump and Fire Breath or Double Jump and Electric Breath or Double Jump and Charge
+CRLGDoor | 125 Gems (immediates up high) | Double Jump
+CRGlide | 20 Gems (huge armored gnorc) | Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+CRGlide | 2070 Gems (immediates) | True_
+CRGlide | 20 Gems (huge gnorc after Electric platform near cloudy domain) | Electric Breath and Fire Breath and Charge or Electric Breath and Ice Breath and Charge
+CRGlide | 493 Gems (immediates after electric platform near cloudy domain) | Electric Breath
+CRGlide | 1050 Gems (pole spin area stuff by the egg) | Pole Spin
+CRPoleSpin | 20 Gems (huge armored gnorc) | Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+CRPoleSpin | 40 Gems (huge unarmored gnorcs) | Fire Breath or Electric Breath or Ice Breath and Charge
+CRPoleSpin | 200 Gems (gnorc archers + pygmies) | Fire Breath or Electric Breath or Charge
+CRPoleSpin | 1499 Gems (immediates and stuff in otto's pool once filled) | True_
+CRPoleSpin | 2165 Gems (Blink minigames) | True_
+CRPoleSpin | 275 Gems (underwater near sunken ruins entrance) | Swim and Charge
+CRWateryTomb | 100 Gems (orange crabs on the way to Ineptune) | Fire Breath or Electric Breath or Charge
+CDEntry | 125 Gems (flying gnorcs) | Fire Breath or Electric Breath
+CDEntry | 20 Gems (middle armored gnorc) | Charge
+CDEntry | 80 Gems (huge unarmored gnorcs) | Fire Breath or Electric Breath or Ice Breath and Charge
+CDEntry | 507 Gems (immediates) | True_
+CDCharge | 500 Gems (armored chest before light gem) | Fire Breath
+CDCharge | 125 Gems (flying gnorcs) | Fire Breath or Electric Breath
+CDCharge | 20 Gems (huge armored gnorc) | Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+CDCharge | 20 Gems (huge unarmored gnorc) | Fire Breath or Electric Breath or Ice Breath and Charge
+CDCharge | 730 Gems (immediates) | True_
+CDCharge | 1575 Gems (supercharge stuff ) | Supercharge2
+CDWingShield | 475 Gems (flying gnorcs) | Fire Breath or Electric Breath
+CDWingShield | 40 Gems (huge unarmored gnorcs) | Fire Breath or Electric Breath or Ice Breath and Charge
+CDWingShield | 400 Gems (Byrd minigames) | True_
+CDWingShield | 1225 Gems (immediates) | True_
+CDBallGadget | 815 Gems (Ball Gadget) | True_
+CDBallGadget | 500 Gems (armored chest from firework after ball gadget) | Fire Breath
+SREntry | 240 Gems (immediates) | True_
+SREntry | 125 Gems (critters and mer-gnorcs) | Fire Breath or Electric Breath or Charge
+SRSwim | 475 Gems (underwater breakable stuff) | Charge
+SRSwim | 50 Gems (blue crabs after second swim) | Electric Breath or Ice Breath and Charge or Charge and Double Jump
+SRSwim | 125 Gems (mer-gnorc and critters) | Fire Breath or Electric Breath or Charge
+SRSwim | 2148 Gems (Sparx minigames) | True_
+SRSwim | 2588 Gems (immediates) | True_
+SRSwim | 1500 Gems (armored chests above whirlwinds) | Glide and Fire Breath
+SRSwim | 397 Gems (immediates above whirlwinds) | Glide
+SRSwim | 50 Gems (near light gem via invincibility swim) | Invincibility1
+SRWallKick | 1500 Gems (firework above invincibility wall kick) | Fire Breath
+SRWallKick | 50 Gems (mer-gnorcs above invincibility wall kick) | Fire Breath or Electric Breath or Charge
+SRElectric | 606 Gems (immediates) | True_
+SRElectric | 150 Gems (dark shards above invincibility gadget) | Glide
+SRInvincibility | 2241 Gems (immediates) | True_
+SRInvincibility | 1500 Gems (armored chests from firework after dark gem above invincibility) | Fire Breath
+SRGlide | 900 Gems (immediates) | True_
+FVEntry | 25 Gems (baskets) | Fire Breath or Electric Breath or Water Breath or Ice Breath or Charge or Double Jump
+FVEntry | 80 Gems (headbash) | Double Jump
+FVElectric | 415 Gems (immediates) | True_
+FVElectric | 130 Gems (near light gem after floating platform) | Water Breath and Double Jump
+FVElectric | 25 Gems (eskimole under snowman) | Double Jump
+FVDoubleJump | 100 Gems (huge armored gnorcs) | Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+FVDoubleJump | 40 Gems (middle armored gnorcs) | Charge
+FVDoubleJump | 230 Gems (eskimoles and middle unarmored gnorcs) | Fire Breath or Electric Breath or Charge
+FVDoubleJump | 50 Gems (baskets on ice you can't double jump to break) | Fire Breath or Electric Breath or Water Breath or Ice Breath or Charge
+FVDoubleJump | 3837 Gems (Blink minigames) | True_
+FVDoubleJump | 1036 Gems (immediates) | True_
+FVWallKick | 20 Gems (huge armored gnorc) | Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+FVWallKick | 20 Gems (middle unarmored gnorc) | Fire Breath or Electric Breath or Charge
+FVWallKick | 271 Gems (immediates) | True_
+FVWallKick | 11 Gems (behind chargeable wall) | Charge
+FVWallKick | 25 Gems (eskimole on small platform) | Glide and Fire Breath or Glide and Electric Breath or Glide and Charge
+FVWallKick | 630 Gems (immediates beyond the breakable cannon ball thing) | Glide
+GGEntry | 2218 Gems (Sparx minigames) | True_
+GGEntry | 3413 Gems (everything in Gloomy Glacier) | True_
+ICEntry | 80 Gems (middle armored gnorcs) | Charge
+ICEntry | 200 Gems (steel traps) | Electric Breath or Ice Breath and Charge
+ICEntry | 1525 Gems (firework chest + 3 armored chests) | Fire Breath
+ICEntry | 20 Gems (huge armored gnorc) | Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+ICEntry | 180 Gems (middle unarmored gnorcs + archers) | Fire Breath or Electric Breath or Charge
+ICEntry | 75 Gems (3 baskets you can't double jump to reliably break) | Fire Breath or Electric Breath or Water Breath or Ice Breath or Charge
+ICEntry | 1073 Gems (immediates) | True_
+ICWater | 400 Gems (steel traps) | Electric Breath or Ice Breath and Charge
+ICWater | 20 Gems (huge armored gnorcs) | Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+ICWater | 45 Gems (middle armored gnorcs + headbash behind chargeable wall) | Charge
+ICWater | 60 Gems (yeti + middle unarmored gnorcs) | Fire Breath or Electric Breath or Charge
+ICWater | 683 Gems (immediates) | True_
+ICWallKick | 225 Gems (steel traps) | Electric Breath or Ice Breath and Charge
+ICWallKick | 50 Gems (firework chest) | Fire Breath
+ICWallKick | 25 Gems (ice monster) | Fire Breath or Electric Breath or Supercharge2
+ICWallKick | 80 Gems (huge armoed gnorcs) | Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+ICWallKick | 20 Gems (huge unarmored gnorc) | Fire Breath or Electric Breath or Ice Breath and Charge
+ICWallKick | 241 Gems (middle enemies + yeti) | Fire Breath or Electric Breath or Charge
+ICWallKick | 1630 Gems (Byrd minigames) | True_
+ICWallKick | 7075 Gems (immediates) | True_
+ICWallKick | 2115 Gems (supercharge stuff) | Charge and Supercharge2
+ICBehindQueen | 20 Gems (huge armored gnorc) | Charge
+ICBehindQueen | 60 Gems (gnorc archers) | True_
+ICReturnToFV | 4500 Gems (armored chests on the way) | True_
+FVEntry2 | 20 Gems (huge armored gnorc) | Fire Breath or Electric Breath or Ice Breath
+FVEntry2 | 1728 Gems (immediates + armored chests) | True_
+FVEastPoles | 40 Gems (huge gnorcs) | Fire Breath or Electric Breath or Ice Breath
+FVLGDoorEntry | 180 Gems (immediates) | True_
+FVLGDoorEntry | 40 Gems (huge gnorcs) | Fire Breath or Electric Breath or Ice Breath
+FVLGDoorEntry | 200 Gems (immediates past pole spin) | Pole Spin
+FVLGDoorGlide | 370 Gems (immediates above ground) | True_
+FVLGDoorGlide | 225 Gems (swim under icy water) | Swim and Invincibility1
+SBEntry | 80 Gems (middle armored gnorcs) | Charge
+SBEntry | 350 Gems (dark shards) | Charge or Double Jump
+SBEntry | 30 Gems (headbash chest) | Double Jump
+SBEntry | 300 Gems (metal chests) | Electric Breath or Charge or Double Jump
+SBEntry | 375 Gems (steel traps) | Electric Breath or Ice Breath and Charge
+SBEntry | 1000 Gems (2 armored chests via firework) | Fire Breath
+SBEntry | 60 Gems (huge armored gnorcs) | Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+SBEntry | 140 Gems (middle unarmored gnorcs) | Fire Breath or Electric Breath or Charge
+SBEntry | 350 Gems (baskets) | Fire Breath or Electric Breath or Water Breath or Ice Breath or Charge or Double Jump
+SBEntry | 263 Gems (on the ground) | True_
+SBEntry | 100 Gems (underwater by realm teleporter) | Swim and Charge
+SBDoubleJump | 20 Gems (middle armored gnorc) | Charge
+SBDoubleJump | 2500 Gems (armored chests) | Fire Breath
+SBDoubleJump | 20 Gems (huge armored gnorc) | Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+SBDoubleJump | 40 Gems (gnorc archers and middle unarmored gnorcs) | Fire Breath or Electric Breath or Charge
+SBDoubleJump | 1414 Gems (immediates) | True_
+SBUpperCave | 40 Gems (gnorc archers by chest) | Fire Breath or Electric Breath or Charge
+SBUpperCave | 60 Gems (immediates by chest) | True_
+MMEntry | 50 Gems (steel traps) | Electric Breath or Ice Breath and Charge
+MMEntry | 500 Gems (armored chest near the start via firework) | Fire Breath
+MMEntry | 572 Gems (immediates) | True_
+MMEntry | 1500 Gems (armored chests near the start via supercharge) | Charge and Supercharge2
+MMWaterIce | 400 Gems (rock monsters) | Charge
+MMWaterIce | 25 Gems (initial gliding area firework chest) | Fire Breath
+MMWaterIce | 40 Gems (huge armored gnorcs) | Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+MMWaterIce | 20 Gems (middle unarmored gnorcs) | Fire Breath or Electric Breath or Charge
+MMWaterIce | 20 Gems (huge unarmored gnorcs) | Fire Breath or Electric Breath or Ice Breath and Charge
+MMWaterIce | 886 Gems (Byrd minigames) | True_
+MMWaterIce | 1729 Gems (immediates) | True_
+MMPoleSpin | 930 Gems (chargeable walls and enemies) | Charge
+MMPoleSpin | 60 Gems (huge armored gnorcs) | Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+MMPoleSpin | 260 Gems (middle unarmored gnorcs) | Fire Breath or Electric Breath or Charge
+MMPoleSpin | 25 Gems (headbash rock thing) | Fire Breath or Electric Breath or Ice Breath and Charge
+MMPoleSpin | 5156 Gems (immediates) | True_
+MFtEntry | 25 Gems (firework chest behind chargeable wall) | Charge and Fire Breath
+MFtEntry | 20 Gems (huge armroed gnorc behind chargeable wall) | Fire Breath or Electric Breath or Ice Breath
+MFtEntry | 200 Gems (chargeable things) | Charge
+MFtEntry | 525 Gems (firework chest and armored chest) | Fire Breath
+MFtEntry | 40 Gems (huge armored gnorcs by ball gadget) | Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+MFtEntry | 20 Gems (middle unarmored gnorc) | Fire Breath or Electric Breath or Charge
+MFtEntry | 770 Gems (immediates) | True_
+MFBallGadget | 447 Gems (on ball gadget path) | True_
+MFbEntry | 40 Gems (huge armored gnorcs) | Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge
+MFbEntry | 60 Gems (middle unarmored gnorcs) | Fire Breath or Electric Breath or Charge
+MFbEntry | 2392 Gems (Sparx minigames) | True_
+MFbEntry | 1098 Gems (immediates) | True_
+MFbEntry | 396 Gems (chargeable wall things) | Charge
+DMEntry | 740 Gems (immediates) | True_
+DMEntry | 75 Gems (critters) | Fire Breath or Electric Breath or Charge
+DMEntry | 60 Gems (drill robots) | Electric Breath or Charge
+DMEntry | 100 Gems (behind chargeable wall things) | Charge
+DMEntry | 150 Gems (spike robots and steel traps) | Electric Breath or Ice Breath and Charge
+DMLGDoor | 520 Gems (huge robo gnorcs and steel traps) | Electric Breath or Ice Breath and Charge
+DMLGDoor | 125 Gems (critters) | Fire Breath or Electric Breath or Charge
+DMLGDoor | 350 Gems (underwater invincibility swimming) | Invincibility1 and Swim and Charge
+DMCharge | 20 Gems (huge robo-gnorc) | Electric Breath or Ice Breath
+DMCharge | 1500 Gems (3 armored chests via firework) | Fire Breath
+DMCharge | 550 Gems (immediates) | True_
+DMCharge | 70 Gems (immediates up the wall kick pistons) | Wall Kick
+DMElectric | 12220 Gems (Blink minigames) | True_
+DMElectric | 1240 Gems (immediates) | True_
+DMIce | 931 Gems (immediates) | True_
+DMIce | 1500 Gems (3 armored chests by start) | Fire Breath
+RLEntry | 1083 Gems (immediates) | True_
+RLSouthEast | 680 Gems (immediates) | True_
+RLSouthEast | 70 Gems (immediates above the furnace) | Fire Breath
+RLNorthWest | 1119 Gems (immediates) | True_
+RLNorthEast | 560 Gems (immediates) | True_
+RLNorthEast | 155 Gems (immediates via invincibility) | True_
+RLSouthWest | 140 Gems (immediates) | True_

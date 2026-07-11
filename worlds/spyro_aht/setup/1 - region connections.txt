@@ -8,11 +8,11 @@ CSEntry | CSPoleSpin
 CSPoleSpin | NONE
 DFEntry | DFLGDoor
 DFLGDoor | NONE
-CREntry | CRDoubleJump CRLGDoor CRSunkenEntrance CRWateryTomb
+CREntry | CRDoubleJump CRLGDoor CRPoleSpin CRWateryTomb
 CRDoubleJump | CRGlide
 CRLGDoor | NONE
 CRGlide | CDEntry
-CRSunkenEntrance | SREntry
+CRPoleSpin | SREntry
 CRWateryTomb | NONE
 CDEntry | CDCharge
 CDCharge | CDWingShield
