@@ -3,9 +3,9 @@ from dataclasses import dataclass
 from Options import OptionSet, PerGameCommonOptions, Toggle, Choice, Range, OptionGroup
 
 class RandomizeMinigames(OptionSet):
-    """Whether to enable randomized locations for each type of mini-game.
-    If a type of mini-game is taken out of this list, they will still be Archipelago
-    locations, but will award their vanilla Dragon Eggs and Light Gems.
+    """Whether to randomize the reward for each type of mini-game.
+    Taking a type of mini-game out of this list will keep them as
+    checks, but will award their vanilla Dragon Eggs and Light Gems.
 
     Valid options: ["Sgt. Byrd", "Blink", "Turret", "Sparx"]
     """
@@ -29,7 +29,7 @@ class HintBossRewards(Toggle):
 class RandomizeBreath(Choice):
     """Determines breath starting behavior.
     "Starter Check: Breath" will either give your starting breath,
-    or a random other item, depending on what you choose here.
+    or a random other item, if you choose "none".
     
     default: Start with fire breath.
     random: Start with a random breath.
@@ -49,21 +49,23 @@ class RandomizeMovement(Toggle):
     default = 0
 
 class RandomizeFireworks(Toggle):
-    """Whether to enable randomized locations for flaming fireworks.
-    Each one requires fire breath."""
+    """Whether to enable checks for flaming fireworks.
+    Fire breath is required for surprisingly few things
+    in this game, so enabling this helps make fire breath
+    more important."""
     display_name = "Randomize Fireworks"
     default = 0
 
 
 class RandomizeShopItems(Toggle):
     """Whether to randomize the items in Moneybags' shop.
-    If enabled, vanilla game items will be replaced with items from AP,
-    and many of the vanilla shop items will be placed in other locations.
+    If enabled, vanilla game items will be replaced with randomized items from,
+    Archipelago, and many of the vanilla shop items will be placed in other locations.
 
     Some consequences of this include:
     - If key rings are disabled, lock-picks have no upper limit. You can view your amount
     of lock-picks in the pause menu under 'Abilities'.
-    - Butterfly Jar (Health Refill) will heal you automatically and refill after a death.
+    - The butterfly jar will refill after a death, if it was used.
     - Double Gems is permanent once obtained."""
     display_name = "Randomize Shop Items"
     default = 0
@@ -87,8 +89,8 @@ class ShopPricesMax(Range):
 class KeyRings(Toggle):
     """Enable level-specific key rings for locked chests.
     Once a level's key ring is obtained, all chests within it can be opened.
-    If Moneybags' shop is not randomized, key rings will be purchasable, otherwise they will
-    be placed elsewhere in the world."""
+    If Moneybags' shop is not randomized, key rings will be purchasable there.
+    Otherwise, they will be placed elsewhere in the world."""
     display_name = "Key Rings"
     default = 0
 
@@ -109,7 +111,7 @@ class RandomizeBossLairDoorCosts(Choice):
 
 
 class BossLairDoorCostMin(Range):
-    """Minimum cost for boss lairs."""
+    """Minimum cost for boss lairs, if set to be random."""
     display_name = "Boss Lair Door Cost Minimum"
     range_start = 1
     range_end = 40
@@ -117,7 +119,7 @@ class BossLairDoorCostMin(Range):
 
 
 class BossLairDoorCostMax(Range):
-    """Maximum cost for boss lairs."""
+    """Maximum cost for boss lairs, if set to be random."""
     display_name = "Boss Lair Door Cost Maximum"
     range_start = 1
     range_end = 40
@@ -139,7 +141,7 @@ class RandomizeLightGemDoorCosts(Choice):
 
 
 class LightGemDoorCostMin(Range):
-    """Minimum cost for light gem doors."""
+    """Minimum cost for light gem doors, if set to be random."""
     display_name = "Minimum Light Gem Door Cost"
     range_start = 1
     range_end = 100
@@ -147,7 +149,7 @@ class LightGemDoorCostMin(Range):
 
 
 class LightGemDoorCostMax(Range):
-    """Maximum cost for light gem doors."""
+    """Maximum cost for light gem doors, if set to be random."""
     display_name = "Maximum Light Gem Door Cost"
     range_start = 1
     range_end = 100
@@ -169,7 +171,7 @@ class RandomizeGadgetCosts(Choice):
 
 
 class GadgetCostMin(Range):
-    """Minimum cost for gadgets."""
+    """Minimum cost for gadgets, if set to be random."""
     display_name = "Minimum Gadget Cost"
     range_start = 1
     range_end = 100
@@ -177,7 +179,7 @@ class GadgetCostMin(Range):
 
 
 class GadgetCostMax(Range):
-    """Maximum cost for gadgets."""
+    """Maximum cost for gadgets, if set to be random."""
     display_name = "Maximum Gadget Cost"
     range_start = 1
     range_end = 100
