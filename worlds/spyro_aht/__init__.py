@@ -1,5 +1,4 @@
 import asyncio
-import collections
 from dataclasses import dataclass
 import functools
 import pkgutil
@@ -10,9 +9,9 @@ import orjson
 
 from Options import OptionError
 import Utils
-from BaseClasses import Item, ItemClassification, MultiWorld, Region
+from BaseClasses import Item, ItemClassification, MultiWorld, Region, CollectionState
 from rule_builder.options import OptionFilter
-from rule_builder.rules import Has, HasAny, Rule, True_
+from rule_builder.rules import Has, Rule, True_
 from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import icon_paths
 
