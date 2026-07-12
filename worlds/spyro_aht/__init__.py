@@ -244,8 +244,8 @@ class SpyroAHTWorld(World):
             case _:
                 self._starting_realm = self.options.starting_realm.value
 
-        if self.options.randomize_boss_lair_doors.value != 0:
-            if self.options.randomize_boss_lair_doors.value == 2:  # shuffled:
+        if self.options.randomize_boss_lair_door_costs.value != 0:
+            if self.options.randomize_boss_lair_door_costs.value == 2:  # shuffled:
                 self.random.shuffle(self._boss_lairs)
             else:
                 bmin, bmax = self.options.boss_lair_door_cost_min.value, self.options.boss_lair_door_cost_max.value
@@ -316,34 +316,32 @@ class SpyroAHTWorld(World):
         match self.options.goal.value:
             case 0:
                 self.get_region("DVGnastyCave").add_event("DVDefeatGnasty", "Victory", rule=(
-                        Has("Fire Breath", options=[OptionFilter(RandomizeBreath, 0, "ne")]) |
-                        Has("Charge", options=[OptionFilter(RandomizeMovement, 1)]) |
-                        True_(options=[OptionFilter(RandomizeBreath, 0), OptionFilter(RandomizeMovement, 0)])
+                    BossLairRule(0) & (Has("Fire Breath") | Has("Charge"))
                 ))
             case 1:
-                self.get_region("CRWateryTomb").add_event("CRDefeatIneptune", "Victory", rule=True_())
+                self.get_region("CRWateryTomb").add_event("CRDefeatIneptune", "Victory", rule=(
+                    BossLairRule(1) & Has("Charge")
+                ))
             case 2:
-                self.get_region("FVRedChamber").add_event("FVDefeatRed", "Victory", rule=True_())
+                self.get_region("FVRedChamber").add_event("FVDefeatRed", "Victory", rule=(
+                    BossLairRule(2) & Has("Water Breath")
+                ))
             case 3:
                 self.get_region("RLMechaRed").add_event("RLDefeatMechaRed", "Victory", rule=(
-                        BossLairRule(3) & (
-                        Has("Fire Breath", options=[OptionFilter(RandomizeBreath, 0, "ne")]) |
-                        True_(options=[OptionFilter(RandomizeBreath, 0)])
-                )
+                    BossLairRule(3) & Has("Fire Breath") & Has("Electric Breath") & Has("Double Jump")
                 ))
             case 4:
                 self.get_region("DVGnastyCave").add_event("DVDefeatGnasty", "VictoryCon1", rule=(
-                        Has("Fire Breath", options=[OptionFilter(RandomizeBreath, 0, "ne")]) |
-                        Has("Charge", options=[OptionFilter(RandomizeMovement, 1)]) |
-                        True_(options=[OptionFilter(RandomizeBreath, 0), OptionFilter(RandomizeMovement, 0)])
+                    BossLairRule(0) & (Has("Fire Breath") | Has("Charge"))
                 ))
-                self.get_region("CRWateryTomb").add_event("CRDefeatIneptune", "VictoryCon2", rule=True_())
-                self.get_region("FVRedChamber").add_event("FVDefeatRed", "VictoryCon3", rule=True_())
+                self.get_region("CRWateryTomb").add_event("CRDefeatIneptune", "VictoryCon2", rule=(
+                    BossLairRule(1) & Has("Charge")
+                ))
+                self.get_region("FVRedChamber").add_event("FVDefeatRed", "VictoryCon3", rule=(
+                    BossLairRule(2) & Has("Water Breath")
+                ))
                 self.get_region("RLMechaRed").add_event("RLDefeatMechaRed", "VictoryCon4", rule=(
-                        BossLairRule(3) & (
-                        Has("Fire Breath", options=[OptionFilter(RandomizeBreath, 0, "ne")]) |
-                        True_(options=[OptionFilter(RandomizeBreath, 0)])
-                )
+                    BossLairRule(3) & Has("Fire Breath") & Has("Electric Breath") & Has("Double Jump")
                 ))
 
         # set up gem events here
@@ -476,7 +474,7 @@ class SpyroAHTWorld(World):
             "key_rings": self.options.key_rings.value,
             "shop_randomization": self.options.shop_randomization.value,
 
-            "randomize_boss_lair_doors": self.options.randomize_boss_lair_doors.value,
+            "randomize_boss_lair_doors": self.options.randomize_boss_lair_door_costs.value,
             "boss_lair_costs": self._boss_lairs,
 
             "randomize_light_gem_door_costs": self.options.randomize_light_gem_door_costs.value,
