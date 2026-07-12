@@ -554,6 +554,15 @@ class RealmAccessRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
             return Has(f"{self.realm} Access Card", 1).resolve(world)
         else:
             return True_().resolve(world)
+    
+@dataclass
+class ShopCheckRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
+    index: int
+    
+    #override
+    def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
+        return True_().resolve(world)
+
 
 def _run_client(*args: str):
     import colorama

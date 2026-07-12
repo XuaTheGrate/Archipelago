@@ -29,6 +29,7 @@ def rule_from_dict(d: dict) -> 'Rule':
         case 'SuperchargeGadget': return SuperchargeGadget(**d)
         case 'LockedChestRule': return LockedChestRule(**d)
         case 'RealmAccessRule': return RealmAccessRule(**d)
+        case 'ShopCheckRule': return ShopCheckRule(**d)
         case _: raise TypeError(d['rule'])
 
 
@@ -121,3 +122,7 @@ class RealmAccessRule(Rule):
             return self.can_resolve(slot_data) and items.get(f"{self.args['realm']} Access Card", 1)
         else:
             return True
+        
+class ShopCheckRule(Rule):
+    def resolve(self, slot_data: dict[str, Any], items: dict[str, int]) -> bool:
+        return self.can_resolve(slot_data) and True_()
