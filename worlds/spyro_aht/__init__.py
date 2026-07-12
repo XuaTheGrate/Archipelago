@@ -18,32 +18,89 @@ from worlds.LauncherComponents import icon_paths
 from .options import RandomizeMovement, SpyroAHTOptions, RandomizeBreath, spyro_options_groups
 from .client import rules
 
-
 icon_paths['spyro_aht'] = f'ap:{__name__}/icon.png'
 
+minigame_locs = [
+    {
+        ("DV: Dragon Egg from Sgt. Byrd", "DV: Light Gem from Sgt. Byrd"),
+        ("CD: Dragon Egg from Sgt. Byrd", "CD: Light Gem from Sgt. Byrd"),
+        ("IC: Dragon Egg from Sgt. Byrd", "IC: Light Gem from Sgt. Byrd"),
+        ("MM: Dragon Egg from Sgt. Byrd", "MM: Light Gem from Sgt. Byrd")
+    },
+    {
+        ("CS: Dragon Egg from Blink", "CS: Light Gem from Blink"),
+        ("CR: Dragon Egg from Blink", "CR: Light Gem from Blink"),
+        ("FV: Dragon Egg from Blink", "FV: Light Gem from Blink"),
+        ("DM: Dragon Egg from Blink", "DM: Light Gem from Blink")
+    },
+    {
+        ("DF: Dragon Egg from Sparx", "DF: Light Gem from Sparx"),
+        ("SR: Dragon Egg from Sparx", "SR: Light Gem from Sparx"),
+        ("GG: Dragon Egg from Sparx", "GG: Light Gem from Sparx"),
+        ("MFb: Dragon Egg from Sparx", "MFb: Light Gem from Sparx")
+    },
+    {
+        ("CS: Dragon Egg from Fredneck", "CS: Light Gem from Fredneck"),
+        ("CR: Dragon Egg from Turtle Mother", "CR: Light Gem from Turtle Mother"),
+        ("FV: Dragon Egg from Peggy", "FV: Light Gem from Peggy"),
+        ("SB: Dragon Egg from Wally", "SB: Light Gem from Wally")
+    }
+]
 
-KEYS = {
-    "DV": "Dragon Village",
-    "CS": "Crocovile Swamp",
-    "DF": "Dragonfly Falls",
-    "CR": "Coastal Remains",
-    "CD": "Cloudy Domain",
-    "SR": "Sunken Ruins",
-    "FV": "Frostbite Village",
-    "GG": "Gloomy Glacier",
-    "IC": "Ice Citadel",
-    "SB": "Stormy Beach",
-    "MM": "Molten Mount",
-    "MFt": "Magma Falls Top",
-    "MFb": "Magma Falls Bottom",
-    "DM": "Dark Mine",
-    "RL": "Red's Laboratory",
-    "Moneybags": "Shop Items"
-}
-
-
+###############WORLD CLASS HELPER FUNCTIONS###############
 def _load_file(file: str) -> Any:
     return orjson.loads(pkgutil.get_data(__name__, "data/" + file).decode("utf-8")) # type: ignore
+
+
+def create_item_groups(item_data) -> dict[str, set[str]]:
+    item_groups = defaultdict(set)
+    for item in item_data:
+        item_groups[item['group']].add(item['name'])
+        
+    return item_groups
+
+
+def _location_name_to_id(location_data) -> dict[str, int]:
+    loc_name_to_id = {}
+    for region in location_data.values():
+        for location in region['locations']:
+            loc_name_to_id[location['name']] = location['id']
+            
+    return loc_name_to_id
+
+
+def create_location_groups(location_data) -> dict[str, set[str]]:
+    level_lookup = {
+        "DV": "Dragon Village",
+        "CS": "Crocovile Swamp",
+        "DF": "Dragonfly Falls",
+        "CR": "Coastal Remains",
+        "CD": "Cloudy Domain",
+        "SR": "Sunken Ruins",
+        "FV": "Frostbite Village",
+        "GG": "Gloomy Glacier",
+        "IC": "Ice Citadel",
+        "SB": "Stormy Beach",
+        "MM": "Molten Mount",
+        "MFt": "Magma Falls Top",
+        "MFb": "Magma Falls Bottom",
+        "DM": "Dark Mine",
+        "RL": "Red's Laboratory",
+        "Moneybags": "Shop Items"
+    }
+    
+    loc_groups = defaultdict(set)
+    for region in location_data.values():
+        for location in region['locations']:
+            abbreviation = location['name'].split(': ')[0]
+            if abbreviation in level_lookup:
+                loc_groups[level_lookup[abbreviation]].add(location['name'])
+    
+    for minigame_type, minigame_list in zip(["Sgt. Byrd", "Blink", "Sparx", "Turret"], minigame_locs):
+        for minigame_location in minigame_list:
+            loc_groups[minigame_type].update(minigame_location)
+        
+    return loc_groups
 
 
 location_rules: dict[str, dict] = {}
@@ -56,80 +113,6 @@ for n, r in _k.items():
         l['access_rule'] = rules.rule_from_dict(l['access_rule'])
         locs.append(l)
     r['locations'] = locs
-
-
-def create_location_groups() -> dict[str, set[str]]:
-    data = _load_file("locations.json")
-    r = defaultdict(set)
-    for region in data.values():
-        for location in region['locations']:
-            key, _ = location['name'].split(': ')
-            if key not in KEYS: continue
-            r[KEYS[key]].add(location['name'])
-    
-    for s in SGT_BYRD:
-        r["Sgt. Byrd"].update(s)
-    for s in BLINK:
-        r["Blink"].update(s)
-    for s in SPARX:
-        r["Sparx"].update(s)
-    for s in TURRET:
-        r["Turret"].update(s)
-    return r
-
-
-def create_item_groups() -> dict[str, set[str]]:
-    data = _load_file("items.json")
-    r = defaultdict(set)
-    for item in data:
-        r[item["group"]].add(item["name"])
-
-    return r
-
-
-def _item_name_to_id() -> dict[str, int]:
-    data = _load_file("items.json")
-    return {i['name']: i['id'] for i in data}
-
-
-def _location_name_to_id() -> dict[str, int]:
-    data = _load_file("locations.json")
-    ret = {}
-    for r in data.values():
-        for l in r['locations']:
-            ret[l['name']] = l['id']
-    return ret
-
-
-classifications = {i['name']: ItemClassification(i['classification']) for i in _load_file("items.json")}
-
-SGT_BYRD = {
-    ("DV: Dragon Egg from Sgt. Byrd", "DV: Light Gem from Sgt. Byrd"),
-    ("CD: Dragon Egg from Sgt. Byrd", "CD: Light Gem from Sgt. Byrd"),
-    ("IC: Dragon Egg from Sgt. Byrd", "IC: Light Gem from Sgt. Byrd"),
-    ("MM: Dragon Egg from Sgt. Byrd", "MM: Light Gem from Sgt. Byrd")
-}
-
-BLINK = {
-    ("CS: Dragon Egg from Blink", "CS: Light Gem from Blink"),
-    ("CR: Dragon Egg from Blink", "CR: Light Gem from Blink"),
-    ("FV: Dragon Egg from Blink", "FV: Light Gem from Blink"),
-    ("DM: Dragon Egg from Blink", "DM: Light Gem from Blink")
-}
-
-SPARX = {
-    ("DF: Dragon Egg from Sparx", "DF: Light Gem from Sparx"),
-    ("SR: Dragon Egg from Sparx", "SR: Light Gem from Sparx"),
-    ("GG: Dragon Egg from Sparx", "GG: Light Gem from Sparx"),
-    ("MFb: Dragon Egg from Sparx", "MFb: Light Gem from Sparx")
-}
-
-TURRET = {
-    ("CS: Dragon Egg from Fredneck", "CS: Light Gem from Fredneck"),
-    ("CR: Dragon Egg from Turtle Mother", "CR: Light Gem from Turtle Mother"),
-    ("FV: Dragon Egg from Peggy", "FV: Light Gem from Peggy"),
-    ("SB: Dragon Egg from Wally", "SB: Light Gem from Wally")
-}
 
 class SpyroAHTWeb(WebWorld):
     option_groups = spyro_options_groups
@@ -144,14 +127,28 @@ class SpyroAHTWorld(World):
     options_dataclass = SpyroAHTOptions
     options: SpyroAHTOptions # type: ignore
     web = SpyroAHTWeb()
+    
+    item_data = _load_file("items.json")
+    item_name_to_id = {i['name']: i['id'] for i in item_data}
+    item_name_groups = create_item_groups(item_data)
+    
+    location_data = _load_file("locations.json")
+    location_name_to_id = _location_name_to_id(location_data)
+    location_name_groups = create_location_groups(location_data)
 
-    item_name_groups = create_item_groups()
-    location_name_groups = create_location_groups()
-    item_name_to_id = _item_name_to_id()
-    location_name_to_id = _location_name_to_id()
-
+    def __init__(self, multiworld: MultiWorld, player: int):
+        super().__init__(multiworld, player)
+        multiworld.early_items[player]['Double Jump'] = 1  # 
+        
+        self._lg_doors = [70, 20, 95, 45]
+        self._boss_lairs = [10, 20, 30, 40]
+        self._gadget_costs = [8, 24, 40]  # ball, invincibility, supercharge
+        self._starting_realm = 0
+        self._starting_breath = -1  # represents none
+        self._classifications = {i['name']: ItemClassification(i['classification']) for i in _load_file("items.json")}
+    
     def collect(self, state: "CollectionState", item: "Item") -> bool:
-        """Override which does the same base thing but adds a condition to increment the Gems pseudo-item if a gem event."""
+        """Override of World.collect which additionally handles gem events."""
         name = self.collect_item(state, item)
         if name:
             state.add_item(name, self.player)
@@ -162,7 +159,7 @@ class SpyroAHTWorld(World):
         return False
 
     def remove(self, state: "CollectionState", item: "Item") -> bool:
-        """Override which does the same base thing but adds a condition to decrement the Gems pseudo-item if a gem event."""
+        """Override of World.remove which additionally handles gem events."""
         name = self.collect_item(state, item, True)
         if name:
             state.remove_item(name, self.player)
@@ -174,17 +171,25 @@ class SpyroAHTWorld(World):
         return False
 
     def rule_builder(self, full_rule):
+        """Takes a string representation of a Gem event rule and converts it into a Rule object.
+        To simplify this process, all rules sent to this method are of the format rule1 Or rule2 Or rule3,
+        and it is assumed that each subrule is made up exclusively of either a single item or multiple items And'd together.
+        For example, a valid string rule for this method would be 'Fire Breath Or Ice Breath And Charge or Double Jump'.
+        This method would take that and appropriately convert it into an Or object which has 3 children:
+        Has(Fire Breath), And(Has(Fire Breath), Has(Charge)), Has(Double Jump)."""
         or_rules = []
 
-        # have list of every rule that needs to be or'd together
-        # now need to dive into each one and see if any are themselves ones that need to be and'd
         for rule in full_rule.split(" or "):
             and_rules = []
-            # if no and, create a singular Has for it and move on
+            # pretty sure this whole loop can be generalized to not need separate cases if the subrule has "and"
+            # buuuuuuuuuuuut my brain can't figure it out so I'm leaving it as-is. itworks.gif
             if rule.find("and") == -1:
                 rule = rule.strip()
+                
+                # special cases
                 if "Invincibility" in rule or "Supercharge" in rule:
-                    or_rules.append(Has("Light Gem", self._gadget_costs[int(rule[-1])]))
+                    cost = self._gadget_costs[int(rule[-1])]  # rule format provides gadget index in name
+                    or_rules.append(Has("Light Gem", cost))
                     continue
                 elif rule == "True_":
                     or_rules.append(True_())
@@ -192,12 +197,15 @@ class SpyroAHTWorld(World):
                 else:
                     or_rules.append(Has(rule))
                     continue
-
-            # if there is an and, loop so that all can be gotten
+            
+            # subrule may potentially have multiple items to And together
             for rule2 in rule.split(" and "):
                 rule2 = rule2.strip()
+                
+                # special cases
                 if "Invincibility" in rule2 or "Supercharge" in rule2:
-                    and_rules.append(Has("Light Gem", self._gadget_costs[int(rule2[-1])]))
+                    cost = self._gadget_costs[int(rule2[-1])]
+                    and_rules.append(Has("Light Gem", cost))
                 elif rule2 == "True_":
                     and_rules.append(True_())
                 else:
@@ -209,31 +217,13 @@ class SpyroAHTWorld(World):
             return or_rules[0]
 
         return Or(*or_rules)
-
-    def __init__(self, multiworld: MultiWorld, player: int):
-        super().__init__(multiworld, player)
-        multiworld.early_items[player]['Double Jump'] = 1
-
-        self._lg_doors = [70, 20, 95, 45]
-        self._boss_lairs = [10, 20, 30, 40]
-        self._gadget_costs = [8, 24, 40]
-        self._starting_realm = 0
-        self._starting_breath = -1
-
-        self._access_cards = [
-            "Dragon Village Access Card",
-            "Coastal Remains Access Card",
-            "Frostbite Village Access Card",
-            "Stormy Beach Access Card"
-        ]
     
     def generate_early(self) -> None:
+        # TODO: this will probably get affected by new shop randomization. No longer will have at least 18 shop
+        # TODO: in sphere 1 to have that be an option here. May need to force movement randomization
         if self.options.starting_realm.value != 0: # not dragon village
             if self.options.randomize_movement.value == 0 and self.options.shop_randomization.value == 0:
                 raise OptionError("Cannot start outside Dragon Village if Movement and Shop randomization is off")
-    
-    def create_item(self, name: str) -> Item:
-        return Item(name, classifications[name], self.item_name_to_id[name], self.player)
 
     def create_regions(self):
         if self.options.randomize_gadget_costs.value != 0:
@@ -247,7 +237,7 @@ class SpyroAHTWorld(World):
                 self._gadget_costs = [self.random.randint(lmin, lmax) for _ in range(3)]
 
         match self.options.starting_realm.value:
-            case 4: # Randomized:
+            case 4:  # Randomized:
                 self._starting_realm = self.random.randint(0, 3)
                 while self._starting_realm == self.options.goal.value:
                     self._starting_realm = self.random.randint(0, 3)
@@ -255,15 +245,15 @@ class SpyroAHTWorld(World):
                 self._starting_realm = self.options.starting_realm.value
 
         if self.options.randomize_boss_lair_doors.value != 0:
-            if self.options.randomize_boss_lair_doors.value == 2: # shuffled:
+            if self.options.randomize_boss_lair_doors.value == 2:  # shuffled:
                 self.random.shuffle(self._boss_lairs)
             else:
                 bmin, bmax = self.options.boss_lair_door_cost_min.value, self.options.boss_lair_door_cost_max.value
                 if bmin > bmax:
                     bmin, bmax = bmax, bmin
-                
+
                 self._boss_lairs = [self.random.randint(bmin, bmax) for _ in range(4)]
-        
+
             if self.options.goal.value != 4:
                 highest = functools.reduce(max, self._boss_lairs)
                 self._boss_lairs.remove(highest)
@@ -271,15 +261,15 @@ class SpyroAHTWorld(World):
                     self._boss_lairs.insert(self.options.goal.value, highest)
                 else:
                     self._boss_lairs.append(highest)
-        
+
         if self.options.randomize_light_gem_door_costs.value != 0:
-            if self.options.randomize_light_gem_door_costs.value == 2: # shuffled:
+            if self.options.randomize_light_gem_door_costs.value == 2:  # shuffled:
                 self.random.shuffle(self._lg_doors)
             else:
                 lmin, lmax = self.options.light_gem_door_cost_min.value, self.options.light_gem_door_cost_max.value
                 if lmin > lmax:
                     lmin, lmax = lmax, lmin
-                
+
                 self._lg_doors = [self.random.randint(lmin, lmax) for _ in range(4)]
 
         data = _load_file("locations.json")
@@ -301,27 +291,34 @@ class SpyroAHTWorld(World):
                 for options in l.get('options', ()):
                     option = getattr(self.options, options['option'])
                     match options.get('operator', 'eq'):
-                        case 'eq': add = add and option.value == options['value']
-                        case 'ne': add = add and option.value != options['value']
-                        case 'gt': add = add and option.value > options['value']
-                        case 'ge': add = add and option.value >= options['value']
-                        case 'lt': add = add and option.value < options['value']
-                        case 'le': add = add and option.value <= options['value']
+                        case 'eq':
+                            add = add and option.value == options['value']
+                        case 'ne':
+                            add = add and option.value != options['value']
+                        case 'gt':
+                            add = add and option.value > options['value']
+                        case 'ge':
+                            add = add and option.value >= options['value']
+                        case 'lt':
+                            add = add and option.value < options['value']
+                        case 'le':
+                            add = add and option.value <= options['value']
                 if add:
                     f[l['name']] = l['id']
             region.add_locations(f)
-        
+
         match self.options.goal.value:
             case 0 | 1 | 2 | 3:
                 self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
             case 4:
-                self.multiworld.completion_condition[self.player] = lambda state: state.has_all(("VictoryCon1", "VictoryCon2", "VictoryCon3", "VictoryCon4"), self.player)
+                self.multiworld.completion_condition[self.player] = lambda state: state.has_all(
+                    ("VictoryCon1", "VictoryCon2", "VictoryCon3", "VictoryCon4"), self.player)
         match self.options.goal.value:
             case 0:
                 self.get_region("DVGnastyCave").add_event("DVDefeatGnasty", "Victory", rule=(
-                    Has("Fire Breath", options=[OptionFilter(RandomizeBreath, 0, "ne")]) |
-                    Has("Charge", options=[OptionFilter(RandomizeMovement, 1)]) |
-                    True_(options=[OptionFilter(RandomizeBreath, 0), OptionFilter(RandomizeMovement, 0)])
+                        Has("Fire Breath", options=[OptionFilter(RandomizeBreath, 0, "ne")]) |
+                        Has("Charge", options=[OptionFilter(RandomizeMovement, 1)]) |
+                        True_(options=[OptionFilter(RandomizeBreath, 0), OptionFilter(RandomizeMovement, 0)])
                 ))
             case 1:
                 self.get_region("CRWateryTomb").add_event("CRDefeatIneptune", "Victory", rule=True_())
@@ -329,24 +326,24 @@ class SpyroAHTWorld(World):
                 self.get_region("FVRedChamber").add_event("FVDefeatRed", "Victory", rule=True_())
             case 3:
                 self.get_region("RLMechaRed").add_event("RLDefeatMechaRed", "Victory", rule=(
-                    BossLairRule(3) & (
+                        BossLairRule(3) & (
                         Has("Fire Breath", options=[OptionFilter(RandomizeBreath, 0, "ne")]) |
                         True_(options=[OptionFilter(RandomizeBreath, 0)])
-                    )
+                )
                 ))
             case 4:
                 self.get_region("DVGnastyCave").add_event("DVDefeatGnasty", "VictoryCon1", rule=(
-                    Has("Fire Breath", options=[OptionFilter(RandomizeBreath, 0, "ne")]) |
-                    Has("Charge", options=[OptionFilter(RandomizeMovement, 1)]) |
-                    True_(options=[OptionFilter(RandomizeBreath, 0), OptionFilter(RandomizeMovement, 0)])
+                        Has("Fire Breath", options=[OptionFilter(RandomizeBreath, 0, "ne")]) |
+                        Has("Charge", options=[OptionFilter(RandomizeMovement, 1)]) |
+                        True_(options=[OptionFilter(RandomizeBreath, 0), OptionFilter(RandomizeMovement, 0)])
                 ))
                 self.get_region("CRWateryTomb").add_event("CRDefeatIneptune", "VictoryCon2", rule=True_())
                 self.get_region("FVRedChamber").add_event("FVDefeatRed", "VictoryCon3", rule=True_())
                 self.get_region("RLMechaRed").add_event("RLDefeatMechaRed", "VictoryCon4", rule=(
-                    BossLairRule(3) & (
+                        BossLairRule(3) & (
                         Has("Fire Breath", options=[OptionFilter(RandomizeBreath, 0, "ne")]) |
                         True_(options=[OptionFilter(RandomizeBreath, 0)])
-                    )
+                )
                 ))
 
         # set up gem events here
@@ -355,24 +352,17 @@ class SpyroAHTWorld(World):
             region_name, item_name, event_rule = line.split(" | ")
             event_name = f"{region_name}: {item_name}"
             self.get_region(region_name).add_event(event_name, item_name, rule=self.rule_builder(event_rule))
-
-                
-    def set_rules(self) -> None:
-        data = _load_file("locations.json")
-        for r in data.values():
-            for l in r['locations']:
-                try:
-                    loc = self.get_location(l['name'])
-                except KeyError:
-                    continue
-                self.set_rule(loc, self.rule_from_dict(l['access_rule']))
-        
+    
+    def create_item(self, name: str) -> Item:
+        """Helper method for create_items which returns an Item object."""
+        return Item(name, self._classifications[name], self.item_name_to_id[name], self.player)
+    
     def create_items(self) -> None:
         data = _load_file("items.json")
         itempool = []
 
         minigames = 0
-        for npc, npc_list in zip(["Sgt. Byrd", "Blink", "Sparx", "Turret"], [SGT_BYRD, BLINK, SPARX, TURRET]):
+        for npc, npc_list in zip(["Sgt. Byrd", "Blink", "Sparx", "Turret"], minigame_locs):
             if npc not in self.options.randomize_minigames.value:
                 for egg, breath_loc in npc_list:
                     self.get_location(egg).place_locked_item(self.create_item("Dragon Egg"))
@@ -392,10 +382,14 @@ class SpyroAHTWorld(World):
 
         breath_loc = self.get_location("Starter Checks: Breath")
         match self._starting_breath:
-            case 0: breath_loc.place_locked_item(self.create_item("Fire Breath"))
-            case 1: breath_loc.place_locked_item(self.create_item("Electric Breath"))
-            case 2: breath_loc.place_locked_item(self.create_item("Water Breath"))
-            case 3: breath_loc.place_locked_item(self.create_item("Ice Breath"))
+            case 0:
+                breath_loc.place_locked_item(self.create_item("Fire Breath"))
+            case 1:
+                breath_loc.place_locked_item(self.create_item("Electric Breath"))
+            case 2:
+                breath_loc.place_locked_item(self.create_item("Water Breath"))
+            case 3:
+                breath_loc.place_locked_item(self.create_item("Ice Breath"))
 
         if self.options.randomize_movement.value == 0:
             self.get_location("Starter Checks: Swim").place_locked_item(self.create_item("Swim"))
@@ -406,39 +400,67 @@ class SpyroAHTWorld(World):
             add = True
 
             match item['name']:
-                case "Fire Breath": add = self._starting_breath != 0
-                case "Electric Breath": add = self._starting_breath != 1
-                case "Water Breath": add = self._starting_breath != 2
-                case "Ice Breath": add = self._starting_breath != 3
-                case "Glide" | "Charge" | "Swim": add = self.options.randomize_movement.value == 1
+                case "Fire Breath":
+                    add = self._starting_breath != 0
+                case "Electric Breath":
+                    add = self._starting_breath != 1
+                case "Water Breath":
+                    add = self._starting_breath != 2
+                case "Ice Breath":
+                    add = self._starting_breath != 3
+                case "Glide" | "Charge" | "Swim":
+                    add = self.options.randomize_movement.value == 1
 
             for curr_option in item.get("option", ()):
                 option = getattr(self.options, curr_option['option'])
                 match curr_option.get('operator', 'eq'):
-                    case 'eq': add = add and option.value == curr_option['value']
-                    case 'ne': add = add and option.value != curr_option['value']
-                    case 'gt': add = add and option.value > curr_option['value']
-                    case 'ge': add = add and option.value >= curr_option['value']
-                    case 'lt': add = add and option.value < curr_option['value']
-                    case 'le': add = add and option.value <= curr_option['value']
+                    case 'eq':
+                        add = add and option.value == curr_option['value']
+                    case 'ne':
+                        add = add and option.value != curr_option['value']
+                    case 'gt':
+                        add = add and option.value > curr_option['value']
+                    case 'ge':
+                        add = add and option.value >= curr_option['value']
+                    case 'lt':
+                        add = add and option.value < curr_option['value']
+                    case 'le':
+                        add = add and option.value <= curr_option['value']
 
             if add:
                 count = item.get('count', 1)
                 if item['name'] in ('Dragon Egg', 'Light Gem'):
                     count -= minigames
-                
+
                 for _ in range(count):
                     itempool.append(self.create_item(item['name']))
 
         if self.options.realm_access.value == 2:
+            access_cards = [
+                "Dragon Village Access Card",
+                "Coastal Remains Access Card",
+                "Frostbite Village Access Card",
+                "Stormy Beach Access Card"
+            ]
+
             itempool.append(self.create_item("Gem Pack"))
-        
-            start = self._access_cards.pop(self._starting_realm)
+
+            start = access_cards.pop(self._starting_realm)
             self.get_location("Starter Checks: Starting Realm Access").place_locked_item(self.create_item(start))
-            for i in self._access_cards:
+            for i in access_cards:
                 itempool.append(self.create_item(i))
-            
+
         self.multiworld.itempool.extend(itempool)
+  
+    def set_rules(self) -> None:
+        data = _load_file("locations.json")
+        for r in data.values():
+            for l in r['locations']:
+                try:
+                    loc = self.get_location(l['name'])
+                except KeyError:
+                    continue
+                self.set_rule(loc, self.rule_from_dict(l['access_rule']))
     
     def fill_slot_data(self):
         r: dict[str, Any] = {
@@ -491,7 +513,7 @@ class SpyroAHTWorld(World):
         spoiler_handle.write(f"Randomized Boss Lair Costs:      {self._boss_lairs}\n")
         spoiler_handle.write(f"Randomized Light Gem Door Costs: {self._lg_doors}\n")
 
-
+###############LOGIC RULES###############
 @dataclass
 class BossLairRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
     index: int
@@ -530,6 +552,7 @@ class SuperchargeGadget(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
     def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
         return Has("Light Gem", world._gadget_costs[2]).resolve(world)
 
+
 @dataclass
 class LockedChestRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
     level: int
@@ -544,6 +567,7 @@ class LockedChestRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
         else:  # always true when shops are unrandomized
             return True_().resolve(world)
 
+
 @dataclass
 class RealmAccessRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
     realm: int
@@ -555,6 +579,7 @@ class RealmAccessRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
         else:
             return True_().resolve(world)
     
+    
 @dataclass
 class ShopCheckRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
     index: int
@@ -563,7 +588,7 @@ class ShopCheckRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
     def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
         return True_().resolve(world)
 
-
+###############CLIENT###############
 def _run_client(*args: str):
     import colorama
     from CommonClient import server_loop, gui_enabled, get_base_parser

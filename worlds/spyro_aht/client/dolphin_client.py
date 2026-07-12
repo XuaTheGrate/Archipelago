@@ -240,6 +240,7 @@ class DolphinClient(GenericClient):
         dolphin_memory_engine.write_byte(self.addresses.p_PATCH_BEEN_WRITTEN_TO, 1)
     
     async def _prepare_shop_items(self, ctx: "SpyroAHTContext", *shop_items: NetworkItem):
+        # TODO: almost certainly will need to look at this method?
         dolphin_memory_engine.write_byte(self.addresses.p_RANDOMIZE_SHOP, 1)
         dolphin_memory_engine.write_word(self.addresses.p_XLS_SHOP_ROWCOUNT, len(shop_items)+1)
 
