@@ -492,7 +492,7 @@ class SpyroAHTWorld(World):
 
             "death_link": self.options.death_link.value,
 
-            "teleport_anywhere": self.options.teleport_anywhere.value,
+            "teleport_across_realms": self.options.teleport_across_realms.value,
             "open_world_mode": self.options.open_world_mode.value
         }
         

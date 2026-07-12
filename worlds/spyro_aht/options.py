@@ -288,11 +288,11 @@ class SkipElevators(Toggle):
     default = 0
 
 
-class TeleportAnywhere(Toggle):
-    """Allows for teleporting to unlocked Moneybags shop pads in any realm.
+class TeleportAcrossRealms(Toggle):
+    """Allows for teleporting to unlocked Moneybags shop pads in any realm, from any realm.
     For example, you could teleport directly from Dragonfly Falls to Dark Mine
     without needing to use a hub realm teleporter."""
-    display_name = "Teleport Anywhere"
+    display_name = "Teleport Across Realms"
     default = 0
 
 
@@ -337,7 +337,7 @@ class SpyroAHTOptions(PerGameCommonOptions):
     easy_bosses: EasyBosses
     skip_cutscenes: SkipCutscenes
     skip_elevators: SkipElevators
-    teleport_anywhere: TeleportAnywhere
+    teleport_across_realms: TeleportAcrossRealms
     open_world_mode: OpenWorldMode
     
     
@@ -360,6 +360,6 @@ spyro_options_groups = [
         HintMinigameRewards, HintBossRewards,
         EasyBosses,
         SkipCutscenes, SkipElevators,
-        TeleportAnywhere, OpenWorldMode
+        TeleportAcrossRealms, OpenWorldMode
     ])
 ]

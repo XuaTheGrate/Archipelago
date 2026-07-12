@@ -232,7 +232,7 @@ class DolphinClient(GenericClient):
 
         if ctx.slot_data['shop_unlock_mode']:
             dolphin_memory_engine.write_byte(self.addresses.p_SHOP_UNLOCK_MODE, 1)
-        if ctx.slot_data['teleport_anywhere']:
+        if ctx.slot_data['teleport_across_realms']:
             dolphin_memory_engine.write_byte(self.addresses.p_TELEPORT_ANYWHERE, 1)
         if ctx.slot_data['open_world_mode']:
             dolphin_memory_engine.write_byte(self.addresses.p_UNLOCK_ALL_SHOPS, 1)
