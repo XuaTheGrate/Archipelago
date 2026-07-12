@@ -182,6 +182,7 @@ class SpyroAHTWorld(World):
             and_rules = []
             # if no and, create a singular Has for it and move on
             if rule.find("and") == -1:
+                rule = rule.strip()
                 if "Invincibility" in rule or "Supercharge" in rule:
                     or_rules.append(Has("Light Gem", self._gadget_costs[int(rule[-1])]))
                     continue
@@ -194,6 +195,7 @@ class SpyroAHTWorld(World):
 
             # if there is an and, loop so that all can be gotten
             for rule2 in rule.split(" and "):
+                rule2 = rule2.strip()
                 if "Invincibility" in rule2 or "Supercharge" in rule2:
                     and_rules.append(Has("Light Gem", self._gadget_costs[int(rule2[-1])]))
                 elif rule2 == "True_":
@@ -227,7 +229,7 @@ class SpyroAHTWorld(World):
     
     def generate_early(self) -> None:
         if self.options.starting_realm.value != 0: # not dragon village
-            if self.options.randomize_movement.value == 0 and self.options.randomize_shop_items.value == 0:
+            if self.options.randomize_movement.value == 0 and self.options.shop_randomization.value == 0:
                 raise OptionError("Cannot start outside Dragon Village if Movement and Shop randomization is off")
     
     def create_item(self, name: str) -> Item:
@@ -377,7 +379,7 @@ class SpyroAHTWorld(World):
                     self.get_location(breath_loc).place_locked_item(self.create_item("Light Gem"))
                 minigames += 4
 
-        if self.options.randomize_fireworks.value == 1:
+        if self.options.firework_checks.value == 1:
             for _ in range(22):
                 itempool.append(self.create_item("Gem Pack"))
 
@@ -439,11 +441,6 @@ class SpyroAHTWorld(World):
         self.multiworld.itempool.extend(itempool)
     
     def fill_slot_data(self):
-        smin = self.options.shop_prices_min.value
-        smax = self.options.shop_prices_max.value
-        if smin > smax:
-            smin, smax = smax, smin
-
         r: dict[str, Any] = {
             "goal": self.options.goal.value,
             "skip_cutscenes": self.options.skip_cutscenes.value,
@@ -455,7 +452,7 @@ class SpyroAHTWorld(World):
             "starting_realm": self._starting_realm,
 
             "key_rings": self.options.key_rings.value,
-            "randomize_shop_items": self.options.randomize_shop_items.value,
+            "shop_randomization": self.options.shop_randomization.value,
 
             "randomize_boss_lair_doors": self.options.randomize_boss_lair_doors.value,
             "boss_lair_costs": self._boss_lairs,
@@ -469,22 +466,22 @@ class SpyroAHTWorld(World):
             "randomize_minigames": self.options.randomize_minigames.value,
             "randomize_movement": self.options.randomize_movement.value,
             "randomize_breath": self.options.randomize_breath.value,
-            "randomize_fireworks": self.options.randomize_fireworks.value,
+            "firework_checks": self.options.firework_checks.value,
 
             "easy_bosses": self.options.easy_bosses.value,
 
             "death_link": self.options.death_link.value,
 
-            "shop_unlock_mode": self.options.shop_unlock_mode.value,
             "teleport_anywhere": self.options.teleport_anywhere.value,
             "open_world_mode": self.options.open_world_mode.value
         }
-
-        if self.options.randomize_shop_items.value:
-            if self.options.key_rings.value:
-                r['randomized_shop_prices'] = [self.random.randint(smin, smax) for _ in range(19)]
-            else:
-                r['randomized_shop_prices'] = [self.random.randint(smin, smax) for _ in range(57)]
+        
+        # TODO replace with new logic here?
+        # if self.options.shop_randomization.value:
+        #     if self.options.key_rings.value:
+        #         r['randomized_shop_prices'] = [self.random.randint(smin, smax) for _ in range(19)]
+        #     else:
+        #         r['randomized_shop_prices'] = [self.random.randint(smin, smax) for _ in range(57)]
         return r
     
     def write_spoiler(self, spoiler_handle: TextIO) -> None:
@@ -539,7 +536,7 @@ class LockedChestRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
 
     @override
     def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
-        if world.options.randomize_shop_items.value == 1:
+        if world.options.shop_randomization.value == 1:
             if world.options.key_rings.value == 1:
                 return Has(f"{self.level} Key Ring", 1).resolve(world)
             else:

@@ -1,5 +1,8 @@
 import json
 
+# a lot of this can probably get cleaned up a lot but uhhhhhh do I care?
+# ¯\_(ツ)_/¯
+
 def handle_multiple(the_rule, children):
     return {
         "rule": the_rule,
@@ -66,7 +69,7 @@ def handle_mult_loc_rules(the_rules, the_sep, the_name, the_id, the_option):
         "options": the_option
     }
 
-def handle_special_case(the_case, the_rule):
+def handle_special_case(the_case, the_rule, the_loc_name):
     new_entry = {
         "rule": the_case,
         "options": [],
@@ -75,6 +78,8 @@ def handle_special_case(the_case, the_rule):
     }
     if the_case == "LockedChestRule":
         new_entry["args"]["level"] = the_rule.split(" ", 1)[1]
+    if the_case == "ShopCheckRule":
+        new_entry["args"]["index"] = int(the_loc_name[-3:])
 
 
     return new_entry
@@ -161,12 +166,12 @@ for line in file_in:
         # special cases at the location level. Will get appended regardless
         if "Firework" in loc_name:
             option.append({
-                "option": "randomize_fireworks",
+                "option": "firework_checks",
                 "value": 1
             })
         elif "Shop Item" in loc_name:
             option.append({
-                "option": "randomize_shop_items",
+                "option": "shop_randomization",
                 "value": 1
             })
             if int(loc_name[-3:]) > 18:
@@ -192,9 +197,9 @@ for line in file_in:
             # e.g. in "Charge Or Glide", curr_rule would be "Charge" first, and then "Glide"
 
             # check if non-standard
-            for case in ["True_", "BallGadget", "InvincibilityGadget", "SuperchargeGadget", "LockedChestRule"]:
+            for case in ["True_", "BallGadget", "InvincibilityGadget", "SuperchargeGadget", "LockedChestRule", "ShopCheckRule"]:
                 if case in curr_rule:
-                    entry = handle_special_case(case, curr_rule)
+                    entry = handle_special_case(case, curr_rule, loc_name)
                     loc_rules.append(entry)
                     break
             else:  # only happens if the above loop didn't find any special cases

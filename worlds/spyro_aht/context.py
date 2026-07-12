@@ -60,13 +60,13 @@ class SpyroAHTCommands(ClientCommandProcessor):
         data = self.ctx.slot_data["gadget_costs"]
         self.output(f"Gadget costs are {output}. Ball requires {data[0]} Light Gems, invincibility {data[1]}, and supercharge {data[2]}.")
         # shop items & key rings
-        output = "randomized" if self.ctx.slot_data["randomize_shop_items"] == 1 else "not randomized"
+        output = "randomized" if self.ctx.slot_data["shop_randomization"] == 1 else "not randomized"
         output_2 = "enabled" if self.ctx.slot_data["key_rings"] == 1 else "not enabled"
         self.output(f"Shop items are {output} and key rings are {output_2}.")
 
         self.output("---------------OPTIONAL LOCATIONS---------------")
-        # fireworks
-        output = "randomized" if self.ctx.slot_data["randomize_fireworks"] else "not randomized"
+        # firework checks
+        output = "randomized" if self.ctx.slot_data["firework_checks"] else "not randomized"
         self.output(f"Fireworks are {output}.")
         # minigames
         output = ""
@@ -352,7 +352,7 @@ class SpyroAHTContext(CommonContext):
                 self.emu_client.msg_queue.put_nowait(msg)
 
     async def _location_checks(self):
-        locations = await self.emu_client.scan_locations(shop_items=self.slot_data['randomize_shop_items'] == 1, key_rings=self.slot_data['key_rings'] == 1)
+        locations = await self.emu_client.scan_locations(shop_items=self.slot_data['shop_randomization'] == 1, key_rings=self.slot_data['key_rings'] == 1)
         for c in {229, 230, 231, 232, 999}:
             locations.add(c)
         locations -= self.checked_locations

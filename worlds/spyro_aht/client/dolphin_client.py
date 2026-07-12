@@ -187,9 +187,9 @@ class DolphinClient(GenericClient):
         dolphin_memory_engine.write_byte(self.addresses.p_INSTANT_ELEVATORS, ctx.slot_data['skip_elevators'])
         dolphin_memory_engine.write_word(self.addresses.p_MW_SEED, (int(ctx._seed) & 0xffffffff))
         dolphin_memory_engine.write_byte(self.addresses.p_USE_KEY_RINGS, ctx.slot_data['key_rings'])
-        dolphin_memory_engine.write_byte(self.addresses.p_FIREWORKS_ARE_RANDOMIZED, ctx.slot_data['randomize_fireworks'])
+        dolphin_memory_engine.write_byte(self.addresses.p_FIREWORKS_ARE_RANDOMIZED, ctx.slot_data['firework_checks'])
 
-        if ctx.slot_data['randomize_shop_items']:
+        if ctx.slot_data['shop_randomization']:
             locations = list(range(1000, 1005))
             locations.extend(range(2000, 2013))
             if not ctx.slot_data['key_rings']:

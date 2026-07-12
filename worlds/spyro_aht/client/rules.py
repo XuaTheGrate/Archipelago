@@ -9,7 +9,7 @@ __all__ = ["rule_from_dict", "Rule", "True_", "Has", "Or", "And"]
 
 translation = {
     "worlds.spyro_aht.options.KeyRings": "key_rings",
-    "worlds.spyro_aht.options.RandomizeShopItems": "randomize_shop_items",
+    "worlds.spyro_aht.options.ShopRandomization": "shop_randomization",
     "worlds.spyro_aht.options.RandomizeMovement": "randomize_movement",
     "worlds.spyro_aht.options.RealmAccess": "realm_access",
     "worlds.spyro_aht.options.RandomizeBreath": "randomize_breath"
@@ -107,7 +107,7 @@ class SuperchargeGadget(Rule):
 
 class LockedChestRule(Rule):
     def resolve(self, slot_data: dict[str, Any], items: dict[str, int]) -> bool:
-        if slot_data["randomize_shop_items"]:
+        if slot_data["shop_randomization"]:
             if slot_data["key_rings"]:
                 return self.can_resolve(slot_data) and items.get(f"{self.args['level']} Key Ring", 0) == 1
             else:

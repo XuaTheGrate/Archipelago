@@ -96,7 +96,7 @@
         "classification": 25,
         "count": 52,
         "option": [
-            {"option": "randomize_shop_items", "value": 1},
+            {"option": "shop_randomization", "value": 1},
             {"option": "key_rings", "value": 0}
         ],
         "group": "Shop Items"
@@ -105,28 +105,28 @@
         "name": "Health Unit+",
         "id": 15,
         "classification": 2,
-        "option": [{"option": "randomize_shop_items", "value": 1}],
+        "option": [{"option": "shop_randomization", "value": 1}],
         "group": "Shop Items"
     },
     {
         "name": "Butterfly Jar",
         "id": 25,
         "classification": 2,
-        "option": [{"option": "randomize_shop_items", "value": 1}],
+        "option": [{"option": "shop_randomization", "value": 1}],
         "group": "Shop Items"
     },
     {
         "name": "Double Gems",
         "id": 26,
         "classification": 2,
-        "option": [{"option": "randomize_shop_items", "value": 1}],
+        "option": [{"option": "shop_randomization", "value": 1}],
         "group": "Shop Items"
     },
     {
         "name": "Shockwave",
         "id": 27,
         "classification": 2,
-        "option": [{"option": "randomize_shop_items", "value": 1}],
+        "option": [{"option": "shop_randomization", "value": 1}],
         "group": "Shop Items"
     },
     {
@@ -168,98 +168,98 @@
         "name": "Dragon Village Key Ring",
         "id": 34,
         "classification": 1,
-        "option": [{"option": "key_rings", "value": 1}, {"option": "randomize_shop_items", "value": 1}],
+        "option": [{"option": "key_rings", "value": 1}, {"option": "shop_randomization", "value": 1}],
         "group": "Key Rings"
     },
     {
         "name": "Crocovile Swamp Key Ring",
         "id": 35,
         "classification": 1,
-        "option": [{"option": "key_rings", "value": 1}, {"option": "randomize_shop_items", "value": 1}],
+        "option": [{"option": "key_rings", "value": 1}, {"option": "shop_randomization", "value": 1}],
         "group": "Key Rings"
     },
     {
         "name": "Dragonfly Falls Key Ring",
         "id": 36,
         "classification": 1,
-        "option": [{"option": "key_rings", "value": 1}, {"option": "randomize_shop_items", "value": 1}],
+        "option": [{"option": "key_rings", "value": 1}, {"option": "shop_randomization", "value": 1}],
         "group": "Key Rings"
     },
     {
         "name": "Coastal Remains Key Ring",
         "id": 37,
         "classification": 1,
-        "option": [{"option": "key_rings", "value": 1}, {"option": "randomize_shop_items", "value": 1}],
+        "option": [{"option": "key_rings", "value": 1}, {"option": "shop_randomization", "value": 1}],
         "group": "Key Rings"
     },
     {
         "name": "Cloudy Domain Key Ring",
         "id": 38,
         "classification": 1,
-        "option": [{"option": "key_rings", "value": 1}, {"option": "randomize_shop_items", "value": 1}],
+        "option": [{"option": "key_rings", "value": 1}, {"option": "shop_randomization", "value": 1}],
         "group": "Key Rings"
     },
     {
         "name": "Sunken Ruins Key Ring",
         "id": 39,
         "classification": 1,
-        "option": [{"option": "key_rings", "value": 1}, {"option": "randomize_shop_items", "value": 1}],
+        "option": [{"option": "key_rings", "value": 1}, {"option": "shop_randomization", "value": 1}],
         "group": "Key Rings"
     },
     {
         "name": "Frostbite Village Key Ring",
         "id": 40,
         "classification": 1,
-        "option": [{"option": "key_rings", "value": 1}, {"option": "randomize_shop_items", "value": 1}],
+        "option": [{"option": "key_rings", "value": 1}, {"option": "shop_randomization", "value": 1}],
         "group": "Key Rings"
     },
     {
         "name": "Gloomy Glacier Key Ring",
         "id": 41,
         "classification": 1,
-        "option": [{"option": "key_rings", "value": 1}, {"option": "randomize_shop_items", "value": 1}],
+        "option": [{"option": "key_rings", "value": 1}, {"option": "shop_randomization", "value": 1}],
         "group": "Key Rings"
     },
     {
         "name": "Ice Citadel Key Ring",
         "id": 42,
         "classification": 1,
-        "option": [{"option": "key_rings", "value": 1}, {"option": "randomize_shop_items", "value": 1}],
+        "option": [{"option": "key_rings", "value": 1}, {"option": "shop_randomization", "value": 1}],
         "group": "Key Rings"
     },
     {
         "name": "Stormy Beach Key Ring",
         "id": 43,
         "classification": 1,
-        "option": [{"option": "key_rings", "value": 1}, {"option": "randomize_shop_items", "value": 1}],
+        "option": [{"option": "key_rings", "value": 1}, {"option": "shop_randomization", "value": 1}],
         "group": "Key Rings"
     },
     {
         "name": "Molten Mount Key Ring",
         "id": 44,
         "classification": 1,
-        "option": [{"option": "key_rings", "value": 1}, {"option": "randomize_shop_items", "value": 1}],
+        "option": [{"option": "key_rings", "value": 1}, {"option": "shop_randomization", "value": 1}],
         "group": "Key Rings"
     },
     {
         "name": "Magma Falls Key Ring",
         "id": 45,
         "classification": 1,
-        "option": [{"option": "key_rings", "value": 1}, {"option": "randomize_shop_items", "value": 1}],
+        "option": [{"option": "key_rings", "value": 1}, {"option": "shop_randomization", "value": 1}],
         "group": "Key Rings"
     },
     {
         "name": "Dark Mine Key Ring",
         "id": 46,
         "classification": 1,
-        "option": [{"option": "key_rings", "value": 1}, {"option": "randomize_shop_items", "value": 1}],
+        "option": [{"option": "key_rings", "value": 1}, {"option": "shop_randomization", "value": 1}],
         "group": "Key Rings"
     },
     {
         "name": "Red's Laboratory Key Ring",
         "id": 47,
         "classification": 1,
-        "option": [{"option": "key_rings", "value": 1}, {"option": "randomize_shop_items", "value": 1}],
+        "option": [{"option": "key_rings", "value": 1}, {"option": "shop_randomization", "value": 1}],
         "group": "Key Rings"
     },
     {
