@@ -239,6 +239,27 @@ for line in file_in:
     regions[region_name]["locations"] = region_locations
 
 ###################################################################################
+# add gem events
+file_out = open("4 - gem events.txt", "r")
+region = ""
+region_events = []
+for line in file_out:
+    print(line)
+    split_line = line.split(" | ")  # [0] is region, [1] is name, [2] is rule
+    region = split_line[0] if region == "" else region
+    if split_line[0] != region:  # reset every time a new region shows up
+        regions[region]["gem_events"] = region_events
+        region_events = []
+        region = split_line[0]
+        
+    region_events.append({
+        "name": split_line[1],
+        "access_rule": split_line[2].strip()
+    })
+
+regions[region]["gem_events"] = region_events
+
+########################################################################################################################
 # output
 file_out = open("test-locations.json", "w")
 output = json.dumps(regions, indent=4)

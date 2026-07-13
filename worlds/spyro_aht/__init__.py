@@ -11,7 +11,6 @@ import orjson
 from Options import OptionError
 import Utils
 from BaseClasses import Item, ItemClassification, MultiWorld, Region, CollectionState
-from rule_builder.options import OptionFilter
 from rule_builder.rules import Has, Rule, True_, And, Or
 from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import icon_paths
@@ -147,7 +146,7 @@ class SpyroAHTWorld(World):
         self._starting_realm = 0
         self._starting_breath = -1  # represents none
         self._classifications = {i['name']: ItemClassification(i['classification']) for i in _load_file("items.json")}
-        self._shop_costs = []
+        self.shop_costs = []
         
         # shop costs determined by multiple options
         if self.options.shop_randomization.value == 1:
@@ -359,13 +358,11 @@ class SpyroAHTWorld(World):
                     BossLairRule(3) & Has("Fire Breath")
                 ))
 
-        # set up gem events here
-        # TODO fix this by moving txt into data folder eventually
-        # file_in = open("worlds/spyro_aht/setup/4 - gem events.txt", "r")
-        # for line in file_in:
-        #     region_name, item_name, event_rule = line.split(" | ")
-        #     event_name = f"{region_name}: {item_name}"
-        #     self.get_region(region_name).add_event(event_name, item_name, rule=self.rule_builder(event_rule))
+        # add gem events
+        for line in data:
+            region_name, item_name, event_rule = line.split(" | ")
+            event_name = f"{region_name}: {item_name}"
+            self.get_region(region_name).add_event(event_name, item_name, rule=self.rule_builder(event_rule))
     
     def create_item(self, name: str) -> Item:
         """Helper method for create_items which returns an Item object."""
@@ -541,17 +538,15 @@ class SpyroAHTWorld(World):
             "death_link": self.options.death_link.value,
 
             "teleport_across_realms": self.options.teleport_across_realms.value,
-            "open_world_mode": self.options.open_world_mode.value
+            "open_world_mode": self.options.open_world_mode.value,
+            "shop_costs": self.shop_costs
         }
         
-        # TODO maybe need to get finalized shop prices here?
-        # if self.options.shop_randomization.value == 1:
-        #     count = 19 if self.options.key_rings.value else 57
-        #     r['randomized_shop_prices'] = [self.random.randint(500, 600) for _ in range(count)]
         return r
     
     def write_spoiler(self, spoiler_handle: TextIO) -> None:
         super().write_spoiler(spoiler_handle)
+        # TODO: update this?
         spoiler_handle.write(f"Starting Realm:                  {self._starting_realm}\n")
         spoiler_handle.write(f"Randomized Gadget Costs:         {self._gadget_costs}\n")
         spoiler_handle.write(f"Randomized Boss Lair Costs:      {self._boss_lairs}\n")
@@ -630,7 +625,8 @@ class ShopCheckRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
     
     #override
     def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
-        return True_().resolve(world)
+        cost_lookup = world.shop_costs[self.index-1]
+        return Has("Gems", cost_lookup).resolve(world)
 
 ###############CLIENT###############
 def _run_client(*args: str):

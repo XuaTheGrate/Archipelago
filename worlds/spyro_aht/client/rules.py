@@ -125,4 +125,5 @@ class RealmAccessRule(Rule):
         
 class ShopCheckRule(Rule):
     def resolve(self, slot_data: dict[str, Any], items: dict[str, int]) -> bool:
-        return self.can_resolve(slot_data) and True_()
+        cost_lookup = slot_data['shop_costs'][self.args['index']-1]
+        return self.can_resolve(slot_data) and items.get("Gems") >= cost_lookup

@@ -31,6 +31,7 @@ class SpyroAHTCommands(ClientCommandProcessor):
     #     return True
 
     async def _cmd_list_options(self) -> bool:
+        # TODO: update this
         # this is grossly repetitive, but it only runs when the player demands it so it's not a big deal
         # even if it was reformatted it'd still be the same amount of output and data lookup, it's just code cleanliness
         """Displays the options you set for this seed. Data is sourced directly from slot data, so if something doesn't line up here, check your YAML for mistakes. Much of this info is also viewable in-game by pausing and pressing R/L."""
@@ -311,13 +312,13 @@ class SpyroAHTContext(CommonContext):
                 msg = consts.COLOUR_RED, "SOMETHING WENT WRONG"
                 match idx:
                     case 0:
-                        msg = consts.COLOUR_WHITE, "You can now access Gnasty's Lair!"
+                        msg = consts.COLOUR_WHITE, "You have enough Dark Gems for Gnasty's Lair!"
                     case 1:
-                        msg = consts.COLOUR_WHITE, "You can now access Ineptune's Lair!"
+                        msg = consts.COLOUR_WHITE, "You have enough Dark Gems for Ineptune's Lair!"
                     case 2:
-                        msg = consts.COLOUR_WHITE, "You can now access Red's Lair!"
+                        msg = consts.COLOUR_WHITE, "You have enough Dark Gems for Red's Lair!"
                     case 3:
-                        msg = consts.COLOUR_WHITE, "You can now access Mecha-Red's Lair!"
+                        msg = consts.COLOUR_WHITE, "You have enough Dark Gems for Mecha-Red's Lair!"
                 self.emu_client.msg_queue.put_nowait(msg)
         
         light = await self.emu_client.get_item_count(self.emu_client.addresses.LIGHT_GEM_COUNT)
@@ -328,13 +329,13 @@ class SpyroAHTContext(CommonContext):
                 msg = consts.COLOUR_RED, "SOMETHING WENT WRONG"
                 match idx:
                     case 0:
-                        msg = consts.COLOUR_WHITE, "You can now access the Light Gem door in Dragonfly Falls!"
+                        msg = consts.COLOUR_WHITE, "You have enough Light Gems for the door in Dragonfly Falls!"
                     case 1:
-                        msg = consts.COLOUR_WHITE, "You can now access the Light Gem door in Coastal Remains!"
+                        msg = consts.COLOUR_WHITE, "You have enough Light Gems for the door in Coastal Remains!"
                     case 2:
-                        msg = consts.COLOUR_WHITE, "You can now access the Light Gem door in Frostbite Village!"
+                        msg = consts.COLOUR_WHITE, "You have enough Light Gems for the door in Frostbite Village"
                     case 3:
-                        msg = consts.COLOUR_WHITE, "You can now access the Light Gem door in Dark Mine!"
+                        msg = consts.COLOUR_WHITE, "You have enough Light Gems for the door in Dark Mine!"
                 self.emu_client.msg_queue.put_nowait(msg)
         
         for idx, cost in enumerate(self.slot_data['gadget_costs']):
@@ -344,11 +345,11 @@ class SpyroAHTContext(CommonContext):
                 msg = consts.COLOUR_RED, "SOMETHING WENT WRONG"
                 match idx:
                     case 0:
-                        msg = consts.COLOUR_WHITE, "You can now access the Ball Gadget!"
+                        msg = consts.COLOUR_WHITE, "You have enough Light Gems for the Ball Gadget!"
                     case 1:
-                        msg = consts.COLOUR_WHITE, "You can now access the Invincibility Gadget!"
+                        msg = consts.COLOUR_WHITE, "You have enough Light Gems for the Invincibility Gadget!"
                     case 2:
-                        msg = consts.COLOUR_WHITE, "You can now access the Supercharge Gadget!"
+                        msg = consts.COLOUR_WHITE, "You have enough Light Gems for the Supercharge Gadget!"
                 self.emu_client.msg_queue.put_nowait(msg)
 
     async def _location_checks(self):

@@ -120,14 +120,14 @@ class ShopRandomization(Toggle):
     """Determines whether to randomize Moneybags' shop. If not randomized, it will function identically to the vanilla
     game, with one difference. If you enable key rings, 14 unique key rings will replace lockpicks in the shop. 
 
-    If the shop is randomized, it functions very differently:
-    1) Vanilla game shop items will be placed randomly into the world, and random items will be placed into the shop.
-    This has a few consequences:
-        a) Double Gems, if enabled, is a permanent effect once received, as is the Butterfly Jar (it replenishes on death if depleted).
+    If the shop is randomized, vanilla game items will be replaced with items from Archipelago.
+    Shop items will progressive unlock as you collect gems throughout the seed. Once a shop item is unlocked, you can
+    redeem it for free. This approach has some behind-the-scenes benefits detailed in the project's GitHub README.
+    
+    This has a few consequences worth noting:
+        a) Double Gems, if enabled, is permanent once received, as is the Butterfly Jar (it replenishes on death if depleted).
         b) There is no limit on how many lockpicks you can hold at once. Same with ammo for breath bombs.
         c) If key rings are enabled, the world will have 14 level-specific key rings, instead of 52 lockpicks.
-    2) Shop items will progressively unlock as you collect gems throughout the seed. Once a shop item is unlocked, you
-    can redeem it for free. This approach has some behind-the-scenes benefits detailed in the project's GitHub README.
 
     Item prices are determined by total_gems below."""
     display_name = "Randomize Shop Items"
@@ -199,7 +199,7 @@ class BlinkGems(Range):
     
 class DoubleGems(Choice):
     """This option is only used if you have shop randomization on.
-    The new shop randomization functionality interacts awkwardly with Double Gems. Double Gems is NOT accounted for
+    The shop randomization functionality interacts awkwardly with Double Gems. Double Gems is NOT accounted for
     during generation logic, meaning if you were to receive Double Gems in a seed, you would begin collecting gems
     2x faster than the seed is expecting. This is not a problem, per se, but can lead to you skipping ahead of the
     intended logic for the seed.

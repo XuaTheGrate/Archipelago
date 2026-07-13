@@ -194,7 +194,7 @@ class DolphinClient(GenericClient):
             locations.extend(range(2000, 2013))
             if not ctx.slot_data['key_rings']:
                 locations.extend(range(3013, 3051))
-            await ctx.send_msgs([{"cmd": "LocationScouts", "locations": locations, "create_as_hint": 0}])
+            await ctx.send_msgs([{"cmd": "LocationScouts", "locations": locations, "create_as_hint": 0}])  # TODO: maybe add option to hint shop items?
             await ctx._shop_items_received.wait()
             await self._prepare_shop_items(ctx, *ctx._shop_items)
         
@@ -249,7 +249,7 @@ class DolphinClient(GenericClient):
             name = ctx.item_names.lookup_in_slot(item.item, item.player)
             game = ctx.slot_info[item.player]
             model = consts.ShopItemModel.Lockpick
-            price = ctx.slot_data["randomized_shop_prices"][idx]
+            price = ctx.slot_data["shop_prices"][idx]
             if game.game == "Spyro: A Hero's Tail":
                 if item.item in (0x1A, 0x1D, 0x1, 0xE, 0x5, 0x6, 0x7, 0xD): # softlock prevention
                     price = 0
