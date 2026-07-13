@@ -150,9 +150,10 @@ class KeyRings(Toggle):
 
 
 class TotalGems(Range):
-    """This option is only used if you have shop randomization on. This option lets you limit how much of each area's
+    """This option is only used if you have shop randomization on, and lets you limit how much of each area's
     gems you need to collect. For example, a value of 50 means logic will expect you to always collect approximately
     50% of accessible gems. The amount you are expected to have is visible on the pause screen.
+    ***Note that Blink minigames are separately decided below with blink_gems.***
 
     This option contributes to determining your shop item prices. If you'd like to calculate it yourself, the formula
     is below, but you can also check in-game with a test generation. For more info, see the project's README on GitHub.
@@ -161,16 +162,37 @@ class TotalGems(Range):
     The higher it's set, the less wiggle room you have for skipping gems in areas.
 
     ********************************FORMULA INFO (for the math nerds)********************************
-    base_shop_price = (142,500 * total_gems% / number of shop items), rounded down
-    Randomized shop items are priced at base_shop_price -> base_shop_price * 2 -> base_shop_price * 3 -> etc.
+    non_minigame_gems = 124,235 * total_gems%, rounded down
+    blink_gems = 18,222 * blink_gems%, rounded down
+    base_shop_price = (non_minigame_gems + blink_gems) / number of shop items, rounded down
+    Shop items are priced at base_shop_price -> base_shop_price * 2 -> base_shop_price * 3 -> etc.
 
-    For example, a value of 50 for total_gems on a seed with 18 shop items would give shop prices of
-    3,958 -> 7,916 -> 11,874 -> 15,832 -> etc.
+    Example: 60 for total_gems and 40 for blink_gems, on a seed with 18 shop items, would give shop
+    prices of 4,546 -> 9,092 -> 13,638 -> etc. with the final item equaling (non_minigame_gems + blink_gems).
     *************************************************************************************************
     Minimum value is 1
     Maximum value is 100"""
     display_name = "Total Gems"
     range_start = 1
+    range_end = 100
+    default = 50
+
+
+class BlinkGems(Range):
+    """This option is only used if you have shop randomization on, and is intended to pair with randomize_minigames.
+
+    Even if you exclude a minigame type with randomize_minigames, you would still be expected to collect gems in
+    them, due to how shop prices are calculated in total_gems. This option lets you specify a different percentage,
+    if wanted, of gems to collect from Blink minigames, as they have significantly more gems than other minigames.
+    For comparison, Sgt. Byrd has approximately 3,671 gems total, Sparx has 8,281, and Blink has 18,222.
+    
+    For example, if you specify 40 below, you'd be expected to collect 40% of all gems from Blink minigames, rounded
+    down. That would be 18,222 * 40% = 7,288.8 -> 7,288. Set this option to 0 if you intend to skip Blink minigames.
+    There is no similar option for Sgt. Byrd and Sparx because it is significantly less effort and time to collect
+    their gems, and the smaller amounts are much more reasonably able to be made up for through other means.
+    """
+    display_name = "Blink Gems"
+    range_start = 0
     range_end = 100
     default = 50
 
@@ -347,6 +369,7 @@ class SpyroAHTOptions(PerGameCommonOptions):
     shop_randomization: ShopRandomization
     key_rings: KeyRings
     total_gems: TotalGems
+    blink_gems: BlinkGems
     double_gems: DoubleGems
     
     randomize_boss_lair_door_costs: RandomizeBossLairDoorCosts
@@ -376,7 +399,7 @@ spyro_options_groups = [
         RandomizeBreath, RandomizeMovement, RealmAccess, StartingRealm
     ]),
     OptionGroup("SHOP", [
-        ShopRandomization, KeyRings, TotalGems, DoubleGems
+        ShopRandomization, KeyRings, TotalGems, BlinkGems, DoubleGems
     ]),
     OptionGroup("GATE & GADGET COSTS", [
         RandomizeBossLairDoorCosts, BossLairDoorCostMin, BossLairDoorCostMax,

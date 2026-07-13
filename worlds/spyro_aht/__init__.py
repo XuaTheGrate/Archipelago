@@ -139,7 +139,7 @@ class SpyroAHTWorld(World):
 
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
-        multiworld.early_items[player]['Double Jump'] = 1  # 
+        multiworld.early_items[player]['Double Jump'] = 1 
         
         self._lg_doors = [70, 20, 95, 45]
         self._boss_lairs = [10, 20, 30, 40]
@@ -147,7 +147,21 @@ class SpyroAHTWorld(World):
         self._starting_realm = 0
         self._starting_breath = -1  # represents none
         self._classifications = {i['name']: ItemClassification(i['classification']) for i in _load_file("items.json")}
-    
+        self._shop_costs = []
+        
+        # shop costs determined by multiple options
+        if self.options.shop_randomization.value == 1:
+            blink_gems = 18222
+            non_blink_gems = 124235
+            item_count = 18 if self.options.key_rings else 56
+            blink_total = int(non_blink_gems * self.options.total_gems / 100)
+            non_blink_total = int(blink_gems * self.options.blink_gems / 100)
+            base_price = int((blink_total + non_blink_total) / item_count)
+            for counter in range(item_count):
+                self._shop_costs.append(base_price * (counter + 1))
+            self._shop_costs[-1] = int(non_blink_total + blink_total)
+            
+            
     def collect(self, state: "CollectionState", item: "Item") -> bool:
         """Override of World.collect which additionally handles gem events."""
         name = self.collect_item(state, item)
@@ -530,10 +544,10 @@ class SpyroAHTWorld(World):
             "open_world_mode": self.options.open_world_mode.value
         }
         
-        # TODO replace with new logic here?
-        if self.options.shop_randomization.value == 1:
-            count = 19 if self.options.key_rings.value else 57
-            r['randomized_shop_prices'] = [self.random.randint(500, 600) for _ in range(count)]
+        # TODO maybe need to get finalized shop prices here?
+        # if self.options.shop_randomization.value == 1:
+        #     count = 19 if self.options.key_rings.value else 57
+        #     r['randomized_shop_prices'] = [self.random.randint(500, 600) for _ in range(count)]
         return r
     
     def write_spoiler(self, spoiler_handle: TextIO) -> None:
