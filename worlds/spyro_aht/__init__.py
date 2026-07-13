@@ -2,6 +2,7 @@ import asyncio
 from dataclasses import dataclass
 import functools
 import pkgutil
+import random
 from collections import defaultdict
 from typing import Any, TextIO, override
 
@@ -341,24 +342,49 @@ class SpyroAHTWorld(World):
                     BossLairRule(2) & Has("Water Breath")
                 ))
                 self.get_region("RLMechaRed").add_event("RLDefeatMechaRed", "VictoryCon4", rule=(
-                    BossLairRule(3) & Has("Fire Breath") & Has("Electric Breath") & Has("Double Jump")
+                    BossLairRule(3) & Has("Fire Breath")
                 ))
 
         # set up gem events here
-        file_in = open("setup/4 - gem events.txt", "r")
-        for line in file_in:
-            region_name, item_name, event_rule = line.split(" | ")
-            event_name = f"{region_name}: {item_name}"
-            self.get_region(region_name).add_event(event_name, item_name, rule=self.rule_builder(event_rule))
+        # TODO fix this by moving txt into data folder eventually
+        # file_in = open("worlds/spyro_aht/setup/4 - gem events.txt", "r")
+        # for line in file_in:
+        #     region_name, item_name, event_rule = line.split(" | ")
+        #     event_name = f"{region_name}: {item_name}"
+        #     self.get_region(region_name).add_event(event_name, item_name, rule=self.rule_builder(event_rule))
     
     def create_item(self, name: str) -> Item:
         """Helper method for create_items which returns an Item object."""
         return Item(name, self._classifications[name], self.item_name_to_id[name], self.player)
+
+    def setup_filler_list(self, item_data) -> list[str]:
+        """Helper method for generating a list of filler items, from which filler items will be chosen
+        at random in create_items."""
+        final_list, generic_list = [], []
+        all_filler = [item for item in item_data if item["group"] == "Filler"]
+        player_choices = self.options.filler_items.value
+        add_generic = True if (len(player_choices) == 0 or "Generic" in player_choices) else False
+
+        for filler_item in all_filler:
+            if filler_item['name'] == "Gem Pack" and "Gem Packs" in player_choices:
+                final_list.append("Gem Pack")
+            elif filler_item['name'] == "Dragon Egg" and "Dragon Eggs" in player_choices:
+                final_list.append("Dragon Egg")
+            elif 30 <= filler_item['id'] <= 33 and "Breath Bombs" in player_choices:
+                final_list.append(filler_item['name'])
+            elif 52 <= filler_item['id'] <= 63 and add_generic:
+                generic_list.append(filler_item['name'])
+
+        if add_generic:
+            final_list.extend(random.sample(generic_list, k=6))  # only take 6 to not overly clutter the pool        
+        return final_list
     
     def create_items(self) -> None:
-        data = _load_file("items.json")
+        item_data = _load_file("items.json")
         itempool = []
-
+        filler_items = self.setup_filler_list(item_data)
+        filler_counter = 101  # always at least 101. Conditionally more (like if firework checks are enabled)
+        
         minigames = 0
         for npc, npc_list in zip(["Sgt. Byrd", "Blink", "Sparx", "Turret"], minigame_locs):
             if npc not in self.options.randomize_minigames.value:
@@ -368,8 +394,7 @@ class SpyroAHTWorld(World):
                 minigames += 4
 
         if self.options.firework_checks.value == 1:
-            for _ in range(22):
-                itempool.append(self.create_item("Gem Pack"))
+            filler_counter += 22
 
         if self.options.randomize_breath.value == 0:
             self._starting_breath = 0
@@ -394,7 +419,10 @@ class SpyroAHTWorld(World):
             self.get_location("Starter Checks: Charge").place_locked_item(self.create_item("Charge"))
             self.get_location("Starter Checks: Glide").place_locked_item(self.create_item("Glide"))
 
-        for item in data:
+        for item in item_data:
+            if item["group"] == "Filler":  # filler handled later
+                continue
+            
             add = True
 
             match item['name']:
@@ -441,12 +469,16 @@ class SpyroAHTWorld(World):
                 "Stormy Beach Access Card"
             ]
 
-            itempool.append(self.create_item("Gem Pack"))
-
+            filler_counter += 1
             start = access_cards.pop(self._starting_realm)
             self.get_location("Starter Checks: Starting Realm Access").place_locked_item(self.create_item(start))
-            for i in access_cards:
-                itempool.append(self.create_item(i))
+            for card in access_cards:
+                itempool.append(self.create_item(card))
+                
+        # add filler
+        for _ in range(filler_counter):
+            filler = random.choice(filler_items)
+            self.multiworld.itempool.append(self.create_item(filler))
 
         self.multiworld.itempool.extend(itempool)
   
@@ -497,11 +529,9 @@ class SpyroAHTWorld(World):
         }
         
         # TODO replace with new logic here?
-        # if self.options.shop_randomization.value:
-        #     if self.options.key_rings.value:
-        #         r['randomized_shop_prices'] = [self.random.randint(smin, smax) for _ in range(19)]
-        #     else:
-        #         r['randomized_shop_prices'] = [self.random.randint(smin, smax) for _ in range(57)]
+        if self.options.shop_randomization.value:
+            count = 19 if self.options.key_rings.value else 57
+            r['randomized_shop_prices'] = [self.random.randint(500, 600) for _ in range(count)]
         return r
     
     def write_spoiler(self, spoiler_handle: TextIO) -> None:

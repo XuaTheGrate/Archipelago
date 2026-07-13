@@ -41,8 +41,7 @@
         "name": "Dragon Egg",
         "id": 10,
         "classification": 0,
-        "count": 80,
-        "group": "Collectibles"
+        "group": "Filler"
     },
     {
         "name": "Fire Breath",
@@ -133,35 +132,30 @@
         "name": "Gem Pack",
         "id": 29,
         "classification": 0,
-        "count": 9,
         "group": "Filler"
     },
     {
         "name": "Fire Bomb",
         "id": 30,
         "classification": 0,
-        "count": 3,
         "group": "Filler"
     },
     {
         "name": "Electric Bomb",
         "id": 31,
         "classification": 0,
-        "count": 3,
         "group": "Filler"
     },
     {
         "name": "Water Bomb",
         "id": 32,
         "classification": 0,
-        "count": 3,
         "group": "Filler"
     },
     {
         "name": "Ice Bomb",
         "id": 33,
         "classification": 0,
-        "count": 3,
         "group": "Filler"
     },
     {
@@ -289,5 +283,77 @@
         "classification": 1,
         "option": [{"option": "realm_access", "value": 99}],
         "group": "Access Cards"
+    },
+    {
+        "name": "Spare Jetpack for Sgt. Byrd",
+        "id": 52,
+        "classification": 0,
+        "group": "Filler"
+    },
+    {
+        "name": "New Goggles for Blink",
+        "id": 53,
+        "classification": 0,
+        "group": "Filler"
+    },
+    {
+        "name": "New Bow for Hunter",
+        "id": 54,
+        "classification": 0,
+        "group": "Filler"
+    },
+    {
+        "name": "New Monocle for Moneybags",
+        "id": 55,
+        "classification": 0,
+        "group": "Filler"
+    },
+    {
+        "name": "Spam Call from Moneybags",
+        "id": 56,
+        "classification": 0,
+        "group": "Filler"
+    },
+    {
+        "name": "A Cracked Gem",
+        "id": 57,
+        "classification": 0,
+        "group": "Filler"
+    },
+    {
+        "name": "Mouthwash for Ineptune",
+        "id": 58,
+        "classification": 0,
+        "group": "Filler"
+    },
+    {
+        "name": "Anger Management Class for Red",
+        "id": 59,
+        "classification": 0,
+        "group": "Filler"
+    },
+    {
+        "name": "A Long Story from Elder Tomas",
+        "id": 60,
+        "classification": 0,
+        "group": "Filler"
+    },
+    {
+        "name": "1 Million Brain Cells",
+        "id": 61,
+        "classification": 0,
+        "group": "Filler"
+    },
+    {
+        "name": "Treasure from the 10th Dimension",
+        "id": 62,
+        "classification": 0,
+        "group": "Filler"
+    },
+    {
+        "name": "Stress Ball for Gnasty Gnorc",
+        "id": 63,
+        "classification": 0,
+        "group": "Filler"
     }
 ]

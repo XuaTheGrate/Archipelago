@@ -16,7 +16,7 @@ class DeathLink(Choice):
     option_enabled = 2
     default = 0
 
-###############GOAL AND LOCATIONS/CHECKS###############
+###############GOAL, CHECKS, AND ITEMS###############
 class Goal(Choice):
     """Determines your goal boss, or to require all 4 bosses."""
     display_name = "Goal"
@@ -29,10 +29,8 @@ class Goal(Choice):
 
 
 class FireworkChecks(Toggle):
-    """Whether to enable checks for flaming fireworks.
-    Fire breath is required for surprisingly few things
-    in this game, so enabling this helps make fire breath
-    more important."""
+    """Whether to enable checks for flaming fireworks. Fire breath is required for surprisingly few things in this game,
+    so enabling this helps make fire breath more important. This option adds +22 filler items."""
     display_name = "Randomize Fireworks"
     default = 0
 
@@ -46,6 +44,29 @@ class RandomizeMinigames(OptionSet):
     display_name = "Randomize Minigames"
     valid_keys = ("Sgt. Byrd", "Blink", "Turret", "Sparx")
     default = ("Sgt. Byrd", "Blink", "Turret", "Sparx")
+
+
+class FillerItems(OptionSet):
+    """Choose what will make up your filler item pool. The randomizer picks from your choices here at random, for
+    every location which needs a filler item. There is always a minimum of 101 such locations.
+    
+    Dragon Eggs: Dragon Eggs are functionally useless in Archipelago, because the extras that they unlock are
+    unlocked when you collect the in-game Dragon Eggs, regardless of what they were randomized into.
+    
+    Breath Bombs: random vanilla game bomb items. Only usable if you have that breath unlocked.
+    
+    Gem Packs: give a random amount of gems (400-600 or 800-1200 if you have double gems). It is strongly advised
+    to remove these if you are using shop randomization, because gem logic does not account for gem packs. You would
+    be collecting gems faster than logic expects, to varying degrees depending on how many gem packs get created.
+    
+    Generic: Empty items which do nothing, but have humorous names referencing characters or things in the series.
+    There are 12 total (6 will be chosen each seed), so these will likely make up the majority of your filler pool
+    if enabled. This option is chosen automatically if the list is left empty.
+    
+    Valid options: ["Dragon Eggs", "Breath Bombs", "Gem Packs", "Generic"]"""
+    display_name = "Filler Items"
+    valid_keys = ("Dragon Eggs", "Breath Bombs", "Gem Packs", "Generic")
+    default = ("Dragon Eggs", "Breath Bombs", "Gem Packs", "Generic")
 
 ###############START OF GAME###############
 class RandomizeBreath(Choice):
@@ -76,6 +97,7 @@ class RealmAccess(Choice):
     """Whether to allow access to all realms at all times or to shuffle realm "Access Card" items into the world.
     Setting this to 'always' removes the "Defeat <boss name>" checks, as they would normally reward
     realm access. You still will need to beat any goal-related bosses (and they will still reward their breath checks).
+    Randomized realm access adds 1 filler item because Mecha-Red does not give a realm access card.
     """
     display_name = "Realm Access"
     option_always = 0
@@ -95,13 +117,15 @@ class StartingRealm(Choice):
     
 ###############SHOP###############
 class ShopRandomization(Toggle):
-    """Determines whether to randomize Moneybags' shop. If not randomized, it will contain vanilla game items sold at
-    vanilla prices. 2 things of note:
-    1) Lockpicks can be purchased with no limit, unless you enable key rings, in which case 14 unique key rings replace lockpicks.
-    2) Double Gems is a permanent effect once purchased, as is the Butterfly Jar (it replenishes on death if depleted).
+    """Determines whether to randomize Moneybags' shop. If not randomized, it will function identically to the vanilla
+    game, with one difference. If you enable key rings, 14 unique key rings will replace lockpicks in the shop. 
 
-    If the shop is randomized, it functions very differently.
-    1) Vanilla game items will be replaced with items from Archipelago.
+    If the shop is randomized, it functions very differently:
+    1) Vanilla game shop items will be placed randomly into the world, and random items will be placed into the shop.
+    This has a few consequences:
+        a) Double Gems, if enabled, is a permanent effect once received, as is the Butterfly Jar (it replenishes on death if depleted).
+        b) There is no limit on how many lockpicks you can hold at once. Same with ammo for breath bombs.
+        c) If key rings are enabled, the world will have 14 level-specific key rings, instead of 52 lockpicks.
     2) Shop items will progressively unlock as you collect gems throughout the seed. Once a shop item is unlocked, you
     can redeem it for free. This approach has some behind-the-scenes benefits detailed in the project's GitHub README.
 
@@ -125,7 +149,7 @@ class KeyRings(Toggle):
     default = 0
 
 
-class TotalGems(Toggle):
+class TotalGems(Range):
     """This option is only used if you have shop randomization on. This option lets you limit how much of each area's
     gems you need to collect. For example, a value of 50 means logic will expect you to always collect approximately
     50% of accessible gems. The amount you are expected to have is visible on the pause screen.
@@ -146,6 +170,8 @@ class TotalGems(Toggle):
     Minimum value is 1
     Maximum value is 100"""
     display_name = "Total Gems"
+    range_start = 1
+    range_end = 100
     default = 50
 
     
@@ -311,6 +337,7 @@ class SpyroAHTOptions(PerGameCommonOptions):
     goal: Goal
     firework_checks: FireworkChecks
     randomize_minigames: RandomizeMinigames
+    filler_items: FillerItems
     
     randomize_breath: RandomizeBreath
     randomize_movement: RandomizeMovement
@@ -342,8 +369,8 @@ class SpyroAHTOptions(PerGameCommonOptions):
     
     
 spyro_options_groups = [
-    OptionGroup("GOAL & LOCATIONS/CHECKS", [
-        Goal, FireworkChecks, RandomizeMinigames
+    OptionGroup("GOAL, CHECKS, AND ITEMS", [
+        Goal, FireworkChecks, RandomizeMinigames, FillerItems
     ]),
     OptionGroup("START OF GAME", [
         RandomizeBreath, RandomizeMovement, RealmAccess, StartingRealm
