@@ -253,7 +253,7 @@ for line in file_out:
         region = split_line[0]
         
     region_events.append({
-        "name": split_line[1],
+        "name": f"{region} | {split_line[1]}",
         "access_rule": split_line[2].strip()
     })
 

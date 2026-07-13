@@ -1266,23 +1266,23 @@
         ],
         "gem_events": [
             {
-                "name": "150 Gems (chargeable wall near Elder)",
+                "name": "DVEntry | 150 Gems (chargeable wall near Elder)",
                 "access_rule": "Charge"
             },
             {
-                "name": "300 Gems (dark shards)",
+                "name": "DVEntry | 300 Gems (dark shards)",
                 "access_rule": "Charge or Double Jump"
             },
             {
-                "name": "100 Gems (metal chests)",
+                "name": "DVEntry | 100 Gems (metal chests)",
                 "access_rule": "Electric Breath or Charge or Double Jump"
             },
             {
-                "name": "175 Gems (baskets)",
+                "name": "DVEntry | 175 Gems (baskets)",
                 "access_rule": "Fire Breath or Electric Breath or Water Breath or Ice Breath or Charge or Double Jump"
             },
             {
-                "name": "336 Gems (on the ground)",
+                "name": "DVEntry | 336 Gems (on the ground)",
                 "access_rule": "True_"
             }
         ]
@@ -1486,23 +1486,23 @@
         ],
         "gem_events": [
             {
-                "name": "500 Gems (armored chest via firework across the Crocovile bridge)",
+                "name": "DVDoubleJump | 500 Gems (armored chest via firework across the Crocovile bridge)",
                 "access_rule": "Fire Breath"
             },
             {
-                "name": "20 Gems (huge armored gnorc above DJ ledge)",
+                "name": "DVDoubleJump | 20 Gems (huge armored gnorc above DJ ledge)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "20 Gems (huge unarmored gnorc during Hunter glide tutorial)",
+                "name": "DVDoubleJump | 20 Gems (huge unarmored gnorc during Hunter glide tutorial)",
                 "access_rule": "Fire Breath or Electric Breath or Ice Breath and Charge"
             },
             {
-                "name": "755 Gems (Byrd minigames)",
+                "name": "DVDoubleJump | 755 Gems (Byrd minigames)",
                 "access_rule": "True_"
             },
             {
-                "name": "897 Gems (immediates)",
+                "name": "DVDoubleJump | 897 Gems (immediates)",
                 "access_rule": "True_"
             }
         ]
@@ -1598,23 +1598,23 @@
         ],
         "gem_events": [
             {
-                "name": "1000 Gems (armored chests)",
+                "name": "DVGlide | 1000 Gems (armored chests)",
                 "access_rule": "Fire Breath"
             },
             {
-                "name": "60 Gems (armored enemies)",
+                "name": "DVGlide | 60 Gems (armored enemies)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "40 Gems (huge unarmored gnorcs)",
+                "name": "DVGlide | 40 Gems (huge unarmored gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath or Ice Breath and Charge"
             },
             {
-                "name": "20 Gems (unarmored middle gnorc)",
+                "name": "DVGlide | 20 Gems (unarmored middle gnorc)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "550 Gems (immediates using glide)",
+                "name": "DVGlide | 550 Gems (immediates using glide)",
                 "access_rule": "True_"
             }
         ]
@@ -1709,15 +1709,15 @@
         ],
         "gem_events": [
             {
-                "name": "310 Gems (immediates using charge)",
+                "name": "DVCharge | 310 Gems (immediates using charge)",
                 "access_rule": "True_"
             },
             {
-                "name": "40 Gems (2 gnorc archers)",
+                "name": "DVCharge | 40 Gems (2 gnorc archers)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "500 Gems (armored chest in Byrd area)",
+                "name": "DVCharge | 500 Gems (armored chest in Byrd area)",
                 "access_rule": "Fire Breath and Glide"
             }
         ]
@@ -1984,39 +1984,39 @@
         ],
         "gem_events": [
             {
-                "name": "100 Gems (chargeable gates/walls)",
+                "name": "CSEntry | 100 Gems (chargeable gates/walls)",
                 "access_rule": "Charge"
             },
             {
-                "name": "2550 Gems (using supercharge)",
+                "name": "CSEntry | 2550 Gems (using supercharge)",
                 "access_rule": "Charge and Supercharge2"
             },
             {
-                "name": "245 Gems (crocoviles in Electric gate of temple)",
+                "name": "CSEntry | 245 Gems (crocoviles in Electric gate of temple)",
                 "access_rule": "Electric Breath"
             },
             {
-                "name": "500 Gems (armored chest in area west of pyramid)",
+                "name": "CSEntry | 500 Gems (armored chest in area west of pyramid)",
                 "access_rule": "Fire Breath"
             },
             {
-                "name": "161 Gems (plants & huge unarmored gnorcs)",
+                "name": "CSEntry | 161 Gems (plants & huge unarmored gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath or Ice Breath and Charge"
             },
             {
-                "name": "370 Gems (Crocoviles and Critters)",
+                "name": "CSEntry | 370 Gems (Crocoviles and Critters)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "1000 Gems (armored chests on the pyramid)",
+                "name": "CSEntry | 1000 Gems (armored chests on the pyramid)",
                 "access_rule": "Glide"
             },
             {
-                "name": "1806 Gems (Blink minigames)",
+                "name": "CSEntry | 1806 Gems (Blink minigames)",
                 "access_rule": "True_"
             },
             {
-                "name": "953 Gems (Immediates)",
+                "name": "CSEntry | 953 Gems (Immediates)",
                 "access_rule": "True_"
             }
         ]
@@ -2187,19 +2187,19 @@
         ],
         "gem_events": [
             {
-                "name": "500 Gems (armored chest from firework at top of Elder tree)",
+                "name": "CSPoleSpin | 500 Gems (armored chest from firework at top of Elder tree)",
                 "access_rule": "Fire Breath"
             },
             {
-                "name": "100 Gems (crocoviles)",
+                "name": "CSPoleSpin | 100 Gems (crocoviles)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "260 Gems (immediates)",
+                "name": "CSPoleSpin | 260 Gems (immediates)",
                 "access_rule": "True_"
             },
             {
-                "name": "500 Gems (armored chest from firework in middle of Elder tree)",
+                "name": "CSPoleSpin | 500 Gems (armored chest from firework in middle of Elder tree)",
                 "access_rule": "Fire Breath and Charge or Fire Breath and Glide"
             }
         ]
@@ -2441,35 +2441,35 @@
         ],
         "gem_events": [
             {
-                "name": "1149 Gems (immediates behind chargeable walls)",
+                "name": "DFEntry | 1149 Gems (immediates behind chargeable walls)",
                 "access_rule": "Charge"
             },
             {
-                "name": "75 Gems (3 goats)",
+                "name": "DFEntry | 75 Gems (3 goats)",
                 "access_rule": "Fire Breath or Electric Breath"
             },
             {
-                "name": "100 Gems (huge armored gnorcs)",
+                "name": "DFEntry | 100 Gems (huge armored gnorcs)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "55 Gems (plant + huge unarmored gnorcs)",
+                "name": "DFEntry | 55 Gems (plant + huge unarmored gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath or Ice Breath and Charge"
             },
             {
-                "name": "395 Gems (crocoviles + shepherd)",
+                "name": "DFEntry | 395 Gems (crocoviles + shepherd)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "3856 Gems (immediates in ball gadget and as Spyro & Hunter)",
+                "name": "DFEntry | 3856 Gems (immediates in ball gadget and as Spyro & Hunter)",
                 "access_rule": "True_"
             },
             {
-                "name": "1523 Gems (Sparx minigames)",
+                "name": "DFEntry | 1523 Gems (Sparx minigames)",
                 "access_rule": "True_"
             },
             {
-                "name": "100 Gems (underwater vases in piranha lake)",
+                "name": "DFEntry | 100 Gems (underwater vases in piranha lake)",
                 "access_rule": "Swim and Charge"
             }
         ]
@@ -2517,19 +2517,19 @@
         ],
         "gem_events": [
             {
-                "name": "40 Gems (huge armored gnorcs)",
+                "name": "DFLGDoor | 40 Gems (huge armored gnorcs)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "60 Gems (huge unarmored gnorcs)",
+                "name": "DFLGDoor | 60 Gems (huge unarmored gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath or Ice Breath and Charge"
             },
             {
-                "name": "75 Gems (blue monkeys)",
+                "name": "DFLGDoor | 75 Gems (blue monkeys)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "476 Gems (immediates)",
+                "name": "DFLGDoor | 476 Gems (immediates)",
                 "access_rule": "True_"
             }
         ]
@@ -2608,39 +2608,39 @@
         ],
         "gem_events": [
             {
-                "name": "200 Gems (Headbash crates)",
+                "name": "CREntry | 200 Gems (Headbash crates)",
                 "access_rule": "Double Jump"
             },
             {
-                "name": "275 Gems (metal crates)",
+                "name": "CREntry | 275 Gems (metal crates)",
                 "access_rule": "Electric Breath or Charge or Double Jump"
             },
             {
-                "name": "175 Gems (blue crabs)",
+                "name": "CREntry | 175 Gems (blue crabs)",
                 "access_rule": "Electric Breath or Ice Breath and Charge or Charge and Double Jump"
             },
             {
-                "name": "60 Gems (huge armored gnorcs)",
+                "name": "CREntry | 60 Gems (huge armored gnorcs)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "20 Gems (huge unarmored gnorc near Otto's pool)",
+                "name": "CREntry | 20 Gems (huge unarmored gnorc near Otto's pool)",
                 "access_rule": "Fire Breath or Electric Breath or Ice Breath and Charge"
             },
             {
-                "name": "590 Gems (various small/middle enemies)",
+                "name": "CREntry | 590 Gems (various small/middle enemies)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "750 Gems (baskets)",
+                "name": "CREntry | 750 Gems (baskets)",
                 "access_rule": "Fire Breath or Electric Breath or Water Breath or Ice Breath or Charge or Double Jump"
             },
             {
-                "name": "722 Gems (on ground)",
+                "name": "CREntry | 722 Gems (on ground)",
                 "access_rule": "True_"
             },
             {
-                "name": "650 Gems (underwater stuff including stuff in Otto's Pool)",
+                "name": "CREntry | 650 Gems (underwater stuff including stuff in Otto's Pool)",
                 "access_rule": "Swim and Charge"
             }
         ]
@@ -2726,15 +2726,15 @@
         ],
         "gem_events": [
             {
-                "name": "50 Gems (pygmies)",
+                "name": "CRDoubleJump | 50 Gems (pygmies)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "20 Gems (huge unarmored gnorc in pole spin area by dark gem)",
+                "name": "CRDoubleJump | 20 Gems (huge unarmored gnorc in pole spin area by dark gem)",
                 "access_rule": "Fire Breath or Electric Breath or Ice Breath and Charge"
             },
             {
-                "name": "673 Gems (immediates mostly around piranha pool and windmill area)",
+                "name": "CRDoubleJump | 673 Gems (immediates mostly around piranha pool and windmill area)",
                 "access_rule": "True_"
             }
         ]
@@ -2779,39 +2779,39 @@
         ],
         "gem_events": [
             {
-                "name": "50 Gems (headbash crates)",
+                "name": "CRLGDoor | 50 Gems (headbash crates)",
                 "access_rule": "Double Jump"
             },
             {
-                "name": "50 Gems (metal crates)",
+                "name": "CRLGDoor | 50 Gems (metal crates)",
                 "access_rule": "Electric Breath or Charge or Double Jump"
             },
             {
-                "name": "20 Gems (huge armored gnorcs)",
+                "name": "CRLGDoor | 20 Gems (huge armored gnorcs)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "40 Gems (middle enemies)",
+                "name": "CRLGDoor | 40 Gems (middle enemies)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "125 Gems (baskets)",
+                "name": "CRLGDoor | 125 Gems (baskets)",
                 "access_rule": "Fire Breath or Electric Breath or Water Breath or Ice Breath or Charge or Double Jump"
             },
             {
-                "name": "239 Gems (on ground)",
+                "name": "CRLGDoor | 239 Gems (on ground)",
                 "access_rule": "True_"
             },
             {
-                "name": "20 Gems (huge armored gnorc)",
+                "name": "CRLGDoor | 20 Gems (huge armored gnorc)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "40 Gems (gnorc archers up high)",
+                "name": "CRLGDoor | 40 Gems (gnorc archers up high)",
                 "access_rule": "Double Jump and Fire Breath or Double Jump and Electric Breath or Double Jump and Charge"
             },
             {
-                "name": "125 Gems (immediates up high)",
+                "name": "CRLGDoor | 125 Gems (immediates up high)",
                 "access_rule": "Double Jump"
             }
         ]
@@ -2890,23 +2890,23 @@
         ],
         "gem_events": [
             {
-                "name": "20 Gems (huge armored gnorc)",
+                "name": "CRGlide | 20 Gems (huge armored gnorc)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "2070 Gems (immediates)",
+                "name": "CRGlide | 2070 Gems (immediates)",
                 "access_rule": "True_"
             },
             {
-                "name": "20 Gems (huge gnorc after Electric platform near cloudy domain)",
+                "name": "CRGlide | 20 Gems (huge gnorc after Electric platform near cloudy domain)",
                 "access_rule": "Electric Breath and Fire Breath and Charge or Electric Breath and Ice Breath and Charge"
             },
             {
-                "name": "493 Gems (immediates after electric platform near cloudy domain)",
+                "name": "CRGlide | 493 Gems (immediates after electric platform near cloudy domain)",
                 "access_rule": "Electric Breath"
             },
             {
-                "name": "1050 Gems (pole spin area stuff by the egg)",
+                "name": "CRGlide | 1050 Gems (pole spin area stuff by the egg)",
                 "access_rule": "Pole Spin"
             }
         ]
@@ -3039,27 +3039,27 @@
         ],
         "gem_events": [
             {
-                "name": "20 Gems (huge armored gnorc)",
+                "name": "CRPoleSpin | 20 Gems (huge armored gnorc)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "40 Gems (huge unarmored gnorcs)",
+                "name": "CRPoleSpin | 40 Gems (huge unarmored gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath or Ice Breath and Charge"
             },
             {
-                "name": "200 Gems (gnorc archers + pygmies)",
+                "name": "CRPoleSpin | 200 Gems (gnorc archers + pygmies)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "1499 Gems (immediates and stuff in otto's pool once filled)",
+                "name": "CRPoleSpin | 1499 Gems (immediates and stuff in otto's pool once filled)",
                 "access_rule": "True_"
             },
             {
-                "name": "2165 Gems (Blink minigames)",
+                "name": "CRPoleSpin | 2165 Gems (Blink minigames)",
                 "access_rule": "True_"
             },
             {
-                "name": "275 Gems (underwater near sunken ruins entrance)",
+                "name": "CRPoleSpin | 275 Gems (underwater near sunken ruins entrance)",
                 "access_rule": "Swim and Charge"
             }
         ]
@@ -3112,7 +3112,7 @@
         ],
         "gem_events": [
             {
-                "name": "100 Gems (orange crabs on the way to Ineptune)",
+                "name": "CRWateryTomb | 100 Gems (orange crabs on the way to Ineptune)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             }
         ]
@@ -3186,19 +3186,19 @@
         ],
         "gem_events": [
             {
-                "name": "125 Gems (flying gnorcs)",
+                "name": "CDEntry | 125 Gems (flying gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath"
             },
             {
-                "name": "20 Gems (middle armored gnorc)",
+                "name": "CDEntry | 20 Gems (middle armored gnorc)",
                 "access_rule": "Charge"
             },
             {
-                "name": "80 Gems (huge unarmored gnorcs)",
+                "name": "CDEntry | 80 Gems (huge unarmored gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath or Ice Breath and Charge"
             },
             {
-                "name": "507 Gems (immediates)",
+                "name": "CDEntry | 507 Gems (immediates)",
                 "access_rule": "True_"
             }
         ]
@@ -3312,27 +3312,27 @@
         ],
         "gem_events": [
             {
-                "name": "500 Gems (armored chest before light gem)",
+                "name": "CDCharge | 500 Gems (armored chest before light gem)",
                 "access_rule": "Fire Breath"
             },
             {
-                "name": "125 Gems (flying gnorcs)",
+                "name": "CDCharge | 125 Gems (flying gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath"
             },
             {
-                "name": "20 Gems (huge armored gnorc)",
+                "name": "CDCharge | 20 Gems (huge armored gnorc)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "20 Gems (huge unarmored gnorc)",
+                "name": "CDCharge | 20 Gems (huge unarmored gnorc)",
                 "access_rule": "Fire Breath or Electric Breath or Ice Breath and Charge"
             },
             {
-                "name": "730 Gems (immediates)",
+                "name": "CDCharge | 730 Gems (immediates)",
                 "access_rule": "True_"
             },
             {
-                "name": "1575 Gems (supercharge stuff )",
+                "name": "CDCharge | 1575 Gems (supercharge stuff )",
                 "access_rule": "Supercharge2"
             }
         ]
@@ -3473,19 +3473,19 @@
         ],
         "gem_events": [
             {
-                "name": "475 Gems (flying gnorcs)",
+                "name": "CDWingShield | 475 Gems (flying gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath"
             },
             {
-                "name": "40 Gems (huge unarmored gnorcs)",
+                "name": "CDWingShield | 40 Gems (huge unarmored gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath or Ice Breath and Charge"
             },
             {
-                "name": "400 Gems (Byrd minigames)",
+                "name": "CDWingShield | 400 Gems (Byrd minigames)",
                 "access_rule": "True_"
             },
             {
-                "name": "1225 Gems (immediates)",
+                "name": "CDWingShield | 1225 Gems (immediates)",
                 "access_rule": "True_"
             }
         ]
@@ -3544,11 +3544,11 @@
         ],
         "gem_events": [
             {
-                "name": "815 Gems (Ball Gadget)",
+                "name": "CDBallGadget | 815 Gems (Ball Gadget)",
                 "access_rule": "True_"
             },
             {
-                "name": "500 Gems (armored chest from firework after ball gadget)",
+                "name": "CDBallGadget | 500 Gems (armored chest from firework after ball gadget)",
                 "access_rule": "Fire Breath"
             }
         ]
@@ -3581,11 +3581,11 @@
         ],
         "gem_events": [
             {
-                "name": "240 Gems (immediates)",
+                "name": "SREntry | 240 Gems (immediates)",
                 "access_rule": "True_"
             },
             {
-                "name": "125 Gems (critters and mer-gnorcs)",
+                "name": "SREntry | 125 Gems (critters and mer-gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             }
         ]
@@ -3797,35 +3797,35 @@
         ],
         "gem_events": [
             {
-                "name": "475 Gems (underwater breakable stuff)",
+                "name": "SRSwim | 475 Gems (underwater breakable stuff)",
                 "access_rule": "Charge"
             },
             {
-                "name": "50 Gems (blue crabs after second swim)",
+                "name": "SRSwim | 50 Gems (blue crabs after second swim)",
                 "access_rule": "Electric Breath or Ice Breath and Charge or Charge and Double Jump"
             },
             {
-                "name": "125 Gems (mer-gnorc and critters)",
+                "name": "SRSwim | 125 Gems (mer-gnorc and critters)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "2148 Gems (Sparx minigames)",
+                "name": "SRSwim | 2148 Gems (Sparx minigames)",
                 "access_rule": "True_"
             },
             {
-                "name": "2588 Gems (immediates)",
+                "name": "SRSwim | 2588 Gems (immediates)",
                 "access_rule": "True_"
             },
             {
-                "name": "1500 Gems (armored chests above whirlwinds)",
+                "name": "SRSwim | 1500 Gems (armored chests above whirlwinds)",
                 "access_rule": "Glide and Fire Breath"
             },
             {
-                "name": "397 Gems (immediates above whirlwinds)",
+                "name": "SRSwim | 397 Gems (immediates above whirlwinds)",
                 "access_rule": "Glide"
             },
             {
-                "name": "50 Gems (near light gem via invincibility swim)",
+                "name": "SRSwim | 50 Gems (near light gem via invincibility swim)",
                 "access_rule": "Invincibility1"
             }
         ]
@@ -3889,11 +3889,11 @@
         ],
         "gem_events": [
             {
-                "name": "1500 Gems (firework above invincibility wall kick)",
+                "name": "SRWallKick | 1500 Gems (firework above invincibility wall kick)",
                 "access_rule": "Fire Breath"
             },
             {
-                "name": "50 Gems (mer-gnorcs above invincibility wall kick)",
+                "name": "SRWallKick | 50 Gems (mer-gnorcs above invincibility wall kick)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             }
         ]
@@ -3915,11 +3915,11 @@
         "locations": [],
         "gem_events": [
             {
-                "name": "606 Gems (immediates)",
+                "name": "SRElectric | 606 Gems (immediates)",
                 "access_rule": "True_"
             },
             {
-                "name": "150 Gems (dark shards above invincibility gadget)",
+                "name": "SRElectric | 150 Gems (dark shards above invincibility gadget)",
                 "access_rule": "Glide"
             }
         ]
@@ -4025,11 +4025,11 @@
         ],
         "gem_events": [
             {
-                "name": "2241 Gems (immediates)",
+                "name": "SRInvincibility | 2241 Gems (immediates)",
                 "access_rule": "True_"
             },
             {
-                "name": "1500 Gems (armored chests from firework after dark gem above invincibility)",
+                "name": "SRInvincibility | 1500 Gems (armored chests from firework after dark gem above invincibility)",
                 "access_rule": "Fire Breath"
             }
         ]
@@ -4074,7 +4074,7 @@
         ],
         "gem_events": [
             {
-                "name": "900 Gems (immediates)",
+                "name": "SRGlide | 900 Gems (immediates)",
                 "access_rule": "True_"
             }
         ]
@@ -4097,11 +4097,11 @@
         "locations": [],
         "gem_events": [
             {
-                "name": "25 Gems (baskets)",
+                "name": "FVEntry | 25 Gems (baskets)",
                 "access_rule": "Fire Breath or Electric Breath or Water Breath or Ice Breath or Charge or Double Jump"
             },
             {
-                "name": "80 Gems (headbash)",
+                "name": "FVEntry | 80 Gems (headbash)",
                 "access_rule": "Double Jump"
             }
         ]
@@ -4212,15 +4212,15 @@
         ],
         "gem_events": [
             {
-                "name": "415 Gems (immediates)",
+                "name": "FVElectric | 415 Gems (immediates)",
                 "access_rule": "True_"
             },
             {
-                "name": "130 Gems (near light gem after floating platform)",
+                "name": "FVElectric | 130 Gems (near light gem after floating platform)",
                 "access_rule": "Water Breath and Double Jump"
             },
             {
-                "name": "25 Gems (eskimole under snowman)",
+                "name": "FVElectric | 25 Gems (eskimole under snowman)",
                 "access_rule": "Double Jump"
             }
         ]
@@ -4313,27 +4313,27 @@
         ],
         "gem_events": [
             {
-                "name": "100 Gems (huge armored gnorcs)",
+                "name": "FVDoubleJump | 100 Gems (huge armored gnorcs)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "40 Gems (middle armored gnorcs)",
+                "name": "FVDoubleJump | 40 Gems (middle armored gnorcs)",
                 "access_rule": "Charge"
             },
             {
-                "name": "230 Gems (eskimoles and middle unarmored gnorcs)",
+                "name": "FVDoubleJump | 230 Gems (eskimoles and middle unarmored gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "50 Gems (baskets on ice you can't double jump to break)",
+                "name": "FVDoubleJump | 50 Gems (baskets on ice you can't double jump to break)",
                 "access_rule": "Fire Breath or Electric Breath or Water Breath or Ice Breath or Charge"
             },
             {
-                "name": "3837 Gems (Blink minigames)",
+                "name": "FVDoubleJump | 3837 Gems (Blink minigames)",
                 "access_rule": "True_"
             },
             {
-                "name": "1036 Gems (immediates)",
+                "name": "FVDoubleJump | 1036 Gems (immediates)",
                 "access_rule": "True_"
             }
         ]
@@ -4396,27 +4396,27 @@
         ],
         "gem_events": [
             {
-                "name": "20 Gems (huge armored gnorc)",
+                "name": "FVWallKick | 20 Gems (huge armored gnorc)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "20 Gems (middle unarmored gnorc)",
+                "name": "FVWallKick | 20 Gems (middle unarmored gnorc)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "271 Gems (immediates)",
+                "name": "FVWallKick | 271 Gems (immediates)",
                 "access_rule": "True_"
             },
             {
-                "name": "11 Gems (behind chargeable wall)",
+                "name": "FVWallKick | 11 Gems (behind chargeable wall)",
                 "access_rule": "Charge"
             },
             {
-                "name": "25 Gems (eskimole on small platform)",
+                "name": "FVWallKick | 25 Gems (eskimole on small platform)",
                 "access_rule": "Glide and Fire Breath or Glide and Electric Breath or Glide and Charge"
             },
             {
-                "name": "630 Gems (immediates beyond the breakable cannon ball thing)",
+                "name": "FVWallKick | 630 Gems (immediates beyond the breakable cannon ball thing)",
                 "access_rule": "Glide"
             }
         ]
@@ -4686,11 +4686,11 @@
         ],
         "gem_events": [
             {
-                "name": "2218 Gems (Sparx minigames)",
+                "name": "GGEntry | 2218 Gems (Sparx minigames)",
                 "access_rule": "True_"
             },
             {
-                "name": "3413 Gems (everything in Gloomy Glacier)",
+                "name": "GGEntry | 3413 Gems (everything in Gloomy Glacier)",
                 "access_rule": "True_"
             }
         ]
@@ -4767,31 +4767,31 @@
         ],
         "gem_events": [
             {
-                "name": "80 Gems (middle armored gnorcs)",
+                "name": "ICEntry | 80 Gems (middle armored gnorcs)",
                 "access_rule": "Charge"
             },
             {
-                "name": "200 Gems (steel traps)",
+                "name": "ICEntry | 200 Gems (steel traps)",
                 "access_rule": "Electric Breath or Ice Breath and Charge"
             },
             {
-                "name": "1525 Gems (firework chest + 3 armored chests)",
+                "name": "ICEntry | 1525 Gems (firework chest + 3 armored chests)",
                 "access_rule": "Fire Breath"
             },
             {
-                "name": "20 Gems (huge armored gnorc)",
+                "name": "ICEntry | 20 Gems (huge armored gnorc)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "180 Gems (middle unarmored gnorcs + archers)",
+                "name": "ICEntry | 180 Gems (middle unarmored gnorcs + archers)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "75 Gems (3 baskets you can't double jump to reliably break)",
+                "name": "ICEntry | 75 Gems (3 baskets you can't double jump to reliably break)",
                 "access_rule": "Fire Breath or Electric Breath or Water Breath or Ice Breath or Charge"
             },
             {
-                "name": "1073 Gems (immediates)",
+                "name": "ICEntry | 1073 Gems (immediates)",
                 "access_rule": "True_"
             }
         ]
@@ -4865,23 +4865,23 @@
         ],
         "gem_events": [
             {
-                "name": "400 Gems (steel traps)",
+                "name": "ICWater | 400 Gems (steel traps)",
                 "access_rule": "Electric Breath or Ice Breath and Charge"
             },
             {
-                "name": "20 Gems (huge armored gnorcs)",
+                "name": "ICWater | 20 Gems (huge armored gnorcs)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "45 Gems (middle armored gnorcs + headbash behind chargeable wall)",
+                "name": "ICWater | 45 Gems (middle armored gnorcs + headbash behind chargeable wall)",
                 "access_rule": "Charge"
             },
             {
-                "name": "60 Gems (yeti + middle unarmored gnorcs)",
+                "name": "ICWater | 60 Gems (yeti + middle unarmored gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "683 Gems (immediates)",
+                "name": "ICWater | 683 Gems (immediates)",
                 "access_rule": "True_"
             }
         ]
@@ -5222,39 +5222,39 @@
         ],
         "gem_events": [
             {
-                "name": "225 Gems (steel traps)",
+                "name": "ICWallKick | 225 Gems (steel traps)",
                 "access_rule": "Electric Breath or Ice Breath and Charge"
             },
             {
-                "name": "50 Gems (firework chest)",
+                "name": "ICWallKick | 50 Gems (firework chest)",
                 "access_rule": "Fire Breath"
             },
             {
-                "name": "25 Gems (ice monster)",
+                "name": "ICWallKick | 25 Gems (ice monster)",
                 "access_rule": "Fire Breath or Electric Breath or Supercharge2"
             },
             {
-                "name": "80 Gems (huge armoed gnorcs)",
+                "name": "ICWallKick | 80 Gems (huge armoed gnorcs)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "20 Gems (huge unarmored gnorc)",
+                "name": "ICWallKick | 20 Gems (huge unarmored gnorc)",
                 "access_rule": "Fire Breath or Electric Breath or Ice Breath and Charge"
             },
             {
-                "name": "241 Gems (middle enemies + yeti)",
+                "name": "ICWallKick | 241 Gems (middle enemies + yeti)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "1630 Gems (Byrd minigames)",
+                "name": "ICWallKick | 1630 Gems (Byrd minigames)",
                 "access_rule": "True_"
             },
             {
-                "name": "7075 Gems (immediates)",
+                "name": "ICWallKick | 7075 Gems (immediates)",
                 "access_rule": "True_"
             },
             {
-                "name": "2115 Gems (supercharge stuff)",
+                "name": "ICWallKick | 2115 Gems (supercharge stuff)",
                 "access_rule": "Charge and Supercharge2"
             }
         ]
@@ -5311,11 +5311,11 @@
         ],
         "gem_events": [
             {
-                "name": "20 Gems (huge armored gnorc)",
+                "name": "ICBehindQueen | 20 Gems (huge armored gnorc)",
                 "access_rule": "Charge"
             },
             {
-                "name": "60 Gems (gnorc archers)",
+                "name": "ICBehindQueen | 60 Gems (gnorc archers)",
                 "access_rule": "True_"
             }
         ]
@@ -5346,7 +5346,7 @@
         ],
         "gem_events": [
             {
-                "name": "4500 Gems (armored chests on the way)",
+                "name": "ICReturnToFV | 4500 Gems (armored chests on the way)",
                 "access_rule": "True_"
             }
         ]
@@ -5415,11 +5415,11 @@
         ],
         "gem_events": [
             {
-                "name": "20 Gems (huge armored gnorc)",
+                "name": "FVEntry2 | 20 Gems (huge armored gnorc)",
                 "access_rule": "Fire Breath or Electric Breath or Ice Breath"
             },
             {
-                "name": "1728 Gems (immediates + armored chests)",
+                "name": "FVEntry2 | 1728 Gems (immediates + armored chests)",
                 "access_rule": "True_"
             }
         ]
@@ -5451,7 +5451,7 @@
         ],
         "gem_events": [
             {
-                "name": "40 Gems (huge gnorcs)",
+                "name": "FVEastPoles | 40 Gems (huge gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath or Ice Breath"
             }
         ]
@@ -5486,15 +5486,15 @@
         ],
         "gem_events": [
             {
-                "name": "180 Gems (immediates)",
+                "name": "FVLGDoorEntry | 180 Gems (immediates)",
                 "access_rule": "True_"
             },
             {
-                "name": "40 Gems (huge gnorcs)",
+                "name": "FVLGDoorEntry | 40 Gems (huge gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath or Ice Breath"
             },
             {
-                "name": "200 Gems (immediates past pole spin)",
+                "name": "FVLGDoorEntry | 200 Gems (immediates past pole spin)",
                 "access_rule": "Pole Spin"
             }
         ]
@@ -5542,11 +5542,11 @@
         ],
         "gem_events": [
             {
-                "name": "370 Gems (immediates above ground)",
+                "name": "FVLGDoorGlide | 370 Gems (immediates above ground)",
                 "access_rule": "True_"
             },
             {
-                "name": "225 Gems (swim under icy water)",
+                "name": "FVLGDoorGlide | 225 Gems (swim under icy water)",
                 "access_rule": "Swim and Invincibility1"
             }
         ]
@@ -5646,47 +5646,47 @@
         ],
         "gem_events": [
             {
-                "name": "80 Gems (middle armored gnorcs)",
+                "name": "SBEntry | 80 Gems (middle armored gnorcs)",
                 "access_rule": "Charge"
             },
             {
-                "name": "350 Gems (dark shards)",
+                "name": "SBEntry | 350 Gems (dark shards)",
                 "access_rule": "Charge or Double Jump"
             },
             {
-                "name": "30 Gems (headbash chest)",
+                "name": "SBEntry | 30 Gems (headbash chest)",
                 "access_rule": "Double Jump"
             },
             {
-                "name": "300 Gems (metal chests)",
+                "name": "SBEntry | 300 Gems (metal chests)",
                 "access_rule": "Electric Breath or Charge or Double Jump"
             },
             {
-                "name": "375 Gems (steel traps)",
+                "name": "SBEntry | 375 Gems (steel traps)",
                 "access_rule": "Electric Breath or Ice Breath and Charge"
             },
             {
-                "name": "1000 Gems (2 armored chests via firework)",
+                "name": "SBEntry | 1000 Gems (2 armored chests via firework)",
                 "access_rule": "Fire Breath"
             },
             {
-                "name": "60 Gems (huge armored gnorcs)",
+                "name": "SBEntry | 60 Gems (huge armored gnorcs)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "140 Gems (middle unarmored gnorcs)",
+                "name": "SBEntry | 140 Gems (middle unarmored gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "350 Gems (baskets)",
+                "name": "SBEntry | 350 Gems (baskets)",
                 "access_rule": "Fire Breath or Electric Breath or Water Breath or Ice Breath or Charge or Double Jump"
             },
             {
-                "name": "263 Gems (on the ground)",
+                "name": "SBEntry | 263 Gems (on the ground)",
                 "access_rule": "True_"
             },
             {
-                "name": "100 Gems (underwater by realm teleporter)",
+                "name": "SBEntry | 100 Gems (underwater by realm teleporter)",
                 "access_rule": "Swim and Charge"
             }
         ]
@@ -5799,23 +5799,23 @@
         ],
         "gem_events": [
             {
-                "name": "20 Gems (middle armored gnorc)",
+                "name": "SBDoubleJump | 20 Gems (middle armored gnorc)",
                 "access_rule": "Charge"
             },
             {
-                "name": "2500 Gems (armored chests)",
+                "name": "SBDoubleJump | 2500 Gems (armored chests)",
                 "access_rule": "Fire Breath"
             },
             {
-                "name": "20 Gems (huge armored gnorc)",
+                "name": "SBDoubleJump | 20 Gems (huge armored gnorc)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "40 Gems (gnorc archers and middle unarmored gnorcs)",
+                "name": "SBDoubleJump | 40 Gems (gnorc archers and middle unarmored gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "1414 Gems (immediates)",
+                "name": "SBDoubleJump | 1414 Gems (immediates)",
                 "access_rule": "True_"
             }
         ]
@@ -5865,11 +5865,11 @@
         ],
         "gem_events": [
             {
-                "name": "40 Gems (gnorc archers by chest)",
+                "name": "SBUpperCave | 40 Gems (gnorc archers by chest)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "60 Gems (immediates by chest)",
+                "name": "SBUpperCave | 60 Gems (immediates by chest)",
                 "access_rule": "True_"
             }
         ]
@@ -5911,19 +5911,19 @@
         ],
         "gem_events": [
             {
-                "name": "50 Gems (steel traps)",
+                "name": "MMEntry | 50 Gems (steel traps)",
                 "access_rule": "Electric Breath or Ice Breath and Charge"
             },
             {
-                "name": "500 Gems (armored chest near the start via firework)",
+                "name": "MMEntry | 500 Gems (armored chest near the start via firework)",
                 "access_rule": "Fire Breath"
             },
             {
-                "name": "572 Gems (immediates)",
+                "name": "MMEntry | 572 Gems (immediates)",
                 "access_rule": "True_"
             },
             {
-                "name": "1500 Gems (armored chests near the start via supercharge)",
+                "name": "MMEntry | 1500 Gems (armored chests near the start via supercharge)",
                 "access_rule": "Charge and Supercharge2"
             }
         ]
@@ -6044,31 +6044,31 @@
         ],
         "gem_events": [
             {
-                "name": "400 Gems (rock monsters)",
+                "name": "MMWaterIce | 400 Gems (rock monsters)",
                 "access_rule": "Charge"
             },
             {
-                "name": "25 Gems (initial gliding area firework chest)",
+                "name": "MMWaterIce | 25 Gems (initial gliding area firework chest)",
                 "access_rule": "Fire Breath"
             },
             {
-                "name": "40 Gems (huge armored gnorcs)",
+                "name": "MMWaterIce | 40 Gems (huge armored gnorcs)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "20 Gems (middle unarmored gnorcs)",
+                "name": "MMWaterIce | 20 Gems (middle unarmored gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "20 Gems (huge unarmored gnorcs)",
+                "name": "MMWaterIce | 20 Gems (huge unarmored gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath or Ice Breath and Charge"
             },
             {
-                "name": "886 Gems (Byrd minigames)",
+                "name": "MMWaterIce | 886 Gems (Byrd minigames)",
                 "access_rule": "True_"
             },
             {
-                "name": "1729 Gems (immediates)",
+                "name": "MMWaterIce | 1729 Gems (immediates)",
                 "access_rule": "True_"
             }
         ]
@@ -6220,23 +6220,23 @@
         ],
         "gem_events": [
             {
-                "name": "930 Gems (chargeable walls and enemies)",
+                "name": "MMPoleSpin | 930 Gems (chargeable walls and enemies)",
                 "access_rule": "Charge"
             },
             {
-                "name": "60 Gems (huge armored gnorcs)",
+                "name": "MMPoleSpin | 60 Gems (huge armored gnorcs)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "260 Gems (middle unarmored gnorcs)",
+                "name": "MMPoleSpin | 260 Gems (middle unarmored gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "25 Gems (headbash rock thing)",
+                "name": "MMPoleSpin | 25 Gems (headbash rock thing)",
                 "access_rule": "Fire Breath or Electric Breath or Ice Breath and Charge"
             },
             {
-                "name": "5156 Gems (immediates)",
+                "name": "MMPoleSpin | 5156 Gems (immediates)",
                 "access_rule": "True_"
             }
         ]
@@ -6331,31 +6331,31 @@
         ],
         "gem_events": [
             {
-                "name": "25 Gems (firework chest behind chargeable wall)",
+                "name": "MFtEntry | 25 Gems (firework chest behind chargeable wall)",
                 "access_rule": "Charge and Fire Breath"
             },
             {
-                "name": "20 Gems (huge armroed gnorc behind chargeable wall)",
+                "name": "MFtEntry | 20 Gems (huge armroed gnorc behind chargeable wall)",
                 "access_rule": "Fire Breath or Electric Breath or Ice Breath"
             },
             {
-                "name": "200 Gems (chargeable things)",
+                "name": "MFtEntry | 200 Gems (chargeable things)",
                 "access_rule": "Charge"
             },
             {
-                "name": "525 Gems (firework chest and armored chest)",
+                "name": "MFtEntry | 525 Gems (firework chest and armored chest)",
                 "access_rule": "Fire Breath"
             },
             {
-                "name": "40 Gems (huge armored gnorcs by ball gadget)",
+                "name": "MFtEntry | 40 Gems (huge armored gnorcs by ball gadget)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "20 Gems (middle unarmored gnorc)",
+                "name": "MFtEntry | 20 Gems (middle unarmored gnorc)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "770 Gems (immediates)",
+                "name": "MFtEntry | 770 Gems (immediates)",
                 "access_rule": "True_"
             }
         ]
@@ -6419,7 +6419,7 @@
         ],
         "gem_events": [
             {
-                "name": "447 Gems (on ball gadget path)",
+                "name": "MFBallGadget | 447 Gems (on ball gadget path)",
                 "access_rule": "True_"
             }
         ]
@@ -6510,23 +6510,23 @@
         ],
         "gem_events": [
             {
-                "name": "40 Gems (huge armored gnorcs)",
+                "name": "MFbEntry | 40 Gems (huge armored gnorcs)",
                 "access_rule": "Fire Breath and Charge or Electric Breath and Charge or Ice Breath and Charge"
             },
             {
-                "name": "60 Gems (middle unarmored gnorcs)",
+                "name": "MFbEntry | 60 Gems (middle unarmored gnorcs)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "2392 Gems (Sparx minigames)",
+                "name": "MFbEntry | 2392 Gems (Sparx minigames)",
                 "access_rule": "True_"
             },
             {
-                "name": "1098 Gems (immediates)",
+                "name": "MFbEntry | 1098 Gems (immediates)",
                 "access_rule": "True_"
             },
             {
-                "name": "396 Gems (chargeable wall things)",
+                "name": "MFbEntry | 396 Gems (chargeable wall things)",
                 "access_rule": "Charge"
             }
         ]
@@ -6573,23 +6573,23 @@
         ],
         "gem_events": [
             {
-                "name": "740 Gems (immediates)",
+                "name": "DMEntry | 740 Gems (immediates)",
                 "access_rule": "True_"
             },
             {
-                "name": "75 Gems (critters)",
+                "name": "DMEntry | 75 Gems (critters)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "60 Gems (drill robots)",
+                "name": "DMEntry | 60 Gems (drill robots)",
                 "access_rule": "Electric Breath or Charge"
             },
             {
-                "name": "100 Gems (behind chargeable wall things)",
+                "name": "DMEntry | 100 Gems (behind chargeable wall things)",
                 "access_rule": "Charge"
             },
             {
-                "name": "150 Gems (spike robots and steel traps)",
+                "name": "DMEntry | 150 Gems (spike robots and steel traps)",
                 "access_rule": "Electric Breath or Ice Breath and Charge"
             }
         ]
@@ -6663,15 +6663,15 @@
         ],
         "gem_events": [
             {
-                "name": "520 Gems (huge robo gnorcs and steel traps)",
+                "name": "DMLGDoor | 520 Gems (huge robo gnorcs and steel traps)",
                 "access_rule": "Electric Breath or Ice Breath and Charge"
             },
             {
-                "name": "125 Gems (critters)",
+                "name": "DMLGDoor | 125 Gems (critters)",
                 "access_rule": "Fire Breath or Electric Breath or Charge"
             },
             {
-                "name": "350 Gems (underwater invincibility swimming)",
+                "name": "DMLGDoor | 350 Gems (underwater invincibility swimming)",
                 "access_rule": "Invincibility1 and Swim and Charge"
             }
         ]
@@ -6737,19 +6737,19 @@
         ],
         "gem_events": [
             {
-                "name": "20 Gems (huge robo-gnorc)",
+                "name": "DMCharge | 20 Gems (huge robo-gnorc)",
                 "access_rule": "Electric Breath or Ice Breath"
             },
             {
-                "name": "1500 Gems (3 armored chests via firework)",
+                "name": "DMCharge | 1500 Gems (3 armored chests via firework)",
                 "access_rule": "Fire Breath"
             },
             {
-                "name": "550 Gems (immediates)",
+                "name": "DMCharge | 550 Gems (immediates)",
                 "access_rule": "True_"
             },
             {
-                "name": "70 Gems (immediates up the wall kick pistons)",
+                "name": "DMCharge | 70 Gems (immediates up the wall kick pistons)",
                 "access_rule": "Wall Kick"
             }
         ]
@@ -6816,11 +6816,11 @@
         ],
         "gem_events": [
             {
-                "name": "12220 Gems (Blink minigames)",
+                "name": "DMElectric | 12220 Gems (Blink minigames)",
                 "access_rule": "True_"
             },
             {
-                "name": "1240 Gems (immediates)",
+                "name": "DMElectric | 1240 Gems (immediates)",
                 "access_rule": "True_"
             }
         ]
@@ -6906,11 +6906,11 @@
         ],
         "gem_events": [
             {
-                "name": "931 Gems (immediates)",
+                "name": "DMIce | 931 Gems (immediates)",
                 "access_rule": "True_"
             },
             {
-                "name": "1500 Gems (3 armored chests by start)",
+                "name": "DMIce | 1500 Gems (3 armored chests by start)",
                 "access_rule": "Fire Breath"
             }
         ]
@@ -6970,7 +6970,7 @@
         ],
         "gem_events": [
             {
-                "name": "1083 Gems (immediates)",
+                "name": "RLEntry | 1083 Gems (immediates)",
                 "access_rule": "True_"
             }
         ]
@@ -7038,11 +7038,11 @@
         ],
         "gem_events": [
             {
-                "name": "680 Gems (immediates)",
+                "name": "RLSouthEast | 680 Gems (immediates)",
                 "access_rule": "True_"
             },
             {
-                "name": "70 Gems (immediates above the furnace)",
+                "name": "RLSouthEast | 70 Gems (immediates above the furnace)",
                 "access_rule": "Fire Breath"
             }
         ]
@@ -7104,7 +7104,7 @@
         ],
         "gem_events": [
             {
-                "name": "1119 Gems (immediates)",
+                "name": "RLNorthWest | 1119 Gems (immediates)",
                 "access_rule": "True_"
             }
         ]
@@ -7144,11 +7144,11 @@
         ],
         "gem_events": [
             {
-                "name": "560 Gems (immediates)",
+                "name": "RLNorthEast | 560 Gems (immediates)",
                 "access_rule": "True_"
             },
             {
-                "name": "155 Gems (immediates via invincibility)",
+                "name": "RLNorthEast | 155 Gems (immediates via invincibility)",
                 "access_rule": "True_"
             }
         ]
@@ -7167,7 +7167,7 @@
         "locations": [],
         "gem_events": [
             {
-                "name": "140 Gems (immediates)",
+                "name": "RLSouthWest | 140 Gems (immediates)",
                 "access_rule": "True_"
             }
         ]

@@ -249,7 +249,7 @@ class DolphinClient(GenericClient):
             name = ctx.item_names.lookup_in_slot(item.item, item.player)
             game = ctx.slot_info[item.player]
             model = consts.ShopItemModel.Lockpick
-            price = ctx.slot_data["shop_prices"][idx]
+            price = ctx.slot_data["shop_costs"][idx]
             if game.game == "Spyro: A Hero's Tail":
                 if item.item in (0x1A, 0x1D, 0x1, 0xE, 0x5, 0x6, 0x7, 0xD): # softlock prevention
                     price = 0
@@ -273,8 +273,9 @@ class DolphinClient(GenericClient):
                         model = consts.ShopItemModel.Shockwave
                     case 0x22 | 0x23 | 0x24 | 0x25 | 0x26 | 0x27 | 0x28 | 0x29 | 0x2A | 0x2B | 0x2C | 0x2D | 0x2E | 0x2F:
                         model = consts.ShopItemModel.Keychain
-
-            i = consts.XLSShoppingItem(model, consts.TextEntry(idx, f"{player}'s {name}"), (price, floor(price + (price * 0.25))))
+                    
+            remote_price = price if ctx.slot_data["shop_randomization"] else (price + (price * 0.25))
+            i = consts.XLSShoppingItem(model, consts.TextEntry(idx, f"{player}'s {name}"), (price, remote_price))
             dolphin_memory_engine.write_bytes(self.addresses.p_XLS_SHOP_ITEMS + (0x20 * (idx + 1)), i.to_bytes('big'))
             dolphin_memory_engine.write_bytes(self.addresses.p_SHOP_TEXT + (0x62 * idx), i.text.to_bytes('big'))
 

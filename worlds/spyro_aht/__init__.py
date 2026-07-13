@@ -147,18 +147,6 @@ class SpyroAHTWorld(World):
         self._starting_breath = -1  # represents none
         self._classifications = {i['name']: ItemClassification(i['classification']) for i in _load_file("items.json")}
         self.shop_costs = []
-        
-        # shop costs determined by multiple options
-        if self.options.shop_randomization.value == 1:
-            blink_gems = 18222
-            non_blink_gems = 124235
-            item_count = 18 if self.options.key_rings else 56
-            blink_total = int(non_blink_gems * self.options.total_gems / 100)
-            non_blink_total = int(blink_gems * self.options.blink_gems / 100)
-            base_price = int((blink_total + non_blink_total) / item_count)
-            for counter in range(item_count):
-                self._shop_costs.append(base_price * (counter + 1))
-            self._shop_costs[-1] = int(non_blink_total + blink_total)
             
             
     def collect(self, state: "CollectionState", item: "Item") -> bool:
@@ -240,6 +228,18 @@ class SpyroAHTWorld(World):
                 raise OptionError("Cannot start outside Dragon Village if Movement and Shop randomization is off")
 
     def create_regions(self):
+        # shop costs determined by multiple options
+        if self.options.shop_randomization.value == 1:
+            blink_gems = 18222
+            non_blink_gems = 124235
+            item_count = 18 if self.options.key_rings else 56
+            blink_total = int(non_blink_gems * self.options.total_gems / 100)
+            non_blink_total = int(blink_gems * self.options.blink_gems / 100)
+            base_price = int((blink_total + non_blink_total) / item_count)
+            for counter in range(item_count):
+                self.shop_costs.append(base_price * (counter + 1))
+            self.shop_costs[-1] = int(non_blink_total + blink_total)
+            
         if self.options.randomize_gadget_costs.value != 0:
             if self.options.randomize_gadget_costs.value == 2:  # shuffled:
                 self.random.shuffle(self._gadget_costs)
@@ -359,10 +359,14 @@ class SpyroAHTWorld(World):
                 ))
 
         # add gem events
-        for line in data:
-            region_name, item_name, event_rule = line.split(" | ")
-            event_name = f"{region_name}: {item_name}"
-            self.get_region(region_name).add_event(event_name, item_name, rule=self.rule_builder(event_rule))
+        for line in data.values():
+            if line.get("gem_events", 0) == 0:
+                continue
+                
+            for gem_event in line["gem_events"]:
+                region_name, item_name, = gem_event["name"].split(" | ")
+                event_name = f"{region_name}: {item_name}"
+                self.get_region(region_name).add_event(event_name, item_name, rule=self.rule_builder(gem_event["access_rule"]))
     
     def create_item(self, name: str) -> Item:
         """Helper method for create_items which returns an Item object."""

@@ -169,9 +169,7 @@ class TotalGems(Range):
 
     Example: 60 for total_gems and 40 for blink_gems, on a seed with 18 shop items, would give shop
     prices of 4,546 -> 9,092 -> 13,638 -> etc. with the final item equaling (non_minigame_gems + blink_gems).
-    *************************************************************************************************
-    Minimum value is 1
-    Maximum value is 100"""
+    *************************************************************************************************"""
     display_name = "Total Gems"
     range_start = 1
     range_end = 100
