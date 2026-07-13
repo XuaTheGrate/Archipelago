@@ -87,7 +87,6 @@
         "classification": 1,
         "option": [{"option": "randomize_movement", "value": 1}],
         "group": "Abilities"
-
     },
     {
         "name": "Lockpick",
@@ -118,7 +117,10 @@
         "name": "Double Gems",
         "id": 26,
         "classification": 2,
-        "option": [{"option": "shop_randomization", "value": 1}],
+        "option": [
+            {"option": "shop_randomization", "value": 1},
+            {"option": "double_gems", "value":  1}
+        ],
         "group": "Shop Items"
     },
     {

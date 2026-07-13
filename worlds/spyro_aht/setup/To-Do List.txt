@@ -1,0 +1,27 @@
+- figure out generate_early restriction on starting outside dragon village
+	- probably can't have shop randomization as an out for restrictive starts anymore
+	- likely means randomized movement is more important
+	- reason is because it gives the 3 movement checks at the start to help
+	- alternatively, make the first few shop items have prices that are lower? or free?
+
+- implement new shop randomization
+	- if shop randomization is true, patch game for shop_unlock_mode = 1
+
+- determine shop prices, if shop is randomized
+	- calculate based on total_gems and key_rings (determines shop item count)
+	- figure out how to apply the new prices to the items
+		- probably already dealt with? just apply new prices and client should do the rest?
+
+- implement double gems disabling
+	- remove it from item pool if option is enabled. Replace with filler
+	- NOT disabling a shop location for this
+	- option is created, need to implement
+
+- get proper random value support for UT
+
+- docs
+	- note that double jump is forced to be an early item
+
+! double check that teleport_anywhere is supported fully and properly
+
+! add option for choosing filler types

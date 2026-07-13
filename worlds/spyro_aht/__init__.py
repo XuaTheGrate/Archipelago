@@ -395,6 +395,8 @@ class SpyroAHTWorld(World):
 
         if self.options.firework_checks.value == 1:
             filler_counter += 22
+        if self.options.shop_randomization.value == 1 and self.options.double_gems.value == 0:
+            filler_counter += 1
 
         if self.options.randomize_breath.value == 0:
             self._starting_breath = 0
@@ -529,7 +531,7 @@ class SpyroAHTWorld(World):
         }
         
         # TODO replace with new logic here?
-        if self.options.shop_randomization.value:
+        if self.options.shop_randomization.value == 1:
             count = 19 if self.options.key_rings.value else 57
             r['randomized_shop_prices'] = [self.random.randint(500, 600) for _ in range(count)]
         return r

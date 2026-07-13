@@ -185,8 +185,8 @@ class DoubleGems(Choice):
     To remedy this, you can choose to eliminate Double Gems from your item pool using this option. This keeps your
     gem collection stable throughout the seed and ensures you will stay following the intended logic for your seed."""
     display_name = "Double Gems"
-    option_enabled = 0
-    option_disabled = 1
+    option_disabled = 0
+    option_enabled = 1
     default = 1
 
 ###############GATE & GADGET COSTS###############
