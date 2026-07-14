@@ -318,7 +318,7 @@ class EasyBosses(OptionSet):
 
 class SkipCutscenes(Toggle):
     """Enable skipping most cutscenes with the Y button.
-    In rare cases, this may have glitchy side-effects."""
+    In rare cases, this may have glitchy side effects."""
     display_name = "Auto Skip Cutscenes"
     default = 0
 

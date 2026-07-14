@@ -1,3 +1,36 @@
+2.0.0 (won't be finalized for another week or two)
+- This apworld has officially switched hands to being primarily maintained by PhoenixAki.
+    - From Phoenix: hello little people in my computer :) I only got into Archipelago in February 2026 and started
+    making contributions to worlds in April (including both 1.0.9 and 1.0.10 here). I started taking on bigger updates,
+    and this 2.0.0 update is one of the proudest programming projects of my life thus far ^.^ Ebbe is still working on the mod
+    for AHT to pair with Archipelago, but I have taken over hosting the primary AHT randomizer repo from Maya, the original
+    developer of the apworld and client side of the project. This may change back in the future when she is less busy, we'll see.
+
+- Major Back-End Change: completely redesigned the logical regions of the apworld. Should not impact the player experience (barring
+any logic bugs), but this was a prerequisite for both of the major feature additions in 2.0.0.
+
+- Major Feature Addition 1: new shop randomization behavior
+    - 1) gem logic was added, meaning during generation and playback, logic will know how many gems are obtainable to you.
+    - 2) the shop, when randomized, utilizes this to now space out the shop items throughout the seed, instead of them all being in logic at sphere 1.
+    - 3) this was accompanied by a series of YAML changes, including new options [filler_items, gem_collection, blink_gems, double_gems] and removal of options [shop_cost_min, shop_cost_max]
+    
+- Major Feature Addition 2: TBD :)
+    - I can't reveal all my secrets >:3
+    
+- Various smaller additions, improvements, and fixes/tweaks:
+    - New option teleport_across_realms which lets you teleport from remote shop pads in one realm to another realm directly.
+    - Improved YAML flow with improved wording, option grouping, and simplifying options.
+    - Fixed typo in location group name for Molten Mount.
+    - Renamed project from spyro-aht -> spyro_aht.
+
+- TODO remove this: Added YAML option "unlock all shops" which does not impact logic yet and is only in for testing and research purposes.
+
+1.0.10
+- Added new client command /list_options whith lists all YAML options as well as some randomized costs.
+- Fixed Mecha-Red location not having boss lair cost logic on it.
+- Fixed minor logic issue with a Dragon Egg in Red's Lab which didn't require Fire Breath and should have.
+- Fixed 2 locations in Red's Lab which had swapped names.
+
 1.0.9
 - Adjusted logic for 2 items in Coastal Remains
     - The light gem in Otto's pool now requires glide, and the dragon egg past the piranha pool no longer requires glide
