@@ -7,7 +7,15 @@ from typing import Any
 import Utils
 from kvui import GameManager
 
-from CommonClient import ClientCommandProcessor, CommonContext, logger
+from CommonClient import ClientCommandProcessor, logger
+
+tracker_loaded = False
+try:
+    from worlds.tracker.TrackerClient import TrackerGameContext as SuperContext
+    tracker_loaded = True
+except ModuleNotFoundError:
+    from CommonClient import CommonContext as SuperContext
+
 from NetUtils import ClientStatus, NetworkItem
 
 from .client import GenericClient, DolphinClient
@@ -100,7 +108,8 @@ class SpyroAHTCommands(ClientCommandProcessor):
         return True
 
 
-class SpyroAHTContext(CommonContext):
+class SpyroAHTContext(SuperContext):
+    tags = {"AP"}
     items_handling = 0b111
     game = "Spyro: A Hero's Tail"
     command_processor = SpyroAHTCommands
@@ -138,6 +147,8 @@ class SpyroAHTContext(CommonContext):
         await self.send_connect(game=self.game)
     
     def on_package(self, cmd: str, args: dict):
+        super().on_package(cmd, args)
+        
         match cmd:
             case 'Connected':
                 self.slot_data = args['slot_data']

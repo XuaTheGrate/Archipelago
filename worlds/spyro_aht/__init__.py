@@ -639,9 +639,11 @@ def _run_client(*args: str):
     Utils.init_logging("Spyro: A Hero's Tail Client")
 
     async def _main(connect: str | None, password: str | None):
-        from .context import SpyroAHTContext
+        from .context import SpyroAHTContext, tracker_loaded
         ctx = SpyroAHTContext(connect, password)
         ctx.server_task = asyncio.create_task(server_loop(ctx), name="ServerLoop")
+        if tracker_loaded:
+            ctx.run_generator()
         if gui_enabled:
             ctx.run_gui()
         ctx.run_cli()

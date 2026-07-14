@@ -279,7 +279,7 @@ class DolphinClient(GenericClient):
             dolphin_memory_engine.write_bytes(self.addresses.p_SHOP_TEXT + (0x62 * idx), i.text.to_bytes('big'))
 
     async def update_tracker(self, ctx: "SpyroAHTContext", items: dict[str, int]):
-        from .. import location_rules
+        from .. import rules_for_client
         parents: dict[str, list[str]] = defaultdict(list)
         extra_rules: dict[str, list[rules.Rule]] = defaultdict(list)
 
@@ -292,7 +292,7 @@ class DolphinClient(GenericClient):
                     return False
             return True
 
-        for region in location_rules.values():
+        for region in rules_for_client.values():
             rule: rules.Rule = region['access_rule']
 
             extra_rules[region['name']].append(rule)
