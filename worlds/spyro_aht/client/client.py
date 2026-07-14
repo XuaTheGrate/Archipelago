@@ -55,6 +55,9 @@ class GenericClient(ABC):
 
     @abstractmethod
     async def update_tracker(self, ctx, items: dict[str, int]): ...
+    
+    # @abstractmethod
+    # async def update_gems_on_pause(self, ctx, items: dict[str, int]): ...
 
     @abstractmethod
     async def allow_realm_access(self, id: int): ...

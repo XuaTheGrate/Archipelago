@@ -377,6 +377,10 @@ class SpyroAHTContext(CommonContext):
         if locations:
             self._scouted_locations.update(locations)
             await self.send_msgs([{"cmd":"LocationScouts","locations":locations,"create_as_hint":2}])
+            
+    # async def _update_pause_gems(self):
+    #     # TODO fill in once UT is integrated
+    #     
 
     async def check_goal(self) -> bool:
         flag = await self.emu_client.check_goal(self.slot_data['goal'])
@@ -412,6 +416,7 @@ class SpyroAHTContext(CommonContext):
                     await self._check_doors()
                     await self._location_checks()
                     await self._location_scouts()
+                    # await self._update_pause_gems()
                     if not has_goaled:
                         has_goaled = await self.check_goal()
         except Exception:

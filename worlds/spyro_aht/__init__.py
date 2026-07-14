@@ -103,16 +103,20 @@ def create_location_groups(location_data) -> dict[str, set[str]]:
     return loc_groups
 
 
-location_rules: dict[str, dict] = {}
-_k = _load_file("locations.json")
-for n, r in _k.items():
-    location_rules[n] = r
-    r['access_rule'] = rules.rule_from_dict(r['access_rule'])
-    locs = []
-    for l in r['locations']:
-        l['access_rule'] = rules.rule_from_dict(l['access_rule'])
-        locs.append(l)
-    r['locations'] = locs
+rules_for_client: dict[str, dict] = {}
+file_in = _load_file("locations.json")
+for region, region_dat in file_in.items():
+    rules_for_client[region] = region_dat
+    region_dat['access_rule'] = rules.rule_from_dict(region_dat['access_rule'])
+    location_rule_list, gem_rule_list = [], []
+    for loc in region_dat['locations']:
+        loc['access_rule'] = rules.rule_from_dict(loc['access_rule'])
+        location_rule_list.append(loc)
+    for gem in region_dat['gem_events']:
+        gem['access_rule'] = rules.rule_from_dict(gem['access_rule'])
+        gem_rule_list.append(gem)
+    region_dat['locations'] = location_rule_list
+    region_dat['gem_events'] = gem_rule_list
 
 class SpyroAHTWeb(WebWorld):
     option_groups = spyro_options_groups
@@ -221,8 +225,6 @@ class SpyroAHTWorld(World):
         return Or(*or_rules)
     
     def generate_early(self) -> None:
-        # TODO: this will probably get affected by new shop randomization. No longer will have at least 18 shop
-        # TODO: in sphere 1 to have that be an option here. May need to force movement randomization
         if self.options.starting_realm.value != 0: # not dragon village
             if self.options.randomize_movement.value == 0 and self.options.shop_randomization.value == 0:
                 raise OptionError("Cannot start outside Dragon Village if Movement and Shop randomization is off")
@@ -360,13 +362,9 @@ class SpyroAHTWorld(World):
 
         # add gem events
         for line in data.values():
-            if line.get("gem_events", 0) == 0:
-                continue
-                
             for gem_event in line["gem_events"]:
-                region_name, item_name, = gem_event["name"].split(" | ")
-                event_name = f"{region_name}: {item_name}"
-                self.get_region(region_name).add_event(event_name, item_name, rule=self.rule_builder(gem_event["access_rule"]))
+                region_name, item_name = gem_event["name"].split(": ")
+                self.get_region(region_name).add_event(gem_event['name'], item_name, rule=self.rule_from_dict(gem_event["access_rule"]))
     
     def create_item(self, name: str) -> Item:
         """Helper method for create_items which returns an Item object."""
@@ -543,7 +541,9 @@ class SpyroAHTWorld(World):
 
             "teleport_across_realms": self.options.teleport_across_realms.value,
             "open_world_mode": self.options.open_world_mode.value,
-            "shop_costs": self.shop_costs
+            "shop_costs": self.shop_costs,
+            "total_gems": self.options.total_gems.value,
+            "blink_gems": self.options.blink_gems.value
         }
         
         return r

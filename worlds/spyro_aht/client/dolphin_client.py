@@ -240,7 +240,6 @@ class DolphinClient(GenericClient):
         dolphin_memory_engine.write_byte(self.addresses.p_PATCH_BEEN_WRITTEN_TO, 1)
     
     async def _prepare_shop_items(self, ctx: "SpyroAHTContext", *shop_items: NetworkItem):
-        # TODO: almost certainly will need to look at this method?
         dolphin_memory_engine.write_byte(self.addresses.p_RANDOMIZE_SHOP, 1)
         dolphin_memory_engine.write_word(self.addresses.p_XLS_SHOP_ROWCOUNT, len(shop_items)+1)
 
@@ -318,6 +317,45 @@ class DolphinClient(GenericClient):
                 bit = (index * 2) % 8
                 data = dolphin_memory_engine.read_byte(addr)
                 dolphin_memory_engine.write_byte(addr, data | (0b10 << bit))
+
+    # async def update_gems_on_pause(self, ctx: "SpyroAHTContext", items: dict[str, int]):
+    #     if not ctx.slot_data["shop_randomization"]:
+    #         return
+    #     
+    #     from .. import rules_for_client
+    #     parents: dict[str, list[str]] = defaultdict(list)
+    #     extra_rules: dict[str, list[rules.Rule]] = defaultdict(list)
+    #     blink_gems_available, non_blink_gems_available = 0, 0
+    #     accessible_events, logger_notes = [], []
+    # 
+    #     def recursive_resolve(region):
+    #         for rule in extra_rules[region]:
+    #             if not rule.resolve(ctx.slot_data, items):
+    #                 logger_notes.append(f"rule {rule} for region {region} reported as false.")
+    #                 return False
+    #             else:
+    #                 logger_notes.append(f"rule {rule} for region {region} reported as true.")
+    #         for parent in parents[region]:
+    #             if not recursive_resolve(parent):
+    #                 return False
+    #         return True
+    # 
+    #     for region in rules_for_client.values():
+    #         rule: rules.Rule = region['access_rule']
+    # 
+    #         extra_rules[region['name']].append(rule)
+    # 
+    #         for c in region['connections']:
+    #             parents[c].append(region['name'])
+    #             extra_rules[c].append(rule)
+    # 
+    #         if not recursive_resolve(region['name']):
+    #             continue
+    # 
+    #         for gem_event in region['gem_events']:
+    #             rule: rules.Rule = gem_event['access_rule']
+    #             if not rule.resolve(ctx.slot_data, items):
+    #                 continue
     
     async def allow_realm_access(self, id: int):
         current: list[bool] = list(struct.unpack(">????", dolphin_memory_engine.read_bytes(self.addresses.g_REALM_ACCESS, 4)))
