@@ -9,21 +9,29 @@
 - Major Back-End Change: completely redesigned the logical regions of the apworld. Should not impact the player experience (barring
 any logic bugs), but this was a prerequisite for both of the major feature additions in 2.0.0.
 
+- Major Client Change: the client is now built on top of Universal Tracker (UT).
+    - This means the client has a built-in "tracker page" if the player has UT installed.
+        - If UT is not installed, the AHT client will revert to its old state.
+        - However, the map icons feature in the game mod now require having UT, as UT is the sole source of that information now.
+    - TODO: full random option support
+    
 - Major Feature Addition 1: new shop randomization behavior
-    - 1) gem logic was added, meaning during generation and playback, logic will know how many gems are obtainable to you.
-    - 2) the shop, when randomized, utilizes this to now space out the shop items throughout the seed, instead of them all being in logic at sphere 1.
-    - 3) this was accompanied by a series of YAML changes, including new options [filler_items, gem_collection, blink_gems, double_gems] and removal of options [shop_cost_min, shop_cost_max]
+    - Gem logic was added, meaning during generation and playback, logic will know how many gems are obtainable to you.
+    - The shop, when randomized, utilizes this to now space out the shop items throughout the seed, instead of them all being in logic at sphere 1. The shop will not take your gems anymore (and remote shops won't upcharge you) because the shop items are now based on your total gems collected.
+    - This was accompanied by a series of YAML changes, including new options [filler_items, gem_collection, blink_gems, double_gems] and removal of options [shop_cost_min, shop_cost_max]
     
 - Major Feature Addition 2: TBD :)
     - I can't reveal all my secrets >:3
     
 - Various smaller additions, improvements, and fixes/tweaks:
+    - TODO: update write_spoiler
+    - TODO: project docs
+    - TODO: update /list_options command
+    - TODO: get a better rule parsing system in place
     - New option teleport_across_realms which lets you teleport from remote shop pads in one realm to another realm directly.
     - Improved YAML flow with improved wording, option grouping, and simplifying options.
     - Fixed typo in location group name for Molten Mount.
     - Renamed project from spyro-aht -> spyro_aht.
-
-- TODO remove this: Added YAML option "unlock all shops" which does not impact logic yet and is only in for testing and research purposes.
 
 1.0.10
 - Added new client command /list_options whith lists all YAML options as well as some randomized costs.
