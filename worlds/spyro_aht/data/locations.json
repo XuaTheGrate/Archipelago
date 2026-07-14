@@ -2570,13 +2570,10 @@
                             }
                         },
                         {
-                            "rule": "Has",
+                            "rule": "SuperchargeGadget",
                             "options": [],
                             "filtered_resolution": false,
-                            "args": {
-                                "item_name": "Light Gem",
-                                "count": 1
-                            }
+                            "args": {}
                         }
                     ]
                 }
@@ -6165,13 +6162,10 @@
                 "gem_amount": 1575,
                 "options": [],
                 "access_rule": {
-                    "rule": "Has",
+                    "rule": "SuperchargeGadget",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {
-                        "item_name": "Light Gem",
-                        "count": 1
-                    }
+                    "args": {}
                 }
             }
         ]
@@ -6980,13 +6974,10 @@
                 "gem_amount": 50,
                 "options": [],
                 "access_rule": {
-                    "rule": "Has",
+                    "rule": "InvincibilityGadget",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {
-                        "item_name": "Light Gem",
-                        "count": 1
-                    }
+                    "args": {}
                 }
             }
         ]
@@ -9526,13 +9517,10 @@
                             }
                         },
                         {
-                            "rule": "Has",
+                            "rule": "SuperchargeGadget",
                             "options": [],
                             "filtered_resolution": false,
-                            "args": {
-                                "item_name": "Light Gem",
-                                "count": 1
-                            }
+                            "args": {}
                         }
                     ]
                 }
@@ -9759,13 +9747,10 @@
                             }
                         },
                         {
-                            "rule": "Has",
+                            "rule": "SuperchargeGadget",
                             "options": [],
                             "filtered_resolution": false,
-                            "args": {
-                                "item_name": "Light Gem",
-                                "count": 1
-                            }
+                            "args": {}
                         }
                     ]
                 }
@@ -10237,13 +10222,10 @@
                             }
                         },
                         {
-                            "rule": "Has",
+                            "rule": "SuperchargeGadget",
                             "options": [],
                             "filtered_resolution": false,
-                            "args": {
-                                "item_name": "Light Gem",
-                                "count": 1
-                            }
+                            "args": {}
                         }
                     ]
                 }
@@ -11232,13 +11214,10 @@
                             }
                         },
                         {
-                            "rule": "Has",
+                            "rule": "SuperchargeGadget",
                             "options": [],
                             "filtered_resolution": false,
-                            "args": {
-                                "item_name": "Light Gem",
-                                "count": 1
-                            }
+                            "args": {}
                         }
                     ]
                 }
@@ -12938,13 +12917,10 @@
                     "filtered_resolution": false,
                     "children": [
                         {
-                            "rule": "Has",
+                            "rule": "InvincibilityGadget",
                             "options": [],
                             "filtered_resolution": false,
-                            "args": {
-                                "item_name": "Light Gem",
-                                "count": 1
-                            }
+                            "args": {}
                         },
                         {
                             "rule": "Has",

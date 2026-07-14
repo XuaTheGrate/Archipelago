@@ -160,10 +160,11 @@ class SpyroAHTWorld(World):
             state.add_item(name, self.player)
             if "Gems" in item.name:
                 gem_amount = int(item.name.split(" ")[0])
-                if "Blink minigames" in item.name:
+                
+                if "Blink minigames" in item.name and self.options.blink_gems.value > 0:
                     state.add_item("Gems", item.player, count=gem_amount * (self.options.blink_gems/100))
                 else:
-                    state.add_item("Gems", item.player, count=gem_amount * (self.options.total_gems/100))
+                    state.add_item("Gems", item.player, count=gem_amount * (self.options.gem_collection/100))
             return True
         return False
 
@@ -235,14 +236,14 @@ class SpyroAHTWorld(World):
     def create_regions(self):
         # shop costs determined by multiple options
         if self.options.shop_randomization.value == 1:
-            blink_gems = 18222
-            non_blink_gems = 124235
-            item_count = 18 if self.options.key_rings else 56
-            blink_total = int(non_blink_gems * self.options.total_gems / 100)
-            non_blink_total = int(blink_gems * self.options.blink_gems / 100)
-            base_price = int((blink_total + non_blink_total) / item_count)
-            for counter in range(item_count):
+            shop_item_count = 18 if self.options.key_rings.value else 56
+            blink_total = 20028 * self.options.blink_gems.value // 100
+            other_total = 122429 * self.options.gem_collection.value // 100
+            base_price = (blink_total + other_total) // (shop_item_count-1)
+            self.shop_costs.append(0)
+            for counter in range(shop_item_count-1):
                 self.shop_costs.append(base_price * (counter + 1))
+            self.shop_costs[-1] = blink_total + other_total            
             
         if self.options.randomize_gadget_costs.value != 0:
             if self.options.randomize_gadget_costs.value == 2:  # shuffled:
@@ -544,7 +545,7 @@ class SpyroAHTWorld(World):
             "teleport_across_realms": self.options.teleport_across_realms.value,
             "open_world_mode": self.options.open_world_mode.value,
             "shop_costs": self.shop_costs,
-            "total_gems": self.options.total_gems.value,
+            "gem_collection": self.options.gem_collection.value,
             "blink_gems": self.options.blink_gems.value
         }
         
