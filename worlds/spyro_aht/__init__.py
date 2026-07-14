@@ -67,7 +67,7 @@ def _location_name_to_id(location_data) -> dict[str, int]:
             loc_name_to_id[location['name']] = location['id']
             
     return loc_name_to_id
-
+loc_names_to_ids = _location_name_to_id(_load_file("locations.json"))
 
 def create_location_groups(location_data) -> dict[str, set[str]]:
     level_lookup = {
@@ -160,7 +160,10 @@ class SpyroAHTWorld(World):
             state.add_item(name, self.player)
             if "Gems" in item.name:
                 gem_amount = int(item.name.split(" ")[0])
-                state.add_item("Gems", item.player, count=gem_amount)
+                if "Blink minigames" in item.name:
+                    state.add_item("Gems", item.player, count=gem_amount * (self.options.blink_gems/100))
+                else:
+                    state.add_item("Gems", item.player, count=gem_amount * (self.options.total_gems/100))
             return True
         return False
 
@@ -240,7 +243,6 @@ class SpyroAHTWorld(World):
             base_price = int((blink_total + non_blink_total) / item_count)
             for counter in range(item_count):
                 self.shop_costs.append(base_price * (counter + 1))
-            self.shop_costs[-1] = int(non_blink_total + blink_total)
             
         if self.options.randomize_gadget_costs.value != 0:
             if self.options.randomize_gadget_costs.value == 2:  # shuffled:

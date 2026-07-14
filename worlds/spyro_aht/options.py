@@ -162,13 +162,13 @@ class TotalGems(Range):
     The higher it's set, the less wiggle room you have for skipping gems in areas.
 
     ********************************FORMULA INFO (for the math nerds)********************************
-    non_minigame_gems = 124,235 * total_gems%, rounded down
+    non_blink_gems = 124,235 * total_gems%, rounded down
     blink_gems = 18,222 * blink_gems%, rounded down
-    base_shop_price = (non_minigame_gems + blink_gems) / number of shop items, rounded down
+    base_shop_price = (non_blink_gems + blink_gems) / number of shop items, rounded down
     Shop items are priced at base_shop_price -> base_shop_price * 2 -> base_shop_price * 3 -> etc.
 
     Example: 60 for total_gems and 40 for blink_gems, on a seed with 18 shop items, would give shop
-    prices of 4,546 -> 9,092 -> 13,638 -> etc. with the final item equaling (non_minigame_gems + blink_gems).
+    prices of 4,546 -> 9,092 -> 13,638 -> etc. with the final item equaling.
     *************************************************************************************************"""
     display_name = "Total Gems"
     range_start = 1

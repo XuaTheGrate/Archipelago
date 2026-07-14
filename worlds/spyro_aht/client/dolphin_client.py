@@ -3,18 +3,14 @@ from __future__ import annotations
 import asyncio
 import random
 import struct
-from collections import defaultdict
-from math import floor
+from typing import TYPE_CHECKING
 
 import dolphin_memory_engine
 
 from NetUtils import NetworkItem
-
-from . import rules
 from .client import GenericClient
 from ..data import consts
 
-from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from ..context import SpyroAHTContext
 
@@ -278,84 +274,39 @@ class DolphinClient(GenericClient):
             dolphin_memory_engine.write_bytes(self.addresses.p_XLS_SHOP_ITEMS + (0x20 * (idx + 1)), i.to_bytes('big'))
             dolphin_memory_engine.write_bytes(self.addresses.p_SHOP_TEXT + (0x62 * idx), i.text.to_bytes('big'))
 
-    async def update_tracker(self, ctx: "SpyroAHTContext", items: dict[str, int]):
-        from .. import rules_for_client
-        parents: dict[str, list[str]] = defaultdict(list)
-        extra_rules: dict[str, list[rules.Rule]] = defaultdict(list)
-
-        def recursive_resolve(region):
-            for rule in extra_rules[region]:
-                if not rule.resolve(ctx.slot_data, items):
-                    return False
-            for parent in parents[region]:
-                if not recursive_resolve(parent):
-                    return False
-            return True
-
-        for region in rules_for_client.values():
-            rule: rules.Rule = region['access_rule']
-
-            extra_rules[region['name']].append(rule)
-
-            for c in region['connections']:
-                parents[c].append(region['name'])
-                extra_rules[c].append(rule)
-            
-            if not recursive_resolve(region['name']):
+    async def update_tracker(self, ctx: "SpyroAHTContext", locs: list[str]):
+        from .. import loc_names_to_ids
+        
+        for loc in locs:
+            loc_id = loc_names_to_ids[loc]
+            if loc_id not in consts.LOCATIONS_BITFIELD:
                 continue
+            
+            index = consts.LOCATIONS_BITFIELD[loc_id]
+            addr = self.addresses.g_LOCATION_BITFIELD + (index * 2) // 8
+            bit = (index * 2) % 8
+            data = dolphin_memory_engine.read_byte(addr)
+            dolphin_memory_engine.write_byte(addr, data | (0b10 << bit))
+        return loc_names_to_ids
 
-            for loc in region['locations']:
-                if loc['id'] not in consts.LOCATIONS_BITFIELD:
-                    continue
+    async def update_pause_gems(self, ctx: "SpyroAHTContext", events: list[str]):
+        if not ctx.slot_data["shop_randomization"]:
+            return
+        
+        blink_available, non_blink_available = 0, 0
 
-                rule: rules.Rule = loc['access_rule']
-                if not rule.resolve(ctx.slot_data, items):
-                    continue
-
-                index = consts.LOCATIONS_BITFIELD[loc['id']]
-                addr = self.addresses.g_LOCATION_BITFIELD + (index * 2) // 8
-                bit = (index * 2) % 8
-                data = dolphin_memory_engine.read_byte(addr)
-                dolphin_memory_engine.write_byte(addr, data | (0b10 << bit))
-
-    # async def update_gems_on_pause(self, ctx: "SpyroAHTContext", items: dict[str, int]):
-    #     if not ctx.slot_data["shop_randomization"]:
-    #         return
-    #     
-    #     from .. import rules_for_client
-    #     parents: dict[str, list[str]] = defaultdict(list)
-    #     extra_rules: dict[str, list[rules.Rule]] = defaultdict(list)
-    #     blink_gems_available, non_blink_gems_available = 0, 0
-    #     accessible_events, logger_notes = [], []
-    # 
-    #     def recursive_resolve(region):
-    #         for rule in extra_rules[region]:
-    #             if not rule.resolve(ctx.slot_data, items):
-    #                 logger_notes.append(f"rule {rule} for region {region} reported as false.")
-    #                 return False
-    #             else:
-    #                 logger_notes.append(f"rule {rule} for region {region} reported as true.")
-    #         for parent in parents[region]:
-    #             if not recursive_resolve(parent):
-    #                 return False
-    #         return True
-    # 
-    #     for region in rules_for_client.values():
-    #         rule: rules.Rule = region['access_rule']
-    # 
-    #         extra_rules[region['name']].append(rule)
-    # 
-    #         for c in region['connections']:
-    #             parents[c].append(region['name'])
-    #             extra_rules[c].append(rule)
-    # 
-    #         if not recursive_resolve(region['name']):
-    #             continue
-    # 
-    #         for gem_event in region['gem_events']:
-    #             rule: rules.Rule = gem_event['access_rule']
-    #             if not rule.resolve(ctx.slot_data, items):
-    #                 continue
+        for event in events:
+            gem_amount = int(event.split(" ", 1)[0])
+            if "Blink minigames" in event:
+                blink_available += gem_amount
+            else:
+                non_blink_available += gem_amount
+        
+        blink_in_logic = blink_available * ctx.slot_data["blink_gems"] / 100
+        non_blink_in_logic = non_blink_available * ctx.slot_data["total_gems"] / 100
+        dolphin_memory_engine.write_word(self.addresses.g_GEMS_IN_LOGIC, blink_in_logic + non_blink_in_logic)
+        dolphin_memory_engine.write_word(self.addresses.g_GEMS_AVAILABLE, blink_available + non_blink_available)
+            
     
     async def allow_realm_access(self, id: int):
         current: list[bool] = list(struct.unpack(">????", dolphin_memory_engine.read_bytes(self.addresses.g_REALM_ACCESS, 4)))

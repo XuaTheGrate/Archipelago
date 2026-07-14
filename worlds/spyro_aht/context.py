@@ -2,12 +2,10 @@ from __future__ import annotations
 
 import asyncio
 import collections
-from typing import Any
 
 import Utils
-from kvui import GameManager
-
 from CommonClient import ClientCommandProcessor, logger
+from kvui import GameManager
 
 tracker_loaded = False
 try:
@@ -116,6 +114,14 @@ class SpyroAHTContext(SuperContext):
 
     def __init__(self, server_address: str | None = None, password: str | None = None) -> None:
         super().__init__(server_address, password)
+        super().set_events_callback(self._event_update)
+        super().set_callback(self._location_update)
+        
+        # these update whenever UT reports a new location or event is in logic
+        self.loc_flag = False
+        self.event_flag = False
+        self._in_logic_events: list[str] = []
+        self._in_logic_locations: list[str] = []
 
         self.emu_client: GenericClient = None # type: ignore
         self.emu_loop: asyncio.Task = None # type: ignore
@@ -311,8 +317,9 @@ class SpyroAHTContext(SuperContext):
                 case 0x30 | 0x31 | 0x32 | 0x33: # access cards
                     await self.emu_client.allow_realm_access(item.item)
                     updated = True
-        if updated:
-            await self.emu_client.update_tracker(self, item_counts)
+        # TODO remove this (and updated) if it works still
+        # if updated:
+        #     await self.emu_client.update_tracker(self, self._in_logic_locations)
 
     async def _check_doors(self):
         dark = await self.emu_client.get_item_count(self.emu_client.addresses.DARK_GEM_COUNT)
@@ -388,10 +395,16 @@ class SpyroAHTContext(SuperContext):
         if locations:
             self._scouted_locations.update(locations)
             await self.send_msgs([{"cmd":"LocationScouts","locations":locations,"create_as_hint":2}])
-            
-    # async def _update_pause_gems(self):
-    #     # TODO fill in once UT is integrated
-    #     
+    
+    def _event_update(self, events: list[str]) -> bool:
+        self._in_logic_events = events
+        self.loc_flag = True
+        return True  # does nothing but is required (and is documented as such by UT)
+    
+    def _location_update(self, locations: list[str]) -> bool:
+        self._in_logic_locations = locations
+        self.event_flag = True
+        return True  # does nothing but is required (and is documented as such by UT)
 
     async def check_goal(self) -> bool:
         flag = await self.emu_client.check_goal(self.slot_data['goal'])
@@ -404,9 +417,6 @@ class SpyroAHTContext(SuperContext):
         try:
             await self.auth_ready.wait()
             await self.start_emu_client()
-
-            items = collections.Counter(self.item_names.lookup_in_slot(i.item, self.slot) for i in self.items_received)
-            await self.emu_client.update_tracker(self, items)
 
             while not self.exit_event.is_set():
                 if not self.server or self.server.socket.closed:
@@ -427,7 +437,10 @@ class SpyroAHTContext(SuperContext):
                     await self._check_doors()
                     await self._location_checks()
                     await self._location_scouts()
-                    # await self._update_pause_gems()
+                    if self.event_flag:
+                        await self.emu_client.update_pause_gems(self, self._in_logic_events)
+                    if self.loc_flag:
+                        await self.emu_client.update_tracker(self, self._in_logic_locations)
                     if not has_goaled:
                         has_goaled = await self.check_goal()
         except Exception:
