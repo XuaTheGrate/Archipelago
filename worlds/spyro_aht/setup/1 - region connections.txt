@@ -1,5 +1,6 @@
 START | DVEntry CREntry FVEntry SBEntry
-DVEntry | DVDoubleJump DVGnastyCave
+MBShop | NONE
+DVEntry | DVDoubleJump DVGnastyCave MBShop
 DVGnastyCave | NONE
 DVDoubleJump | DVGlide DVCharge CSEntry
 DVGlide | DFEntry
@@ -8,7 +9,7 @@ CSEntry | CSPoleSpin
 CSPoleSpin | NONE
 DFEntry | DFLGDoor
 DFLGDoor | NONE
-CREntry | CRDoubleJump CRLGDoor CRPoleSpin CRWateryTomb
+CREntry | CRDoubleJump CRLGDoor CRPoleSpin CRWateryTomb MBShop
 CRDoubleJump | CRGlide
 CRLGDoor | NONE
 CRGlide | CDEntry
@@ -24,7 +25,7 @@ SRWallKick | NONE
 SRElectric | SRInvincibility
 SRInvincibility | SRGlide
 SRGlide | NONE
-FVEntry | FVElectric FVDoubleJump FVRedChamber
+FVEntry | FVElectric FVDoubleJump FVRedChamber MBShop
 FVElectric | NONE
 FVDoubleJump | FVWallKick GGEntry
 FVWallKick | NONE
@@ -40,7 +41,7 @@ FVEastPoles | NONE
 FVLGDoorEntry | FVLGDoorGlide
 FVLGDoorGlide | NONE
 SBEntry | SBDoubleJump
-SBDoubleJump | SBUpperCave MMEntry
+SBDoubleJump | SBUpperCave MMEntry MBShop
 SBUpperCave | NONE
 MMEntry | MMWaterIce
 MMWaterIce | MMPoleSpin

@@ -74,8 +74,21 @@
                     "filtered_resolution": false,
                     "args": {}
                 }
-            },
-            {
+            }
+        ],
+        "gem_events": []
+    },
+    "MBShop": {
+        "name": "MBShop",
+        "connections": [],
+        "access_rule": {
+            "rule": "True_",
+            "options": [],
+            "filtered_resolution": false,
+            "args": {}
+        },
+        "locations": [
+                        {
                 "name": "Moneybags: Shop Item 1",
                 "id": 1000,
                 "options": [
@@ -1242,7 +1255,8 @@
         "name": "DVEntry",
         "connections": [
             "DVDoubleJump",
-            "DVGnastyCave"
+            "DVGnastyCave",
+            "MBShop"
         ],
         "access_rule": {
             "rule": "RealmAccessRule",
@@ -3788,7 +3802,8 @@
             "CRDoubleJump",
             "CRLGDoor",
             "CRPoleSpin",
-            "CRWateryTomb"
+            "CRWateryTomb",
+            "MBShop"
         ],
         "access_rule": {
             "rule": "RealmAccessRule",
@@ -7322,7 +7337,8 @@
         "connections": [
             "FVElectric",
             "FVDoubleJump",
-            "FVRedChamber"
+            "FVRedChamber",
+            "MBShop"
         ],
         "access_rule": {
             "rule": "RealmAccessRule",
@@ -10722,7 +10738,8 @@
         "name": "SBDoubleJump",
         "connections": [
             "SBUpperCave",
-            "MMEntry"
+            "MMEntry",
+            "MBShop"
         ],
         "access_rule": {
             "rule": "Has",

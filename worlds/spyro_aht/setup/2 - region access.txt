@@ -1,4 +1,5 @@
 START | True_ NONE
+MBShop | True_ NONE
 DVEntry | Has RealmAccessRule Dragon Village
 DVGnastyCave | Has BossLairRule 0
 DVDoubleJump | Has Double Jump

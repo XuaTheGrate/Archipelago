@@ -51,7 +51,8 @@ class FillerItems(OptionSet):
     every location which needs a filler item. There is always a minimum of 101 such locations.
     
     Dragon Eggs: Dragon Eggs are functionally useless in Archipelago, because the extras that they unlock are
-    unlocked when you collect the in-game Dragon Eggs, regardless of what they were randomized into.
+    unlocked when you collect the in-game Dragon Eggs, regardless of what they were randomized into. Note that
+    if you choose to not randomize any minigames, you will get Dragon Eggs from them even if you omit them here.
     
     Breath Bombs: random vanilla game bomb items. Only usable if you have that breath unlocked.
     
@@ -60,8 +61,8 @@ class FillerItems(OptionSet):
     be collecting gems faster than logic expects, to varying degrees depending on how many gem packs get created.
     
     Generic: Empty items which do nothing, but have humorous names referencing characters or things in the series.
-    There are 12 total (6 will be chosen each seed), so these will likely make up the majority of your filler pool
-    if enabled. This option is chosen automatically if the list is left empty.
+    There are 12 total (6 chosen each seed, or all 12 if this is the only filler), so these will likely make up the
+    majority of your filler pool if enabled. This option is chosen automatically if the list is left empty.
     
     Valid options: ["Dragon Eggs", "Breath Bombs", "Gem Packs", "Generic"]"""
     display_name = "Filler Items"
@@ -121,7 +122,7 @@ class ShopRandomization(Toggle):
     game, with one difference. If you enable key rings, 14 unique key rings will replace lockpicks in the shop. 
 
     If the shop is randomized, vanilla game items will be replaced with items from Archipelago.
-    Shop items will progressive unlock as you collect gems throughout the seed. Once a shop item is unlocked, you can
+    Shop items will progressively unlock as you collect gems throughout the seed. Once a shop item is unlocked, you can
     redeem it for free. This approach has some behind-the-scenes benefits detailed in the project's GitHub README.
     
     This has a few consequences worth noting:
@@ -177,12 +178,12 @@ class GemCollection(Range):
 
 
 class BlinkGems(Range):
-    """This option pairs with gem_collection and randomize_minigames. Even if you exclude a minigame type with randomize_minigames,
-    you would still be expected to collect their gems for shop purposes. This option isolates Blink's minigame gems,
-    because his contain more than the rest (Blink has 20,028, Sparx has 3,671, Sgt. Byrd has 8,281).
+    """This option is only used when the shop is randomized, and pairs with gem_collection. This option isolates Blink's
+    minigame gems, because his contain more than the other types (Blink has 20,028, Sparx has 3,671, Sgt. Byrd has 8,281).
     
     This option works identically to gem_collection. For example, a 40 below means collecting 40% of Blink's minigame
-    gems, which is 8,011. Set this option to 0 if you intend to skip Blink minigames.
+    gems, which is 8,011. Set this option to 0 if you intend to skip Blink minigames, whether that be on principle, 
+    from underground-air-a-phobia, or because you excluded enough Blink minigame locations to justify it.
     """
     display_name = "Blink Gems"
     range_start = 0

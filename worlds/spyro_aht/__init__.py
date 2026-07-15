@@ -4,11 +4,11 @@ import functools
 import pkgutil
 import random
 from collections import defaultdict
-from typing import Any, TextIO, override
+from typing import Any, TextIO, override, Optional
 
 import orjson
 
-from Options import OptionError
+from Options import OptionError, Option
 import Utils
 from BaseClasses import Item, ItemClassification, MultiWorld, Region, CollectionState
 from rule_builder.rules import Has, Rule, True_, And, Or
@@ -139,6 +139,8 @@ class SpyroAHTWorld(World):
     location_data = _load_file("locations.json")
     location_name_to_id = _location_name_to_id(location_data)
     location_name_groups = create_location_groups(location_data)
+    
+    ut_can_gen_without_yaml = True
 
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
@@ -232,6 +234,35 @@ class SpyroAHTWorld(World):
         if self.options.starting_realm.value != 0: # not dragon village
             if self.options.randomize_movement.value == 0 and self.options.shop_randomization.value == 0:
                 raise OptionError("Cannot start outside Dragon Village if Movement and Shop randomization is off")
+        
+        passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
+        if isinstance(passthrough, dict) and self.game in passthrough:
+            self._apply_slot_data(passthrough[self.game])
+    
+    def _apply_slot_data(self, slot_data: dict[str, Any]) -> None:
+        self._ut_active = True
+        
+        self.options.death_link.value = slot_data['death_link']
+        
+        self.options.goal.value = slot_data['goal']
+        self.options.firework_checks.value = slot_data['firework_checks']
+        self.options.randomize_minigames.value = slot_data['randomize_minigames']
+        self.options.filler_items.value = slot_data['filler_items']
+        
+        self.options.randomize_breath.value = slot_data['randomize_breath']
+        self.options.randomize_movement.value = slot_data['randomize_movement']
+        self.options.realm_access.value = slot_data['realm_access']
+        self.options.starting_realm.value = slot_data['starting_realm']
+        
+        self.options.shop_randomization.value = slot_data['shop_randomization']
+        self.options.key_rings.value = slot_data['key_rings']
+        self.options.gem_collection.value = slot_data['gem_collection']
+        self.options.blink_gems.value = slot_data['blink_gems']
+        self.options.double_gems.value = slot_data['double_gems']
+        
+        self._boss_lairs = slot_data['boss_lair_costs']
+        self._lg_doors = slot_data['light_gem_door_costs']
+        self._gadget_costs = slot_data['gadget_costs']
 
     def create_regions(self):
         # shop costs determined by multiple options
@@ -392,7 +423,8 @@ class SpyroAHTWorld(World):
                 generic_list.append(filler_item['name'])
 
         if add_generic:
-            final_list.extend(random.sample(generic_list, k=6))  # only take 6 to not overly clutter the pool        
+            generic_count = 6 if len(player_choices) > 1 else 12  # only pick 6 if there's other filler type, to avoid clutter
+            final_list.extend(random.sample(generic_list, k=generic_count))        
         return final_list
     
     def create_items(self) -> None:
@@ -408,11 +440,12 @@ class SpyroAHTWorld(World):
                     self.get_location(egg).place_locked_item(self.create_item("Dragon Egg"))
                     self.get_location(breath_loc).place_locked_item(self.create_item("Light Gem"))
                 minigames += 4
+                filler_counter -= 4  # represents 4 less dragon eggs
 
         if self.options.firework_checks.value == 1:
-            filler_counter += 22
+            filler_counter += 22  # 22 firework checks which need filler
         if self.options.shop_randomization.value == 1 and self.options.double_gems.value == 0:
-            filler_counter += 1
+            filler_counter += 1  # double gems is gone so its shop location needs a filler
 
         if self.options.randomize_breath.value == 0:
             self._starting_breath = 0
@@ -473,7 +506,7 @@ class SpyroAHTWorld(World):
 
             if add:
                 count = item.get('count', 1)
-                if item['name'] in ('Dragon Egg', 'Light Gem'):
+                if item['name'] == 'Light Gem':  # dragon eggs are handled above separately since they are fully filler now
                     count -= minigames
 
                 for _ in range(count):
@@ -512,44 +545,45 @@ class SpyroAHTWorld(World):
     
     def fill_slot_data(self):
         r: dict[str, Any] = {
+            "death_link": self.options.death_link.value,
             "goal": self.options.goal.value,
-            "skip_cutscenes": self.options.skip_cutscenes.value,
-            "hint_boss_rewards": self.options.hint_boss_rewards.value,
-            "hint_minigame_rewards": self.options.hint_minigame_rewards.value,
-            "skip_elevators": self.options.skip_elevators.value,
+            "firework_checks": self.options.firework_checks.value,
+            "randomize_minigames": self.options.randomize_minigames.value,
+            "filler_items": self.options.filler_items.value,
 
+            "randomize_breath": self.options.randomize_breath.value,
+            "randomize_movement": self.options.randomize_movement.value,
             "realm_access": self.options.realm_access.value,
             "starting_realm": self._starting_realm,
 
-            "key_rings": self.options.key_rings.value,
             "shop_randomization": self.options.shop_randomization.value,
+            "key_rings": self.options.key_rings.value,
+            "gem_collection": self.options.gem_collection.value,
+            "blink_gems": self.options.blink_gems.value,
+            "double_gems": self.options.double_gems.value,
+            "shop_costs": self.shop_costs,
 
             "randomize_boss_lair_doors": self.options.randomize_boss_lair_door_costs.value,
             "boss_lair_costs": self._boss_lairs,
-
             "randomize_light_gem_door_costs": self.options.randomize_light_gem_door_costs.value,
             "light_gem_door_costs": self._lg_doors,
-
             "randomize_gadget_costs": self.options.randomize_gadget_costs.value,
             "gadget_costs": self._gadget_costs,
 
-            "randomize_minigames": self.options.randomize_minigames.value,
-            "randomize_movement": self.options.randomize_movement.value,
-            "randomize_breath": self.options.randomize_breath.value,
-            "firework_checks": self.options.firework_checks.value,
-
+            "hint_minigame_rewards": self.options.hint_minigame_rewards.value,
+            "hint_boss_rewards": self.options.hint_boss_rewards.value,
             "easy_bosses": self.options.easy_bosses.value,
-
-            "death_link": self.options.death_link.value,
-
+            "skip_cutscenes": self.options.skip_cutscenes.value,
+            "skip_elevators": self.options.skip_elevators.value,
             "teleport_across_realms": self.options.teleport_across_realms.value,
             "open_world_mode": self.options.open_world_mode.value,
-            "shop_costs": self.shop_costs,
-            "gem_collection": self.options.gem_collection.value,
-            "blink_gems": self.options.blink_gems.value
         }
         
         return r
+    
+    @staticmethod
+    def interpret_slot_data(slot_data: dict[str, Any]) -> dict[str, Any]:
+        return slot_data
     
     def write_spoiler(self, spoiler_handle: TextIO) -> None:
         super().write_spoiler(spoiler_handle)
