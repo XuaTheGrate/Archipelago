@@ -40,68 +40,88 @@ class SpyroAHTCommands(ClientCommandProcessor):
         # TODO: update this
         # this is grossly repetitive, but it only runs when the player demands it so it's not a big deal
         # even if it was reformatted it'd still be the same amount of output and data lookup, it's just code cleanliness
-        """Displays the options you set for this seed. Data is sourced directly from slot data, so if something doesn't line up here, check your YAML for mistakes. Much of this info is also viewable in-game by pausing and pressing R/L."""
-
-        self.output("---------------GOAL & BOSSES---------------")
+        """Displays the options you set for this seed (in the same order as YAML). Data is sourced directly from slot data, so if something doesn't line up here, check your YAML for mistakes. Much of this info is also viewable in-game by pausing and pressing R/L."""
+        
+        # death link
+        output = "enabled" if self.ctx.slot_data["death_link"] == 1 else "disabled"
+        self.output(f"Death link is {output}.")
+        
+        self.output("---------------GOAL, CHECKS, & ITEMS---------------")
         # goal
         convert = {0: "Gnasty Gnorc", 1: "Ineptune", 2: "Red", 3: "Mecha-Red", 4: "all bosses"}
         self.output(f"Your goal is to defeat {convert[self.ctx.slot_data['goal']]}.")
-        # boss cost
+        # firework checks
+        output = "enabled" if self.ctx.slot_data["firework_checks"] else "disabled"
+        self.output(f"Firework checks are {output}.")
+        # minigames
+        output = ""
+        for minigame_type in ["Sgt. Byrd", "Blink", "Turret", "Sparx"]:
+            output += f"{minigame_type} rewards are {'randomized' if minigame_type in self.ctx.slot_data['randomize_minigames'] else 'not randomized'}, "
+        self.output(f"Minigames: {output[:-2]}.")
+        # filler items
+        output = ""
+        for minigame_type in ["Dragon Eggs", "Breath Bombs", "Gem Packs", "Generic"]:
+            if minigame_type in self.ctx.slot_data['filler_items']: output+= f"{minigame_type}, "
+        self.output(f"Enabled Filler Item Tpes: {output[:-2]}.")
+        
+        self.output("---------------START OF GAME---------------")
+        # movement & breath
+        output = "randomized" if self.ctx.slot_data["randomize_movement"] == 1 else "not randomized"
+        if self.ctx.slot_data['starting_breath'] == 4:
+            output_2 = "no"
+        else:
+            convert = {0: "fire", 1: "electric", 2: "water", 3: "ice"}
+            output_2 = convert[self.ctx.slot_data['starting_breath']]
+        self.output(f"Movement abilities are {output} and you start with {output_2} breath.")
+        # realm access method and starting realm
+        output = "requires access cards" if self.ctx.slot_data["realm_access"] == 2 else "is open"
+        convert = {0: "Dragon Village", 1: "Coastal Remains", 2: "Frostbite Village", 3: "Stormy Beach", 4: "a random realm"}
+        self.output(f"Realm access {output} and you start in {convert[self.ctx.slot_data['starting_realm']]}.")
+
+        self.output("---------------SHOP---------------")
+        # shop items & key rings
+        output = "randomized" if self.ctx.slot_data["shop_randomization"] == 1 else "not randomized"
+        output_2 = "enabled" if self.ctx.slot_data["key_rings"] == 1 else "not enabled"
+        self.output(f"Shop items are {output} and key rings are {output_2}.")
+        
+        # shop randomization-related things
+        if self.ctx.slot_data["shop_randomization"]:
+            # gem_collection and blink_gems
+            self.output(f"You chose to collect {self.ctx.slot_data['blink_gems']}% of Blink's gems and {self.ctx.slot_data['gem_collection']}% of other gems.")
+            # shop prices
+            self.output(f"This means your shop prices are {self.ctx.slot_data['shop_costs']}.")
+            # double gems
+            output = "enable" if self.ctx.slot_data['double_gems'] else "disable"
+            self.output(f"You chose to {output} the Double Gems item.")
+            
+        self.output("---------------GATE AND GADGET COSTS---------------")
+        # boss costs
         data = self.ctx.slot_data["boss_lair_costs"]
-        self.output(f"The Dark Gem gates require, in vanilla realm order: {data[0]}, {data[1]}, {data[2]}, and {data[3]}.")
+        self.output(f"The boss lair gates require, in vanilla realm order: {data[0]}, {data[1]}, {data[2]}, and {data[3]} Dark Gems.")
+        # light gem doors
+        data = self.ctx.slot_data["light_gem_door_costs"]
+        self.output(f"The Light Gem doors require, in vanilla realm order: {data[0]}, {data[1]}, {data[2]}, and {data[3]} Light Gems.")
+        # gadget costs
+        data = self.ctx.slot_data["gadget_costs"]
+        self.output(f"Ball gadget requires {data[0]} Light Gems, invincibility requires {data[1]} Light Gems, and supercharge requires {data[2]} Light Gems.")
+
+        self.output("---------------QUALITY OF LIFE---------------")
+        # hint rewards
+        output = "will" if self.ctx.slot_data["hint_boss_rewards"] else "won't"
+        output_2 = "will" if self.ctx.slot_data["hint_minigame_rewards"] else "won't"
+        self.output(f"Boss rewards {output} be hinted and minigame rewards {output_2} be hinted.")
         # easy bosses
         output = "Boss Difficulty: "
         for boss in ["Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red"]:
             output += f"{boss} easy, " if boss in self.ctx.slot_data["easy_bosses"] else f"{boss} normal, "
         self.output(f"{output[:-2]}.")
-
-        self.output("---------------COSTS & SHOP---------------")
-        # light gem doors
-        option = self.ctx.slot_data["randomize_light_gem_door_costs"]
-        output = "default" if option == 0 else "randomized" if option == 1 else "shuffled"
-        data = self.ctx.slot_data["light_gem_door_costs"]
-        self.output(f"Light Gem door costs are {output}. They require, in vanilla realm order: {data[0]}, {data[1]}, {data[2]}, and {data[3]}.")
-        # gadgets
-        option = self.ctx.slot_data["randomize_gadget_costs"]
-        output = "default" if option == 0 else "randomized" if option == 1 else "shuffled"
-        data = self.ctx.slot_data["gadget_costs"]
-        self.output(f"Gadget costs are {output}. Ball requires {data[0]} Light Gems, invincibility {data[1]}, and supercharge {data[2]}.")
-        # shop items & key rings
-        output = "randomized" if self.ctx.slot_data["shop_randomization"] == 1 else "not randomized"
-        output_2 = "enabled" if self.ctx.slot_data["key_rings"] == 1 else "not enabled"
-        self.output(f"Shop items are {output} and key rings are {output_2}.")
-
-        self.output("---------------OPTIONAL LOCATIONS---------------")
-        # firework checks
-        output = "randomized" if self.ctx.slot_data["firework_checks"] else "not randomized"
-        self.output(f"Fireworks are {output}.")
-        # minigames
-        output = ""
-        for minigame_type in ["sgt_byrd", "blink", "turret", "sparx"]:
-            fixed_format = minigame_type.replace("_", ". ").title()
-            output += f"{fixed_format} randomized, " if self.ctx.slot_data[f"randomize_{minigame_type}_minigames"] else f"{fixed_format} not randomized, "
-        self.output(f"Minigames: {output[:-2]}.")
-
-        self.output("---------------MISCELLANEOUS---------------")
-        # movement & breath
-        output = "randomized" if self.ctx.slot_data["randomize_movement"] == 1 else "not randomized"
-        output_2 = "a random" if self.ctx.slot_data["randomize_breath"] == 0 else "default (fire)" if self.ctx.slot_data["randomize_breath"] == 1 else "no"
-        self.output(f"Movement abilities are {output} and you start with {output_2} breath.")
-        # realm access method and starting realm
-        output = "requires AP items" if self.ctx.slot_data["realm_access"] == 2 else "open world"
-        convert = {0: "Dragon Village", 1: "Coastal Remains", 2: "Frostbite Village", 3: "Stormy Beach", 4: "random"}
-        self.output(f"Realm access is {output} and you start in {convert[self.ctx.slot_data['starting_realm']]}.")
-        # death link
-        output = "enabled" if self.ctx.slot_data["death_link"] == 1 else "disabled"
-        self.output(f"Death link is {output}.")
         # skip cutscenes & elevators
         output = "can" if self.ctx.slot_data["skip_cutscenes"] else "can't"
         output_2 = "can" if self.ctx.slot_data["skip_elevators"] else "can't"
         self.output(f"Cutscenes {output} be skipped and elevators {output_2} be skipped.")
-        # hint rewards
-        output = "will" if self.ctx.slot_data["hint_boss_rewards"] else "won't"
-        output_2 = "will" if self.ctx.slot_data["hint_minigame_rewards"] else "won't"
-        self.output(f"Boss rewards {output} be hinted and minigame rewards {output_2} be hinted.")
+        # teleport across realms
+        output = "can" if self.ctx.slot_data['teleport_across_realms'] else "can't"
+        self.output(f"You {output} teleport across realms.")
 
         return True
 

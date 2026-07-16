@@ -428,7 +428,7 @@ class XLSShoppingItem:
     
     @property
     def structure(self) -> str:
-        return "IIIIIhhII" if self.shop_rando else "IIIIHHhhII"
+        return "IIIIihhII" if self.shop_rando else "IIIIHHhhII"
 
     def to_bytes(self, byteorder: Literal['big', 'little'] = 'big'):
         args = [self.cost[0], self.cost[1], 1, 0, 0, 0]

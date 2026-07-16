@@ -32,11 +32,12 @@ any logic bugs), but this was a prerequisite for both of the major feature addit
    
 TO-DO LIST:
     - TODO: project docs
+    - TODO: more goals (buy all shop items, flame all fireworks, break all dark gems, collect all dragon eggs, collect all light gems
     - TODO: fix client not properly processing duplicate sends from cheat console?
-    - TODO: update /list_options command
     - TODO: get a better rule parsing system in place
     - TODO: make tool for testing gem access
     - TODO: investigate auto-setting of price to 0 for some items
+    - TODO: more integration with UT (formally define a new /explain for the client? and similar)
 
 1.0.10
 - Added new client command /list_options with lists all YAML options as well as some randomized costs.
