@@ -1,4 +1,4 @@
-2.0.0 (won't be finalized for another week or two)
+2.0 (Beta Release 1)
 - This apworld has officially switched hands to being primarily maintained by PhoenixAki.
     - From Phoenix: hello little people in my computer :) I only got into Archipelago in February 2026 and started
     making contributions to worlds in April (including both 1.0.9 and 1.0.10 here). I started taking on bigger updates,
@@ -15,7 +15,7 @@ any logic bugs), but this was a prerequisite for both of the major feature addit
         - If UT is not installed, the AHT client will revert to its old state.
         - However, the map icons feature in the game mod now require having UT, as UT is the sole source of that information now.
         - Similarly, the pause menu text about how many gems you have available and are expected to get is also fueled by UT.
-    - Another benefit of this is that randomized costs for 
+    - Another benefit of this is that randomized costs for boss lairs, light gem doors, and gadgets will now be correctly reported by UT (and the UT page in the client).
     
 - Major Feature Addition: new shop randomization behavior
     - Gem logic was added, meaning during generation and playback, logic will know how many gems are obtainable to you.
@@ -23,6 +23,7 @@ any logic bugs), but this was a prerequisite for both of the major feature addit
     - This was accompanied by a series of YAML changes, including new options [filler_items, gem_collection, blink_gems, double_gems] and removal of options [shop_cost_min, shop_cost_max]
     
 - Various smaller additions, improvements, and fixes/tweaks:
+    - The client now checks for the right version of the game mod and prevents connection if it doesn't match (currently version 8).
     - New option teleport_across_realms which lets you teleport from remote shop pads in one realm to another realm directly.
     - Improved YAML flow with improved wording, option grouping, and simplifying options.
     - Fixed typo in location group name for Molten Mount.
@@ -31,7 +32,8 @@ any logic bugs), but this was a prerequisite for both of the major feature addit
     - Expanded starting_breath option (previously named randomize_breath) to allow explicit choosing of any breath, or none.
    
 TO-DO LIST:
-    - TODO: project docs
+    - TODO: further updating of project docs
+    - TODO: a secret second major addition (if you pay attention you'll already know what it is, but I'm not spoiling it for those who haven't noticed :3)
     - TODO: more goals (buy all shop items, flame all fireworks, break all dark gems, collect all dragon eggs, collect all light gems
     - TODO: fix client not properly processing duplicate sends from cheat console?
     - TODO: get a better rule parsing system in place
