@@ -15,7 +15,7 @@ from rule_builder.rules import Has, Rule, True_, And, Or
 from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import icon_paths
 
-from .options import RandomizeMovement, SpyroAHTOptions, RandomizeBreath, spyro_options_groups
+from .options import RandomizeMovement, SpyroAHTOptions, StartingBreath, spyro_options_groups
 from .client import rules
 
 icon_paths['spyro_aht'] = f'ap:{__name__}/icon.png'
@@ -249,7 +249,7 @@ class SpyroAHTWorld(World):
         self.options.randomize_minigames.value = slot_data['randomize_minigames']
         self.options.filler_items.value = slot_data['filler_items']
         
-        self.options.randomize_breath.value = slot_data['randomize_breath']
+        self.options.starting_breath.value = slot_data['starting_breath']
         self.options.randomize_movement.value = slot_data['randomize_movement']
         self.options.realm_access.value = slot_data['realm_access']
         self.options.starting_realm.value = slot_data['starting_realm']
@@ -446,30 +446,18 @@ class SpyroAHTWorld(World):
             filler_counter += 22  # 22 firework checks which need filler
         if self.options.shop_randomization.value == 1 and self.options.double_gems.value == 0:
             filler_counter += 1  # double gems is gone so its shop location needs a filler
-
-        if self.options.randomize_breath.value == 0:
-            self._starting_breath = 0
-        elif self.options.randomize_breath.value == 1:
-            self._starting_breath = self.random.randint(0, 3)
-        else:
-            self._starting_breath = -1
-
-        breath_loc = self.get_location("Starter Checks: Breath")
-        match self._starting_breath:
-            case 0:
-                breath_loc.place_locked_item(self.create_item("Fire Breath"))
-            case 1:
-                breath_loc.place_locked_item(self.create_item("Electric Breath"))
-            case 2:
-                breath_loc.place_locked_item(self.create_item("Water Breath"))
-            case 3:
-                breath_loc.place_locked_item(self.create_item("Ice Breath"))
+        
+        starting = self.options.starting_breath.value
+        for breath_num, breath_name in zip(range(4), ["Fire Breath", "Electric Breath", "Water Breath", "Ice Breath"]):
+            if starting == breath_num:
+                self.get_location("Starter Checks: Breath").place_locked_item(self.create_item(breath_name))
+                break
 
         if self.options.randomize_movement.value == 0:
             self.get_location("Starter Checks: Swim").place_locked_item(self.create_item("Swim"))
             self.get_location("Starter Checks: Charge").place_locked_item(self.create_item("Charge"))
             self.get_location("Starter Checks: Glide").place_locked_item(self.create_item("Glide"))
-
+        
         for item in item_data:
             if item["group"] == "Filler":  # filler handled later
                 continue
@@ -551,7 +539,7 @@ class SpyroAHTWorld(World):
             "randomize_minigames": self.options.randomize_minigames.value,
             "filler_items": self.options.filler_items.value,
 
-            "randomize_breath": self.options.randomize_breath.value,
+            "starting_breath": self.options.starting_breath.value,
             "randomize_movement": self.options.randomize_movement.value,
             "realm_access": self.options.realm_access.value,
             "starting_realm": self._starting_realm,
@@ -587,11 +575,12 @@ class SpyroAHTWorld(World):
     
     def write_spoiler(self, spoiler_handle: TextIO) -> None:
         super().write_spoiler(spoiler_handle)
-        # TODO: update this?
-        spoiler_handle.write(f"Starting Realm:                  {self._starting_realm}\n")
-        spoiler_handle.write(f"Randomized Gadget Costs:         {self._gadget_costs}\n")
-        spoiler_handle.write(f"Randomized Boss Lair Costs:      {self._boss_lairs}\n")
-        spoiler_handle.write(f"Randomized Light Gem Door Costs: {self._lg_doors}\n")
+        
+        if self.options.shop_randomization:
+            spoiler_handle.write(f"Shop Prices:                     {self.shop_costs}\n")
+        spoiler_handle.write(f"Boss Lair Costs:                 {self._boss_lairs}\n")
+        spoiler_handle.write(f"Light Gem Door Costs:            {self._lg_doors}\n")
+        spoiler_handle.write(f"Gadget Costs:                    {self._gadget_costs}\n")
 
 ###############LOGIC RULES###############
 @dataclass

@@ -20,10 +20,10 @@ class DeathLink(Choice):
 class Goal(Choice):
     """Determines your goal boss, or to require all 4 bosses."""
     display_name = "Goal"
-    option_gnorc = 0
+    option_gnasty_gnorc = 0
     option_ineptune = 1
     option_red = 2
-    option_mechared = 3
+    option_mecha_red = 3
     option_all = 4
     default = 3
 
@@ -31,7 +31,7 @@ class Goal(Choice):
 class FireworkChecks(Toggle):
     """Whether to enable checks for flaming fireworks. Fire breath is required for surprisingly few things in this game,
     so enabling this helps make fire breath more important. This option adds +22 filler items."""
-    display_name = "Randomize Fireworks"
+    display_name = "Firework Checks"
     default = 0
 
 
@@ -51,8 +51,8 @@ class FillerItems(OptionSet):
     every location which needs a filler item. There is always a minimum of 101 such locations.
     
     Dragon Eggs: Dragon Eggs are functionally useless in Archipelago, because the extras that they unlock are
-    unlocked when you collect the in-game Dragon Eggs, regardless of what they were randomized into. Note that
-    if you choose to not randomize any minigames, you will get Dragon Eggs from them even if you omit them here.
+    unlocked when you collect the in-game Dragon Eggs, regardless of what they were randomized into. Dragon Eggs
+    given from minigames which are unrandomized (see randomize_minigames) are still given even if omitted here.
     
     Breath Bombs: random vanilla game bomb items. Only usable if you have that breath unlocked.
     
@@ -70,19 +70,19 @@ class FillerItems(OptionSet):
     default = ("Dragon Eggs", "Breath Bombs", "Gem Packs", "Generic")
 
 ###############START OF GAME###############
-class RandomizeBreath(Choice):
-    """Determines breath starting behavior.
-    "Starter Check: Breath" will either give your starting breath,
-    or a random other item, if you choose "none".
+class StartingBreath(Choice):
+    """All seeds start with a "Starter Check: Breath". This option decides whether it will get pre-filled with a
+    breath of your choice, or a random other item from Archipelago (which could potentially still be a breath).
 
-    default: Start with fire breath.
-    random: Start with a random breath.
+    fire/electric/water/ice: Start with that breath.
     none: Start with no breath.
     """
     display_name = "Starting Breath"
-    option_default = 0
-    option_randomized = 1
-    option_none = 2
+    option_fire = 0
+    option_electric = 1
+    option_water = 2
+    option_ice = 3
+    option_none = 4
     default = 0
 
 
@@ -355,7 +355,7 @@ class SpyroAHTOptions(PerGameCommonOptions):
     randomize_minigames: RandomizeMinigames
     filler_items: FillerItems
     
-    randomize_breath: RandomizeBreath
+    starting_breath: StartingBreath
     randomize_movement: RandomizeMovement
     realm_access: RealmAccess
     starting_realm: StartingRealm
@@ -390,7 +390,7 @@ spyro_options_groups = [
         Goal, FireworkChecks, RandomizeMinigames, FillerItems
     ]),
     OptionGroup("START OF GAME", [
-        RandomizeBreath, RandomizeMovement, RealmAccess, StartingRealm
+        StartingBreath, RandomizeMovement, RealmAccess, StartingRealm
     ]),
     OptionGroup("SHOP", [
         ShopRandomization, KeyRings, GemCollection, BlinkGems, DoubleGems

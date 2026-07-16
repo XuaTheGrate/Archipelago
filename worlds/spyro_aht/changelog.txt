@@ -18,7 +18,6 @@ any logic bugs), but this was a prerequisite for both of the major feature addit
     - Another benefit of this is that randomized costs for 
     
 - Major Feature Addition: new shop randomization behavior
-    - TODO: TBD how much of this will stay depending on game mod situation as of earl 7/15/26
     - Gem logic was added, meaning during generation and playback, logic will know how many gems are obtainable to you.
     - The shop, when randomized, utilizes this to now space out the shop items throughout the seed, instead of them all being in logic at sphere 1. The shop will not take your gems anymore (and remote shops won't upcharge you) because the shop items are now based on your total gems collected.
     - This was accompanied by a series of YAML changes, including new options [filler_items, gem_collection, blink_gems, double_gems] and removal of options [shop_cost_min, shop_cost_max]
@@ -28,9 +27,10 @@ any logic bugs), but this was a prerequisite for both of the major feature addit
     - Improved YAML flow with improved wording, option grouping, and simplifying options.
     - Fixed typo in location group name for Molten Mount.
     - Renamed project from spyro-aht -> spyro_aht.
+    - Updated spoiler file output to include shop prices and no longer include starting realm.
+    - Expanded starting_breath option (previously named randomize_breath) to allow explicit choosing of any breath, or none.
    
 TO-DO LIST:
-    - TODO: update write_spoiler
     - TODO: project docs
     - TODO: fix client not properly processing duplicate sends from cheat console?
     - TODO: update /list_options command
