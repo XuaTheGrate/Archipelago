@@ -37,6 +37,7 @@ TO-DO LIST:
     - TODO: more goals (buy all shop items, flame all fireworks, break all dark gems, collect all dragon eggs, collect all light gems
     - TODO: fix client not properly processing duplicate sends from cheat console?
     - TODO: get a better rule parsing system in place
+    - TODO: template presets?
     - TODO: make tool for testing gem access
     - TODO: investigate auto-setting of price to 0 for some items
     - TODO: more integration with UT (formally define a new /explain for the client? and similar)

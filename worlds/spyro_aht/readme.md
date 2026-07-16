@@ -8,6 +8,7 @@ Regardless of YAML settings, all the following are randomized and exist as check
   - The elemental breath rewards from the first 3 bosses.
   - Minigame rewards, sort of (their rewards are able to be unrandomized, but they will always be checks)
   - Movement abilities from the 4 Elders (Double Jump, Pole Spin, Wing Shield, Wall Kick)
+    - Double Jump is guaranteed to be an early item you receive, because it is required for the vast majority of the randomizer's checks.
 
 The following are randomizable via YAML settings:
   - Having fire breath.
@@ -69,29 +70,25 @@ If you enable the "key rings" option, 14 key rings will replace lockpicks in the
 When the shop is unrandomized, there are no checks for shop-related things.
 
 ## Randomized Shop
-When the shop is randomized, vanilla game items will be replaced with items from Archipelago. These will either be items for Spyro AHT (if you're doing a solo randomizer seed), or potentially items for other games (if you are doing a multiworld).
+When the shop is randomized, vanilla game items will be replaced with items from Archipelago. These will either be items for Spyro AHT (if doing a solo seed), or potentially items for other games (if doing a multiworld). Shop items will unlock progressively as you play through the seed, except the first item, which is always free (this prevents restrictive start issues). This was made possible by the addition of **gem logic** to the randomizer.
 
-Shop items will unlock progressively as you play through the seed, except the first item, which is always free (this is required to prevent a handful of seed generation issues). In your YAML, you will choose how much of the game's gems you intend to collect, and the price of your shop items will be derived from what you specify.
+### Gem Logic
+The randomizer has awareness of when you can access which gems in each level, making it possible to take that into account when generating. In your YAML, you will choose how much of the game's gems you intend to collect, and the price of your shop items will be derived from what you specify. Once an item is unlocked, you can purchase it for free, meaning you will keep all gems you collect. This partially was to simplify the process of getting this system to work logically, and partially was a stylistic choice so you can think about the logic as your "total collected gems so far" instead of "the portion of gems I still have on hand".
 
-Once a shop item is unlocked, you can purchase it for free, meaning you will keep all gems you collect. The pause screen will display how many gems are possible to obtain, as well as how many you need to be at the percentage you specified in your YAML. You don't need to be exact, unless it is just barely possible to afford your next item and the item is important. If you are struggling to find gems, you may want to set your gem collection settings lower next seed. During the current run, you can repeat some minigames if wanted (Sparx ones give pretty decent gems quickly).
+The pause screen displays how many gems are possible to obtain in total, as well as how many are required to be at the percentage you specified in your YAML. You rarely will need to be exact. The logic **will** expect you to backtrack to previous areas, if they had gems you couldn't get at the time (especially relevant for gems from flameable fireworks). If you are struggling to find gems, you may want to set your gem collection settings lower next seed, and in the short-term, you can repeat some minigames if needed (Sparx ones are pretty efficient). The randomizer ultimately does not care *how* you get your gems, so do whatever you need to do :)
 
-### How Were Enemy Calculations Done
-No different to other things, except that I had to assume the player will kill all enemies exactly once each. Enemies respawn on death/reload so technically give infinite gems. So I had to make that assumption to calculate a final "total" gem amount.
+Next, this document will list a few notes on how the gem logic rules were decided on for a few types of things:
+- Any basket, chest, etc. that is breakable with horn dive (from double jump) is expected to be. Double Jump is required for a LOT of the game's areas, so this *massively* simplified the gem logic rules by considering any gems obtainable immediately in any area to be called "immediates" internally.
 
-Logic does not care *how* you get your gems, whether it be by killing one enemy 100 times to get 2,000 gems or by breaking enough baskets to 2,000. Depending on your settings, this may matter further down the line if you have a high value of gem collection set, but lower values gives you way more fleixbility on how you go about getting your gems.
+- However, enemies will never expect you to horn dive to kill them, even though you can for many. This was to avoid expecting the player to risk extra damage just to take some poor gnorc's 20 gems (they have families, you monster!!!)
 
-The only risk you get from collecting gems quicker than expected is unlocking shop items earlier than expected. This will never break a seed, but may give you a faster-than-intended path to progress. Up to you how much you care about that.
+- Enemies are assumed to be killed exactly once each. This does mean if you can't kill an enemy right away in a level, the logic would expect you to backtrack later to kill them. This is not feasible for most players to keep track of, and we don't expect you to. It is expected that your gem count will desync from what logic see as maximally obtainable, by a possibly significant degree. This is why you should only set your gem collection YAML options high if you want to be expected to follow this strictly.
 
-Enemies are not the only thing that give repeatable gems, though...
-
-### How Were the Sparx Gem Calculations Done?
-Sparx minigames were tricky to deal with. Enemies give gems there, but due to how you play the minigames, it's nearly impossible to get consistent gem results from them. I played each one 4-6 times and averaged my results and considered that the "total" for each one. These numbers are listed below for those interested:
-Dragonfly Falls: 695 for Dragon Egg, 828 for Light Gem
-Sunken Ruins: 1,114 for Dragon Egg, 1,034 for Light Gem
-Gloomy Glacier: 1,143 for Dragon Egg, 1,075 for Light Gem
-Magma Falls: 1,313 for Dragon Egg, 1,076 for Light Gem
-
-Blink and Sgt. Byrd also have gems in them and they are repeatable, but they are also far, far more consistent at giving those gems to you, so it is assumed you can deal with that without logic assumptions.
+- Sparx minigames were hard to figure out, due to the high rate of variance in how many gems you will get from them (though the gems dropped from enemies appears to be consistent in itself). Each one was played 4-5 times and the gem amounts collected were averaged and used to determine the "total" for each.
+  - Dragonly Falls: 695 for Dragon Egg, 828 for Light Gem
+  - Sunken Ruins: 1,114 for Dragon Egg, 1,034 for Light Gem
+  - Gloomy Glacier: 1,143 for Dragon Egg, 1,075 for Light Gem
+  - Magma Falls: 1,313 for Dragon Egg, 1,076 for Light Gem
 
 ### Why This Design?
-*to be written eventually...*
+Previous versions of this randomize had all shop checks in logic in sphere 1, meaning anywhere from 18-56 shop items that the logic would expect you to buy *immediately*. This was never possible, so it was quite frequent players could get softlocked by having shop items that were too expensive, or if the player bought items in the wrong order with their limited gem income. This is a common problem for randomizers, and the most common solution is to logically space out the order the shop items will be bought, in some way. That is what the above design does :) There are some other side benefits of this system that are expected but hard to speak on with certainty, as this update is still new. The lead developer of this update (PhoenixAki) is always happy to discuss the reasoning for it all if you ping him in the server!

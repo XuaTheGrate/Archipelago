@@ -35,7 +35,7 @@ ICEntry | True_ NONE
 ICWater | Has Water Breath
 ICWallKick | Has Wall Kick
 ICBehindQueen | Has Pole Spin, Has Electric Breath, Has Glide | And
-ICReturnToFV | True_ NONE
+ICReturnToFV | Has SuperchargeGadget
 FVEntry2 | True_ NONE
 FVEastPoles | Has Pole Spin
 FVLGDoorEntry | Has LGDoorRule 2
