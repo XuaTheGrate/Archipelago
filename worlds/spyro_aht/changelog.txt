@@ -32,12 +32,12 @@ any logic bugs), but this was a prerequisite for both of the major feature addit
     - Expanded starting_breath option (previously named randomize_breath) to allow explicit choosing of any breath, or none.
    
 TO-DO LIST:
-    - TODO: further updating of project docs
     - TODO: a secret second major addition (if you pay attention you'll already know what it is, but I'm not spoiling it for those who haven't noticed :3)
     - TODO: more goals (buy all shop items, flame all fireworks, break all dark gems, collect all dragon eggs, collect all light gems
     - TODO: fix client not properly processing duplicate sends from cheat console?
     - TODO: get a better rule parsing system in place
     - TODO: template presets?
+    - TODO: check that if you don't have UT, the client doesn't crash when trying to do map icons or shop rando pause text 
     - TODO: make tool for testing gem access
     - TODO: investigate auto-setting of price to 0 for some items
     - TODO: more integration with UT (formally define a new /explain for the client? and similar)
