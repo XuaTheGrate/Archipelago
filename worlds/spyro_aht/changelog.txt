@@ -32,11 +32,15 @@ any logic bugs), but this was a prerequisite for both of the major feature addit
     - Expanded starting_breath option (previously named randomize_breath) to allow explicit choosing of any breath, or none.
    
 TO-DO LIST:
+    - TODO: what can we do to fix new save files on existing seeds, if anything?
+        - TODO: items aren't re-sent, understandably, but could be re-sent in cheat console if needed.
+        - TODO: gems aren't reset, that's a big deal now in shop rando. Could game mod check slot data and apply gem count to new files if there is an amount set?
     - TODO: a secret second major addition (if you pay attention you'll already know what it is, but I'm not spoiling it for those who haven't noticed :3)
     - TODO: more goals (buy all shop items, flame all fireworks, break all dark gems, collect all dragon eggs, collect all light gems
     - TODO: fix client not properly processing duplicate sends from cheat console?
     - TODO: get a better rule parsing system in place
     - TODO: template presets?
+    - TODO: simplify realm choice option to not need randomized as an option
     - TODO: check that if you don't have UT, the client doesn't crash when trying to do map icons or shop rando pause text 
     - TODO: make tool for testing gem access
     - TODO: investigate auto-setting of price to 0 for some items

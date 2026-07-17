@@ -233,8 +233,8 @@ class DolphinClient(GenericClient):
             dolphin_memory_engine.write_byte(self.addresses.p_SHOP_UNLOCK_MODE, 1)
         if ctx.slot_data['teleport_across_realms']:
             dolphin_memory_engine.write_byte(self.addresses.p_TELEPORT_ANYWHERE, 1)
-        if ctx.slot_data['open_world_mode']:
-            dolphin_memory_engine.write_byte(self.addresses.p_UNLOCK_ALL_SHOPS, 1)
+        # if ctx.slot_data['open_world_mode']:
+        #     dolphin_memory_engine.write_byte(self.addresses.p_UNLOCK_ALL_SHOPS, 1)
         
         dolphin_memory_engine.write_byte(self.addresses.p_PATCH_BEEN_WRITTEN_TO, 1)
     
@@ -249,9 +249,6 @@ class DolphinClient(GenericClient):
             model = consts.ShopItemModel.Lockpick
             price = ctx.slot_data["shop_costs"][idx]
             if game.game == "Spyro: A Hero's Tail":
-                if item.item in (0x1A, 0x1D, 0x1, 0xE, 0x5, 0x6, 0x7, 0xD): # softlock prevention
-                    price = 0
-                
                 match item.item:
                     case 0xE:
                         model = consts.ShopItemModel.FireBomb

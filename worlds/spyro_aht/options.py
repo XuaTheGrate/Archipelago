@@ -382,7 +382,7 @@ class SpyroAHTOptions(PerGameCommonOptions):
     skip_cutscenes: SkipCutscenes
     skip_elevators: SkipElevators
     teleport_across_realms: TeleportAcrossRealms
-    open_world_mode: OpenWorldMode
+    # open_world_mode: OpenWorldMode
     
     
 spyro_options_groups = [
@@ -404,6 +404,6 @@ spyro_options_groups = [
         HintMinigameRewards, HintBossRewards,
         EasyBosses,
         SkipCutscenes, SkipElevators,
-        TeleportAcrossRealms, OpenWorldMode
+        TeleportAcrossRealms# , OpenWorldMode
     ])
 ]

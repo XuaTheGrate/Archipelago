@@ -563,8 +563,8 @@ class SpyroAHTWorld(World):
             "easy_bosses": self.options.easy_bosses.value,
             "skip_cutscenes": self.options.skip_cutscenes.value,
             "skip_elevators": self.options.skip_elevators.value,
-            "teleport_across_realms": self.options.teleport_across_realms.value,
-            "open_world_mode": self.options.open_world_mode.value,
+            "teleport_across_realms": self.options.teleport_across_realms.value
+            # "open_world_mode": self.options.open_world_mode.value,
         }
         
         return r
