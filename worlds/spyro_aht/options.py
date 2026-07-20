@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from Options import OptionSet, PerGameCommonOptions, Toggle, Choice, Range, OptionGroup, StartInventoryPool
+from Options import OptionSet, PerGameCommonOptions, Toggle, Choice, Range, OptionGroup, StartInventoryPool, Visibility
 
 ###############UNGROUPED###############
 class DeathLink(Choice):
@@ -337,6 +337,7 @@ class OpenWorldMode(Toggle):
     Only left in for development testing purposes."""
     display_name = "Open World Mode"
     default = 0
+    visibility = Visibility.none
 
 
 @dataclass
@@ -375,7 +376,7 @@ class SpyroAHTOptions(PerGameCommonOptions):
     skip_cutscenes: SkipCutscenes
     skip_elevators: SkipElevators
     teleport_across_realms: TeleportAcrossRealms
-    # open_world_mode: OpenWorldMode
+    open_world_mode: OpenWorldMode
     
     
 spyro_options_groups = [
@@ -397,6 +398,6 @@ spyro_options_groups = [
         HintMinigameRewards, HintBossRewards,
         EasyBosses,
         SkipCutscenes, SkipElevators,
-        TeleportAcrossRealms# , OpenWorldMode
+        TeleportAcrossRealms, OpenWorldMode
     ])
 ]

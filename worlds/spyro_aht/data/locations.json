@@ -1580,7 +1580,7 @@
                 }
             },
             {
-                "name": "DV: Locked Chest before Crocovile Swamp",
+                "name": "DV: Light Gem from locked chest before Crocovile Swamp",
                 "id": 15,
                 "options": [],
                 "access_rule": {
@@ -1593,7 +1593,7 @@
                 }
             },
             {
-                "name": "DV: Locked Chest on starting area Double Jump ledge",
+                "name": "DV: Light Gem from locked chest on starting area Double Jump ledge",
                 "id": 7,
                 "options": [],
                 "access_rule": {
@@ -1866,7 +1866,7 @@
                 }
             },
             {
-                "name": "DV: Locked Chest near Ball Gadget",
+                "name": "DV: Dragon Egg from locked chest near Ball Gadget",
                 "id": 6,
                 "options": [],
                 "access_rule": {
@@ -2302,7 +2302,7 @@
                 }
             },
             {
-                "name": "CS: Locked Chest behind breakable wall",
+                "name": "CS: Light Gem from locked chest behind breakable wall",
                 "id": 19,
                 "options": [],
                 "access_rule": {
@@ -2402,7 +2402,7 @@
                 }
             },
             {
-                "name": "CS: Locked Chest on ledges before the 3 Critters",
+                "name": "CS: Dragon Egg from locked chest on ledges before the 3 Critters",
                 "id": 23,
                 "options": [],
                 "access_rule": {
@@ -2415,7 +2415,7 @@
                 }
             },
             {
-                "name": "CS: Locked Chest in Forgotten Temple",
+                "name": "CS: Dragon Egg from locked chest in Forgotten Temple",
                 "id": 24,
                 "options": [],
                 "access_rule": {
@@ -3046,7 +3046,7 @@
         },
         "locations": [
             {
-                "name": "DF: Locked Chest shortly after Ball Gadget",
+                "name": "DF: Light Gem from locked chest shortly after Ball Gadget",
                 "id": 40,
                 "options": [],
                 "access_rule": {
@@ -3208,7 +3208,7 @@
                 }
             },
             {
-                "name": "DF: Locked Chest in Piranha Pool",
+                "name": "DF: Light Gem from locked chest in Piranha Pool",
                 "id": 52,
                 "options": [],
                 "access_rule": {
@@ -3832,7 +3832,7 @@
                 }
             },
             {
-                "name": "CR: Locked Chest behind Moneybags",
+                "name": "CR: Empty locked chest behind Moneybags",
                 "id": 234,
                 "options": [],
                 "access_rule": {
@@ -3845,7 +3845,7 @@
                 }
             },
             {
-                "name": "CR: Locked Chest hidden on cliff in southern beach",
+                "name": "CR: Empty locked chest hidden on cliff in southern beach",
                 "id": 235,
                 "options": [],
                 "access_rule": {
@@ -5684,7 +5684,7 @@
         },
         "locations": [
             {
-                "name": "CD: Locked Chest near elevator",
+                "name": "CD: Light Gem from locked chest near elevator",
                 "id": 80,
                 "options": [],
                 "access_rule": {
@@ -5889,7 +5889,7 @@
                 }
             },
             {
-                "name": "CD: Locked Chest beyond Reinforced Door near Elder Titan",
+                "name": "CD: Dragon Egg from locked chest beyond Reinforced Door near Elder Titan",
                 "id": 85,
                 "options": [],
                 "access_rule": {
@@ -5915,7 +5915,7 @@
                 }
             },
             {
-                "name": "CD: Locked Chest after Crossroads left",
+                "name": "CD: Dragon Egg from locked chest after Crossroads left",
                 "id": 87,
                 "options": [],
                 "access_rule": {
@@ -6196,7 +6196,7 @@
                 }
             },
             {
-                "name": "CD: Locked Chest beyond hidden path during Wing Shield Tutorial",
+                "name": "CD: Empty locked chest beyond hidden path during Wing Shield Tutorial",
                 "id": 236,
                 "options": [],
                 "access_rule": {
@@ -6506,7 +6506,7 @@
         },
         "locations": [
             {
-                "name": "SR: Locked Chest at entrance",
+                "name": "SR: Empty locked chest at entrance",
                 "id": 237,
                 "options": [],
                 "access_rule": {
@@ -6589,7 +6589,7 @@
         },
         "locations": [
             {
-                "name": "SR: Locked Chest behind exit of first swim tunnel",
+                "name": "SR: Dragon Egg from locked chest behind exit of first swim tunnel",
                 "id": 99,
                 "options": [],
                 "access_rule": {
@@ -6627,7 +6627,7 @@
                 }
             },
             {
-                "name": "SR: Locked Chest atop thermal room",
+                "name": "SR: Light Gem from locked chest atop thermal room",
                 "id": 102,
                 "options": [],
                 "access_rule": {
@@ -6691,7 +6691,7 @@
                 }
             },
             {
-                "name": "SR: Locked Chest behind Lily",
+                "name": "SR: Light Gem from locked chest behind Lily",
                 "id": 103,
                 "options": [],
                 "access_rule": {
@@ -6753,7 +6753,7 @@
                 }
             },
             {
-                "name": "SR: Locked Chest before spitting fish statues",
+                "name": "SR: Dragon Egg from locked chest before spitting fish statues",
                 "id": 108,
                 "options": [],
                 "access_rule": {
@@ -7172,7 +7172,7 @@
                 }
             },
             {
-                "name": "SR: Locked Chest after Acid Swim Debris Tunnel",
+                "name": "SR: Light Gem from locked chest after Acid Swim Debris Tunnel",
                 "id": 112,
                 "options": [],
                 "access_rule": {
@@ -7223,7 +7223,7 @@
                 }
             },
             {
-                "name": "SR: Locked Chest near Acid Pool Dark Gem",
+                "name": "SR: Dragon Egg from locked chest near Acid Pool Dark Gem",
                 "id": 114,
                 "options": [],
                 "access_rule": {
@@ -7289,7 +7289,7 @@
                 }
             },
             {
-                "name": "SR: Locked Chest in room before circling back to start",
+                "name": "SR: Light Gem from locked chest in room before circling back to start",
                 "id": 115,
                 "options": [],
                 "access_rule": {
@@ -7508,7 +7508,7 @@
                 }
             },
             {
-                "name": "FV: Locked Chest under skating rink area",
+                "name": "FV: Empty locked chest under skating rink area",
                 "id": 238,
                 "options": [],
                 "access_rule": {
@@ -8286,7 +8286,7 @@
         },
         "locations": [
             {
-                "name": "GG: Locked Chest in Bentley's Living Room",
+                "name": "GG: Empty locked chest in Bentley's Living Room",
                 "id": 239,
                 "options": [],
                 "access_rule": {
@@ -8299,7 +8299,7 @@
                 }
             },
             {
-                "name": "GG: Locked Chest in Bentley's Bedroom",
+                "name": "GG: Dragon Egg from locked chest in Bentley's Bedroom",
                 "id": 137,
                 "options": [],
                 "access_rule": {
@@ -8312,7 +8312,7 @@
                 }
             },
             {
-                "name": "GG: Reward from Bentley",
+                "name": "GG: Light Gem reward from Bentley",
                 "id": 138,
                 "options": [],
                 "access_rule": {
@@ -8334,7 +8334,7 @@
                 }
             },
             {
-                "name": "GG: Locked Chest after Skeleton Ambush room",
+                "name": "GG: Dragon Egg from locked chest after Skeleton Ambush room",
                 "id": 140,
                 "options": [],
                 "access_rule": {
@@ -8495,7 +8495,7 @@
         },
         "locations": [
             {
-                "name": "IC: Locked Chest in entrance",
+                "name": "IC: Empty locked chest in entrance",
                 "id": 240,
                 "options": [],
                 "access_rule": {
@@ -8508,7 +8508,7 @@
                 }
             },
             {
-                "name": "IC: Light the boiler in the Courtyard",
+                "name": "IC: Light Gem from lighting the boiler in the Courtyard",
                 "id": 151,
                 "options": [],
                 "access_rule": {
@@ -8839,7 +8839,7 @@
         },
         "locations": [
             {
-                "name": "IC: Locked Chest behind breakable wall after Coal Room",
+                "name": "IC: Dragon Egg from locked chest behind breakable wall after Coal Room",
                 "id": 153,
                 "options": [],
                 "access_rule": {
@@ -9107,7 +9107,7 @@
         },
         "locations": [
             {
-                "name": "IC: Locked Chest after Elder Astor",
+                "name": "IC: Light Gem from locked chest after Elder Astor",
                 "id": 156,
                 "options": [],
                 "access_rule": {
@@ -9174,7 +9174,7 @@
                 }
             },
             {
-                "name": "IC: Locked Chest in tunnel after supercharge",
+                "name": "IC: Empty locked chest in tunnel after supercharge",
                 "id": 241,
                 "options": [],
                 "access_rule": {
@@ -9187,7 +9187,7 @@
                 }
             },
             {
-                "name": "IC: Locked Chest before reinforced wall",
+                "name": "IC: Empty locked chest before reinforced wall",
                 "id": 242,
                 "options": [],
                 "access_rule": {
@@ -9200,7 +9200,7 @@
                 }
             },
             {
-                "name": "IC: Dragon Egg behind reinforced wall",
+                "name": "IC: Dragon Egg behind reinforced wall by Byrd",
                 "id": 159,
                 "options": [],
                 "access_rule": {
@@ -9249,7 +9249,7 @@
                 }
             },
             {
-                "name": "IC: Light the boiler in room after Sgt. Byrd",
+                "name": "IC: Light Gem from lighting the boiler in room after Sgt. Byrd",
                 "id": 162,
                 "options": [],
                 "access_rule": {
@@ -9263,7 +9263,7 @@
                 }
             },
             {
-                "name": "IC: Locked Chest by Ice Princess",
+                "name": "IC: Empty locked chest by Ice Princess",
                 "id": 243,
                 "options": [],
                 "access_rule": {
@@ -9317,7 +9317,7 @@
                 }
             },
             {
-                "name": "IC: Dragon Egg behind cannon reinforced wall",
+                "name": "IC: Dragon Egg above elevator behind cannon reinforced wall",
                 "id": 166,
                 "options": [],
                 "access_rule": {
@@ -9342,7 +9342,7 @@
                 }
             },
             {
-                "name": "IC: Light the boiler in room after Cannon Area",
+                "name": "IC: Light Gem from lighting the boiler in room after Cannon Area",
                 "id": 168,
                 "options": [],
                 "access_rule": {
@@ -9356,7 +9356,7 @@
                 }
             },
             {
-                "name": "IC: Reward for lighting all boilers from Ice Princess",
+                "name": "IC: Light Gem reward for lighting all boilers from Ice Princess",
                 "id": 169,
                 "options": [],
                 "access_rule": {
@@ -9905,7 +9905,7 @@
                 }
             },
             {
-                "name": "FV: Locked Chest in falling icicles room",
+                "name": "FV: Dragon Egg from locked chest in falling icicles room",
                 "id": 128,
                 "options": [],
                 "access_rule": {
@@ -9918,7 +9918,7 @@
                 }
             },
             {
-                "name": "FV: Locked Chest under bridge after falling icicles",
+                "name": "FV: Empty locked chest under bridge after falling icicles",
                 "id": 244,
                 "options": [],
                 "access_rule": {
@@ -10066,7 +10066,7 @@
         },
         "locations": [
             {
-                "name": "FV: Locked Chest beyond Light Gem Door",
+                "name": "FV: Dragon Egg from locked chest beyond Light Gem Door",
                 "id": 133,
                 "options": [],
                 "access_rule": {
@@ -10263,7 +10263,7 @@
                 }
             },
             {
-                "name": "SB: Locked Chest in west cove behind hut",
+                "name": "SB: Empty locked chest in west cove behind hut",
                 "id": 245,
                 "options": [],
                 "access_rule": {
@@ -10276,7 +10276,7 @@
                 }
             },
             {
-                "name": "SB: Locked Chest in west cove at far end",
+                "name": "SB: Empty locked chest in west cove at far end",
                 "id": 246,
                 "options": [],
                 "access_rule": {
@@ -10744,7 +10744,7 @@
                 }
             },
             {
-                "name": "SB: Locked Chest by Wally",
+                "name": "SB: Empty locked chest by Wally",
                 "id": 247,
                 "options": [],
                 "access_rule": {
@@ -10779,7 +10779,7 @@
                 }
             },
             {
-                "name": "SB: Locked Chest after entering northern tunnel from start",
+                "name": "SB: Empty locked chest after entering northern tunnel from start",
                 "id": 248,
                 "options": [],
                 "access_rule": {
@@ -11020,7 +11020,7 @@
         },
         "locations": [
             {
-                "name": "SB: Locked Chest after oscilating platforms challenge",
+                "name": "SB: Empty locked chest after oscilating platforms challenge",
                 "id": 249,
                 "options": [],
                 "access_rule": {
@@ -11265,7 +11265,7 @@
                 }
             },
             {
-                "name": "MM: Reward from Teena",
+                "name": "MM: Dragon Egg reward from Teena",
                 "id": 179,
                 "options": [],
                 "access_rule": {
@@ -11312,7 +11312,7 @@
                 }
             },
             {
-                "name": "MM: Locked Chest next to Sgt. Byrd",
+                "name": "MM: Light Gem from locked chest next to Sgt. Byrd",
                 "id": 183,
                 "options": [],
                 "access_rule": {
@@ -11619,7 +11619,7 @@
                 }
             },
             {
-                "name": "MM: Locked Chest behind breakable wall after swinging axes",
+                "name": "MM: Dragon Egg from locked chest behind breakable wall after swinging axes",
                 "id": 188,
                 "options": [],
                 "access_rule": {
@@ -11662,7 +11662,7 @@
                 }
             },
             {
-                "name": "MM: Locked Chest in thief room",
+                "name": "MM: Empty locked chest in thief room",
                 "id": 250,
                 "options": [],
                 "access_rule": {
@@ -11675,7 +11675,7 @@
                 }
             },
             {
-                "name": "MM: Locked Chest behind breakable wall before falling rocks",
+                "name": "MM: Light Gem from locked chest behind breakable wall before falling rocks",
                 "id": 190,
                 "options": [],
                 "access_rule": {
@@ -11970,7 +11970,7 @@
                 }
             },
             {
-                "name": "MFt: Locked Chest behind breakable wall behind Moneybags",
+                "name": "MFt: Dragon Egg from locked chest behind breakable wall behind Moneybags",
                 "id": 193,
                 "options": [],
                 "access_rule": {
@@ -11999,7 +11999,7 @@
                 }
             },
             {
-                "name": "MFt: Locked Chest above narrow platforms",
+                "name": "MFt: Empty locked chest above narrow platforms",
                 "id": 251,
                 "options": [],
                 "access_rule": {
@@ -12344,7 +12344,7 @@
                 }
             },
             {
-                "name": "MFb: Locked Chest after Fire Geysers",
+                "name": "MFb: Light Gem from locked chest after Fire Geysers",
                 "id": 199,
                 "options": [],
                 "access_rule": {
@@ -12583,7 +12583,7 @@
         },
         "locations": [
             {
-                "name": "DM: Locked Chest near Light Gem Door",
+                "name": "DM: Empty locked chest near Light Gem Door",
                 "id": 252,
                 "options": [],
                 "access_rule": {
@@ -12596,7 +12596,7 @@
                 }
             },
             {
-                "name": "DM: Locked Chest nearby Smasher Bots",
+                "name": "DM: Light Gem from locked chest nearby Smasher Bots",
                 "id": 206,
                 "options": [],
                 "access_rule": {
@@ -12959,7 +12959,7 @@
         },
         "locations": [
             {
-                "name": "DM: Locked Chest glide from atop piston Wall Kick wall",
+                "name": "DM: Dragon Egg from locked chest glide from atop piston Wall Kick wall",
                 "id": 207,
                 "options": [],
                 "access_rule": {
@@ -13090,7 +13090,7 @@
         },
         "locations": [
             {
-                "name": "DM: Caged Dark Gem in laser turret room",
+                "name": "DM: Dark Gem in laser turret room",
                 "id": 209,
                 "options": [],
                 "access_rule": {
@@ -13282,7 +13282,7 @@
         },
         "locations": [
             {
-                "name": "RL: Locked Chest after pole spin puzzle in starting area",
+                "name": "RL: Empty locked chest after pole spin puzzle in starting area",
                 "id": 253,
                 "options": [],
                 "access_rule": {
@@ -13295,7 +13295,7 @@
                 }
             },
             {
-                "name": "RL: Locked Chest above 4 charge switches",
+                "name": "RL: Empty locked chest above 4 charge switches",
                 "id": 254,
                 "options": [],
                 "access_rule": {

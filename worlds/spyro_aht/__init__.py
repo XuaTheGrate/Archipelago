@@ -263,6 +263,44 @@ class SpyroAHTWorld(World):
         self._boss_lairs = slot_data['boss_lair_costs']
         self._lg_doors = slot_data['light_gem_door_costs']
         self._gadget_costs = slot_data['gadget_costs']
+    
+    def handle_goaling(self):
+        match self.options.goal.value:
+            case 0 | 1 | 2 | 3:
+                self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
+            case 4:
+                self.multiworld.completion_condition[self.player] = lambda state: state.has_all(
+                    ("VictoryCon1", "VictoryCon2", "VictoryCon3", "VictoryCon4"), self.player)
+        match self.options.goal.value:
+            case 0:
+                self.get_region("DVGnastyCave").add_event("DVDefeatGnasty", "Victory", rule=(
+                        BossLairRule(0) & (Has("Fire Breath") | Has("Charge"))
+                ))
+            case 1:
+                self.get_region("CRWateryTomb").add_event("CRDefeatIneptune", "Victory", rule=(
+                        BossLairRule(1) & Has("Charge")
+                ))
+            case 2:
+                self.get_region("FVRedChamber").add_event("FVDefeatRed", "Victory", rule=(
+                        BossLairRule(2) & Has("Water Breath")
+                ))
+            case 3:
+                self.get_region("RLMechaRed").add_event("RLDefeatMechaRed", "Victory", rule=(
+                        BossLairRule(3) & Has("Fire Breath")
+                ))
+            case 4:
+                self.get_region("DVGnastyCave").add_event("DVDefeatGnasty", "VictoryCon1", rule=(
+                        BossLairRule(0) & (Has("Fire Breath") | Has("Charge"))
+                ))
+                self.get_region("CRWateryTomb").add_event("CRDefeatIneptune", "VictoryCon2", rule=(
+                        BossLairRule(1) & Has("Charge")
+                ))
+                self.get_region("FVRedChamber").add_event("FVDefeatRed", "VictoryCon3", rule=(
+                        BossLairRule(2) & Has("Water Breath")
+                ))
+                self.get_region("RLMechaRed").add_event("RLDefeatMechaRed", "VictoryCon4", rule=(
+                        BossLairRule(3) & Has("Fire Breath")
+                ))
 
     def create_regions(self):
         # shop costs determined by multiple options
@@ -356,43 +394,8 @@ class SpyroAHTWorld(World):
                 if add:
                     f[l['name']] = l['id']
             region.add_locations(f)
-
-        match self.options.goal.value:
-            case 0 | 1 | 2 | 3:
-                self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
-            case 4:
-                self.multiworld.completion_condition[self.player] = lambda state: state.has_all(
-                    ("VictoryCon1", "VictoryCon2", "VictoryCon3", "VictoryCon4"), self.player)
-        match self.options.goal.value:
-            case 0:
-                self.get_region("DVGnastyCave").add_event("DVDefeatGnasty", "Victory", rule=(
-                    BossLairRule(0) & (Has("Fire Breath") | Has("Charge"))
-                ))
-            case 1:
-                self.get_region("CRWateryTomb").add_event("CRDefeatIneptune", "Victory", rule=(
-                    BossLairRule(1) & Has("Charge")
-                ))
-            case 2:
-                self.get_region("FVRedChamber").add_event("FVDefeatRed", "Victory", rule=(
-                    BossLairRule(2) & Has("Water Breath")
-                ))
-            case 3:
-                self.get_region("RLMechaRed").add_event("RLDefeatMechaRed", "Victory", rule=(
-                    BossLairRule(3) & Has("Fire Breath") & Has("Electric Breath") & Has("Double Jump")
-                ))
-            case 4:
-                self.get_region("DVGnastyCave").add_event("DVDefeatGnasty", "VictoryCon1", rule=(
-                    BossLairRule(0) & (Has("Fire Breath") | Has("Charge"))
-                ))
-                self.get_region("CRWateryTomb").add_event("CRDefeatIneptune", "VictoryCon2", rule=(
-                    BossLairRule(1) & Has("Charge")
-                ))
-                self.get_region("FVRedChamber").add_event("FVDefeatRed", "VictoryCon3", rule=(
-                    BossLairRule(2) & Has("Water Breath")
-                ))
-                self.get_region("RLMechaRed").add_event("RLDefeatMechaRed", "VictoryCon4", rule=(
-                    BossLairRule(3) & Has("Fire Breath")
-                ))
+            
+        self.handle_goaling()
 
         # add gem events
         for line in data.values():
@@ -553,8 +556,8 @@ class SpyroAHTWorld(World):
             "easy_bosses": self.options.easy_bosses.value,
             "skip_cutscenes": self.options.skip_cutscenes.value,
             "skip_elevators": self.options.skip_elevators.value,
-            "teleport_across_realms": self.options.teleport_across_realms.value
-            # "open_world_mode": self.options.open_world_mode.value,
+            "teleport_across_realms": self.options.teleport_across_realms.value,
+            "open_world_mode": self.options.open_world_mode.value,
         }
         
         return r
