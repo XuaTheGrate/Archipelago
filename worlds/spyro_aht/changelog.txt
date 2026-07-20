@@ -1,3 +1,14 @@
+2.0 (Beta Release 2)
+- Added start_inventory_from_pool to YAML.
+- Fixed a bug where Double Jump (which is forced to be an early item) couldn't be placed early due to not recognizing Shop Item 1 as an early location.
+- Option Change: Realm Access
+    - Realm Access Cards are now always in the item pool, instead of them being removed when the player wants full realm access.
+    - This served 2 purposes:
+        1) To make it so that "Defeat <boss name>" locations are always enabled instead of being disabled when access cards are gone.
+        2) To streamline how realm access is handled behind-the-scenes, as it was split into 2 different logic branches in a few spots that are now simplified into 1.
+    - Players can still choose to have access to all realms by way of putting each additional access card into their start inventory.
+    - Also, renamed the access cards and starting realm options to be the actual realm names and not just the start level name (e.g. Volcanic Isle Access Card instead of Stormy Beach Access Card).
+
 2.0 (Beta Release 1)
 - This apworld has officially switched hands to being primarily maintained by PhoenixAki.
     - From Phoenix: hello little people in my computer :) I only got into Archipelago in February 2026 and started
@@ -23,6 +34,7 @@ any logic bugs), but this was a prerequisite for both of the major feature addit
     - This was accompanied by a series of YAML changes, including new options [filler_items, gem_collection, blink_gems, double_gems] and removal of options [shop_cost_min, shop_cost_max]
     
 - Various smaller additions, improvements, and fixes/tweaks:
+    - Hotfix 1 (12:15am 7/17/26): removed an old restrictive start preventative measure that was no longer needed and led to some shop items being marked free falsely.
     - The client now checks for the right version of the game mod and prevents connection if it doesn't match (currently version 8).
     - New option teleport_across_realms which lets you teleport from remote shop pads in one realm to another realm directly.
     - Improved YAML flow with improved wording, option grouping, and simplifying options.
