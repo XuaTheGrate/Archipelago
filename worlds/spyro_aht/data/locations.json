@@ -61,11 +61,21 @@
             {
                 "name": "Starter Checks: Starting Realm Access",
                 "id": 999,
+                "options": [],
+                "access_rule": {
+                    "rule": "True_",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {}
+                }
+            },
+            {
+                "name": "Moneybags: Shop Item 1",
+                "id": 1000,
                 "options": [
                     {
-                        "option": "realm_access",
-                        "value": 0,
-                        "operator": "ne"
+                        "option": "shop_randomization",
+                        "value": 1
                     }
                 ],
                 "access_rule": {
@@ -88,24 +98,6 @@
             "args": {}
         },
         "locations": [
-                        {
-                "name": "Moneybags: Shop Item 1",
-                "id": 1000,
-                "options": [
-                    {
-                        "option": "shop_randomization",
-                        "value": 1
-                    }
-                ],
-                "access_rule": {
-                    "rule": "ShopCheckRule",
-                    "options": [],
-                    "filtered_resolution": false,
-                    "args": {
-                        "index": 1
-                    }
-                }
-            },
             {
                 "name": "Moneybags: Shop Item 2",
                 "id": 1001,
@@ -1259,11 +1251,12 @@
             "MBShop"
         ],
         "access_rule": {
-            "rule": "RealmAccessRule",
+            "rule": "Has",
             "options": [],
             "filtered_resolution": false,
             "args": {
-                "realm": "Dragon Village"
+                "item_name": "Dragon Kingdom Access Card",
+                "count": 1
             }
         },
         "locations": [
@@ -1498,12 +1491,7 @@
             {
                 "name": "DV: Defeat Gnasty Gnorc",
                 "id": 4000,
-                "options": [
-                    {
-                        "option": "realm_access",
-                        "value": 2
-                    }
-                ],
+                "options": [],
                 "access_rule": {
                     "rule": "Or",
                     "options": [],
@@ -3806,11 +3794,12 @@
             "MBShop"
         ],
         "access_rule": {
-            "rule": "RealmAccessRule",
+            "rule": "Has",
             "options": [],
             "filtered_resolution": false,
             "args": {
-                "realm": "Coastal Remains"
+                "item_name": "Lost Cities Access Card",
+                "count": 1
             }
         },
         "locations": [
@@ -5628,12 +5617,7 @@
             {
                 "name": "CR: Defeat Ineptune",
                 "id": 4001,
-                "options": [
-                    {
-                        "option": "realm_access",
-                        "value": 2
-                    }
-                ],
+                "options": [],
                 "access_rule": {
                     "rule": "Has",
                     "options": [],
@@ -7341,11 +7325,12 @@
             "MBShop"
         ],
         "access_rule": {
-            "rule": "RealmAccessRule",
+            "rule": "Has",
             "options": [],
             "filtered_resolution": false,
             "args": {
-                "realm": "Frostbite Village"
+                "item_name": "Icy Wilderness Access Card",
+                "count": 1
             }
         },
         "locations": [],
@@ -8258,12 +8243,7 @@
             {
                 "name": "FV: Defeat Red",
                 "id": 4002,
-                "options": [
-                    {
-                        "option": "realm_access",
-                        "value": 2
-                    }
-                ],
+                "options": [],
                 "access_rule": {
                     "rule": "And",
                     "options": [],
@@ -10254,11 +10234,12 @@
             "SBDoubleJump"
         ],
         "access_rule": {
-            "rule": "RealmAccessRule",
+            "rule": "Has",
             "options": [],
             "filtered_resolution": false,
             "args": {
-                "realm": "Stormy Beach"
+                "item_name": "Volcanic Isle Access Card",
+                "count": 1
             }
         },
         "locations": [
@@ -13609,12 +13590,7 @@
             {
                 "name": "RL: Defeat Mecha-Red",
                 "id": 4003,
-                "options": [
-                    {
-                        "option": "realm_access",
-                        "value": 2
-                    }
-                ],
+                "options": [],
                 "access_rule": {
                     "rule": "Has",
                     "options": [],

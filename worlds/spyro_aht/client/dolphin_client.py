@@ -208,12 +208,9 @@ class DolphinClient(GenericClient):
         dolphin_memory_engine.write_byte(self.addresses.p_SUPERCHARGE_COST, s)
 
         dolphin_memory_engine.write_byte(self.addresses.p_STARTING_REALM, ctx.slot_data['starting_realm'])
-        if ctx.slot_data['realm_access'] == 2:
-            realm_access = [False, False, False, False]
-            realm_access[ctx.slot_data['starting_realm']] = True
-            dolphin_memory_engine.write_bytes(self.addresses.p_REALM_ACCESS, struct.pack(">????", *realm_access))
-        else:
-            dolphin_memory_engine.write_bytes(self.addresses.p_REALM_ACCESS, struct.pack(">????", True, True, True, True))
+        realm_access = [False, False, False, False]
+        realm_access[ctx.slot_data['starting_realm']] = True
+        dolphin_memory_engine.write_bytes(self.addresses.p_REALM_ACCESS, struct.pack(">????", *realm_access))
         
         if ctx.slot_data['easy_bosses']:
             bosses = [False, False, False, False]

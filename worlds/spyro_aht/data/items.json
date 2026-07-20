@@ -259,31 +259,27 @@
         "group": "Key Rings"
     },
     {
-        "name": "Dragon Village Access Card",
+        "name": "Dragon Kingdom Access Card",
         "id": 48,
         "classification": 1,
-        "option": [{"option": "realm_access", "value": 99}],
         "group": "Access Cards"
     },
     {
-        "name": "Coastal Remains Access Card",
+        "name": "Lost Cities Access Card",
         "id": 49,
         "classification": 1,
-        "option": [{"option": "realm_access", "value": 99}],
         "group": "Access Cards"
     },
     {
-        "name": "Frostbite Village Access Card",
+        "name": "Icy Wilderness Access Card",
         "id": 50,
         "classification": 1,
-        "option": [{"option": "realm_access", "value": 99}],
         "group": "Access Cards"
     },
     {
-        "name": "Stormy Beach Access Card",
+        "name": "Volcanic Isle Access Card",
         "id": 51,
         "classification": 1,
-        "option": [{"option": "realm_access", "value": 99}],
         "group": "Access Cards"
     },
     {

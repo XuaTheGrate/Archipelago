@@ -37,7 +37,6 @@ class SpyroAHTCommands(ClientCommandProcessor):
     #     return True
 
     async def _cmd_list_options(self) -> bool:
-        # TODO: update this
         # this is grossly repetitive, but it only runs when the player demands it so it's not a big deal
         # even if it was reformatted it'd still be the same amount of output and data lookup, it's just code cleanliness
         """Displays the options you set for this seed (in the same order as YAML). Data is sourced directly from slot data, so if something doesn't line up here, check your YAML for mistakes. Much of this info is also viewable in-game by pausing and pressing R/L."""
@@ -73,10 +72,9 @@ class SpyroAHTCommands(ClientCommandProcessor):
             convert = {0: "fire", 1: "electric", 2: "water", 3: "ice"}
             output_2 = convert[self.ctx.slot_data['starting_breath']]
         self.output(f"Movement abilities are {output} and you start with {output_2} breath.")
-        # realm access method and starting realm
-        output = "requires access cards" if self.ctx.slot_data["realm_access"] == 2 else "is open"
+        # starting realm
         convert = {0: "Dragon Village", 1: "Coastal Remains", 2: "Frostbite Village", 3: "Stormy Beach", 4: "a random realm"}
-        self.output(f"Realm access {output} and you start in {convert[self.ctx.slot_data['starting_realm']]}.")
+        self.output(f"You chose to start in {convert[self.ctx.slot_data['starting_realm']]}.")
 
         self.output("---------------SHOP---------------")
         # shop items & key rings
@@ -221,62 +219,48 @@ class SpyroAHTContext(SuperContext):
     
     async def _receive_items(self):
         item_counts = collections.Counter(self.item_names.lookup_in_slot(i.item, self.slot) for i in self.items_received)
-        updated = False
         for item in self.items_received:
             if item in self._handled_items: continue
             self._handled_items.add(item)
             match item.item:
                 case 0xB:
                     await self.emu_client.set_flag(self.emu_client.addresses.ABILITY_FLAGS, consts.AbilityFlags.Swim, True)
-                    updated = True
                 case 0xC:
                     await self.emu_client.set_flag(self.emu_client.addresses.ABILITY_FLAGS, consts.AbilityFlags.Glide, True)
-                    updated = True
                 case 0xD:
                     await self.emu_client.set_flag(self.emu_client.addresses.ABILITY_FLAGS, consts.AbilityFlags.Charge, True)
-                    updated = True
                 case 0x1:
                     await self.emu_client.set_flag(self.emu_client.addresses.ABILITY_FLAGS, consts.AbilityFlags.DoubleJump, True)
-                    updated = True
                 case 0x2:
                     await self.emu_client.set_flag(self.emu_client.addresses.ABILITY_FLAGS, consts.AbilityFlags.PoleSpin, True)
-                    updated = True
                 case 0x3:
                     await self.emu_client.set_flag(self.emu_client.addresses.ABILITY_FLAGS, consts.AbilityFlags.WingShield, True)
-                    updated = True
                 case 0x4:
                     await self.emu_client.set_flag(self.emu_client.addresses.ABILITY_FLAGS, consts.AbilityFlags.WallKick, True)
-                    updated = True
                 case 0xE:
                     if not await self.emu_client.has_any_breath():
                         await self.emu_client.set_breath(consts.BREATH_FIRE)
                     await self.emu_client.set_flag(self.emu_client.addresses.ABILITY_FLAGS, consts.AbilityFlags.FireBreath, True)
-                    updated = True
                 case 0x5:
                     if not await self.emu_client.has_any_breath():
                         await self.emu_client.set_breath(consts.BREATH_ELECTRIC)
                     await self.emu_client.set_flag(self.emu_client.addresses.ABILITY_FLAGS, consts.AbilityFlags.ElectricBreath, True)
-                    updated = True
                 case 0x6:
                     if not await self.emu_client.has_any_breath():
                         await self.emu_client.set_breath(consts.BREATH_WATER)
                     await self.emu_client.set_flag(self.emu_client.addresses.ABILITY_FLAGS, consts.AbilityFlags.WaterBreath, True)
-                    updated = True
                 case 0x7:
                     if not await self.emu_client.has_any_breath():
                         await self.emu_client.set_breath(consts.BREATH_ICE)
                     await self.emu_client.set_flag(self.emu_client.addresses.ABILITY_FLAGS, consts.AbilityFlags.IceBreath, True)
-                    updated = True
                 case 0x8:
                     count = await self.emu_client.get_item_count(self.emu_client.addresses.DARK_GEM_COUNT)
                     if count < item_counts["Dark Gem"]:
                         await self.emu_client.set_item(self.emu_client.addresses.DARK_GEM_COUNT, count + 1)
-                        updated = True
                 case 0x9:
                     count = await self.emu_client.get_item_count(self.emu_client.addresses.LIGHT_GEM_COUNT)
                     if count < item_counts["Light Gem"]:
                         await self.emu_client.set_item(self.emu_client.addresses.LIGHT_GEM_COUNT, count + 1)
-                        updated = True
                 case 0xA:
                     count = await self.emu_client.get_item_count(self.emu_client.addresses.DRAGON_EGG_COUNT)
                     if count < item_counts["Dragon Egg"]:
@@ -287,7 +271,6 @@ class SpyroAHTContext(SuperContext):
                         lc = await self.emu_client.get_item_count(self.emu_client.addresses.LOCKPICKS)
                         await self.emu_client.set_item(self.emu_client.addresses.g_NUM_LOCK_PICKS_RECEIVED, count + 1)
                         await self.emu_client.set_item(self.emu_client.addresses.LOCKPICKS, lc + 1)
-                        updated = True
                 case 0xF:
                     await self.emu_client.set_flag(self.emu_client.addresses.ABILITY_FLAGS, consts.AbilityFlags.SparxHealthUpgrade, True)
                 case 0x19:
@@ -333,13 +316,8 @@ class SpyroAHTContext(SuperContext):
                     flag = 1 << (bit % 8)
                     data |= flag
                     await self.emu_client.set_item(address, data)
-                    updated = True
                 case 0x30 | 0x31 | 0x32 | 0x33: # access cards
                     await self.emu_client.allow_realm_access(item.item)
-                    updated = True
-        # TODO remove this (and updated) if it works still
-        # if updated:
-        #     await self.emu_client.update_tracker(self, self._in_logic_locations)
 
     async def _check_doors(self):
         dark = await self.emu_client.get_item_count(self.emu_client.addresses.DARK_GEM_COUNT)

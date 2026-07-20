@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from Options import OptionSet, PerGameCommonOptions, Toggle, Choice, Range, OptionGroup
+from Options import OptionSet, PerGameCommonOptions, Toggle, Choice, Range, OptionGroup, StartInventoryPool
 
 ###############UNGROUPED###############
 class DeathLink(Choice):
@@ -71,7 +71,7 @@ class FillerItems(OptionSet):
 
 ###############START OF GAME###############
 class StartingBreath(Choice):
-    """All seeds start with a "Starter Check: Breath". This option decides whether it will get pre-filled with a
+    """All seeds start with a "Starter Checks: Breath". This option decides whether it will get pre-filled with a
     breath of your choice, or a random other item from Archipelago (which could potentially still be a breath).
 
     fire/electric/water/ice: Start with that breath.
@@ -94,26 +94,18 @@ class RandomizeMovement(Toggle):
     default = 0
 
 
-class RealmAccess(Choice):
-    """Whether to allow access to all realms at all times or to shuffle realm "Access Card" items into the world.
-    Setting this to 'always' removes the "Defeat <boss name>" checks, as they would normally reward
-    realm access. You still will need to beat any goal-related bosses (and they will still reward their breath checks).
-    Randomized realm access adds 1 filler item because Mecha-Red does not give a realm access card.
-    """
-    display_name = "Realm Access"
-    option_always = 0
-    option_randomized = 2
-    default = 0
-
-
 class StartingRealm(Choice):
-    """Determines which realm you will start in, or to have it randomly chosen."""
+    """Access to a realm is granted when you possess the "access card" item for each one's respective first level.
+    This option lets you decide which realm you will start in upon creating your save file.
+    If you would like to start with access to multiple realms, add their access cards to
+    start_inventory or start_inventory_from_pool. The one selected here will still be where you physically start.
+    """
     default = 0
     display_name = "Starting Realm"
-    option_dragon_village = 0
-    option_coastal_remains = 1
-    option_frostbite_village = 2
-    option_stormy_beach = 3
+    option_dragon_kingdom = 0
+    option_lost_cities = 1
+    option_icy_wilderness = 2
+    option_volcanic_isle = 3
     option_randomized = 4
     
 ###############SHOP###############
@@ -157,19 +149,20 @@ class GemCollection(Range):
     ***Note that Blink minigames are separately decided below with blink_gems.***
 
     This option contributes to determining your shop item prices. Moneybags always offers your first shop item for free.
-    Inflation has hit the Dragon Kingdom strong, and he thinks he'll get more customers in by offering a loss-leader.
-    If you'd like to calculate shop prices yourself, the formula is below, or you can check in-game. For more info, see the project's README.
+    Inflation has hit the Dragon Kingdom strong, and he thinks he'll get more customers in by offering a loss-leader
+    (it's actually to prevent a number of restrictive starts). Other shop items will be priced based on a formula taking
+    into account this option, blink_gems, and your number of shop items. You can do a test generation to check your
+    shop prices, or if you are math-inclined, the formula is below. For more info, see the project's README.
 
     ********************************FORMULA INFO (for the math nerds)********************************
     non_blink_gems = 122,429 * gem_collection%, rounded down
     blink_gems = 20,028 * blink_gems%, rounded down
     base_shop_price = (non_blink_gems + blink_gems) / (number of shop items - 1), rounded down
-    Number of shop items is -1 because the first item is always free.
-    All following prices are base_shop_price * n, for all n items, except the final item which
-    is (non_blink_gems + blink_gems) which adds back in all rounding down.
+    Prices will be base_shop_price * 1, base_shop_price * 2, etc. for all n shop items. The final item will be
+    (non_blink_gems + blink_gems) which accounts for all the rounding down.
 
     Example: 60 for gem_collection and 40 for blink_gems, on a seed with 18 shop items, would give prices
-    of 4,792 -> 9,584 -> ... -> 81,468.
+    of 4,792 -> 9,584 -> 14,376 -> ... -> 81,468.
     *************************************************************************************************"""
     display_name = "Gem Collection"
     range_start = 1
@@ -349,6 +342,7 @@ class OpenWorldMode(Toggle):
 @dataclass
 class SpyroAHTOptions(PerGameCommonOptions):
     death_link: DeathLink
+    start_inventory_from_pool: StartInventoryPool
     
     goal: Goal
     firework_checks: FireworkChecks
@@ -357,7 +351,6 @@ class SpyroAHTOptions(PerGameCommonOptions):
     
     starting_breath: StartingBreath
     randomize_movement: RandomizeMovement
-    realm_access: RealmAccess
     starting_realm: StartingRealm
     
     shop_randomization: ShopRandomization
@@ -390,7 +383,7 @@ spyro_options_groups = [
         Goal, FireworkChecks, RandomizeMinigames, FillerItems
     ]),
     OptionGroup("START OF GAME", [
-        StartingBreath, RandomizeMovement, RealmAccess, StartingRealm
+        StartingBreath, RandomizeMovement, StartingRealm
     ]),
     OptionGroup("SHOP", [
         ShopRandomization, KeyRings, GemCollection, BlinkGems, DoubleGems

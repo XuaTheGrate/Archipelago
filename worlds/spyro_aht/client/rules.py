@@ -11,7 +11,6 @@ translation = {
     "worlds.spyro_aht.options.KeyRings": "key_rings",
     "worlds.spyro_aht.options.ShopRandomization": "shop_randomization",
     "worlds.spyro_aht.options.RandomizeMovement": "randomize_movement",
-    "worlds.spyro_aht.options.RealmAccess": "realm_access",
     "worlds.spyro_aht.options.RandomizeBreath": "randomize_breath"
 }
 
@@ -28,7 +27,6 @@ def rule_from_dict(d: dict) -> 'Rule':
         case 'InvincibilityGadget': return InvincibilityGadget(**d)
         case 'SuperchargeGadget': return SuperchargeGadget(**d)
         case 'LockedChestRule': return LockedChestRule(**d)
-        case 'RealmAccessRule': return RealmAccessRule(**d)
         case 'ShopCheckRule': return ShopCheckRule(**d)
         case _: raise TypeError(d['rule'])
 
@@ -113,13 +111,6 @@ class LockedChestRule(Rule):
                 return self.can_resolve(slot_data) and items.get(f"{self.args['level']} Key Ring", 0) == 1
             else:
                 return self.can_resolve(slot_data) and items.get("Lockpick", 0) == 52
-        else:
-            return True
-
-class RealmAccessRule(Rule):
-    def resolve(self, slot_data: dict[str, Any], items: dict[str, int]) -> bool:
-        if slot_data["realm_access"] != 0:
-            return self.can_resolve(slot_data) and items.get(f"{self.args['realm']} Access Card", 1)
         else:
             return True
         

@@ -1,6 +1,6 @@
 START | True_ NONE
 MBShop | True_ NONE
-DVEntry | Has RealmAccessRule Dragon Village
+DVEntry | Has Dragon Kingdom Access Card
 DVGnastyCave | Has BossLairRule 0
 DVDoubleJump | Has Double Jump
 DVGlide | Has Glide
@@ -9,7 +9,7 @@ CSEntry | True_ NONE
 CSPoleSpin | Has Pole Spin
 DFEntry | Has BallGadget
 DFLGDoor | Has LGDoorRule 0
-CREntry | Has RealmAccessRule Coastal Remains
+CREntry | Has Lost Cities Access Card
 CRDoubleJump | Has Double Jump
 CRLGDoor | Has LGDoorRule 1
 CRGlide | Has Glide
@@ -25,7 +25,7 @@ SRWallKick | Has InvincibilityGadget, Has Wall Kick | And
 SRElectric | Has Electric Breath
 SRInvincibility | Has InvincibilityGadget
 SRGlide | Has Glide
-FVEntry | Has RealmAccessRule Frostbite Village
+FVEntry | Has Icy Wilderness Access Card
 FVElectric | Has Electric Breath
 FVDoubleJump | Has Double Jump
 FVWallKick | Has Wall Kick
@@ -40,7 +40,7 @@ FVEntry2 | True_ NONE
 FVEastPoles | Has Pole Spin
 FVLGDoorEntry | Has LGDoorRule 2
 FVLGDoorGlide | Has Pole Spin, Has Glide | And
-SBEntry | Has RealmAccessRule Stormy Beach
+SBEntry | Has Volcanic Isle Access Card
 SBDoubleJump | Has Double Jump
 SBUpperCave | Has Wall Kick, Has Glide | And
 MMEntry | Has Glide

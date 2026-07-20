@@ -144,7 +144,7 @@ class SpyroAHTWorld(World):
 
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
-        multiworld.early_items[player]['Double Jump'] = 1 
+        multiworld.early_items[player]['Double Jump'] = 1
         
         self._lg_doors = [70, 20, 95, 45]
         self._boss_lairs = [10, 20, 30, 40]
@@ -153,6 +153,7 @@ class SpyroAHTWorld(World):
         self._starting_breath = -1  # represents none
         self._classifications = {i['name']: ItemClassification(i['classification']) for i in _load_file("items.json")}
         self.shop_costs = []
+        self.filler_items = []
             
             
     def collect(self, state: "CollectionState", item: "Item") -> bool:
@@ -251,7 +252,6 @@ class SpyroAHTWorld(World):
         
         self.options.starting_breath.value = slot_data['starting_breath']
         self.options.randomize_movement.value = slot_data['randomize_movement']
-        self.options.realm_access.value = slot_data['realm_access']
         self.options.starting_realm.value = slot_data['starting_realm']
         
         self.options.shop_randomization.value = slot_data['shop_randomization']
@@ -427,11 +427,12 @@ class SpyroAHTWorld(World):
             final_list.extend(random.sample(generic_list, k=generic_count))        
         return final_list
     
+    def get_filler_item_name(self) -> str:
+        return random.choice(self.filler_items)
+    
     def create_items(self) -> None:
         item_data = _load_file("items.json")
         itempool = []
-        filler_items = self.setup_filler_list(item_data)
-        filler_counter = 101  # always at least 101. Conditionally more (like if firework checks are enabled)
         
         minigames = 0
         for npc, npc_list in zip(["Sgt. Byrd", "Blink", "Sparx", "Turret"], minigame_locs):
@@ -440,12 +441,6 @@ class SpyroAHTWorld(World):
                     self.get_location(egg).place_locked_item(self.create_item("Dragon Egg"))
                     self.get_location(breath_loc).place_locked_item(self.create_item("Light Gem"))
                 minigames += 4
-                filler_counter -= 4  # represents 4 less dragon eggs
-
-        if self.options.firework_checks.value == 1:
-            filler_counter += 22  # 22 firework checks which need filler
-        if self.options.shop_randomization.value == 1 and self.options.double_gems.value == 0:
-            filler_counter += 1  # double gems is gone so its shop location needs a filler
         
         starting = self.options.starting_breath.value
         for breath_num, breath_name in zip(range(4), ["Fire Breath", "Electric Breath", "Water Breath", "Ice Breath"]):
@@ -458,8 +453,18 @@ class SpyroAHTWorld(World):
             self.get_location("Starter Checks: Charge").place_locked_item(self.create_item("Charge"))
             self.get_location("Starter Checks: Glide").place_locked_item(self.create_item("Glide"))
         
+        access_cards = ["Dragon Kingdom Access Card", "Lost Cities Access Card", "Icy Wilderness Access Card", "Volcanic Isle Access Card"]
+        start = access_cards.pop(self._starting_realm)
+        self.get_location("Starter Checks: Starting Realm Access").place_locked_item(self.create_item(start))
+        if len(self.multiworld.precollected_items) > 0:  # silently handle it if player puts starting realm's access card in start inventory
+            for precollected in self.multiworld.precollected_items[self.player]:
+                if start in precollected.name:
+                    raise OptionError(f"Can't have {precollected.name} in starting inventory because you already chose to start in {self.options.starting_realm.current_option_name} in starting_realm.")
+        
         for item in item_data:
             if item["group"] == "Filler":  # filler handled later
+                continue
+            if item['name'] == start:  # exclude whichever access card was started with above
                 continue
             
             add = True
@@ -499,25 +504,11 @@ class SpyroAHTWorld(World):
 
                 for _ in range(count):
                     itempool.append(self.create_item(item['name']))
-
-        if self.options.realm_access.value == 2:
-            access_cards = [
-                "Dragon Village Access Card",
-                "Coastal Remains Access Card",
-                "Frostbite Village Access Card",
-                "Stormy Beach Access Card"
-            ]
-
-            filler_counter += 1
-            start = access_cards.pop(self._starting_realm)
-            self.get_location("Starter Checks: Starting Realm Access").place_locked_item(self.create_item(start))
-            for card in access_cards:
-                itempool.append(self.create_item(card))
                 
         # add filler
-        for _ in range(filler_counter):
-            filler = random.choice(filler_items)
-            self.multiworld.itempool.append(self.create_item(filler))
+        self.filler_items = self.setup_filler_list(item_data)
+        while len(itempool) < len(self.multiworld.get_unfilled_locations(self.player)):
+            itempool.append(self.create_item(random.choice(self.filler_items)))
 
         self.multiworld.itempool.extend(itempool)
   
@@ -541,7 +532,6 @@ class SpyroAHTWorld(World):
 
             "starting_breath": self.options.starting_breath.value,
             "randomize_movement": self.options.randomize_movement.value,
-            "realm_access": self.options.realm_access.value,
             "starting_realm": self._starting_realm,
 
             "shop_randomization": self.options.shop_randomization.value,
@@ -634,18 +624,6 @@ class LockedChestRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
             else:
                 return Has(f"Lockpick", 52).resolve(world)
         else:  # always true when shops are unrandomized
-            return True_().resolve(world)
-
-
-@dataclass
-class RealmAccessRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
-    realm: int
-
-    @override
-    def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
-        if world.options.realm_access.value != 0:
-            return Has(f"{self.realm} Access Card", 1).resolve(world)
-        else:
             return True_().resolve(world)
     
     

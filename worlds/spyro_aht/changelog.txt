@@ -40,10 +40,8 @@ TO-DO LIST:
     - TODO: fix client not properly processing duplicate sends from cheat console?
     - TODO: get a better rule parsing system in place
     - TODO: template presets?
-    - TODO: simplify realm choice option to not need randomized as an option
     - TODO: check that if you don't have UT, the client doesn't crash when trying to do map icons or shop rando pause text 
     - TODO: make tool for testing gem access
-    - TODO: investigate auto-setting of price to 0 for some items
     - TODO: more integration with UT (formally define a new /explain for the client? and similar)
 
 1.0.10
