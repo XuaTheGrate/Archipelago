@@ -425,15 +425,16 @@ class SpyroAHTWorld(World):
         minigames = 0
         for npc, npc_list in zip(["Sgt. Byrd", "Blink", "Sparx", "Turret"], minigame_locs):
             if npc not in self.options.randomize_minigames.value:
-                for egg, breath_loc in npc_list:
+                for egg, light_gem in npc_list:
                     self.get_location(egg).place_locked_item(self.create_item("Dragon Egg"))
-                    self.get_location(breath_loc).place_locked_item(self.create_item("Light Gem"))
+                    self.get_location(light_gem).place_locked_item(self.create_item("Light Gem"))
                 minigames += 4
         
         starting = self.options.starting_breath.value
         for breath_num, breath_name in zip(range(4), ["Fire Breath", "Electric Breath", "Water Breath", "Ice Breath"]):
             if starting == breath_num:
                 self.get_location("Starter Checks: Breath").place_locked_item(self.create_item(breath_name))
+                self._starting_breath = breath_num
                 break
 
         if self.options.randomize_movement.value == 0:
