@@ -235,6 +235,10 @@ class SpyroAHTWorld(World):
         if self.options.starting_realm.value != 0: # not dragon village
             if self.options.randomize_movement.value == 0 and self.options.shop_randomization.value == 0:
                 raise OptionError("Cannot start outside Dragon Village if Movement and Shop randomization is off")
+        if "Fireworks" in self.options.goal and not self.options.firework_checks:
+            raise OptionError("Cannot select 'Fireworks' as goal without firework checks enabled.")
+        if len(self.options.goal.value) == 0:
+            raise OptionError("Must have at least one goal set.")
         
         passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
         if isinstance(passthrough, dict) and self.game in passthrough:
@@ -263,45 +267,30 @@ class SpyroAHTWorld(World):
         self._boss_lairs = slot_data['boss_lair_costs']
         self._lg_doors = slot_data['light_gem_door_costs']
         self._gadget_costs = slot_data['gadget_costs']
-    
-    def handle_goaling(self):
-        match self.options.goal.value:
-            case 0 | 1 | 2 | 3:
-                self.multiworld.completion_condition[self.player] = lambda state: state.has("Victory", self.player)
-            case 4:
-                self.multiworld.completion_condition[self.player] = lambda state: state.has_all(
-                    ("VictoryCon1", "VictoryCon2", "VictoryCon3", "VictoryCon4"), self.player)
-        match self.options.goal.value:
-            case 0:
-                self.get_region("DVGnastyCave").add_event("DVDefeatGnasty", "Victory", rule=(
-                        BossLairRule(0) & (Has("Fire Breath") | Has("Charge"))
-                ))
-            case 1:
-                self.get_region("CRWateryTomb").add_event("CRDefeatIneptune", "Victory", rule=(
-                        BossLairRule(1) & Has("Charge")
-                ))
-            case 2:
-                self.get_region("FVRedChamber").add_event("FVDefeatRed", "Victory", rule=(
-                        BossLairRule(2) & Has("Water Breath")
-                ))
-            case 3:
-                self.get_region("RLMechaRed").add_event("RLDefeatMechaRed", "Victory", rule=(
-                        BossLairRule(3) & Has("Fire Breath")
-                ))
-            case 4:
-                self.get_region("DVGnastyCave").add_event("DVDefeatGnasty", "VictoryCon1", rule=(
-                        BossLairRule(0) & (Has("Fire Breath") | Has("Charge"))
-                ))
-                self.get_region("CRWateryTomb").add_event("CRDefeatIneptune", "VictoryCon2", rule=(
-                        BossLairRule(1) & Has("Charge")
-                ))
-                self.get_region("FVRedChamber").add_event("FVDefeatRed", "VictoryCon3", rule=(
-                        BossLairRule(2) & Has("Water Breath")
-                ))
-                self.get_region("RLMechaRed").add_event("RLDefeatMechaRed", "VictoryCon4", rule=(
-                        BossLairRule(3) & Has("Fire Breath")
-                ))
 
+    def handle_goaling(self):
+        # convert goal names to searchable form for location matching
+        # in an ideal world, everything would be named in such a way that this isn't necessary, but...¯\_(ツ)_/¯
+        convert = {"Fireworks": ": Firework", "Dragon Eggs": ": Dragon Egg", "Dark Gems": ": Dark Gem",
+                   "Light Gems": ": Light Gem",
+                   "Gnasty Gnorc": "Defeat Gnasty Gnorc", "Ineptune": "Defeat Ineptune", "Red": "Defeat Red",
+                   "Mecha-Red": "Defeat Mecha-Red",
+                   "Locked Chests": "locked chest"}
+        victory_cons = []
+
+        # a bit ugly to have triple nested loop but I don't think it's avoidable
+        # needs to be "for every location in every region, check every enabled goal for matches" which is just inherently triple-nested
+        count = 1
+        for reg, region_data in _load_file("locations.json").items():
+            for location in region_data["locations"]:
+                for goal in self.options.goal.value:
+                    if convert[goal] in location["name"]:
+                        self.get_region(reg).add_event(f"{location['name']} Victory{count}", f"VictoryCon{count}", rule=self.rule_from_dict(location['access_rule']))
+                        victory_cons.append(f"VictoryCon{count}")
+                        count += 1
+
+        self.multiworld.completion_condition[self.player] = lambda state: state.has_all(victory_cons, self.player)
+    
     def create_regions(self):
         # shop costs determined by multiple options
         if self.options.shop_randomization.value == 1:
@@ -392,7 +381,7 @@ class SpyroAHTWorld(World):
                     f[l['name']] = l['id']
             region.add_locations(f)
             
-        # self.handle_goaling()
+        self.handle_goaling()
 
         # add gem events
         for line in data.values():

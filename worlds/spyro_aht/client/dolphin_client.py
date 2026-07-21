@@ -189,7 +189,7 @@ class DolphinClient(GenericClient):
                 self.finished_goals[6] = await self.check_goal_component(consts.DRAGON_EGG_IDS)
             if goal == "Light Gems" and not self.finished_goals[7]:
                 self.finished_goals[7] = await self.check_goal_component(consts.LIGHT_GEM_IDS)
-            if goal == "Chests" and not self.finished_goals[8]:
+            if goal == "Locked Chests" and not self.finished_goals[8]:
                 self.finished_goals[8] = await self.check_goal_component(consts.CHEST_IDS)
         
         return self.goal_tally == self.goal_target  # if all components of goal are met, return True

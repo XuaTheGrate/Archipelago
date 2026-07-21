@@ -32,9 +32,9 @@ class Goal(OptionSet):
     Dark Gems: Break all 40 Dark Gems.
     Dragon Eggs: Collect all 80 Dragon Eggs.
     Light Gems: Collect all 100 Light Gems.
-    Chests: Open all 52 locked chests."""
+    Locked Chests: Open all 52 locked chests."""
     display_name = "Goal"
-    valid_keys = ("Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red", "Fireworks", "Dark Gems", "Dragon Eggs", "Light Gems", "Chests")
+    valid_keys = ("Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red", "Fireworks", "Dark Gems", "Dragon Eggs", "Light Gems", "Locked Chests")
     default = ("Mecha-Red",)
 
 
