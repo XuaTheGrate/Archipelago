@@ -244,9 +244,12 @@ class DolphinClient(GenericClient):
         dolphin_memory_engine.write_byte(self.addresses.p_INVINCIBILITY_COST, i)
         dolphin_memory_engine.write_byte(self.addresses.p_SUPERCHARGE_COST, s)
 
-        dolphin_memory_engine.write_byte(self.addresses.p_STARTING_REALM, ctx.slot_data['starting_realm'])
+        convert = {"Dragon Kingdom": 0, "Lost Cities": 1, "Icy Wilderness": 2, "Volcanic Isle": 3}
         realm_access = [False, False, False, False]
-        realm_access[ctx.slot_data['starting_realm']] = True
+        for realm in ctx.slot_data['starting_realms']:
+            realm_access[convert[realm]] = True
+
+        dolphin_memory_engine.write_byte(self.addresses.p_STARTING_REALM, ctx.slot_data['starting_realms'][0])
         dolphin_memory_engine.write_bytes(self.addresses.p_REALM_ACCESS, struct.pack(">????", *realm_access))
         
         if ctx.slot_data['easy_bosses']:

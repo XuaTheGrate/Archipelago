@@ -149,7 +149,7 @@ class SpyroAHTWorld(World):
         self._lg_doors = [70, 20, 95, 45]
         self._boss_lairs = [10, 20, 30, 40]
         self._gadget_costs = [8, 24, 40]  # ball, invincibility, supercharge
-        self._starting_realm = 0
+        self._starting_realms = []
         self._starting_breath = -1  # represents none
         self._classifications = {i['name']: ItemClassification(i['classification']) for i in _load_file("items.json")}
         self.shop_costs = []
@@ -232,9 +232,9 @@ class SpyroAHTWorld(World):
         return Or(*or_rules)
     
     def generate_early(self) -> None:
-        if self.options.starting_realm.value != 0: # not dragon village
+        if "Dragon Kingdom" not in self.options.starting_realms.value:
             if self.options.randomize_movement.value == 0 and self.options.shop_randomization.value == 0:
-                raise OptionError("Cannot start outside Dragon Village if Movement and Shop randomization is off")
+                raise OptionError("Can't start outside Dragon Kingdom if movement and shop randomization is off.")
         if "Fireworks" in self.options.goal and not self.options.firework_checks:
             self.options.firework_checks.value = 1
         if len(self.options.goal.value) == 0:
@@ -256,7 +256,7 @@ class SpyroAHTWorld(World):
         
         self.options.starting_breath.value = slot_data['starting_breath']
         self.options.randomize_movement.value = slot_data['randomize_movement']
-        self.options.starting_realm.value = slot_data['starting_realm']
+        self.options.starting_realms.value = slot_data['starting_realms']
         
         self.options.shop_randomization.value = slot_data['shop_randomization']
         self.options.key_rings.value = slot_data['key_rings']
@@ -312,15 +312,12 @@ class SpyroAHTWorld(World):
                     lmin, lmax = lmax, lmin
 
                 self._gadget_costs = [self.random.randint(lmin, lmax) for _ in range(3)]
-
-        match self.options.starting_realm.value:
-            case 4:  # Randomized:
-                self._starting_realm = self.random.randint(0, 3)
-                while self._starting_realm == self.options.goal.value:
-                    self._starting_realm = self.random.randint(0, 3)
-            case _:
-                self._starting_realm = self.options.starting_realm.value
-
+        
+        if len(self.options.starting_realms.value) == 0:  # randomize it
+            self._starting_realms.append(self.random.choice(["Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle"]))
+        else:
+            self._starting_realms = self.options.starting_realms.value
+            
         if self.options.randomize_boss_lair_door_costs.value != 0:  # if not default
             if self.options.randomize_boss_lair_door_costs.value == 2:  # shuffled:
                 self.random.shuffle(self._boss_lairs)
@@ -444,18 +441,24 @@ class SpyroAHTWorld(World):
             self.get_location("Starter Checks: Charge").place_locked_item(self.create_item("Charge"))
             self.get_location("Starter Checks: Glide").place_locked_item(self.create_item("Glide"))
         
-        access_cards = ["Dragon Kingdom Access Card", "Lost Cities Access Card", "Icy Wilderness Access Card", "Volcanic Isle Access Card"]
-        start = access_cards.pop(self._starting_realm)
-        self.get_location("Starter Checks: Starting Realm Access").place_locked_item(self.create_item(start))
-        if len(self.multiworld.precollected_items) > 0:  # silently handle it if player puts starting realm's access card in start inventory
-            for precollected in self.multiworld.precollected_items[self.player]:
-                if start in precollected.name:
-                    raise OptionError(f"Can't have {precollected.name} in starting inventory because you already chose to start in {self.options.starting_realm.current_option_name} in starting_realm.")
+        added_realms = []
+        first_added = False
+        for realm in self._starting_realms:
+            if not first_added:
+                self.get_location("Starter Checks: Starting Realm Access").place_locked_item(self.create_item(f"{realm} Access Card"))
+                added_realms.append(realm)
+                first_added = True
+            new_card = self.create_item(f"{realm} Access Card")
+            if new_card not in self.multiworld.precollected_items[self.player]:
+                self.push_precollected(self.create_item(f"{realm} Access Card"))
+                added_realms.append(realm)
+            else:
+                raise OptionError(f"Can't have {realm} in your start inventory because you already chose to start with access to it.")
         
         for item in item_data:
             if item["group"] == "Filler":  # filler handled later
                 continue
-            if item['name'] == start:  # exclude whichever access card was started with above
+            if item['name'] in added_realms:  # exclude any access cards the player already added above
                 continue
             
             add = True
@@ -523,7 +526,7 @@ class SpyroAHTWorld(World):
 
             "starting_breath": self.options.starting_breath.value,
             "randomize_movement": self.options.randomize_movement.value,
-            "starting_realm": self._starting_realm,
+            "starting_realms": self._starting_realms,
 
             "shop_randomization": self.options.shop_randomization.value,
             "key_rings": self.options.key_rings.value,

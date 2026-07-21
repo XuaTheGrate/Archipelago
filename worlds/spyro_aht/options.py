@@ -104,19 +104,18 @@ class RandomizeMovement(Toggle):
     default = 0
 
 
-class StartingRealm(Choice):
-    """Access to a realm is granted when you possess the "access card" item for each one's respective first level.
-    This option lets you decide which realm you will start in upon creating your save file.
-    If you would like to start with access to multiple realms, add their access cards to
-    start_inventory or start_inventory_from_pool. The one selected here will still be where you physically start.
-    """
-    default = 0
-    display_name = "Starting Realm"
-    option_dragon_kingdom = 0
-    option_lost_cities = 1
-    option_icy_wilderness = 2
-    option_volcanic_isle = 3
-    option_randomized = 4
+class StartingRealms(OptionSet):
+    """Access to a realm is granted when you possess the "access card" item for it. For example, the "Dragon Kingdom
+    Access Card" item grants access to the Dragon Kingdom realm (Dragon Village, Crocovile Swamp, and Dragonfly Falls).
+    
+    This option lets you choose which realms to start with access to. You will physically start in whichever one you list
+    first below. Any others in the list will have their access cards added to your start inventory. Any unlisted realms
+    will have their access cards randomized into the world.
+    
+    A realm will be chosen at random, if you leave the list empty."""
+    display_name = "Starting Realms"
+    valid_keys = ("Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle")
+    default = ("Dragon Kingdom",)
     
 ###############SHOP###############
 class ShopRandomization(Toggle):
@@ -379,7 +378,7 @@ class SpyroAHTOptions(PerGameCommonOptions):
     
     starting_breath: StartingBreath
     randomize_movement: RandomizeMovement
-    starting_realm: StartingRealm
+    starting_realms: StartingRealms
     
     shop_randomization: ShopRandomization
     key_rings: KeyRings
@@ -412,7 +411,7 @@ spyro_options_groups = [
         Goal, FireworkChecks, RandomizeMinigames, FillerItems
     ]),
     OptionGroup("START OF GAME", [
-        StartingBreath, RandomizeMovement, StartingRealm
+        StartingBreath, RandomizeMovement, StartingRealms
     ]),
     OptionGroup("SHOP", [
         ShopRandomization, KeyRings, GemCollection, BlinkGems, DoubleGems

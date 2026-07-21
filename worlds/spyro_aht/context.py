@@ -72,8 +72,7 @@ class SpyroAHTCommands(ClientCommandProcessor):
             output_2 = convert[self.ctx.slot_data['starting_breath']]
         self.output(f"Movement abilities are {output} and you start with {output_2} breath.")
         # starting realm
-        convert = {0: "Dragon Village", 1: "Coastal Remains", 2: "Frostbite Village", 3: "Stormy Beach", 4: "a random realm"}
-        self.output(f"You chose to start in {convert[self.ctx.slot_data['starting_realm']]}.")
+        self.output(f"You chose to start with access to the following realm(s): {self.ctx.slot_data['starting_realms']}.")
 
         self.output("---------------SHOP---------------")
         # shop items & key rings
