@@ -332,7 +332,7 @@ class SpyroAHTWorld(World):
             case _:
                 self._starting_realm = self.options.starting_realm.value
 
-        if self.options.randomize_boss_lair_door_costs.value != 0:
+        if self.options.randomize_boss_lair_door_costs.value != 0:  # if not default
             if self.options.randomize_boss_lair_door_costs.value == 2:  # shuffled:
                 self.random.shuffle(self._boss_lairs)
             else:
@@ -341,14 +341,11 @@ class SpyroAHTWorld(World):
                     bmin, bmax = bmax, bmin
 
                 self._boss_lairs = [self.random.randint(bmin, bmax) for _ in range(4)]
-
-            if self.options.goal.value != 4:
-                highest = functools.reduce(max, self._boss_lairs)
-                self._boss_lairs.remove(highest)
-                if self.options.goal < 3:
-                    self._boss_lairs.insert(self.options.goal.value, highest)
-                else:
-                    self._boss_lairs.append(highest)
+            
+            if self.options.boss_lair_forcing.value < 4:  # if not "unchanged"
+                lowest = min(self._boss_lairs)
+                highest = max(self._boss_lairs)
+                self._boss_lairs[lowest], self._boss_lairs[highest] = self._boss_lairs[highest], self._boss_lairs[lowest]
 
         if self.options.randomize_light_gem_door_costs.value != 0:
             if self.options.randomize_light_gem_door_costs.value == 2:  # shuffled:
@@ -395,7 +392,7 @@ class SpyroAHTWorld(World):
                     f[l['name']] = l['id']
             region.add_locations(f)
             
-        self.handle_goaling()
+        # self.handle_goaling()
 
         # add gem events
         for line in data.values():
@@ -546,6 +543,7 @@ class SpyroAHTWorld(World):
 
             "randomize_boss_lair_doors": self.options.randomize_boss_lair_door_costs.value,
             "boss_lair_costs": self._boss_lairs,
+            "boss_lair_forcing": self.options.boss_lair_forcing.value,
             "randomize_light_gem_door_costs": self.options.randomize_light_gem_door_costs.value,
             "light_gem_door_costs": self._lg_doors,
             "randomize_gadget_costs": self.options.randomize_gadget_costs.value,

@@ -17,15 +17,25 @@ class DeathLink(Choice):
     default = 0
 
 ###############GOAL, CHECKS, AND ITEMS###############
-class Goal(Choice):
-    """Determines your goal boss, or to require all 4 bosses."""
+class Goal(OptionSet):
+    """Determines the goal(s) of this seed. Your goal can contain any of the following, and as many (or as few) as you like.
+    For clarity, the goals involving dark gems, dragon eggs, and light gems refer to the in-game checks, not
+    their Archipelago items. For example, "Dark Gems" would mean you must break all 40 dark gems, not be
+    sent all 40 Dark Gem items.
+
+    Available Goals:
+    Gnasty Gnorc: Defeat Gnasty Gnorc.
+    Ineptune: Defeat Ineptune.
+    Red: Defeat Red.
+    Mecha-Red: Defeat Mecha-Red.
+    Fireworks: Flame all 22 fireworks in the game. Only usable if you have firework_checks enabled.
+    Dark Gems: Break all 40 Dark Gems.
+    Dragon Eggs: Collect all 80 Dragon Eggs.
+    Light Gems: Collect all 100 Light Gems.
+    Chests: Open all 52 locked chests."""
     display_name = "Goal"
-    option_gnasty_gnorc = 0
-    option_ineptune = 1
-    option_red = 2
-    option_mecha_red = 3
-    option_all = 4
-    default = 3
+    valid_keys = ("Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red", "Fireworks", "Dark Gems", "Dragon Eggs", "Light Gems", "Chests")
+    default = ("Mecha-Red",)
 
 
 class FireworkChecks(Toggle):
@@ -201,11 +211,10 @@ class DoubleGems(Choice):
 ###############GATE & GADGET COSTS###############
 class RandomizeBossLairDoorCosts(Choice):
     """Determines Dark Gem cost for each boss lair.
-    Whichever boss is your goal (if not all bosses) will always be the most expensive.
 
     default: Each boss lair has their vanilla cost (10, 20, 30, 40).
     randomized: Randomly picks costs in the range defined by boss_lair_door_cost_min and boss_lair_door_cost_max.
-    shuffle: Each boss lair has their vanilla cost shuffled with the others (10, 20, 30, 40).
+    shuffle: The vanilla boss lair costs are shuffled between each other (i.e. still 10/20/30/40 but in a random order).
     """
     display_name = "Randomize Boss Lair Requirements"
     option_default = 0
@@ -229,6 +238,24 @@ class BossLairDoorCostMax(Range):
     range_end = 40
     default = 40
 
+
+class BossLairForcing(Choice):
+    """This option lets you force a specific boss lair to have the highest Dark Gem cost, after costs are determined
+    based on your above settings. If you select a boss below, its cost will be swapped with whichever boss was assigned
+    the highest cost.
+    
+    For example, if the boss costs were set to be a random range and became (17, 32, 6, 24) and you selected "Red",
+    the costs would become (17, 6, 32, 24) via swapping Red's cost of 6 with Ineptune's cost of 32 (the highest).
+    
+    Selecting "unchanged" leaves boss lair costs untouched."""
+    display_name = "Boss Lair Forcing"
+    option_gnasty_gnorc = 0
+    option_ineptune = 1
+    option_red = 2
+    option_mecha_red = 3
+    option_unchanged = 4
+    default = 4
+    
 
 class RandomizeLightGemDoorCosts(Choice):
     """Determines Light Gem door costs.
@@ -337,7 +364,7 @@ class OpenWorldMode(Toggle):
     Only left in for development testing purposes."""
     display_name = "Open World Mode"
     default = 0
-    visibility = Visibility.none
+    # visibility = Visibility.none
 
 
 @dataclass
@@ -363,6 +390,7 @@ class SpyroAHTOptions(PerGameCommonOptions):
     randomize_boss_lair_door_costs: RandomizeBossLairDoorCosts
     boss_lair_door_cost_min: BossLairDoorCostMin
     boss_lair_door_cost_max: BossLairDoorCostMax
+    boss_lair_forcing: BossLairForcing
     randomize_light_gem_door_costs: RandomizeLightGemDoorCosts
     light_gem_door_cost_min: LightGemDoorCostMin
     light_gem_door_cost_max: LightGemDoorCostMax
@@ -390,7 +418,7 @@ spyro_options_groups = [
         ShopRandomization, KeyRings, GemCollection, BlinkGems, DoubleGems
     ]),
     OptionGroup("GATE & GADGET COSTS", [
-        RandomizeBossLairDoorCosts, BossLairDoorCostMin, BossLairDoorCostMax,
+        RandomizeBossLairDoorCosts, BossLairDoorCostMin, BossLairDoorCostMax, BossLairForcing,
         RandomizeLightGemDoorCosts, LightGemDoorCostMin, LightGemDoorCostMax,
         RandomizeGadgetCosts, GadgetCostMin, GadgetCostMax
     ]),

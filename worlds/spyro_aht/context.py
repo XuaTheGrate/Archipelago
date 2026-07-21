@@ -47,8 +47,7 @@ class SpyroAHTCommands(ClientCommandProcessor):
         
         self.output("---------------GOAL, CHECKS, & ITEMS---------------")
         # goal
-        convert = {0: "Gnasty Gnorc", 1: "Ineptune", 2: "Red", 3: "Mecha-Red", 4: "all bosses"}
-        self.output(f"Your goal is to defeat {convert[self.ctx.slot_data['goal']]}.")
+        self.output(f"Your chose the following as your goal(s): {self.ctx.slot_data['goal']}.")
         # firework checks
         output = "enabled" if self.ctx.slot_data["firework_checks"] else "disabled"
         self.output(f"Firework checks are {output}.")
@@ -96,6 +95,10 @@ class SpyroAHTCommands(ClientCommandProcessor):
         # boss costs
         data = self.ctx.slot_data["boss_lair_costs"]
         self.output(f"The boss lair gates require, in vanilla realm order: {data[0]}, {data[1]}, {data[2]}, and {data[3]} Dark Gems.")
+        # boss lair forcing
+        data = self.ctx.slot_data["boss_lair_forcing"]
+        convert = {0: "Gnasty Gnorc", 1: "Ineptune", 2: "Red", 3: "Mecha-Red", 4: "none of the bosses"}
+        self.output(f"You chose to force {convert[data]} to have the highest boss lair cost.")
         # light gem doors
         data = self.ctx.slot_data["light_gem_door_costs"]
         self.output(f"The Light Gem doors require, in vanilla realm order: {data[0]}, {data[1]}, {data[2]}, and {data[3]} Light Gems.")
@@ -125,7 +128,8 @@ class SpyroAHTCommands(ClientCommandProcessor):
 
 
 class SpyroAHTContext(SuperContext):
-    tags = {"AP"}
+    if tracker_loaded:
+        tags = {"AP"}
     items_handling = 0b111
     game = "Spyro: A Hero's Tail"
     command_processor = SpyroAHTCommands
@@ -211,7 +215,6 @@ class SpyroAHTContext(SuperContext):
                             self.emu_client.msg_queue.put_nowait((consts.COLOUR_WHITE, msg))
     
     async def start_emu_client(self):
-        # TODO: pcsx2 client
         self.emu_client = DolphinClient()
         await self.emu_client.connect()
         await self.emu_client.apply_patch(self)
@@ -370,7 +373,7 @@ class SpyroAHTContext(SuperContext):
 
     async def _location_checks(self):
         locations = await self.emu_client.scan_locations(shop_items=self.slot_data['shop_randomization'] == 1, key_rings=self.slot_data['key_rings'] == 1)
-        for c in {229, 230, 231, 232, 999}:
+        for c in {229, 230, 231, 232, 999}:  # starter checks
             locations.add(c)
         locations -= self.checked_locations
         if locations:
@@ -405,7 +408,7 @@ class SpyroAHTContext(SuperContext):
         return True  # does nothing but is required (and is documented as such by UT)
 
     async def check_goal(self) -> bool:
-        flag = await self.emu_client.check_goal(self.slot_data['goal'])
+        flag = await self.emu_client.check_goal()
         if flag:
             await self.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
         return flag

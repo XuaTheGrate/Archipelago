@@ -21,6 +21,10 @@ class DolphinClient(GenericClient):
         self.ready = asyncio.Event()
         self.msg_queue = asyncio.Queue()
         self.addresses = consts.G5SE7D()
+        
+        self.goal_list = []
+        self.goal_target, self.goal_tally = 0, 0
+        self.finished_goals = [False, False, False, False, False, False, False, False, False]
     
     async def notification_task(self):
         from CommonClient import logger
@@ -129,7 +133,11 @@ class DolphinClient(GenericClient):
         index = (objective & 0xFFFF) - 1
         uint = index // 32
         bit = index % 32
-        return await self.get_flag(self.addresses.OBJECTIVES + (uint * 4), 1 << bit)
+        if await self.get_flag(self.addresses.OBJECTIVES + (uint * 4), 1 << bit):
+            self.goal_tally += 1
+            return True
+        else:
+            return False
     
     async def has_any_breath(self) -> bool:
         b = dolphin_memory_engine.read_word(self.addresses.ABILITY_FLAGS)
@@ -160,14 +168,43 @@ class DolphinClient(GenericClient):
         dolphin_memory_engine.write_word(self.addresses.GEMS, count + value)
         dolphin_memory_engine.write_word(self.addresses.TOTAL_GEMS, total + value)
     
-    async def check_goal(self, goal_index: int) -> bool:
-        if goal_index < 4:
-            return await self.get_objective(consts.GOALS[goal_index])
-        count = 0
-        for obj in consts.GOALS:
-            if await self.get_objective(obj):
-                count += 1
-        return count == 4
+    async def check_goal(self) -> bool:
+        # I so badly want to simplify this but can't without it being overly complex to interpret ¯\_(ツ)_/¯
+        # AKA this is as simple as it can get without harming readability too much
+        # Simplifying would require zipped loops between curr_goal and curr_id_list as well as manual counting of indices for finished_goals
+        for goal in self.goal_list:
+            if goal == "Gnasty Gnorc" and not self.finished_goals[0]:
+                self.finished_goals[0] = await self.get_objective(consts.BOSS_GOALS[0])
+            if goal == "Ineptune" and not self.finished_goals[1]:
+                self.finished_goals[1] = await self.get_objective(consts.BOSS_GOALS[1])
+            if goal == "Red" and not self.finished_goals[2]:
+                self.finished_goals[2] = await self.get_objective(consts.BOSS_GOALS[2])
+            if goal == "Mecha-Red" and not self.finished_goals[3]:
+                self.finished_goals[3] = await self.get_objective(consts.BOSS_GOALS[3])
+            if goal == "Fireworks" and not self.finished_goals[4]:
+                self.finished_goals[4] = await self.check_goal_component(consts.FIREWORK_IDS)
+            if goal == "Dark Gems" and not self.finished_goals[5]:
+                self.finished_goals[5] = await self.check_goal_component(consts.DARK_GEM_IDS)
+            if goal == "Dragon Eggs" and not self.finished_goals[6]:
+                self.finished_goals[6] = await self.check_goal_component(consts.DRAGON_EGG_IDS)
+            if goal == "Light Gems" and not self.finished_goals[7]:
+                self.finished_goals[7] = await self.check_goal_component(consts.LIGHT_GEM_IDS)
+            if goal == "Chests" and not self.finished_goals[8]:
+                self.finished_goals[8] = await self.check_goal_component(consts.CHEST_IDS)
+        
+        return self.goal_tally == self.goal_target  # if all components of goal are met, return True
+    
+    async def check_goal_component(self, loc_id_list):
+        """Loops over a given list of location IDs and checks, one by one, whether they are checked in the game.
+        Returns False early if an unchecked one is found. Otherwise, defaults to returning True to indicate
+        this subgoal is satisfied."""
+        for loc_id in loc_id_list:
+            index = consts.LOCATIONS_BITFIELD[loc_id]
+            addr = self.addresses.g_LOCATION_BITFIELD + (index * 2) // 8
+            if not dolphin_memory_engine.read_byte(addr) & (0b01 << ((index * 2) % 8)):
+                return False
+        self.goal_tally += 1
+        return True
 
     async def import_deathlink(self, mode: int):
         dolphin_memory_engine.write_byte(self.addresses.g_DEATHLINK_INGOING, mode)
@@ -234,6 +271,10 @@ class DolphinClient(GenericClient):
             dolphin_memory_engine.write_byte(self.addresses.p_UNLOCK_ALL_SHOPS, 1)
         
         dolphin_memory_engine.write_byte(self.addresses.p_PATCH_BEEN_WRITTEN_TO, 1)
+        
+        # set up some goal stuff while here since ctx is available and this is guaranteed to run at the start of save file
+        self.goal_list = ctx.slot_data["goal"]
+        self.goal_target = len(self.goal_list)
     
     async def _prepare_shop_items(self, ctx: "SpyroAHTContext", *shop_items: NetworkItem):
         dolphin_memory_engine.write_byte(self.addresses.p_RANDOMIZE_SHOP, 1)
