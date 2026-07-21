@@ -1,4 +1,10 @@
 2.0 (Beta Release 2)
+- Moderate Sized Addition: Spyro AHT AP now supports multiple goals beyond just beating 1 or all bosses!
+    - Players can now choose between a variety of goals. Beating any of the 4 bosses, flaming all fireworks, collecting all of each collectible (dark gems, dragon eggs, light gems), and opening all locked chests are now supported.
+    - Each goal can be mixed and matched with others as desired.
+- New Option: Boss Lair Forcing
+    - This option replaces the now-previously default behavior of making the goal boss's lair the most expensive. Now that bosses are not guaranteed to be the one and only goal, this functionality was moved to this option.
+    - Players can choose whether they want a specific boss to have the highest cost, regardless of whether that boss is part of their goal or not.    
 - Added start_inventory_from_pool to YAML.
 - Fixed a bug where Double Jump (which is forced to be an early item) couldn't be placed early due to not recognizing Shop Item 1 as an early location.
 - Option Change: Realm Access
@@ -6,8 +12,21 @@
     - This served 2 purposes:
         1) To make it so that "Defeat <boss name>" locations are always enabled instead of being disabled when access cards are gone.
         2) To streamline how realm access is handled behind-the-scenes, as it was split into 2 different logic branches in a few spots that are now simplified into 1.
-    - Players can still choose to have access to all realms by way of putting each additional access card into their start inventory.
+    - Players can still choose to have access to multiple (or all) realms by listing multiple in the option.
     - Also, renamed the access cards and starting realm options to be the actual realm names and not just the start level name (e.g. Volcanic Isle Access Card instead of Stormy Beach Access Card).
+
+TO-DO LIST:
+    - TODO: fire breath was in shop despite having it already?
+    - TODO: what can we do to fix new save files on existing seeds, if anything?
+        - TODO: items aren't re-sent, understandably, but could be re-sent in cheat console if needed.
+        - TODO: gems aren't reset, that's a big deal now in shop rando. Could game mod check slot data and apply gem count to new files if there is an amount set?
+    - TODO: a secret second major addition (if you pay attention you'll already know what it is, but I'm not spoiling it for those who haven't noticed :3)
+    - TODO: fix client not properly processing duplicate sends from cheat console?
+    - TODO: get a better rule parsing system in place
+    - TODO: template presets?
+    - TODO: check that if you don't have UT, the client doesn't crash when trying to do map icons or shop rando pause text 
+    - TODO: make tool for testing gem access
+    - TODO: more integration with UT (formally define a new /explain for the client? and similar)
 
 2.0 (Beta Release 1)
 - This apworld has officially switched hands to being primarily maintained by PhoenixAki.
@@ -42,20 +61,6 @@ any logic bugs), but this was a prerequisite for both of the major feature addit
     - Renamed project from spyro-aht -> spyro_aht.
     - Updated spoiler file output to include shop prices and no longer include starting realm.
     - Expanded starting_breath option (previously named randomize_breath) to allow explicit choosing of any breath, or none.
-   
-TO-DO LIST:
-    - TODO: fire breath was in shop despite having it already?
-    - TODO: what can we do to fix new save files on existing seeds, if anything?
-        - TODO: items aren't re-sent, understandably, but could be re-sent in cheat console if needed.
-        - TODO: gems aren't reset, that's a big deal now in shop rando. Could game mod check slot data and apply gem count to new files if there is an amount set?
-    - TODO: a secret second major addition (if you pay attention you'll already know what it is, but I'm not spoiling it for those who haven't noticed :3)
-    - TODO: more goals (buy all shop items, flame all fireworks, break all dark gems, collect all dragon eggs, collect all light gems
-    - TODO: fix client not properly processing duplicate sends from cheat console?
-    - TODO: get a better rule parsing system in place
-    - TODO: template presets?
-    - TODO: check that if you don't have UT, the client doesn't crash when trying to do map icons or shop rando pause text 
-    - TODO: make tool for testing gem access
-    - TODO: more integration with UT (formally define a new /explain for the client? and similar)
 
 1.0.10
 - Added new client command /list_options with lists all YAML options as well as some randomized costs.
