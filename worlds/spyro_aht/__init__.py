@@ -235,7 +235,7 @@ class SpyroAHTWorld(World):
         if "Dragon Kingdom" not in self.options.starting_realms.value:
             if self.options.randomize_movement.value == 0 and self.options.shop_randomization.value == 0:
                 raise OptionError("Can't start outside Dragon Kingdom if movement and shop randomization is off.")
-        if "Fireworks" in self.options.goal and not self.options.firework_checks:
+        if "Fireworks" in self.options.goal.value and not self.options.firework_checks.value:
             self.options.firework_checks.value = 1
         if len(self.options.goal.value) == 0:
             self.options.goal.value = ("Mecha-Red",)

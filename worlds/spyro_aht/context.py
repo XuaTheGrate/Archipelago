@@ -127,8 +127,7 @@ class SpyroAHTCommands(ClientCommandProcessor):
 
 
 class SpyroAHTContext(SuperContext):
-    if tracker_loaded:
-        tags = {"AP"}
+    tags = {"AP"}
     items_handling = 0b111
     game = "Spyro: A Hero's Tail"
     command_processor = SpyroAHTCommands

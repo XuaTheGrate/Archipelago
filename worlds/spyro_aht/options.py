@@ -112,7 +112,9 @@ class StartingRealms(OptionSet):
     first below. Any others in the list will have their access cards added to your start inventory. Any unlisted realms
     will have their access cards randomized into the world.
     
-    A realm will be chosen at random, if you leave the list empty."""
+    A realm will be chosen at random, if you leave the list empty.
+    
+    Valid Options: ["Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle"]"""
     display_name = "Starting Realms"
     valid_keys = ("Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle")
     default = ("Dragon Kingdom",)

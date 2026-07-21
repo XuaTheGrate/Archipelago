@@ -16,17 +16,17 @@
     - Also, renamed the access cards and starting realm options to be the actual realm names and not just the start level name (e.g. Volcanic Isle Access Card instead of Stormy Beach Access Card).
 
 TO-DO LIST:
-    - TODO: fire breath was in shop despite having it already?
-    - TODO: what can we do to fix new save files on existing seeds, if anything?
+    - TODO: get a better rule parsing system in place
+    - TODO: a secret second major addition (if you pay attention you'll already know what it is, but I'm not spoiling it for those who haven't noticed :3)
+    - TODO: re-integrate the old shop randomization system so the new system is toggleable?
+        - TODO: probably not too hard to do? but if it would be a lot of work, not sure how worth it it'd be yet
+    - TODO: client crashes on startup without UT installed. Uhhhhhhhhhhhh
+    - TODO: fix client not properly processing duplicate sends from cheat console?    
+    - TODO: template presets?
+    - TODO: make tool for testing gem access
+        - TODO: what can we do to fix new save files on existing seeds, if anything?
         - TODO: items aren't re-sent, understandably, but could be re-sent in cheat console if needed.
         - TODO: gems aren't reset, that's a big deal now in shop rando. Could game mod check slot data and apply gem count to new files if there is an amount set?
-    - TODO: a secret second major addition (if you pay attention you'll already know what it is, but I'm not spoiling it for those who haven't noticed :3)
-    - TODO: fix client not properly processing duplicate sends from cheat console?
-    - TODO: get a better rule parsing system in place
-    - TODO: template presets?
-    - TODO: check that if you don't have UT, the client doesn't crash when trying to do map icons or shop rando pause text 
-    - TODO: make tool for testing gem access
-    - TODO: more integration with UT (formally define a new /explain for the client? and similar)
 
 2.0 (Beta Release 1)
 - This apworld has officially switched hands to being primarily maintained by PhoenixAki.

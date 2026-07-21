@@ -249,7 +249,7 @@ class DolphinClient(GenericClient):
         for realm in ctx.slot_data['starting_realms']:
             realm_access[convert[realm]] = True
 
-        dolphin_memory_engine.write_byte(self.addresses.p_STARTING_REALM, ctx.slot_data['starting_realms'][0])
+        dolphin_memory_engine.write_byte(self.addresses.p_STARTING_REALM, convert[ctx.slot_data['starting_realms'][0]])
         dolphin_memory_engine.write_bytes(self.addresses.p_REALM_ACCESS, struct.pack(">????", *realm_access))
         
         if ctx.slot_data['easy_bosses']:
