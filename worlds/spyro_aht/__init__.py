@@ -236,9 +236,9 @@ class SpyroAHTWorld(World):
             if self.options.randomize_movement.value == 0 and self.options.shop_randomization.value == 0:
                 raise OptionError("Cannot start outside Dragon Village if Movement and Shop randomization is off")
         if "Fireworks" in self.options.goal and not self.options.firework_checks:
-            raise OptionError("Cannot select 'Fireworks' as goal without firework checks enabled.")
+            self.options.firework_checks.value = 1
         if len(self.options.goal.value) == 0:
-            raise OptionError("Must have at least one goal set.")
+            self.options.goal.value = ("Mecha-Red",)
         
         passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
         if isinstance(passthrough, dict) and self.game in passthrough:
@@ -333,8 +333,10 @@ class SpyroAHTWorld(World):
             
             if self.options.boss_lair_forcing.value < 4:  # if not "unchanged"
                 lowest = min(self._boss_lairs)
+                low_index = self._boss_lairs.index(lowest)
                 highest = max(self._boss_lairs)
-                self._boss_lairs[lowest], self._boss_lairs[highest] = self._boss_lairs[highest], self._boss_lairs[lowest]
+                high_index = self._boss_lairs.index(highest)
+                self._boss_lairs[low_index], self._boss_lairs[high_index] = self._boss_lairs[high_index], self._boss_lairs[low_index] 
 
         if self.options.randomize_light_gem_door_costs.value != 0:
             if self.options.randomize_light_gem_door_costs.value == 2:  # shuffled:

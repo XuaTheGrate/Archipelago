@@ -27,8 +27,8 @@ class Goal(OptionSet):
     Gnasty Gnorc: Defeat Gnasty Gnorc.
     Ineptune: Defeat Ineptune.
     Red: Defeat Red.
-    Mecha-Red: Defeat Mecha-Red.
-    Fireworks: Flame all 22 fireworks in the game. Only usable if you have firework_checks enabled.
+    Mecha-Red: Defeat Mecha-Red. This is the default goal if you leave the list empty.
+    Fireworks: Flame all 22 fireworks in the game. firework_checks will automatically be enabled if you include this.
     Dark Gems: Break all 40 Dark Gems.
     Dragon Eggs: Collect all 80 Dragon Eggs.
     Light Gems: Collect all 100 Light Gems.
