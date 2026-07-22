@@ -336,6 +336,8 @@ class DolphinClient(GenericClient):
         
         blink_available, other_available = 0, 0
         for event in events:
+            if "VictoryCon" in event:
+                continue
             gem_amount = int(event.split(" ", 1)[0])
             if "Blink minigames" in event:
                 blink_available += gem_amount

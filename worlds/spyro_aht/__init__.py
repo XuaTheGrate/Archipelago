@@ -1,22 +1,19 @@
 import asyncio
-from dataclasses import dataclass
-import functools
 import pkgutil
 import random
 from collections import defaultdict
-from typing import Any, TextIO, override, Optional
+from dataclasses import dataclass
+from typing import Any, TextIO, override
 
 import orjson
 
-from Options import OptionError, Option
 import Utils
 from BaseClasses import Item, ItemClassification, MultiWorld, Region, CollectionState
+from Options import OptionError
 from rule_builder.rules import Has, Rule, True_, And, Or
 from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import icon_paths
-
 from .options import RandomizeMovement, SpyroAHTOptions, StartingBreath, spyro_options_groups
-from .client import rules
 
 icon_paths['spyro_aht'] = f'ap:{__name__}/icon.png'
 
@@ -103,21 +100,6 @@ def create_location_groups(location_data) -> dict[str, set[str]]:
     return loc_groups
 
 
-rules_for_client: dict[str, dict] = {}
-file_in = _load_file("locations.json")
-for region, region_dat in file_in.items():
-    rules_for_client[region] = region_dat
-    region_dat['access_rule'] = rules.rule_from_dict(region_dat['access_rule'])
-    location_rule_list, gem_rule_list = [], []
-    for loc in region_dat['locations']:
-        loc['access_rule'] = rules.rule_from_dict(loc['access_rule'])
-        location_rule_list.append(loc)
-    for gem in region_dat['gem_events']:
-        gem['access_rule'] = rules.rule_from_dict(gem['access_rule'])
-        gem_rule_list.append(gem)
-    region_dat['locations'] = location_rule_list
-    region_dat['gem_events'] = gem_rule_list
-
 class SpyroAHTWeb(WebWorld):
     option_groups = spyro_options_groups
 
@@ -161,7 +143,7 @@ class SpyroAHTWorld(World):
         name = self.collect_item(state, item)
         if name:
             state.add_item(name, self.player)
-            if "Gems" in item.name:
+            if "Gems" in item.name and "VictoryCon" not in item.name:
                 gem_amount = int(item.name.split(" ")[0])
                 
                 if "Blink minigames" in item.name and self.options.blink_gems.value > 0:
@@ -610,7 +592,7 @@ class SuperchargeGadget(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
 
 @dataclass
 class LockedChestRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
-    level: int
+    level: str
 
     @override
     def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
