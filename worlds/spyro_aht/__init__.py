@@ -165,54 +165,6 @@ class SpyroAHTWorld(World):
             return True
         return False
 
-    def rule_builder(self, full_rule):
-        """Takes a string representation of a Gem event rule and converts it into a Rule object.
-        To simplify this process, all rules sent to this method are of the format rule1 Or rule2 Or rule3,
-        and it is assumed that each subrule is made up exclusively of either a single item or multiple items And'd together.
-        For example, a valid string rule for this method would be 'Fire Breath Or Ice Breath And Charge or Double Jump'.
-        This method would take that and appropriately convert it into an Or object which has 3 children:
-        Has(Fire Breath), And(Has(Fire Breath), Has(Charge)), Has(Double Jump)."""
-        or_rules = []
-
-        for rule in full_rule.split(" or "):
-            and_rules = []
-            # pretty sure this whole loop can be generalized to not need separate cases if the subrule has "and"
-            # buuuuuuuuuuuut my brain can't figure it out so I'm leaving it as-is. itworks.gif
-            if rule.find("and") == -1:
-                rule = rule.strip()
-                
-                # special cases
-                if "Invincibility" in rule or "Supercharge" in rule:
-                    cost = self._gadget_costs[int(rule[-1])]  # rule format provides gadget index in name
-                    or_rules.append(Has("Light Gem", cost))
-                    continue
-                elif rule == "True_":
-                    or_rules.append(True_())
-                    continue
-                else:
-                    or_rules.append(Has(rule))
-                    continue
-            
-            # subrule may potentially have multiple items to And together
-            for rule2 in rule.split(" and "):
-                rule2 = rule2.strip()
-                
-                # special cases
-                if "Invincibility" in rule2 or "Supercharge" in rule2:
-                    cost = self._gadget_costs[int(rule2[-1])]
-                    and_rules.append(Has("Light Gem", cost))
-                elif rule2 == "True_":
-                    and_rules.append(True_())
-                else:
-                    and_rules.append(Has(rule2))
-
-            or_rules.append(And(*and_rules))
-
-        if len(or_rules) == 1:
-            return or_rules[0]
-
-        return Or(*or_rules)
-    
     def generate_early(self) -> None:
         if "Dragon Kingdom" not in self.options.starting_realms.value:
             if self.options.randomize_movement.value == 0 and self.options.shop_randomization.value == 0:
@@ -364,11 +316,12 @@ class SpyroAHTWorld(World):
             
         self.handle_goaling()
 
-        # add gem events
-        for line in data.values():
-            for gem_event in line["gem_events"]:
-                region_name, item_name = gem_event["name"].split(": ")
-                self.get_region(region_name).add_event(gem_event['name'], item_name, rule=self.rule_from_dict(gem_event["access_rule"]))
+        # add gem events, only if shop is randomized
+        if self.options.shop_randomization:
+            for reg, region_data in data.items():
+                for gem_event in region_data["gem_events"]:
+                    location_name = f"{reg}: {gem_event['name']}"
+                    self.get_region(reg).add_event(location_name, gem_event['name'], rule=self.rule_from_dict(gem_event["access_rule"]))
     
     def create_item(self, name: str) -> Item:
         """Helper method for create_items which returns an Item object."""
@@ -587,7 +540,7 @@ class InvincibilityGadget(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
 class SuperchargeGadget(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
     @override
     def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
-        return Has("Light Gem", world._gadget_costs[2]).resolve(world)
+        return And(Has("Light Gem", world._gadget_costs[2]), Has("Charge")).resolve(world)
 
 
 @dataclass
@@ -598,6 +551,7 @@ class LockedChestRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
     def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
         if world.options.shop_randomization.value == 1:
             if world.options.key_rings.value == 1:
+                if self.level == "Reds Laboratory": self.level = "Red's Laboratory"  # fixing from formatting in local data not having apostraphes
                 return Has(f"{self.level} Key Ring", 1).resolve(world)
             else:
                 return Has(f"Lockpick", 52).resolve(world)
@@ -611,7 +565,7 @@ class ShopCheckRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
     
     #override
     def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
-        cost_lookup = world.shop_costs[self.index-1]
+        cost_lookup = world.shop_costs[self.index]
         return Has("Gems", cost_lookup).resolve(world)
 
 ###############CLIENT###############
