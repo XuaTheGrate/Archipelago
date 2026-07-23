@@ -1,22 +1,22 @@
 2.0 (Beta Release 2)
-- Moderate Sized Addition: Spyro AHT AP now supports multiple goals beyond just beating 1 or all bosses!
-    - Players can now choose between a variety of goals. Beating any of the 4 bosses, flaming all fireworks, collecting all of each collectible (dark gems, dragon eggs, light gems), and opening all locked chests are now supported.
-    - Each goal can be mixed and matched with others as desired.
-- New Option: Boss Lair Forcing
-    - This option replaces the now-previously default behavior of making the goal boss's lair the most expensive. Now that bosses are not guaranteed to be the one and only goal, this functionality was moved to this option.
-    - Players can choose whether they want a specific boss to have the highest cost, regardless of whether that boss is part of their goal or not.    
-- Added start_inventory_from_pool to YAML.
-- Fixed a bug where Double Jump (which is forced to be an early item) couldn't be placed early due to not recognizing Shop Item 1 as an early location.
-- Option Change: Realm Access
-    - Realm Access Cards are now always in the item pool, instead of them being removed when the player wants full realm access.
-    - This served 2 purposes:
-        1) To make it so that "Defeat <boss name>" locations are always enabled instead of being disabled when access cards are gone.
-        2) To streamline how realm access is handled behind-the-scenes, as it was split into 2 different logic branches in a few spots that are now simplified into 1.
+
+- Changes to goal: non-boss goals are now supported, as well as mixing and matching goals in a fully customizable form!
+    - You can now choose between beating any of the 4 bosses (or multiple), flaming all fireworks, collecting all of each collectible (dark gems, dragon eggs, light gems), and opening all locked chests.
+- Removed realm_access and simplified realm access logic into starting_realms. Realm Access Cards are now always in the item pool, instead of them being removed when the player wants full realm access.
+    - As a result, "Defeat <boss name>" locations are now always enabled, instead of being disabled when access cards are gone (since access cards are never gone now).
     - Players can still choose to have access to multiple (or all) realms by listing multiple in the option.
-    - Also, renamed the access cards and starting realm options to be the actual realm names and not just the start level name (e.g. Volcanic Isle Access Card instead of Stormy Beach Access Card).
+    - Also, renamed the access cards and starting_realm options to be the actual realm names and not just the start level name (e.g. Volcanic Isle Access Card instead of Stormy Beach Access Card).
+- New Option: boss_lair_forcing
+    - This option replaces the now-previously default behavior of making the goal boss's lair the most expensive. Now that bosses are not guaranteed to be the one and only goal, this functionality was moved to this option.
+    - Players can choose whether they want a specific boss to have the highest cost, regardless of whether that boss is part of their goal or not.
+        
+- Other Things:
+    - Majorly overhauled some back-end stuff related to how the world loads in logic information for regions, locations, and gem events. This shouldn't impact the player experience at all, but it makes my development life SO SO SO SO SO much easier now that it's dealt with.
+    - Added start_inventory_from_pool to YAML. The only difference between it and the standard start_inventory is that start_inventory_from_pool will replace any items listed there with filler, while start_inventory keeps the original copy of items in the world.
+    - Fixed a bug where Double Jump (which is forced to be an early item) couldn't be placed early due to not recognizing Shop Item 1 as an early location.
+        - TODO: check if this is actually fixed?
 
 TO-DO LIST:
-    - TODO: get a better rule parsing system in place
     - TODO: updated death link messages
     - TODO: re-investigate shop item goal for client. It probably has info already on shop items that are checked?
     - TODO: a secret second major addition (if you pay attention you'll already know what it is, but I'm not spoiling it for those who haven't noticed :3)
