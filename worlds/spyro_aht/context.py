@@ -142,6 +142,12 @@ class SpyroAHTContext(SuperContext):
         self.event_flag = False
         self._in_logic_events: list[str] = []
         self._in_logic_locations: list[str] = []
+        
+        # used for checking goal components
+        self.goal_stuff_setup = False
+        self.goal_list = set[str]
+        self.goal_tally, self.goal_target = 0, 0
+        self.finished_goals = [False, False, False, False, False, False, False, False, False, False]
 
         self.emu_client: GenericClient = None # type: ignore
         self.emu_loop: asyncio.Task = None # type: ignore
@@ -406,10 +412,48 @@ class SpyroAHTContext(SuperContext):
         return True  # does nothing but is required (and is documented as such by UT)
 
     async def check_goal(self) -> bool:
-        flag = await self.emu_client.check_goal()
-        if flag:
+        # self.finished_goals avoids re-checking goals that have already been found to be complete
+        for goal in self.goal_list:
+            if goal == "Gnasty Gnorc" and not self.finished_goals[0]:
+                self.finished_goals[0] = await self.check_goal_component("defeating Gnasty Gnorc", [consts.BOSS_IDS[0]])
+            if goal == "Ineptune" and not self.finished_goals[1]:
+                self.finished_goals[1] = await self.check_goal_component("defeating Ineptune", [consts.BOSS_IDS[1]])
+            if goal == "Red" and not self.finished_goals[2]:
+                self.finished_goals[2] = await self.check_goal_component("defeating Red", [consts.BOSS_IDS[2]])
+            if goal == "Mecha-Red" and not self.finished_goals[3]:
+                self.finished_goals[3] = await self.check_goal_component("defeating Mecha-Red", [consts.BOSS_IDS[3]])
+            if goal == "Fireworks" and not self.finished_goals[4]:
+                self.finished_goals[4] = await self.check_goal_component("flaming all fireworks", consts.FIREWORK_IDS)
+            if goal == "Dark Gems" and not self.finished_goals[5]:
+                self.finished_goals[5] = await self.check_goal_component("breaking all Dark Gems", consts.DARK_GEM_IDS)
+            if goal == "Dragon Eggs" and not self.finished_goals[6]:
+                self.finished_goals[6] = await self.check_goal_component("collecting all Dragon Eggs", consts.DRAGON_EGG_IDS)
+            if goal == "Light Gems" and not self.finished_goals[7]:
+                self.finished_goals[7] = await self.check_goal_component("collecting all Light Gems", consts.LIGHT_GEM_IDS)
+            if goal == "Locked Chests" and not self.finished_goals[8]:
+                self.finished_goals[8] = await self.check_goal_component("opening all locked chests", consts.LOCKED_CHEST_IDS)
+            if goal == "Shop Items" and not self.finished_goals[9]:
+                if self.slot_data['key_rings'] == 0:  # no key rings = all 56 items
+                    self.finished_goals[9] = await self.check_goal_component("buying all shop items", consts.SHOP_ITEM_IDS)
+                else:  # yes key rings = only 18 items
+                    self.finished_goals[9] = await self.check_goal_component("buying all shop items", consts.SHOP_ITEM_IDS[0:18])
+        
+        # tally goes +1 when a goal component is met. If that value matches however many goals there are, we're done!
+        if self.goal_tally == self.goal_target:
             await self.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
-        return flag
+            return True
+        
+        return False
+
+    async def check_goal_component(self, goal, loc_id_list) -> bool:
+        from CommonClient import logger
+        for goal_component_id in loc_id_list:
+            if goal_component_id not in self.checked_locations:
+                return False
+        self.goal_tally += 1
+        logger.info(f"Goal of {goal} has been met, nice work! If this was your only or final goal, the client should recognize that in a moment.")
+        return True
+    
     
     async def _emu_loop(self):
         has_goaled = False
@@ -430,6 +474,12 @@ class SpyroAHTContext(SuperContext):
                 self.watcher_event.clear()
 
                 if await self.emu_client.should_process_checks():
+                    # done here to ensure it's only all set up once connected
+                    if not self.goal_stuff_setup:
+                        self.goal_list: set[str] = self.slot_data['goal']
+                        self.goal_target = len(self.goal_list)
+                        self.goal_stuff_setup = True
+                        
                     if self.slot_data["death_link"] > 0:
                         await self._send_deathlink()
                     await self._receive_items()

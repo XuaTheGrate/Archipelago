@@ -22,6 +22,10 @@ class Goal(OptionSet):
     For clarity, the goals involving dark gems, dragon eggs, and light gems refer to the in-game checks, not
     their Archipelago items. For example, "Dark Gems" would mean you must break all 40 dark gems, not be
     sent all 40 Dark Gem items.
+    
+    Warning: If you are playing in a world with !collect on, early goals are possible. For example, imagine your only goal
+    is fireworks, and you have one left to do. If someone else in the world uses !collect and that leads to your last
+    firework check being collected, the AHT client will see that as equivalent to you flaming the firework yourself. 
 
     Available Goals:
     Gnasty Gnorc: Defeat Gnasty Gnorc.
@@ -32,9 +36,10 @@ class Goal(OptionSet):
     Dark Gems: Break all 40 Dark Gems.
     Dragon Eggs: Collect all 80 Dragon Eggs.
     Light Gems: Collect all 100 Light Gems.
-    Locked Chests: Open all 52 locked chests."""
+    Locked Chests: Open all 52 locked chests.
+    Shop Items: Buy all shop items. Only usable if shop_randomization is enabled. Number of shop items depends on key_rings."""
     display_name = "Goal"
-    valid_keys = ("Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red", "Fireworks", "Dark Gems", "Dragon Eggs", "Light Gems", "Locked Chests")
+    valid_keys = ("Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red", "Fireworks", "Dark Gems", "Dragon Eggs", "Light Gems", "Locked Chests", "Shop Items")
     default = ("Mecha-Red",)
 
 

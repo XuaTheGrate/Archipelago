@@ -206,10 +206,8 @@ class SpyroAHTWorld(World):
         # convert goal names to searchable form for location matching
         # in an ideal world, everything would be named in such a way that this isn't necessary, but...¯\_(ツ)_/¯
         convert = {"Fireworks": ": Firework", "Dragon Eggs": ": Dragon Egg", "Dark Gems": ": Dark Gem",
-                   "Light Gems": ": Light Gem",
-                   "Gnasty Gnorc": "Defeat Gnasty Gnorc", "Ineptune": "Defeat Ineptune", "Red": "Defeat Red",
-                   "Mecha-Red": "Defeat Mecha-Red",
-                   "Locked Chests": "locked chest"}
+                   "Light Gems": ": Light Gem", "Gnasty Gnorc": "Defeat Gnasty Gnorc", "Ineptune": "Defeat Ineptune",
+                   "Red": "Defeat Red", "Mecha-Red": "Defeat Mecha-Red", "Locked Chests": "locked chest", "Shop Items": "Shop Item"}
         victory_cons = []
 
         # a bit ugly to have triple nested loop but I don't think it's avoidable
@@ -219,6 +217,9 @@ class SpyroAHTWorld(World):
             for location in region_data["locations"]:
                 for goal in self.options.goal.value:
                     if convert[goal] in location["name"]:
+                        # skip if shop item is disabled from key rings being on
+                        if "Shop Item" in location["name"] and int(location["name"][-2:]) > 18 and self.options.key_rings:
+                            continue
                         self.get_region(reg).add_event(f"{location['name']} Victory{count}", f"VictoryCon{count}", rule=self.rule_from_dict(location['access_rule']))
                         victory_cons.append(f"VictoryCon{count}")
                         count += 1
