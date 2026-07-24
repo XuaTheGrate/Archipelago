@@ -18,10 +18,10 @@
 
 TO-DO LIST:
     - TODO: updated death link messages
-    - TODO: re-investigate shop item goal for client. It probably has info already on shop items that are checked?
     - TODO: a secret second major addition (if you pay attention you'll already know what it is, but I'm not spoiling it for those who haven't noticed :3)
     - TODO: re-integrate the old shop randomization system so the new system is toggleable?
         - TODO: probably not too hard to do? but if it would be a lot of work, not sure how worth it it'd be yet
+    - TODO: random selection for OptionSet options? goal, randomize_minigames, filler_items, starting_realms (already done), easy_bosses
     - TODO: client crashes on startup without UT installed. Uhhhhhhhhhhhh
     - TODO: fix client not properly processing duplicate sends from cheat console?    
     - TODO: template presets?

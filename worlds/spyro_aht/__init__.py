@@ -173,6 +173,9 @@ class SpyroAHTWorld(World):
             self.options.firework_checks.value = 1
         if len(self.options.goal.value) == 0:
             self.options.goal.value = ("Mecha-Red",)
+        if "Shop Items" in self.options.goal.value and not self.options.shop_randomization.value:
+            raise OptionError("Can't select \"shop items\" as goal without shop randomization on. This is not done automatically"
+                              "for you because of how impactful shop randomization is to the seed.")
         
         passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
         if isinstance(passthrough, dict) and self.game in passthrough:
