@@ -180,7 +180,8 @@ class SpyroAHTWorld(World):
             raise OptionError("Too many goal entries - must be 10 or less.")
 
         # resolving random goal entries
-        goal_choices = list(self.options.goal.valid_keys[:-1])  # copy that has "Random" removed so a random choice doesn't pick another Random
+        goal_choices = list(self.options.goal.valid_keys)  # copy that has "Random" removed so a random choice doesn't pick another Random
+        goal_choices.remove("Random")
         
         # remove any goals excluded from random choice
         for excluded in self.options.exclude_from_goal:
@@ -198,6 +199,8 @@ class SpyroAHTWorld(World):
             while random_goal in goal_set:
                 random_goal = random.choice(goal_choices)
             goal_set.add(random_goal)
+            
+        self.options.goal.value = goal_set
             
         # goaling OptionErrors    
         if "Fireworks" in self.options.goal.value and not self.options.firework_checks.value:
@@ -464,9 +467,11 @@ class SpyroAHTWorld(World):
                 
         # add filler. Randomly chooses a category, then within the list of items for that category, randomly chooses one.
         filler_categories, filler_items = self.setup_filler_list(item_data)
-        convert = {"Dragon Eggs": 0, "Breath Bombs": 1, "Gem Packs": 2, "Generics": 3}
+        convert = {"Gem Packs": 0, "Dragon Egs": 1, "Breath Bombs": 2, "Generics": 3}
         while len(itempool) < len(self.multiworld.get_unfilled_locations(self.player)):
             random_category = self.random.choice(filler_categories)
+            while random_category not in filler_categories:
+                random_category = self.random.choice(filler_categories)
             filler_choices = filler_items[convert[random_category]]
             itempool.append(self.create_item(self.random.choice(filler_choices)))
 

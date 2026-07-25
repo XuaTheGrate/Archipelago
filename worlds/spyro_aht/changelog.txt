@@ -3,6 +3,7 @@
 - New Goaling System: non-boss goals are now supported, as well as mixing and matching goals in a fully customizable form!
     - You can choose between beating any of the 4 bosses (or multiple), flaming all fireworks, collecting all of each collectible (dark gems, dragon eggs, light gems), and opening all locked chests.
     - You can also choose "Random". Each "Random" in the list will be replaced with a goal that hasn't already been selected yet.
+    - Additionally, a new option exclude_from_goal allows for excluding goals from being randomly chosen.
     
 - Re-implemented the old shop randomization system via the gem_logic option.
     - This was added for people who dislike the new system using gem logic to space out shop items.
@@ -30,8 +31,6 @@ TO-DO LIST:
     - TODO: a secret second major addition (if you pay attention you'll already know what it is, but I'm not spoiling it for those who haven't noticed :3)
     - TODO: add support for double gems into gem logic seeds.
         - TODO: don't change shop prices, just add a condition to the collect method which doubles the value of gem events if double gems is possessed. Would increase speed of reaching later shop checks but should work fine logically.
-    - TODO: client crashes on startup without UT installed. Uhhhhhhhhhhhh
-        - TODO: refer to linux discussion in thread. it's at least partially because of setting event callbacks, and possibly other stuff related to pause text gems
     - TODO: make tool for testing gem access
     - TODO: what can we do to fix new save files on existing seeds, if anything?
         - TODO: items aren't re-sent, understandably, but could be re-sent in cheat console if needed.

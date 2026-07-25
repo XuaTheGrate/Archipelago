@@ -139,8 +139,9 @@ class SpyroAHTContext(SuperContext):
 
     def __init__(self, server_address: str | None = None, password: str | None = None) -> None:
         super().__init__(server_address, password)
-        super().set_events_callback(self._event_update)
-        super().set_callback(self._location_update)
+        if tracker_loaded:
+            super().set_events_callback(self._event_update)
+            super().set_callback(self._location_update)
         
         # these update whenever UT reports a new location or event is in logic
         self.loc_flag = False
@@ -150,7 +151,7 @@ class SpyroAHTContext(SuperContext):
         
         # used for checking goal components
         self.goal_stuff_setup = False
-        self.goal_list = set[str]
+        self.goal_list = None
         self.goal_tally, self.goal_target = 0, 0
         self.finished_goals = [False, False, False, False, False, False, False, False, False, False]
 
@@ -481,7 +482,7 @@ class SpyroAHTContext(SuperContext):
                 if await self.emu_client.should_process_checks():
                     # done here to ensure it's only all set up once connected
                     if not self.goal_stuff_setup:
-                        self.goal_list: set[str] = self.slot_data['goal']
+                        self.goal_list = self.slot_data['goal']
                         self.goal_target = len(self.goal_list)
                         self.goal_stuff_setup = True
                         
