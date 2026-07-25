@@ -59,17 +59,6 @@
                 }
             },
             {
-                "name": "Starter Checks: Starting Realm Access",
-                "id": 999,
-                "options": [],
-                "access_rule": {
-                    "rule": "True_",
-                    "options": [],
-                    "filtered_resolution": false,
-                    "args": {}
-                }
-            },
-            {
                 "name": "Moneybags: Shop Item 1",
                 "id": 1000,
                 "options": [

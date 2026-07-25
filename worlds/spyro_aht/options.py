@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from Options import OptionSet, PerGameCommonOptions, Toggle, Choice, Range, OptionGroup, StartInventoryPool, Visibility
+from Options import OptionSet, PerGameCommonOptions, Toggle, Choice, Range, OptionGroup, StartInventoryPool, OptionList, Visibility
 
 ###############UNGROUPED###############
 class DeathLink(Choice):
@@ -17,7 +17,7 @@ class DeathLink(Choice):
     default = 0
 
 ###############GOAL, CHECKS, AND ITEMS###############
-class Goal(OptionSet):
+class Goal(OptionList):
     """Determines the goal(s) of this seed. Your goal can contain as many or as few of the below as you like.
     For clarity, collectible-related goals are all determined based on the AHT checks, not their corresponding items.
     For example, "Dragon Eggs" as a goal means to check all 80 AHT locations which would have given a Dragon Egg in
@@ -28,16 +28,18 @@ class Goal(OptionSet):
     Gnasty Gnorc: Defeat Gnasty Gnorc.
     Ineptune: Defeat Ineptune.
     Red: Defeat Red.
-    Mecha-Red: Defeat Mecha-Red. This is the default goal if you leave the list empty.
-    Fireworks: Flame all 22 fireworks in the game. firework_checks will automatically be enabled if you include this.
+    Mecha-Red: Defeat Mecha-Red.
+    Fireworks: Flame all 22 fireworks. **firework_checks must be enabled.**
     Dark Gems: Break all 40 Dark Gems.
     Dragon Eggs: Collect all 80 Dragon Eggs.
     Light Gems: Collect all 100 Light Gems.
     Locked Chests: Open all 52 locked chests.
-    Shop Items: Buy all shop items. Only usable if shop_randomization is enabled. Number of shop items depends on key_rings."""
+    Shop Items: Buy all 18 or 56 shop items (depends on key_rings). **shop_randomization must be enabled.**
+    
+    Random: For each "Random" below, a random goal from above will be chosen. If the list is empty, 1 random goal will be chosen."""
     display_name = "Goal"
     valid_keys = ("Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red", "Fireworks", "Dark Gems", "Dragon Eggs", "Light Gems",
-                  "Locked Chests", "Shop Items")
+                  "Locked Chests", "Shop Items", "Random")
     default = ("Mecha-Red",)
 
 
@@ -47,16 +49,15 @@ class FireworkChecks(Toggle):
     default = 0
 
 
-class RandomizeMinigames(OptionSet):
-    """Minigames are always enabled as checks, but this option lets you decide if you want their rewards to be randomized
-    or not. If you would like a certain type of minigame to have their rewards stay as their vanilla Dragon Egg and
-    Light Gems, take them out of the list below.
-
+class VanillaMinigameRewards(OptionSet):
+    """Minigames are always enabled as checks, but this option lets you decide if you want any of them to reward
+    their vanilla Dragon Eggs and Light Gems instead of being randomized into something else.
+    
     Valid options: ["Sgt. Byrd", "Blink", "Turret", "Sparx"]
     """
-    display_name = "Randomize Minigames"
+    display_name = "Vanilla Minigame Rewards"
     valid_keys = ("Sgt. Byrd", "Blink", "Turret", "Sparx")
-    default = ("Sgt. Byrd", "Blink", "Turret", "Sparx")
+    default = frozenset()
 
 
 class FillerItems(OptionSet):
@@ -65,21 +66,20 @@ class FillerItems(OptionSet):
 
     Dragon Eggs: Dragon Eggs are considered filler because they are functionally useless in advancing the game.
     The extras they unlock are unlockable with cheat codes, if you want them without adding eggs to the filler pool.
-    Note that if you unrandomize any minigames, they will still give Dragon Eggs even if omitted here.
-
+    Even if you disable them here, Dragon Eggs will still be rewarded from minigames if you choose to force vanilla rewards above.
+    
     Breath Bombs: Fire Bombs, Electric Bombs, Water Bombs, and Ice Bombs. Received bombs are only usable if you have that breath unlocked.
 
     Gem Packs: Each gives a random amount of gems (400-600 or 800-1200 if you have double gems). It is advised to not
     include these if using shop randomization with gem logic, because gem logic does not account for gem packs.
 
-    Generic: Empty items which do nothing, but have humorous names referencing things in the game and series. Due to there
-    being a wide variety of these, generics will likely make up the majority of your filler pool if enabled.
+    Generics: Empty items which do nothing, but have humorous names referencing things in the game and series.
     This option is chosen automatically if the list is left empty.
 
-    Valid options: ["Dragon Eggs", "Breath Bombs", "Gem Packs", "Generic"]"""
+    Valid options: ["Dragon Eggs", "Breath Bombs", "Gem Packs", "Generics"]"""
     display_name = "Filler Items"
-    valid_keys = ("Dragon Eggs", "Breath Bombs", "Gem Packs", "Generic")
-    default = ("Dragon Eggs", "Breath Bombs", "Gem Packs", "Generic")
+    valid_keys = ("Dragon Eggs", "Breath Bombs", "Gem Packs", "Generics")
+    default = ("Dragon Eggs", "Breath Bombs", "Gem Packs", "Generics")
 
 ###############START OF GAME###############
 class StartingBreath(Choice):
@@ -109,14 +109,13 @@ class RandomizeMovement(Toggle):
 
 
 class StartingRealms(OptionSet):
-    """Access to a realm is granted when you possess the "access card" item for it. For example, the "Dragon Kingdom
-    Access Card" item grants access to the Dragon Kingdom realm (Dragon Village, Crocovile Swamp, and Dragonfly Falls).
+    """Access to a realm is granted when you possess its "access card" item. For example, the "Dragon Kingdom
+    Access Card" item grants access to the Dragon Kingdom realm.
     
-    This option lets you choose which realms to start with access to. You will physically start in whichever one you list
-    first below. Any others in the list will have their access cards added to your start inventory. Any unlisted realms
-    will have their access cards randomized into the world.
+    This option lets you choose which realm(s) to start with access to. Their access cards will be added to your start
+    inventory. This is equivalent to putting the card(s) in your start inventory yourself.
     
-    A realm will be chosen at random, if you leave the list empty.
+    If the list is left empty, a random starting realm will be chosen for you.
     
     Valid Options: ["Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle"]"""
     display_name = "Starting Realms"
@@ -131,6 +130,7 @@ class ShopRandomization(Toggle):
         - Double Gems, if enabled, is permanent once received, as is the Butterfly Jar (it replenishes on death if depleted).
         - There is no limit on how many lockpicks you can hold at once. Same with ammo for breath bombs.
         - If key rings are enabled, the world will have 14 level-specific key rings, instead of 52 lockpicks.
+        - Shop item prices will be the same everywhere i.e. remote shop pads will not upcharge you.
     The above information applies regardless of which type of shop randomization you choose below in gem_logic."""
     display_name = "Shop Randomization"
     default = 0
@@ -168,35 +168,35 @@ class KeyRings(Toggle):
     default = 0
 
 
-class GemCollection(Range):
-    """This option is only used if your shop is randomized, and lets you choose how much of the game's gems you will collect.
-    For example, a value of 50 means you will be expected to always collect approximately 50% of accessible gems.
-    If you have gem_logic enabled, the amount you are expected to have is visible on the pause screen.
-    **Note that gems from Blink minigames are separate below.**
-
+class NonBlinkGems(Range):
+    """This option is only used if your shop is randomized. This option, along with blink_gems, determines how much of the
+    game's gems you want to be expected to collect. blink_gems handles gems from Blink minigames, while non_blink_gems handles
+    the rest of the game's gems. For example, non_blink_gems being 50 means being expected to collect 50% of all gems outside
+    of Blink minigames. if you have gem_logic enabled, the amount you are expected to have is visible on the pause screen.
+     
     This option contributes to determining your shop item prices. Moneybags always offers your first shop item for free,
     which prevents a number of restrictive starts. Other items will be priced in accordance to the formula below, which
     factors in a few things. If you are not math-inclined, you can always do some test generations to see how your shop reacts.
 
     ********************************FORMULA INFO (for the math nerds)********************************
-    non_blink_gems = 122,429 * gem_collection%, rounded down
-    blink_gems = 20,028 * blink_gems%, rounded down
-    base_shop_price = (non_blink_gems + blink_gems) / (number of shop items - 1), rounded down
+    non_blink_total = 122,429 * non_blink_gems%, rounded down
+    blink_total = 20,028 * blink_gems%, rounded down
+    base_shop_price = (non_blink_total + blink_total) / (number of shop items - 1), rounded down
 
     If gem_logic is disabled, shop items will each cost base_shop_price.
     If gem_logic is enabled, shop items will each cost base_shop_price * 1, base_shop_price * 2, etc. for all N shop items.
     *************************************************************************************************"""
-    display_name = "Gem Collection"
+    display_name = "Non Blink Gems"
     range_start = 1
     range_end = 100
     default = 50
 
 
 class BlinkGems(Range):
-    """This option is only used when the shop is randomized, and pairs with gem_collection. This option isolates Blink's
+    """This option is only used when the shop is randomized, and pairs with non_blink_gems. This option isolates Blink's
     minigame gems, because his contain notably more than the other types.
     
-    This option works identically to gem_collection. For example, a 40 below means collecting 40% of Blink's minigame
+    This option works identically to non_blink_gems. For example, setting this to 40 means collecting 40% of Blink's minigame
     gems, which is 8,011. Set this option to 0 if you intend to skip Blink minigames, whether that be from
     underground-air-a-phobia or because you excluded enough Blink minigame locations to justify it.
     """
@@ -379,7 +379,7 @@ class SpyroAHTOptions(PerGameCommonOptions):
     
     goal: Goal
     firework_checks: FireworkChecks
-    randomize_minigames: RandomizeMinigames
+    vanilla_minigame_rewards: VanillaMinigameRewards
     filler_items: FillerItems
     
     starting_breath: StartingBreath
@@ -389,7 +389,7 @@ class SpyroAHTOptions(PerGameCommonOptions):
     shop_randomization: ShopRandomization
     gem_logic: GemLogic
     key_rings: KeyRings
-    gem_collection: GemCollection
+    non_blink_gems: NonBlinkGems
     blink_gems: BlinkGems
     double_gems: DoubleGems
     
@@ -415,13 +415,13 @@ class SpyroAHTOptions(PerGameCommonOptions):
     
 spyro_options_groups = [
     OptionGroup("GOAL, CHECKS, AND ITEMS", [
-        Goal, FireworkChecks, RandomizeMinigames, FillerItems
+        Goal, FireworkChecks, VanillaMinigameRewards, FillerItems
     ]),
     OptionGroup("START OF GAME", [
         StartingBreath, RandomizeMovement, StartingRealms
     ]),
     OptionGroup("SHOP", [
-        ShopRandomization, GemLogic, KeyRings, GemCollection, BlinkGems, DoubleGems
+        ShopRandomization, GemLogic, KeyRings, NonBlinkGems, BlinkGems, DoubleGems
     ]),
     OptionGroup("GATE & GADGET COSTS", [
         RandomizeBossLairDoorCosts, BossLairDoorCostMin, BossLairDoorCostMax, BossLairForcing,

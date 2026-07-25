@@ -135,8 +135,6 @@ class SpyroAHTWorld(World):
         self._starting_breath = -1  # represents none
         self._classifications = {i['name']: ItemClassification(i['classification']) for i in _load_file("items.json")}
         self.shop_costs = []
-        self.filler_items = []
-            
             
     def collect(self, state: "CollectionState", item: "Item") -> bool:
         """Override of World.collect which additionally handles gem events."""
@@ -149,7 +147,7 @@ class SpyroAHTWorld(World):
                 if "Blink minigames" in item.name and self.options.blink_gems.value > 0:
                     state.add_item("Gems", item.player, count=gem_amount * (self.options.blink_gems/100))
                 else:
-                    state.add_item("Gems", item.player, count=gem_amount * (self.options.gem_collection/100))
+                    state.add_item("Gems", item.player, count=gem_amount * (self.options.non_blink_gems/100))
             return True
         return False
 
@@ -166,21 +164,41 @@ class SpyroAHTWorld(World):
         return False
 
     def generate_early(self) -> None:
-        if "Dragon Kingdom" not in self.options.starting_realms.value:
-            if self.options.randomize_movement.value == 0 and self.options.shop_randomization.value == 0:
-                raise OptionError("Can't start outside Dragon Kingdom if movement and shop randomization is off.")
-        if "Fireworks" in self.options.goal.value and not self.options.firework_checks.value:
-            self.options.firework_checks.value = 1
-        if len(self.options.goal.value) == 0:
-            self.options.goal.value = ("Mecha-Red",)
-        if "Shop Items" in self.options.goal.value and not self.options.shop_randomization.value:
-            raise OptionError("Can't select \"shop items\" as goal without shop randomization on. Unlike flaming"
-                              "fireworks, shop randomization will not be enabled automatically for you to resolve this, since shop randomization has a significant impact on the seed.")
-        
         passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
         if isinstance(passthrough, dict) and self.game in passthrough:
             self._apply_slot_data(passthrough[self.game])
-    
+            
+        # prevents impossible/restrictive seeds TODO: investigate if this is truly necessary?
+        if "Dragon Kingdom" not in self.options.starting_realms.value:
+            if self.options.randomize_movement.value == 0 and self.options.shop_randomization.value == 0:
+                raise OptionError("Can't start outside Dragon Kingdom if movement and shop randomization is off.")
+        
+        # goaling OptionErrors    
+        if "Fireworks" in self.options.goal.value and not self.options.firework_checks.value:
+            raise OptionError("Can't select \"Fireworks\" as goal without firework_checks enabled.")
+        if "Shop Items" in self.options.goal.value and not self.options.shop_randomization.value:
+            raise OptionError("Can't select \"Shop Items\" as goal without shop_randomization enabled.")
+        if len(self.options.goal.value) == 0:
+            self.options.goal.value = ("Random",)
+        if len(self.options.goal.value) > 10:
+            raise OptionError("Too many goal entries - must be 10 or less.")
+
+        # resolving random goal entries
+        keys = self.options.goal.valid_keys  # make copy that has "Random" removed so a random choice doesn't pick another Random
+        keys.remove("Random")
+        
+        # figure out how many to randomly choose, then remove all duplicates + the random entry itself
+        random_count = self.options.goal.value.count("Random")
+        goal_list = set(self.options.goal.value)
+        goal_list.remove("Random")
+        
+        # fill list with random choices, checking along the way to not randomly add one that's already in the list
+        for _ in range(random_count):
+            random_goal = random.choice(self.options.goal.valid_keys)
+            while random_goal in goal_list:
+                random_goal = random.choice(self.options.goal.valid_keys)
+            goal_list.add(random_goal)
+        
     def _apply_slot_data(self, slot_data: dict[str, Any]) -> None:
         self._ut_active = True
         
@@ -188,7 +206,7 @@ class SpyroAHTWorld(World):
         
         self.options.goal.value = slot_data['goal']
         self.options.firework_checks.value = slot_data['firework_checks']
-        self.options.randomize_minigames.value = slot_data['randomize_minigames']
+        self.options.vanilla_minigame_rewards.value = slot_data['vanilla_minigame_rewards']
         self.options.filler_items.value = slot_data['filler_items']
         
         self.options.starting_breath.value = slot_data['starting_breath']
@@ -198,7 +216,7 @@ class SpyroAHTWorld(World):
         self.options.shop_randomization.value = slot_data['shop_randomization']
         self.options.gem_logic.value = slot_data['gem_logic']
         self.options.key_rings.value = slot_data['key_rings']
-        self.options.gem_collection.value = slot_data['gem_collection']
+        self.options.non_blink_gems.value = slot_data['non_blink_gems']
         self.options.blink_gems.value = slot_data['blink_gems']
         self.options.double_gems.value = slot_data['double_gems']
         
@@ -235,7 +253,7 @@ class SpyroAHTWorld(World):
         if self.options.shop_randomization.value == 1:
             shop_item_count = 18 if self.options.key_rings.value else 56
             blink_total = 20028 * self.options.blink_gems.value // 100
-            other_total = 122429 * self.options.gem_collection.value // 100
+            other_total = 122429 * self.options.non_blink_gems.value // 100
             base_price = (blink_total + other_total) // (shop_item_count-1)
             self.shop_costs.append(0)
             
@@ -256,11 +274,6 @@ class SpyroAHTWorld(World):
                     lmin, lmax = lmax, lmin
 
                 self._gadget_costs = [self.random.randint(lmin, lmax) for _ in range(3)]
-        
-        if len(self.options.starting_realms.value) == 0:  # randomize it
-            self._starting_realms.append(self.random.choice(["Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle"]))
-        else:
-            self._starting_realms = self.options.starting_realms.value
             
         if self.options.randomize_boss_lair_door_costs.value != 0:  # if not default
             if self.options.randomize_boss_lair_door_costs.value == 2:  # shuffled:
@@ -337,31 +350,27 @@ class SpyroAHTWorld(World):
         """Helper method for create_items which returns an Item object."""
         return Item(name, self._classifications[name], self.item_name_to_id[name], self.player)
 
-    def setup_filler_list(self, item_data) -> list[str]:
+    def setup_filler_list(self, item_data) -> tuple[list, list[list]]:
         """Helper method for generating a list of filler items, from which filler items will be chosen
         at random in create_items."""
-        final_list, generic_list = [], []
-        all_filler = [item for item in item_data if item["group"] == "Filler"]
-        player_choices = self.options.filler_items.value
-        add_generic = True if (len(player_choices) == 0 or "Generic" in player_choices) else False
-
-        for filler_item in all_filler:
-            if filler_item['name'] == "Gem Pack" and "Gem Packs" in player_choices:
-                final_list.append("Gem Pack")
-            elif filler_item['name'] == "Dragon Egg" and "Dragon Eggs" in player_choices:
-                final_list.append("Dragon Egg")
-            elif 30 <= filler_item['id'] <= 33 and "Breath Bombs" in player_choices:
-                final_list.append(filler_item['name'])
-            elif 52 <= filler_item['id'] <= 63 and add_generic:
-                generic_list.append(filler_item['name'])
-
-        if add_generic:
-            generic_count = 6 if len(player_choices) > 1 else 12  # only pick 6 if there's other filler type, to avoid clutter
-            final_list.extend(random.sample(generic_list, k=generic_count))        
-        return final_list
-    
-    def get_filler_item_name(self) -> str:
-        return random.choice(self.filler_items)
+        all_filler_items = [item for item in item_data if item["group"] == "Filler"]
+        enabled_categories = []
+        final_filler_choices = [[], [], [], []]  # list of 4 lists, one for each category
+        for category in ["Dragon Eggs", "Breath Bombs", "Gem Packs", "Generics"]:
+            if category in self.options.filler_items.value:
+                enabled_categories.append(category)
+                
+        for filler_item in all_filler_items:
+            if filler_item["name"] == "Gem Pack" and "Gem Packs" in enabled_categories:
+                final_filler_choices[0].append(filler_item["name"])
+            elif filler_item["name"] == "Dragon Egg" and "Dragon Eggs" in enabled_categories:
+                final_filler_choices[1].append(filler_item["name"])
+            elif "Bomb" in filler_item["name"] and "Breath Bombs" in enabled_categories:
+                final_filler_choices[2].append(filler_item["name"])
+            elif filler_item.get("type", "") == "Generic" and "Generics" in enabled_categories:
+                final_filler_choices[3].append(filler_item["name"])
+        
+        return enabled_categories, final_filler_choices
     
     def create_items(self) -> None:
         item_data = _load_file("items.json")
@@ -369,7 +378,7 @@ class SpyroAHTWorld(World):
         
         minigames = 0
         for npc, npc_list in zip(["Sgt. Byrd", "Blink", "Sparx", "Turret"], minigame_locs):
-            if npc not in self.options.randomize_minigames.value:
+            if npc in self.options.vanilla_minigame_rewards.value:
                 for egg, light_gem in npc_list:
                     self.get_location(egg).place_locked_item(self.create_item("Dragon Egg"))
                     self.get_location(light_gem).place_locked_item(self.create_item("Light Gem"))
@@ -387,19 +396,18 @@ class SpyroAHTWorld(World):
             self.get_location("Starter Checks: Charge").place_locked_item(self.create_item("Charge"))
             self.get_location("Starter Checks: Glide").place_locked_item(self.create_item("Glide"))
         
+        if len(self.options.starting_realms.value) == 0:  # randomize it
+            self._starting_realms.append(self.random.choice(["Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle"]))
+        else:
+            self._starting_realms = self.options.starting_realms.value
+            
+        # add starting realm choices to start inventory, if not already in start inventory
         added_realms = []
-        first_added = False
         for realm in self._starting_realms:
-            if not first_added:
-                self.get_location("Starter Checks: Starting Realm Access").place_locked_item(self.create_item(f"{realm} Access Card"))
-                added_realms.append(realm)
-                first_added = True
             new_card = self.create_item(f"{realm} Access Card")
-            if new_card not in self.multiworld.precollected_items[self.player]:
-                self.push_precollected(self.create_item(f"{realm} Access Card"))
+            if new_card not in self.multiworld.precollected_items[self.player]:  # don't add the card if the player already put it there
+                self.push_precollected(new_card)
                 added_realms.append(realm)
-            else:
-                raise OptionError(f"Can't have {realm} in your start inventory because you already chose to start with access to it.")
         
         for item in item_data:
             if item["group"] == "Filler":  # filler handled later
@@ -445,10 +453,13 @@ class SpyroAHTWorld(World):
                 for _ in range(count):
                     itempool.append(self.create_item(item['name']))
                 
-        # add filler
-        self.filler_items = self.setup_filler_list(item_data)
+        # add filler. Randomly chooses a category, then within the list of items for that category, randomly chooses one.
+        filler_categories, filler_items = self.setup_filler_list(item_data)
+        convert = {"Dragon Eggs": 0, "Breath Bombs": 1, "Gem Packs": 2, "Generics": 3}
         while len(itempool) < len(self.multiworld.get_unfilled_locations(self.player)):
-            itempool.append(self.create_item(random.choice(self.filler_items)))
+            random_category = self.random.choice(filler_categories)
+            filler_choices = filler_items[convert[random_category]]
+            itempool.append(self.create_item(self.random.choice(filler_choices)))
 
         self.multiworld.itempool.extend(itempool)
   
@@ -467,7 +478,7 @@ class SpyroAHTWorld(World):
             "death_link": self.options.death_link.value,
             "goal": self.options.goal.value,
             "firework_checks": self.options.firework_checks.value,
-            "randomize_minigames": self.options.randomize_minigames.value,
+            "vanilla_minigame_rewards": self.options.vanilla_minigame_rewards.value,
             "filler_items": self.options.filler_items.value,
 
             "starting_breath": self.options.starting_breath.value,
@@ -477,7 +488,7 @@ class SpyroAHTWorld(World):
             "shop_randomization": self.options.shop_randomization.value,
             "gem_logic": self.options.gem_logic.value,
             "key_rings": self.options.key_rings.value,
-            "gem_collection": self.options.gem_collection.value,
+            "non_blink_gems": self.options.non_blink_gems.value,
             "blink_gems": self.options.blink_gems.value,
             "double_gems": self.options.double_gems.value,
             "shop_costs": self.shop_costs,

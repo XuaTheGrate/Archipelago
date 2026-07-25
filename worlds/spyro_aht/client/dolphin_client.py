@@ -310,7 +310,7 @@ class DolphinClient(GenericClient):
                 other_available += gem_amount
         
         blink_in_logic = blink_available * ctx.slot_data["blink_gems"] / 100
-        other_in_logic = other_available * ctx.slot_data["gem_collection"] / 100
+        other_in_logic = other_available * ctx.slot_data["non_blink_gems"] / 100
         dolphin_memory_engine.write_word(self.addresses.g_GEMS_IN_LOGIC, blink_in_logic + other_in_logic)
         dolphin_memory_engine.write_word(self.addresses.g_GEMS_AVAILABLE, blink_available + other_available)
     

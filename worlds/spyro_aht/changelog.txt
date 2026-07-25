@@ -1,42 +1,43 @@
 2.0 (Beta Release 2)
 
-- Changes to goal: non-boss goals are now supported, as well as mixing and matching goals in a fully customizable form!
-    - You can now choose between beating any of the 4 bosses (or multiple), flaming all fireworks, collecting all of each collectible (dark gems, dragon eggs, light gems), and opening all locked chests.
-- Removed realm_access and simplified realm access logic into starting_realms. Realm Access Cards are now always in the item pool, instead of them being removed when the player wants full realm access.
-    - As a result, "Defeat <boss name>" locations are now always enabled, instead of being disabled when access cards are gone (since access cards are never gone now).
-    - Players can still choose to have access to multiple (or all) realms by listing multiple in the option.
+- New Goaling System: non-boss goals are now supported, as well as mixing and matching goals in a fully customizable form!
+    - You can choose between beating any of the 4 bosses (or multiple), flaming all fireworks, collecting all of each collectible (dark gems, dragon eggs, light gems), and opening all locked chests.
+    - You can also choose "Random". Each "Random" in the list will be replaced with a goal that hasn't already been selected yet.
+    
+- Re-implemented the old shop randomization system via the gem_logic option.
+    - This was added for people who dislike the new system using gem logic to space out shop items.
+    - One slight difference, though: shop item prices are determined using gem_collection and blink_gems regardless of gem_logic. To do otherwise would require re-adding shop_cost_min and shop_cost_max solely for when gem_logic is false, which felt like an unnecessary use of YAML space.    
+    
+- Removed realm_access and simplified realm access logic into starting_realms.
+    - Realm Access Cards are now always in the item pool. As a result, "Defeat <boss name>" locations are now always enabled, instead of being disabled when access cards are gone (since access cards are never gone now).
+    - Players can still choose to have access to multiple (or all) realms by listing multiple in the option. All realms chosen will have their cards added to the player's start inventory. "Starter Checks: Starting Realm Access" is no longer a thing.
     - Also, renamed the access cards and starting_realm options to be the actual realm names and not just the start level name (e.g. Volcanic Isle Access Card instead of Stormy Beach Access Card).
+    
 - New Option: boss_lair_forcing
     - This option replaces the now-previously default behavior of making the goal boss's lair the most expensive. Now that bosses are not guaranteed to be the one and only goal, this functionality was moved to this option.
     - Players can choose whether they want a specific boss to have the highest cost, regardless of whether that boss is part of their goal or not.
         
 - Other Things:
     - Majorly overhauled some back-end stuff related to how the world loads in logic information for regions, locations, and gem events. This shouldn't impact the player experience at all, but it makes my development life SO SO SO SO SO much easier now that it's dealt with.
+    - Improved the distribution method of filler items.
+    - Flipped randomize_minigames to vanilla_minigame_rewards. Same exact feature, but opposite logic to be slightly easier to understand semantically.
+    - Renamed gem_collection to non_blink_gems. Not a huge fan of this name, but it's a bit better and I don't think there's any better options.
     - Added start_inventory_from_pool to YAML. The only difference between it and the standard start_inventory is that start_inventory_from_pool will replace any items listed there with filler, while start_inventory keeps the original copy of items in the world.
     - Fixed a bug where Double Jump (which is forced to be an early item) couldn't be placed early due to not recognizing Shop Item 1 as an early location.
-        - TODO: check if this is actually fixed?
 
 TO-DO LIST:
     - TODO: updated death link messages
     - TODO: a secret second major addition (if you pay attention you'll already know what it is, but I'm not spoiling it for those who haven't noticed :3)
-    - TODO: add note about remote prices being equal when shop is randomized
-    - TODO: random selection for OptionSet options? goal, randomize_minigames, filler_items, starting_realms (already done), easy_bosses
-        - TODO: at least for goal, use "Random" as a stand-in for a random goal choice, allowable up to N times. Might need to be OptionList instead for duplicates?
-    - TODO: alter randomize_minigames to be opposite (unrandomize_minigames) to have the semantics be a bit easier and more sensible?
-    - TODO: possibly rename gem_collection? hard to figure out a satisfying name for it tbh.
-        - TODO: leading candidate is "non_blink_gems" but I don't really like it.
     - TODO: add support for double gems into gem logic seeds.
         - TODO: don't change shop prices, just add a condition to the collect method which doubles the value of gem events if double gems is possessed. Would increase speed of reaching later shop checks but should work fine logically.
-    - TODO: alter filler selection process so generics aren't so frequent
-        - TODO: do this by just putting "generic" in the filler choice list and, if generic is chosen, *then* pick from the list of generics
     - TODO: client crashes on startup without UT installed. Uhhhhhhhhhhhh
         - TODO: refer to linux discussion in thread. it's at least partially because of setting event callbacks, and possibly other stuff related to pause text gems
     - TODO: make tool for testing gem access
-        - TODO: what can we do to fix new save files on existing seeds, if anything?
+    - TODO: what can we do to fix new save files on existing seeds, if anything?
         - TODO: items aren't re-sent, understandably, but could be re-sent in cheat console if needed.
         - TODO: gems aren't reset, that's a big deal now in shop rando. Could game mod check slot data and apply gem count to new files if there is an amount set?
-    
-    - TODO: fix client not properly processing duplicate sends from cheat console?    
+    - TODO: investigate if optionerror for starting outside dragon kingdom without movement and shop rando is necessary?
+    - TODO: fix client not properly processing duplicate sends from cheat console?
     - TODO: template presets?
 
 2.0 (Beta Release 1)

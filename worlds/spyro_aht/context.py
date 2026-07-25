@@ -55,7 +55,7 @@ class SpyroAHTCommands(ClientCommandProcessor):
         # minigames
         output = ""
         for minigame_type in ["Sgt. Byrd", "Blink", "Turret", "Sparx"]:
-            output += f"{minigame_type} rewards are {'randomized' if minigame_type in self.ctx.slot_data['randomize_minigames'] else 'not randomized'}, "
+            output += f"{minigame_type} rewards are {'randomized' if minigame_type in self.ctx.slot_data['vanilla_minigame_rewards'] else 'vanilla'}, "
         self.output(f"Minigames: {output[:-2]}.")
         # filler items
         output = ""
@@ -86,8 +86,8 @@ class SpyroAHTCommands(ClientCommandProcessor):
         
         # shop randomization-related things
         if self.ctx.slot_data["shop_randomization"]:
-            # gem_collection and blink_gems
-            self.output(f"You chose to collect {self.ctx.slot_data['blink_gems']}% of Blink's gems and {self.ctx.slot_data['gem_collection']}% of other gems.")
+            # non_blink_gems and blink_gems
+            self.output(f"You chose to collect {self.ctx.slot_data['blink_gems']}% of Blink's gems and {self.ctx.slot_data['non_blink_gems']}% of non-Blink gems.")
             # shop prices
             self.output(f"This means your shop prices are {self.ctx.slot_data['shop_costs']}.")
             if self.ctx.slot_data["gem_logic"]:
@@ -382,7 +382,7 @@ class SpyroAHTContext(SuperContext):
 
     async def _location_checks(self):
         locations = await self.emu_client.scan_locations(shop_items=self.slot_data['shop_randomization'] == 1, key_rings=self.slot_data['key_rings'] == 1)
-        for c in {229, 230, 231, 232, 999}:  # starter checks
+        for c in {229, 230, 231, 232}:  # starter checks
             locations.add(c)
         locations -= self.checked_locations
         if locations:

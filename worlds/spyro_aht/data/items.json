@@ -287,72 +287,84 @@
         "name": "Spare Jetpack for Sgt. Byrd",
         "id": 52,
         "classification": 0,
-        "group": "Filler"
+        "group": "Filler",
+        "type": "Generic"
     },
     {
         "name": "New Goggles for Blink",
         "id": 53,
         "classification": 0,
-        "group": "Filler"
+        "group": "Filler",
+        "type": "Generic"
     },
     {
         "name": "New Bow for Hunter",
         "id": 54,
         "classification": 0,
-        "group": "Filler"
+        "group": "Filler",
+        "type": "Generic"
     },
     {
         "name": "New Monocle for Moneybags",
         "id": 55,
         "classification": 0,
-        "group": "Filler"
+        "group": "Filler",
+        "type": "Generic"
     },
     {
         "name": "Spam Call from Moneybags",
         "id": 56,
         "classification": 0,
-        "group": "Filler"
+        "group": "Filler",
+        "type": "Generic"
     },
     {
         "name": "A Cracked Gem",
         "id": 57,
         "classification": 0,
-        "group": "Filler"
+        "group": "Filler",
+        "type": "Generic"
     },
     {
         "name": "Mouthwash for Ineptune",
         "id": 58,
         "classification": 0,
-        "group": "Filler"
+        "group": "Filler",
+        "type": "Generic"
     },
     {
         "name": "Anger Management Class for Red",
         "id": 59,
         "classification": 0,
-        "group": "Filler"
+        "group": "Filler",
+        "type": "Generic"
     },
     {
         "name": "A Long Story from Elder Tomas",
         "id": 60,
         "classification": 0,
-        "group": "Filler"
+        "group": "Filler",
+        "type": "Generic"
     },
     {
         "name": "1 Million Brain Cells",
         "id": 61,
         "classification": 0,
-        "group": "Filler"
+        "group": "Filler",
+        "type": "Generic"
     },
     {
         "name": "Treasure from the 10th Dimension",
         "id": 62,
         "classification": 0,
-        "group": "Filler"
+        "group": "Filler",
+        "type": "Generic"
     },
     {
         "name": "Stress Ball for Gnasty Gnorc",
         "id": 63,
         "classification": 0,
-        "group": "Filler"
+        "group": "Filler",
+        "type": "Generic"
     }
 ]
