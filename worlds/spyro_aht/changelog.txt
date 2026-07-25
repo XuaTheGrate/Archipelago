@@ -19,16 +19,25 @@
 TO-DO LIST:
     - TODO: updated death link messages
     - TODO: a secret second major addition (if you pay attention you'll already know what it is, but I'm not spoiling it for those who haven't noticed :3)
-    - TODO: re-integrate the old shop randomization system so the new system is toggleable?
-        - TODO: probably not too hard to do? but if it would be a lot of work, not sure how worth it it'd be yet
+    - TODO: add note about remote prices being equal when shop is randomized
     - TODO: random selection for OptionSet options? goal, randomize_minigames, filler_items, starting_realms (already done), easy_bosses
+        - TODO: at least for goal, use "Random" as a stand-in for a random goal choice, allowable up to N times. Might need to be OptionList instead for duplicates?
+    - TODO: alter randomize_minigames to be opposite (unrandomize_minigames) to have the semantics be a bit easier and more sensible?
+    - TODO: possibly rename gem_collection? hard to figure out a satisfying name for it tbh.
+        - TODO: leading candidate is "non_blink_gems" but I don't really like it.
+    - TODO: add support for double gems into gem logic seeds.
+        - TODO: don't change shop prices, just add a condition to the collect method which doubles the value of gem events if double gems is possessed. Would increase speed of reaching later shop checks but should work fine logically.
+    - TODO: alter filler selection process so generics aren't so frequent
+        - TODO: do this by just putting "generic" in the filler choice list and, if generic is chosen, *then* pick from the list of generics
     - TODO: client crashes on startup without UT installed. Uhhhhhhhhhhhh
-    - TODO: fix client not properly processing duplicate sends from cheat console?    
-    - TODO: template presets?
+        - TODO: refer to linux discussion in thread. it's at least partially because of setting event callbacks, and possibly other stuff related to pause text gems
     - TODO: make tool for testing gem access
         - TODO: what can we do to fix new save files on existing seeds, if anything?
         - TODO: items aren't re-sent, understandably, but could be re-sent in cheat console if needed.
         - TODO: gems aren't reset, that's a big deal now in shop rando. Could game mod check slot data and apply gem count to new files if there is an amount set?
+    
+    - TODO: fix client not properly processing duplicate sends from cheat console?    
+    - TODO: template presets?
 
 2.0 (Beta Release 1)
 - This apworld has officially switched hands to being primarily maintained by PhoenixAki.

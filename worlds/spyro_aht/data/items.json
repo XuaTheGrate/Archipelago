@@ -119,6 +119,7 @@
         "classification": 2,
         "option": [
             {"option": "shop_randomization", "value": 1},
+            {"option": "gem_logic", "value":  1},
             {"option": "double_gems", "value":  1}
         ],
         "group": "Shop Items"

@@ -174,8 +174,8 @@ class SpyroAHTWorld(World):
         if len(self.options.goal.value) == 0:
             self.options.goal.value = ("Mecha-Red",)
         if "Shop Items" in self.options.goal.value and not self.options.shop_randomization.value:
-            raise OptionError("Can't select \"shop items\" as goal without shop randomization on. This is not done automatically"
-                              "for you because of how impactful shop randomization is to the seed.")
+            raise OptionError("Can't select \"shop items\" as goal without shop randomization on. Unlike flaming"
+                              "fireworks, shop randomization will not be enabled automatically for you to resolve this, since shop randomization has a significant impact on the seed.")
         
         passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
         if isinstance(passthrough, dict) and self.game in passthrough:
@@ -196,6 +196,7 @@ class SpyroAHTWorld(World):
         self.options.starting_realms.value = slot_data['starting_realms']
         
         self.options.shop_randomization.value = slot_data['shop_randomization']
+        self.options.gem_logic.value = slot_data['gem_logic']
         self.options.key_rings.value = slot_data['key_rings']
         self.options.gem_collection.value = slot_data['gem_collection']
         self.options.blink_gems.value = slot_data['blink_gems']
@@ -237,9 +238,14 @@ class SpyroAHTWorld(World):
             other_total = 122429 * self.options.gem_collection.value // 100
             base_price = (blink_total + other_total) // (shop_item_count-1)
             self.shop_costs.append(0)
-            for counter in range(shop_item_count-1):
-                self.shop_costs.append(base_price * (counter + 1))
-            self.shop_costs[-1] = blink_total + other_total            
+            
+            if self.options.gem_logic:  # gem logic
+                for counter in range(shop_item_count-1):
+                    self.shop_costs.append(base_price * (counter + 1))  # each item has incrementing price
+                self.shop_costs[-1] = blink_total + other_total 
+            else:  # no gem logic
+                for counter in range(shop_item_count-1):
+                    self.shop_costs.append(base_price)  # each item has same price
             
         if self.options.randomize_gadget_costs.value != 0:
             if self.options.randomize_gadget_costs.value == 2:  # shuffled:
@@ -320,8 +326,8 @@ class SpyroAHTWorld(World):
             
         self.handle_goaling()
 
-        # add gem events, only if shop is randomized
-        if self.options.shop_randomization:
+        # add gem events, only if shop is randomized with gem logic
+        if self.options.shop_randomization and self.options.gem_logic:
             for reg, region_data in data.items():
                 for gem_event in region_data["gem_events"]:
                     location_name = f"{reg}: {gem_event['name']}"
@@ -469,6 +475,7 @@ class SpyroAHTWorld(World):
             "starting_realms": self._starting_realms,
 
             "shop_randomization": self.options.shop_randomization.value,
+            "gem_logic": self.options.gem_logic.value,
             "key_rings": self.options.key_rings.value,
             "gem_collection": self.options.gem_collection.value,
             "blink_gems": self.options.blink_gems.value,
@@ -569,8 +576,11 @@ class ShopCheckRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
     
     #override
     def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
-        cost_lookup = world.shop_costs[self.index]
-        return Has("Gems", cost_lookup).resolve(world)
+        if world.options.gem_logic:  # if gem logic in use, check Gems pseudo-item
+            cost_lookup = world.shop_costs[self.index]
+            return Has("Gems", cost_lookup).resolve(world)
+        else:
+            return True_().resolve(world)  # always seen as accessible if gem logic is not in use
 
 ###############CLIENT###############
 def _run_client(*args: str):

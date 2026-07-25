@@ -37,6 +37,7 @@ class SpyroAHTCommands(ClientCommandProcessor):
     #     return True
 
     async def _cmd_list_options(self) -> bool:
+        # TODO: add open world mode once it's implemented
         # this is grossly repetitive, but it only runs when the player demands it so it's not a big deal
         # even if it was reformatted it'd still be the same amount of output and data lookup, it's just code cleanliness
         """Displays the options you set for this seed (in the same order as YAML). Data is sourced directly from slot data, so if something doesn't line up here, check your YAML for mistakes. Much of this info is also viewable in-game by pausing and pressing R/L."""
@@ -79,6 +80,9 @@ class SpyroAHTCommands(ClientCommandProcessor):
         output = "randomized" if self.ctx.slot_data["shop_randomization"] == 1 else "not randomized"
         output_2 = "enabled" if self.ctx.slot_data["key_rings"] == 1 else "not enabled"
         self.output(f"Shop items are {output} and key rings are {output_2}.")
+        # gem logic
+        output = "enabled" if self.ctx.slot_data["shop_randomization"] and self.ctx.slot_data["gem_logic"] else "disabled"
+        self.output(f"Gem logic is {output}.")
         
         # shop randomization-related things
         if self.ctx.slot_data["shop_randomization"]:
@@ -86,9 +90,10 @@ class SpyroAHTCommands(ClientCommandProcessor):
             self.output(f"You chose to collect {self.ctx.slot_data['blink_gems']}% of Blink's gems and {self.ctx.slot_data['gem_collection']}% of other gems.")
             # shop prices
             self.output(f"This means your shop prices are {self.ctx.slot_data['shop_costs']}.")
-            # double gems
-            output = "enable" if self.ctx.slot_data['double_gems'] else "disable"
-            self.output(f"You chose to {output} the Double Gems item.")
+            if self.ctx.slot_data["gem_logic"]:
+                # double gems
+                output = "enable" if self.ctx.slot_data['double_gems'] else "disable"
+                self.output(f"You chose to {output} the Double Gems item.")
             
         self.output("---------------GATE AND GADGET COSTS---------------")
         # boss costs

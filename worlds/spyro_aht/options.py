@@ -18,14 +18,11 @@ class DeathLink(Choice):
 
 ###############GOAL, CHECKS, AND ITEMS###############
 class Goal(OptionSet):
-    """Determines the goal(s) of this seed. Your goal can contain any of the following, and as many (or as few) as you like.
-    For clarity, the goals involving dark gems, dragon eggs, and light gems refer to the in-game checks, not
-    their Archipelago items. For example, "Dark Gems" would mean you must break all 40 dark gems, not be
-    sent all 40 Dark Gem items.
-    
-    Warning: If you are playing in a world with !collect on, early goals are possible. For example, imagine your only goal
-    is fireworks, and you have one left to do. If someone else in the world uses !collect and that leads to your last
-    firework check being collected, the AHT client will see that as equivalent to you flaming the firework yourself. 
+    """Determines the goal(s) of this seed. Your goal can contain as many or as few of the below as you like.
+    For clarity, collectible-related goals are all determined based on the AHT checks, not their corresponding items.
+    For example, "Dragon Eggs" as a goal means to check all 80 AHT locations which would have given a Dragon Egg in
+    the vanilla game. This leads to an important warning that if your world allows the use of !collect, AHT goals can
+    be registered unexpectedly, if !collect leads to goal-related AHT locations being checked. 
 
     Available Goals:
     Gnasty Gnorc: Defeat Gnasty Gnorc.
@@ -39,20 +36,21 @@ class Goal(OptionSet):
     Locked Chests: Open all 52 locked chests.
     Shop Items: Buy all shop items. Only usable if shop_randomization is enabled. Number of shop items depends on key_rings."""
     display_name = "Goal"
-    valid_keys = ("Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red", "Fireworks", "Dark Gems", "Dragon Eggs", "Light Gems", "Locked Chests", "Shop Items")
+    valid_keys = ("Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red", "Fireworks", "Dark Gems", "Dragon Eggs", "Light Gems",
+                  "Locked Chests", "Shop Items")
     default = ("Mecha-Red",)
 
 
 class FireworkChecks(Toggle):
-    """Whether to enable checks for flaming fireworks. Fire breath is required for surprisingly few things in this game,
-    so enabling this helps make fire breath more important. This option adds +22 filler items."""
+    """Whether to enable checks for flaming fireworks."""
     display_name = "Firework Checks"
     default = 0
 
 
 class RandomizeMinigames(OptionSet):
-    """The list below contains which minigames will be given randomized rewards. If you would like a certain type
-    of minigame to be guaranteed their vanilla Dragon Egg & Light Gem rewards, take them out of the list below.
+    """Minigames are always enabled as checks, but this option lets you decide if you want their rewards to be randomized
+    or not. If you would like a certain type of minigame to have their rewards stay as their vanilla Dragon Egg and
+    Light Gems, take them out of the list below.
 
     Valid options: ["Sgt. Byrd", "Blink", "Turret", "Sparx"]
     """
@@ -62,23 +60,22 @@ class RandomizeMinigames(OptionSet):
 
 
 class FillerItems(OptionSet):
-    """Choose what will make up your filler item pool. The randomizer picks from your choices here at random, for
-    every location which needs a filler item. There is always a minimum of 101 such locations.
-    
-    Dragon Eggs: Dragon Eggs are functionally useless in Archipelago, because the extras that they unlock are
-    unlocked when you collect the in-game Dragon Eggs, regardless of what they were randomized into. Dragon Eggs
-    given from minigames which are unrandomized (see randomize_minigames) are still given even if omitted here.
-    
-    Breath Bombs: random vanilla game bomb items. Only usable if you have that breath unlocked.
-    
-    Gem Packs: give a random amount of gems (400-600 or 800-1200 if you have double gems). It is strongly advised
-    to remove these if you are using shop randomization, because gem logic does not account for gem packs. You would
-    be collecting gems faster than logic expects, to varying degrees depending on how many gem packs get created.
-    
-    Generic: Empty items which do nothing, but have humorous names referencing characters or things in the series.
-    There are 12 total (6 chosen each seed, or all 12 if this is the only filler), so these will likely make up the
-    majority of your filler pool if enabled. This option is chosen automatically if the list is left empty.
-    
+    """This option lets you choose the contents of your filler item pool. For each location which needs a filler item,
+    a filler item will be chosen at random out of the list you provide below.
+
+    Dragon Eggs: Dragon Eggs are considered filler because they are functionally useless in advancing the game.
+    The extras they unlock are unlockable with cheat codes, if you want them without adding eggs to the filler pool.
+    Note that if you unrandomize any minigames, they will still give Dragon Eggs even if omitted here.
+
+    Breath Bombs: Fire Bombs, Electric Bombs, Water Bombs, and Ice Bombs. Received bombs are only usable if you have that breath unlocked.
+
+    Gem Packs: Each gives a random amount of gems (400-600 or 800-1200 if you have double gems). It is advised to not
+    include these if using shop randomization with gem logic, because gem logic does not account for gem packs.
+
+    Generic: Empty items which do nothing, but have humorous names referencing things in the game and series. Due to there
+    being a wide variety of these, generics will likely make up the majority of your filler pool if enabled.
+    This option is chosen automatically if the list is left empty.
+
     Valid options: ["Dragon Eggs", "Breath Bombs", "Gem Packs", "Generic"]"""
     display_name = "Filler Items"
     valid_keys = ("Dragon Eggs", "Breath Bombs", "Gem Packs", "Generic")
@@ -102,8 +99,10 @@ class StartingBreath(Choice):
 
 
 class RandomizeMovement(Toggle):
-    """Whether to randomize the ability to glide, swim, and charge.
-    If not randomized, your 3 movement starter checks will award these abilities.
+    """All seeds start with 3 "Starter Checks" for types of movement (glide, swim, and charge). This option decides whether
+    they will get pre-filled with glide/swim/charge, or random items from Archipelago (which could potentially still be
+    a type of movement).
+
     If you don't want to randomize a subset of these, add them to your start inventory."""
     display_name = "Randomize Movement"
     default = 0
@@ -126,59 +125,66 @@ class StartingRealms(OptionSet):
     
 ###############SHOP###############
 class ShopRandomization(Toggle):
-    """Determines whether to randomize Moneybags' shop. If not randomized, it will function identically to the vanilla
-    game, with one difference. If you enable key rings, 14 unique key rings will replace lockpicks in the shop. 
+    """Determines whether to randomize Moneybags' shop. If not randomized, it will function identically to the vanilla game. 
 
-    If the shop is randomized, vanilla game items will be replaced with items from Archipelago.
-    Shop items will progressively unlock as you collect gems throughout the seed. Once a shop item is unlocked, you can
-    redeem it for free. This approach has some behind-the-scenes benefits detailed in the project's GitHub README.
+    If randomized, vanilla game shop items will be replaced with items from Archipelago. This has a few consequences:
+        - Double Gems, if enabled, is permanent once received, as is the Butterfly Jar (it replenishes on death if depleted).
+        - There is no limit on how many lockpicks you can hold at once. Same with ammo for breath bombs.
+        - If key rings are enabled, the world will have 14 level-specific key rings, instead of 52 lockpicks.
+    The above information applies regardless of which type of shop randomization you choose below in gem_logic."""
+    display_name = "Shop Randomization"
+    default = 0
     
-    This has a few consequences worth noting:
-        a) Double Gems, if enabled, is permanent once received, as is the Butterfly Jar (it replenishes on death if depleted).
-        b) There is no limit on how many lockpicks you can hold at once. Same with ammo for breath bombs.
-        c) If key rings are enabled, the world will have 14 level-specific key rings, instead of 52 lockpicks.
+    
+class GemLogic(Toggle):
+    """This option determines which of the 2 types of shop randomization your seed will use, when shop_randomization is enabled.
 
-    Item prices are determined by gem_collection below."""
-    display_name = "Randomize Shop Items"
+    If gem_logic is disabled, there will be no logic used to determine when you can afford shop items, meaning the generator
+    will expect you to buy all shop items at the start of the run. Since this is infeasible, you will have to choose the
+    order you buy them as you collect gems. This means you risk getting stuck (requiring extra gem grinding to resolve)
+    if you choose a suboptimal order, but those who want to have a choice in their item ordering may prefer this anyway.
+
+    If gem_logic is enabled, shop items will be unlocked in a set order, with each one being purchasable for free once
+    you collect enough gems to unlock it (prices will be listed as "unlocked at X gems"). The generator accomplishes this
+    by keeping track of how many gems are accessible at all times. Items will have steadily increasing prices, which
+    avoids the possibility of buying them in the "wrong" order, but you lose the ability to choose the order you buy them."""
+    display_name = "Gem Logic"
     default = 0
 
 
 class KeyRings(Toggle):
-    """This option enables level-specific key rings which will open all locked chests in that level.
+    """This option enables level-specific key rings which will open all locked chests in that level, which indirectly
+    determines how many items you have in your shop.
+
+    If your shop is not randomized: key rings or lockpicks will be buyable in the shop depending on this option.
 
     If your shop is randomized, and key rings are enabled: you will have 18 shop items, and 14 key rings will
     be placed randomly in the world.
 
     If your shop is randomized and key rings are disabled: you will have 56 shop items, and 52 lockpicks will be placed
     randomly in the world.
-
-    If your shop is not randomized: key rings or lockpicks will be buyable in the shop depending on this option.
     """
     display_name = "Key Rings"
     default = 0
 
 
 class GemCollection(Range):
-    """This option is only used if you have shop randomization on, and lets you limit how much of each area's
-    gems you need to collect. For example, a value of 50 means logic will expect you to always collect approximately
-    50% of accessible gems. The amount you are expected to have is visible on the pause screen.
-    ***Note that Blink minigames are separately decided below with blink_gems.***
+    """This option is only used if your shop is randomized, and lets you choose how much of the game's gems you will collect.
+    For example, a value of 50 means you will be expected to always collect approximately 50% of accessible gems.
+    If you have gem_logic enabled, the amount you are expected to have is visible on the pause screen.
+    **Note that gems from Blink minigames are separate below.**
 
-    This option contributes to determining your shop item prices. Moneybags always offers your first shop item for free.
-    Inflation has hit the Dragon Kingdom strong, and he thinks he'll get more customers in by offering a loss-leader
-    (it's actually to prevent a number of restrictive starts). Other shop items will be priced based on a formula taking
-    into account this option, blink_gems, and your number of shop items. You can do a test generation to check your
-    shop prices, or if you are math-inclined, the formula is below. For more info, see the project's README.
+    This option contributes to determining your shop item prices. Moneybags always offers your first shop item for free,
+    which prevents a number of restrictive starts. Other items will be priced in accordance to the formula below, which
+    factors in a few things. If you are not math-inclined, you can always do some test generations to see how your shop reacts.
 
     ********************************FORMULA INFO (for the math nerds)********************************
     non_blink_gems = 122,429 * gem_collection%, rounded down
     blink_gems = 20,028 * blink_gems%, rounded down
     base_shop_price = (non_blink_gems + blink_gems) / (number of shop items - 1), rounded down
-    Prices will be base_shop_price * 1, base_shop_price * 2, etc. for all n shop items. The final item will be
-    (non_blink_gems + blink_gems) which accounts for all the rounding down.
 
-    Example: 60 for gem_collection and 40 for blink_gems, on a seed with 18 shop items, would give prices
-    of 4,792 -> 9,584 -> 14,376 -> ... -> 81,468.
+    If gem_logic is disabled, shop items will each cost base_shop_price.
+    If gem_logic is enabled, shop items will each cost base_shop_price * 1, base_shop_price * 2, etc. for all N shop items.
     *************************************************************************************************"""
     display_name = "Gem Collection"
     range_start = 1
@@ -188,11 +194,11 @@ class GemCollection(Range):
 
 class BlinkGems(Range):
     """This option is only used when the shop is randomized, and pairs with gem_collection. This option isolates Blink's
-    minigame gems, because his contain more than the other types (Blink has 20,028, Sparx has 3,671, Sgt. Byrd has 8,281).
+    minigame gems, because his contain notably more than the other types.
     
     This option works identically to gem_collection. For example, a 40 below means collecting 40% of Blink's minigame
-    gems, which is 8,011. Set this option to 0 if you intend to skip Blink minigames, whether that be on principle, 
-    from underground-air-a-phobia, or because you excluded enough Blink minigame locations to justify it.
+    gems, which is 8,011. Set this option to 0 if you intend to skip Blink minigames, whether that be from
+    underground-air-a-phobia or because you excluded enough Blink minigame locations to justify it.
     """
     display_name = "Blink Gems"
     range_start = 0
@@ -201,14 +207,12 @@ class BlinkGems(Range):
 
     
 class DoubleGems(Choice):
-    """This option is only used if you have shop randomization on.
-    The shop randomization functionality interacts awkwardly with Double Gems. Double Gems is NOT accounted for
-    during generation logic, meaning if you were to receive Double Gems in a seed, you would begin collecting gems
-    2x faster than the seed is expecting. This is not a problem, per se, but can lead to you skipping ahead of the
-    intended logic for the seed.
+    """This option is only used if your shop is randomized with gem logic.
     
-    To remedy this, you can choose to eliminate Double Gems from your item pool using this option. This keeps your
-    gem collection stable throughout the seed and ensures you will stay following the intended logic for your seed."""
+    Gem logic does not currently support double gems, meaning if you were to receive double gems mid-run, you would
+    collect gems 2x faster than the generated logic expects. This is not a problem per se, but can lead to you skipping
+    ahead of the intended logic for the seed. This option allows you to eliminate Double Gems from your item pool, which
+    ensures you have a consistent gem collection rate."""
     display_name = "Double Gems"
     option_disabled = 0
     option_enabled = 1
@@ -246,12 +250,7 @@ class BossLairDoorCostMax(Range):
 
 
 class BossLairForcing(Choice):
-    """This option lets you force a specific boss lair to have the highest Dark Gem cost, after costs are determined
-    based on your above settings. If you select a boss below, its cost will be swapped with whichever boss was assigned
-    the highest cost.
-    
-    For example, if the boss costs were set to be a random range and became (17, 32, 6, 24) and you selected "Red",
-    the costs would become (17, 6, 32, 24) via swapping Red's cost of 6 with Ineptune's cost of 32 (the highest).
+    """This option lets you force a specific boss lair to have the highest Dark Gem cost of the generated costs.
     
     Selecting "unchanged" leaves boss lair costs untouched."""
     display_name = "Boss Lair Forcing"
@@ -370,7 +369,7 @@ class OpenWorldMode(Toggle):
     Only left in for development testing purposes."""
     display_name = "Open World Mode"
     default = 0
-    # visibility = Visibility.none
+    visibility = Visibility.none
 
 
 @dataclass
@@ -388,6 +387,7 @@ class SpyroAHTOptions(PerGameCommonOptions):
     starting_realms: StartingRealms
     
     shop_randomization: ShopRandomization
+    gem_logic: GemLogic
     key_rings: KeyRings
     gem_collection: GemCollection
     blink_gems: BlinkGems
@@ -421,7 +421,7 @@ spyro_options_groups = [
         StartingBreath, RandomizeMovement, StartingRealms
     ]),
     OptionGroup("SHOP", [
-        ShopRandomization, KeyRings, GemCollection, BlinkGems, DoubleGems
+        ShopRandomization, GemLogic, KeyRings, GemCollection, BlinkGems, DoubleGems
     ]),
     OptionGroup("GATE & GADGET COSTS", [
         RandomizeBossLairDoorCosts, BossLairDoorCostMin, BossLairDoorCostMax, BossLairForcing,

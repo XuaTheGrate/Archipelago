@@ -433,14 +433,14 @@ class XLSShoppingItem:
     entity: ShopItemModel
     text: TextEntry
     cost: tuple[int, int] # [u16, u16] (base, remote). Might be treated as if [u32] (price everywhere) if shop_rando = True
-    shop_rando: bool
+    large_prices: bool
     
     @property
     def structure(self) -> str:
-        return "IIIIihhII" if self.shop_rando else "IIIIHHhhII"
+        return "IIIIihhII" if self.large_prices else "IIIIHHhhII"
 
     def to_bytes(self, byteorder: Literal['big', 'little'] = 'big'):
         args = [self.cost[0], self.cost[1], 1, 0, 0, 0]
-        if self.shop_rando: del args[0]
+        if self.large_prices: del args[0]
         return struct.pack(('<' if byteorder == 'little' else '>') + self.structure, self.entity, 0x01000028, 
                            self.text.address, self.text.address, *args)

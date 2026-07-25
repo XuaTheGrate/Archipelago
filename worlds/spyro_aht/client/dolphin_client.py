@@ -228,7 +228,7 @@ class DolphinClient(GenericClient):
                         bosses[3] = True
             dolphin_memory_engine.write_bytes(self.addresses.p_BOSS_EASY_MODE, struct.pack(">????", *bosses))
 
-        if ctx.slot_data['shop_randomization']:
+        if ctx.slot_data['shop_randomization'] and ctx.slot_data['gem_logic']:
             dolphin_memory_engine.write_byte(self.addresses.p_SHOP_UNLOCK_MODE, 1)
         if ctx.slot_data['teleport_across_realms']:
             dolphin_memory_engine.write_byte(self.addresses.p_TELEPORT_ANYWHERE, 1)
@@ -272,8 +272,9 @@ class DolphinClient(GenericClient):
                     case 0x22 | 0x23 | 0x24 | 0x25 | 0x26 | 0x27 | 0x28 | 0x29 | 0x2A | 0x2B | 0x2C | 0x2D | 0x2E | 0x2F:
                         model = consts.ShopItemModel.Keychain
             
-            remote_price = price if ctx.slot_data["shop_randomization"] else (price + (price * 0.25))
-            i = consts.XLSShoppingItem(model, consts.TextEntry(idx, f"{player}'s {name}"), (price, remote_price), ctx.slot_data["shop_randomization"])
+            remote_price = price if ctx.slot_data["shop_randomization"] else (price * 1.25)
+            large_prices = ctx.slot_data["shop_randomization"] and ctx.slot_data["gem_logic"]  # large prices are only a concern if gem logic enabled
+            i = consts.XLSShoppingItem(model, consts.TextEntry(idx, f"{player}'s {name}"), (price, remote_price), large_prices)
             dolphin_memory_engine.write_bytes(self.addresses.p_XLS_SHOP_ITEMS + (0x20 * (idx + 1)), i.to_bytes('big'))
             dolphin_memory_engine.write_bytes(self.addresses.p_SHOP_TEXT + (0x62 * idx), i.text.to_bytes('big'))
 
@@ -294,6 +295,8 @@ class DolphinClient(GenericClient):
 
     async def update_pause_gems(self, ctx: "SpyroAHTContext", events: list[str]):
         if not ctx.slot_data["shop_randomization"]:
+            return
+        if ctx.slot_data["shop_randomization"] and not ctx.slot_data["gem_logic"]:
             return
         
         blink_available, other_available = 0, 0
