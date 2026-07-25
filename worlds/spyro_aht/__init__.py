@@ -173,31 +173,39 @@ class SpyroAHTWorld(World):
             if self.options.randomize_movement.value == 0 and self.options.shop_randomization.value == 0:
                 raise OptionError("Can't start outside Dragon Kingdom if movement and shop randomization is off.")
         
-        # goaling OptionErrors    
-        if "Fireworks" in self.options.goal.value and not self.options.firework_checks.value:
-            raise OptionError("Can't select \"Fireworks\" as goal without firework_checks enabled.")
-        if "Shop Items" in self.options.goal.value and not self.options.shop_randomization.value:
-            raise OptionError("Can't select \"Shop Items\" as goal without shop_randomization enabled.")
+        # silently fixing some goaling issues
         if len(self.options.goal.value) == 0:
             self.options.goal.value = ("Random",)
         if len(self.options.goal.value) > 10:
             raise OptionError("Too many goal entries - must be 10 or less.")
 
         # resolving random goal entries
-        keys = self.options.goal.valid_keys  # make copy that has "Random" removed so a random choice doesn't pick another Random
-        keys.remove("Random")
+        goal_choices = list(self.options.goal.valid_keys[:-1])  # copy that has "Random" removed so a random choice doesn't pick another Random
+        
+        # remove any goals excluded from random choice
+        for excluded in self.options.exclude_from_goal:
+            if excluded in goal_choices:
+                goal_choices.remove(excluded)
         
         # figure out how many to randomly choose, then remove all duplicates + the random entry itself
         random_count = self.options.goal.value.count("Random")
-        goal_list = set(self.options.goal.value)
-        goal_list.remove("Random")
+        goal_set = set(self.options.goal.value)  # converting to set removes duplicates
+        goal_set.remove("Random")
         
         # fill list with random choices, checking along the way to not randomly add one that's already in the list
         for _ in range(random_count):
-            random_goal = random.choice(self.options.goal.valid_keys)
-            while random_goal in goal_list:
-                random_goal = random.choice(self.options.goal.valid_keys)
-            goal_list.add(random_goal)
+            random_goal = random.choice(goal_choices)
+            while random_goal in goal_set:
+                random_goal = random.choice(goal_choices)
+            goal_set.add(random_goal)
+            
+        # goaling OptionErrors    
+        if "Fireworks" in self.options.goal.value and not self.options.firework_checks.value:
+            print("\"Fireworks\" was chosen as goal without firework_checks enabled. Enabling firework_checks automatically.")
+            self.options.firework_checks.value = 1
+        if "Shop Items" in self.options.goal.value and not self.options.shop_randomization.value:
+            print(f"\"Shop Items\" was chosen as goal without shop_randomization enabled. Enabling shop_randomization automatically.")
+            self.options.shop_randomization.value = 1
         
     def _apply_slot_data(self, slot_data: dict[str, Any]) -> None:
         self._ut_active = True
@@ -205,6 +213,7 @@ class SpyroAHTWorld(World):
         self.options.death_link.value = slot_data['death_link']
         
         self.options.goal.value = slot_data['goal']
+        self.options.exclude_from_goal.value = slot_data['exclude_from_goal']
         self.options.firework_checks.value = slot_data['firework_checks']
         self.options.vanilla_minigame_rewards.value = slot_data['vanilla_minigame_rewards']
         self.options.filler_items.value = slot_data['filler_items']
@@ -477,6 +486,7 @@ class SpyroAHTWorld(World):
         r: dict[str, Any] = {
             "death_link": self.options.death_link.value,
             "goal": self.options.goal.value,
+            "exclude_from_goal": self.options.exclude_from_goal.value,
             "firework_checks": self.options.firework_checks.value,
             "vanilla_minigame_rewards": self.options.vanilla_minigame_rewards.value,
             "filler_items": self.options.filler_items.value,

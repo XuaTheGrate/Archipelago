@@ -29,19 +29,33 @@ class Goal(OptionList):
     Ineptune: Defeat Ineptune.
     Red: Defeat Red.
     Mecha-Red: Defeat Mecha-Red.
-    Fireworks: Flame all 22 fireworks. **firework_checks must be enabled.**
+    Fireworks: Flame all 22 fireworks. If chosen, firework_checks will be automatically enabled.
     Dark Gems: Break all 40 Dark Gems.
     Dragon Eggs: Collect all 80 Dragon Eggs.
     Light Gems: Collect all 100 Light Gems.
     Locked Chests: Open all 52 locked chests.
-    Shop Items: Buy all 18 or 56 shop items (depends on key_rings). **shop_randomization must be enabled.**
+    Shop Items: Buy all randomized shop items (depends on key_rings). If chosen, shop_randomization will be automatically enabled.
+    This can have dramatic consequences on the seed, due to multiple other options stemming from shop_randomization.
     
     Random: For each "Random" below, a random goal from above will be chosen. If the list is empty, 1 random goal will be chosen."""
     display_name = "Goal"
     valid_keys = ("Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red", "Fireworks", "Dark Gems", "Dragon Eggs", "Light Gems",
                   "Locked Chests", "Shop Items", "Random")
     default = ("Mecha-Red",)
-
+    
+    
+class ExcludeFromGoal(OptionSet):
+    """Goaling allows for random choices to be made if you enter "Random". This option lets you exclude certain
+    goal types from this random choosing. For example, if you enter "Shop Items" here, "Shop Items" will only be
+    part of your goal if you explicitly choose it (it will never be chosen at random).
+    
+    Valid Options: ["Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red", "Fireworks", "Dark Gems", "Dragon Eggs", "Light Gems",
+    "Locked Chests", "Shop Items"]"""
+    display_name= "Exclude From Goal"
+    valid_keys = ("Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red", "Fireworks", "Dark Gems", "Dragon Eggs", "Light Gems",
+                  "Locked Chests", "Shop Items")
+    default = frozenset()
+    
 
 class FireworkChecks(Toggle):
     """Whether to enable checks for flaming fireworks."""
@@ -378,6 +392,7 @@ class SpyroAHTOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
     
     goal: Goal
+    exclude_from_goal: ExcludeFromGoal
     firework_checks: FireworkChecks
     vanilla_minigame_rewards: VanillaMinigameRewards
     filler_items: FillerItems
@@ -415,7 +430,7 @@ class SpyroAHTOptions(PerGameCommonOptions):
     
 spyro_options_groups = [
     OptionGroup("GOAL, CHECKS, AND ITEMS", [
-        Goal, FireworkChecks, VanillaMinigameRewards, FillerItems
+        Goal, ExcludeFromGoal, FireworkChecks, VanillaMinigameRewards, FillerItems
     ]),
     OptionGroup("START OF GAME", [
         StartingBreath, RandomizeMovement, StartingRealms
