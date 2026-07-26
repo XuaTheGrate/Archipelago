@@ -47,7 +47,9 @@ class Goal(OptionList):
 class ExcludeFromGoal(OptionSet):
     """Goaling allows for random choices to be made if you enter "Random". This option lets you exclude certain
     goal types from this random choosing. For example, if you enter "Shop Items" here, "Shop Items" will only be
-    part of your goal if you explicitly choose it (it will never be chosen at random).
+    part of your goal if you explicitly choose it (it will never be chosen at random). This option only excludes goals
+    from random choices - for example, putting "Gnasty Gnorc" below will still allow you to explicitly choose Gnasty Gnorc
+    as a goal above.
     
     Valid Options: ["Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red", "Fireworks", "Dark Gems", "Dragon Eggs", "Light Gems",
     "Locked Chests", "Shop Items"]"""

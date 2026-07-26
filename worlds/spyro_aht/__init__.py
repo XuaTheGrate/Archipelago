@@ -173,42 +173,39 @@ class SpyroAHTWorld(World):
             if self.options.randomize_movement.value == 0 and self.options.shop_randomization.value == 0:
                 raise OptionError("Can't start outside Dragon Kingdom if movement and shop randomization is off.")
         
-        # silently fixing some goaling issues
-        if len(self.options.goal.value) == 0:
-            self.options.goal.value = ("Random",)
-        if len(self.options.goal.value) > 10:
-            raise OptionError("Too many goal entries - must be 10 or less.")
+        # fix empty filler list. I used to handle this in another area, then I oops'd and removed it
+        if len(self.options.filler_items.value) == 0:
+            print("Filler item list was empty. Defaulting to \"Generics\" as only choice.")
+            self.options.filler_items.value.add("Generics")
 
-        # resolving random goal entries
-        goal_choices = list(self.options.goal.valid_keys)  # copy that has "Random" removed so a random choice doesn't pick another Random
-        goal_choices.remove("Random")
+        if len(self.options.goal.value) < 1:
+            print("Goal list is empty. Defaulting to a single random choice.")
+            self.options.goal.value.append("Random")
+        if len(self.options.goal.value) > len(self.options.goal.valid_keys)-1:
+            raise OptionError(f"Too many entries in goal list. Must be no more than {len(self.options.goal.valid_keys)-1}.")
         
-        # remove any goals excluded from random choice
-        for excluded in self.options.exclude_from_goal:
-            if excluded in goal_choices:
-                goal_choices.remove(excluded)
-        
-        # figure out how many to randomly choose, then remove all duplicates + the random entry itself
+        random_choices = [goal for goal in self.options.goal.valid_keys if goal != "Random" and goal not in self.options.exclude_from_goal.value and goal not in self.options.goal.value]
         random_count = self.options.goal.value.count("Random")
-        goal_set = set(self.options.goal.value)  # converting to set removes duplicates
-        goal_set.remove("Random")
+        if random_count > len(random_choices):
+            raise OptionError(f"Not enough enabled goals to support {random_count} random choice(s).")
         
-        # fill list with random choices, checking along the way to not randomly add one that's already in the list
+        converted_goal_set = set(self.options.goal.value)
+        if "Random" in converted_goal_set:
+            converted_goal_set.remove("Random")
+
         for _ in range(random_count):
-            random_goal = random.choice(goal_choices)
-            while random_goal in goal_set:
-                random_goal = random.choice(goal_choices)
-            goal_set.add(random_goal)
-            
-        self.options.goal.value = goal_set
-            
-        # goaling OptionErrors    
-        if "Fireworks" in self.options.goal.value and not self.options.firework_checks.value:
-            print("\"Fireworks\" was chosen as goal without firework_checks enabled. Enabling firework_checks automatically.")
+            random_goal = random.choice(random_choices)
+            converted_goal_set.add(random_goal)
+            random_choices.remove(random_goal)
+
+        if "Fireworks" in converted_goal_set and not self.options.firework_checks.value:
+            print("\"Fireworks\" was selected as goal but firework_checks is disabled. Automatically enabling it.")
             self.options.firework_checks.value = 1
-        if "Shop Items" in self.options.goal.value and not self.options.shop_randomization.value:
-            print(f"\"Shop Items\" was chosen as goal without shop_randomization enabled. Enabling shop_randomization automatically.")
+        if "Shop Items" in converted_goal_set and not self.options.shop_randomization.value:
+            print("\"Shop Items\" was selected as goal but shop_randomization is disabled. Automatically enabling it.")
             self.options.shop_randomization.value = 1
+
+        self.options.goal.value = converted_goal_set
         
     def _apply_slot_data(self, slot_data: dict[str, Any]) -> None:
         self._ut_active = True
@@ -467,7 +464,7 @@ class SpyroAHTWorld(World):
                 
         # add filler. Randomly chooses a category, then within the list of items for that category, randomly chooses one.
         filler_categories, filler_items = self.setup_filler_list(item_data)
-        convert = {"Gem Packs": 0, "Dragon Egs": 1, "Breath Bombs": 2, "Generics": 3}
+        convert = {"Gem Packs": 0, "Dragon Eggs": 1, "Breath Bombs": 2, "Generics": 3}
         while len(itempool) < len(self.multiworld.get_unfilled_locations(self.player)):
             random_category = self.random.choice(filler_categories)
             while random_category not in filler_categories:
