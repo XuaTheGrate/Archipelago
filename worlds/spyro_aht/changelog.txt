@@ -19,6 +19,8 @@
     - Players can choose whether they want a specific boss to have the highest cost, regardless of whether that boss is part of their goal or not.
         
 - Other Things:
+    - Took out an OptionError preventing generation if movement & shop randomization is off and starting with only 1 non-Dragon Kingdom realm.
+    - Stopped forcing Double Jump to be an early item, since it didn't impact generation success/fail rate enough to justify having anymore. Majority of times, it winds up being an early item anyway.
     - Majorly overhauled some back-end stuff related to how the world loads in logic information for regions, locations, and gem events. This shouldn't impact the player experience at all, but it makes my development life SO SO SO SO SO much easier now that it's dealt with.
     - Improved the distribution method of filler items.
     - Flipped randomize_minigames to vanilla_minigame_rewards. Same exact feature, but opposite logic to be slightly easier to understand semantically.
@@ -27,18 +29,17 @@
     - Fixed a bug where Double Jump (which is forced to be an early item) couldn't be placed early due to not recognizing Shop Item 1 as an early location.
 
 TO-DO LIST:
-    - TODO: updated death link messages
-    - TODO: a secret second major addition (if you pay attention you'll already know what it is, but I'm not spoiling it for those who haven't noticed :3)
-    - TODO: add support for double gems into gem logic seeds.
-        - TODO: don't change shop prices, just add a condition to the collect method which doubles the value of gem events if double gems is possessed. Would increase speed of reaching later shop checks but should work fine logically.
-    - TODO: make tool for testing gem access
-    - TODO: maybe add option to decide if YAML issues should be automatically resolved or error'd
-        - TODO: https://discord.com/channels/731205301247803413/1214608557077700720/1530824616728334520
-    - TODO: what can we do to fix new save files on existing seeds, if anything?
-        - TODO: items aren't re-sent, understandably, but could be re-sent in cheat console if needed.
-        - TODO: gems aren't reset, that's a big deal now in shop rando. Could game mod check slot data and apply gem count to new files if there is an amount set?
-    - TODO: fix client not properly processing duplicate sends from cheat console?
-    - TODO: template presets?
+    - TODO 2.0 2: maybe add option to decide if YAML issues should be automatically resolved or error'd
+        - https://discord.com/channels/731205301247803413/1214608557077700720/1530824616728334520
+    - TODO 2.0 2: add support for double gems into gem logic seeds.
+        - don't change shop prices, just add a condition to the collect method which doubles the value of gem events if double gems is possessed. Would increase speed of reaching later shop checks but should work fine logically.
+    - TODO 2.0 RC: updated death link messages
+    - TODO 2.0 RC: a secret second major addition (if you pay attention you'll already know what it is, but I'm not spoiling it for those who haven't noticed :3)
+    - TODO 2.0 RC: make tool for testing gem access
+    - TODO 2.0 RC: what can we do to fix new save files on existing seeds, if anything?
+        - items aren't re-sent, understandably, but could be re-sent in cheat console if needed.
+        - gems aren't reset, that's a big deal now in shop rando. Could game mod check slot data and apply gem count to new files if there is an amount set?
+    - TODO 2.0 RC: fix client not properly processing duplicate sends from cheat console?
 
 2.0 (Beta Release 1)
 - This apworld has officially switched hands to being primarily maintained by PhoenixAki.
