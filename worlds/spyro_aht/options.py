@@ -16,6 +16,43 @@ class DeathLink(Choice):
     option_enabled = 2
     default = 0
 
+
+###############GENERATION SETTINGS###############
+class LoggingLevel(OptionSet):
+    """Log messages are generated at various points during generations involving Spyro AHT. This option lets you
+    decide which type of messages should be logged, by adding them to the list below. If left empty, no logging will be done.
+    
+    If you experience any issues with AHT generations and want to make a report in the Archipelago Discord server
+    thread for AHT, please try to generate again with the maximal logging setting and upload it along with your report.
+    This may save the developers some time and effort in narrowing down what the issue(s) are.
+    
+    Valid Options:
+    Info: General information about the status of generation will be logged. For example, the log will include messages
+    like "[Spyro AHT] Item Creation beginning." and "[Spyro AHT] Item Creation done."
+    Warning: Warnings are generated whenever there are issues stemming from YAML settings that impact generation. It is
+    advised to have this option selected, at minimum.
+    Debug: Extra information that is primarily meant to be helpful for developer debugging will be logged.
+    """
+    display_name = "Logging Level"
+    valid_keys = ("Info", "Warning", "Debug")
+    default = ("Warning",)
+    
+
+class AutoCorrections(Choice):
+    """This option decides the behavior of the generator whenever YAML issues are encountered.
+    
+    halt: The generator will prioritize player choices by halting generation when an issue is encountered. This is ideal
+    for solo or small multiworld generations, since issues can be resolved by the player without much impact on time. 
+    
+    fix: The generator will prioritize generation success by fixing issues automatically. Options which have situations
+    which can lead to this have the automatic behavior detailed. This is ideal for larger multiworld generations, since
+    a generation being halted after minutes (or longer) of generation time may not be ideal."""
+    display_name = "Auto Corrections"
+    option_halt = 0
+    option_fix = 1
+    default = 1
+
+
 ###############GOAL, CHECKS, AND ITEMS###############
 class Goal(OptionList):
     """Determines the goal(s) of this seed. Your goal can contain as many or as few of the below as you like.
@@ -29,15 +66,17 @@ class Goal(OptionList):
     Ineptune: Defeat Ineptune.
     Red: Defeat Red.
     Mecha-Red: Defeat Mecha-Red.
-    Fireworks: Flame all 22 fireworks. If chosen, firework_checks will be automatically enabled.
+    Fireworks: Flame all 22 fireworks. firework_checks will be enabled automatically if disabled and auto_corrections is enabled.
     Dark Gems: Break all 40 Dark Gems.
     Dragon Eggs: Collect all 80 Dragon Eggs.
     Light Gems: Collect all 100 Light Gems.
     Locked Chests: Open all 52 locked chests.
-    Shop Items: Buy all randomized shop items (depends on key_rings). If chosen, shop_randomization will be automatically enabled.
-    This can have dramatic consequences on the seed, due to multiple other options stemming from shop_randomization.
+    Shop Items: Buy all randomized shop items (depends on key_rings). shop_randomization will be enabled automatically if
+    disabled and auto_corrections is enabled.
+    Random: For each "Random" you include, a random goal from above will be chosen.
     
-    Random: For each "Random" below, a random goal from above will be chosen. If the list is empty, 1 random goal will be chosen."""
+    If the list is empty and auto_corrections is enabled, a single random choice will be made.
+    If the list has too many entries and auto_corrections is enabled, entries will be removed at random until in range."""
     display_name = "Goal"
     valid_keys = ("Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red", "Fireworks", "Dark Gems", "Dragon Eggs", "Light Gems",
                   "Locked Chests", "Shop Items", "Random")
@@ -50,6 +89,9 @@ class ExcludeFromGoal(OptionSet):
     part of your goal if you explicitly choose it (it will never be chosen at random). This option only excludes goals
     from random choices - for example, putting "Gnasty Gnorc" below will still allow you to explicitly choose Gnasty Gnorc
     as a goal above.
+    
+    If too many goals are excluded to allow for enough random choices and auto_corrections is enabled, goals will be
+    un-excluded at random until in range.
     
     Valid Options: ["Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red", "Fireworks", "Dark Gems", "Dragon Eggs", "Light Gems",
     "Locked Chests", "Shop Items"]"""
@@ -90,7 +132,8 @@ class FillerItems(OptionSet):
     include these if using shop randomization with gem logic, because gem logic does not account for gem packs.
 
     Generics: Empty items which do nothing, but have humorous names referencing things in the game and series.
-    This option is chosen automatically if the list is left empty.
+    
+    If the list is empty and auto_corrections is enabled, the filler pool will default to only "Generics".
 
     Valid options: ["Dragon Eggs", "Breath Bombs", "Gem Packs", "Generics"]"""
     display_name = "Filler Items"
@@ -133,7 +176,7 @@ class StartingRealms(OptionSet):
     This option lets you choose which realm(s) to start with access to. Their access cards will be added to your start
     inventory. This is equivalent to putting the card(s) in your start inventory yourself.
     
-    If the list is left empty, a random starting realm will be chosen for you.
+    If the list is left empty, a random starting realm will be chosen for you if auto_corrections is enabled.
     
     Valid Options: ["Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle"]"""
     display_name = "Starting Realms"
@@ -252,7 +295,7 @@ class RandomizeBossLairDoorCosts(Choice):
 
 
 class BossLairDoorCostMin(Range):
-    """Minimum cost for boss lairs, if set to be random."""
+    """Minimum cost for boss lairs, if set to be random. Will be swapped with boss lair maximum if min > max and auto_corrections is enabled."""
     display_name = "Boss Lair Door Cost Minimum"
     range_start = 1
     range_end = 40
@@ -260,7 +303,7 @@ class BossLairDoorCostMin(Range):
 
 
 class BossLairDoorCostMax(Range):
-    """Maximum cost for boss lairs, if set to be random."""
+    """Maximum cost for boss lairs, if set to be random. Will be swapped with boss lair minimum if min > max and auto_corrections is enabled."""
     display_name = "Boss Lair Door Cost Maximum"
     range_start = 1
     range_end = 40
@@ -295,7 +338,7 @@ class RandomizeLightGemDoorCosts(Choice):
 
 
 class LightGemDoorCostMin(Range):
-    """Minimum cost for light gem doors, if set to be random."""
+    """Minimum cost for light gem doors, if set to be random. Will be swapped with light gem door maximum if min > max and auto_corrections is enabled."""
     display_name = "Minimum Light Gem Door Cost"
     range_start = 1
     range_end = 100
@@ -303,7 +346,7 @@ class LightGemDoorCostMin(Range):
 
 
 class LightGemDoorCostMax(Range):
-    """Maximum cost for light gem doors, if set to be random."""
+    """Maximum cost for light gem doors, if set to be random. Will be swapped with light gem door minimum if min > max and auto_corrections is enabled."""
     display_name = "Maximum Light Gem Door Cost"
     range_start = 1
     range_end = 100
@@ -325,7 +368,7 @@ class RandomizeGadgetCosts(Choice):
 
 
 class GadgetCostMin(Range):
-    """Minimum cost for gadgets, if set to be random."""
+    """Minimum cost for gadgets, if set to be random. Will be swapped with gadget maximum if min > max and auto_corrections is enabled."""
     display_name = "Minimum Gadget Cost"
     range_start = 1
     range_end = 100
@@ -333,7 +376,7 @@ class GadgetCostMin(Range):
 
 
 class GadgetCostMax(Range):
-    """Maximum cost for gadgets, if set to be random."""
+    """Maximum cost for gadgets, if set to be random. Will be swapped with gadget minimum if min > max and auto_corrections is enabled."""
     display_name = "Maximum Gadget Cost"
     range_start = 1
     range_end = 100
@@ -393,6 +436,8 @@ class OpenWorldMode(Toggle):
 @dataclass
 class SpyroAHTOptions(PerGameCommonOptions):
     death_link: DeathLink
+    logging_level: LoggingLevel
+    auto_corrections: AutoCorrections
     start_inventory_from_pool: StartInventoryPool
     
     goal: Goal
@@ -433,6 +478,9 @@ class SpyroAHTOptions(PerGameCommonOptions):
     
     
 spyro_options_groups = [
+    OptionGroup("GENERATION SETTINGS", [
+        LoggingLevel, AutoCorrections
+    ]),
     OptionGroup("GOAL, CHECKS, AND ITEMS", [
         Goal, ExcludeFromGoal, FireworkChecks, VanillaMinigameRewards, FillerItems
     ]),
