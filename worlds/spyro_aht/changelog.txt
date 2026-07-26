@@ -4,6 +4,7 @@
     - You can choose between beating any of the 4 bosses (or multiple), flaming all fireworks, collecting all of each collectible (dark gems, dragon eggs, light gems), and opening all locked chests.
     - You can also choose "Random". Each "Random" in the list will be replaced with a goal that hasn't already been selected yet.
     - Additionally, a new option exclude_from_goal allows for excluding goals from being randomly chosen.
+    - To go along with this, a few location groups were added which coincide with most of the new goals.
     
 - Re-implemented the old shop randomization system via the gem_logic option.
     - This was added for people who dislike the new system using gem logic to space out shop items.

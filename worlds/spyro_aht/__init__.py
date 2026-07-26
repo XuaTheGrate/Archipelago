@@ -89,9 +89,21 @@ def create_location_groups(location_data) -> dict[str, set[str]]:
     loc_groups = defaultdict(set)
     for region in location_data.values():
         for location in region['locations']:
-            abbreviation = location['name'].split(': ')[0]
-            if abbreviation in level_lookup:
+            if location['name'].split(': ')[0] in level_lookup:
+                abbreviation = location['name'].split(': ')[0]
                 loc_groups[level_lookup[abbreviation]].add(location['name'])
+            elif "Defeat" in location['name'] or "Breath from" in location['name']:  # bosses
+                loc_groups["Bosses"].add(location['name'])
+            elif ": Dark Gem" in location['name']:
+                loc_groups["Dark Gems"].add(location['name'])
+            elif ": Dragon Egg" in location['name']:
+                loc_groups["Dragon Eggs"].add(location['name'])
+            elif ": Light Gem" in location['name']:
+                loc_groups["Light Gems"].add(location['name'])
+            elif "locked chest" in location['name']:
+                loc_groups["Locked Chests"].add(location['name'])
+            elif ": Firework" in location['name']:
+                loc_groups["Fireworks"].add(location['name'])
     
     for minigame_type, minigame_list in zip(["Sgt. Byrd", "Blink", "Sparx", "Turret"], minigame_locs):
         for minigame_location in minigame_list:
