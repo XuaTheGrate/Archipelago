@@ -126,7 +126,6 @@ class SpyroAHTWorld(World):
 
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
-        multiworld.early_items[player]['Double Jump'] = 1
         
         self._lg_doors = [70, 20, 95, 45]
         self._boss_lairs = [10, 20, 30, 40]
@@ -167,11 +166,6 @@ class SpyroAHTWorld(World):
         passthrough = getattr(self.multiworld, "re_gen_passthrough", {})
         if isinstance(passthrough, dict) and self.game in passthrough:
             self._apply_slot_data(passthrough[self.game])
-            
-        # prevents impossible/restrictive seeds TODO: investigate if this is truly necessary?
-        if "Dragon Kingdom" not in self.options.starting_realms.value:
-            if self.options.randomize_movement.value == 0 and self.options.shop_randomization.value == 0:
-                raise OptionError("Can't start outside Dragon Kingdom if movement and shop randomization is off.")
         
         # fix empty filler list. I used to handle this in another area, then I oops'd and removed it
         if len(self.options.filler_items.value) == 0:

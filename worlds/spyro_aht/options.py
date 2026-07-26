@@ -126,7 +126,9 @@ class RandomizeMovement(Toggle):
 
 class StartingRealms(OptionSet):
     """Access to a realm is granted when you possess its "access card" item. For example, the "Dragon Kingdom
-    Access Card" item grants access to the Dragon Kingdom realm.
+    Access Card" item grants access to the Dragon Kingdom realm. Note that you may experience a slightly higher
+    chance of generation failure if you have both movement and shop randomization off while starting with only 1
+    non-Dragon Kingdom realm. 
     
     This option lets you choose which realm(s) to start with access to. Their access cards will be added to your start
     inventory. This is equivalent to putting the card(s) in your start inventory yourself.
