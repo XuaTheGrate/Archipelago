@@ -32,10 +32,6 @@
     - Fixed a bug where Double Jump (which is forced to be an early item) couldn't be placed early due to not recognizing Shop Item 1 as an early location.
 
 TO-DO LIST:
-    - TODO 2.0 2: maybe add option to decide if YAML issues should be automatically resolved or error'd
-        - https://discord.com/channels/731205301247803413/1214608557077700720/1530824616728334520
-    - TODO 2.0 2: add support for double gems into gem logic seeds.
-        - don't change shop prices, just add a condition to the collect method which doubles the value of gem events if double gems is possessed. Would increase speed of reaching later shop checks but should work fine logically.
     - TODO 2.0 RC: updated death link messages
     - TODO 2.0 RC: a secret second major addition (if you pay attention you'll already know what it is, but I'm not spoiling it for those who haven't noticed :3)
     - TODO 2.0 RC: make tool for testing gem access
