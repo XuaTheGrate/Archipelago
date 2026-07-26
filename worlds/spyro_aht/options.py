@@ -125,7 +125,6 @@ class FillerItems(OptionSet):
     a filler item will be chosen at random out of the list you provide below.
 
     Dragon Eggs: Dragon Eggs are considered filler because they are functionally useless in advancing the game.
-    The extras they unlock are unlockable with cheat codes, if you want them without adding eggs to the filler pool.
     Even if you disable them here, Dragon Eggs will still be rewarded from minigames if you choose to force vanilla rewards above.
     
     Breath Bombs: Fire Bombs, Electric Bombs, Water Bombs, and Ice Bombs. Received bombs are only usable if you have that breath unlocked.
@@ -230,7 +229,7 @@ class NonBlinkGems(Range):
     """This option is only used if your shop is randomized. This option, along with blink_gems, determines how much of the
     game's gems you want to be expected to collect. blink_gems handles gems from Blink minigames, while non_blink_gems handles
     the rest of the game's gems. For example, non_blink_gems being 50 means being expected to collect 50% of all gems outside
-    of Blink minigames. if you have gem_logic enabled, the amount you are expected to have is visible on the pause screen.
+    of Blink minigames. If you have gem_logic enabled, the amount you are expected to have is visible on the pause screen.
      
     This option contributes to determining your shop item prices. Moneybags always offers your first shop item for free,
     which prevents a number of restrictive starts. Other items will be priced in accordance to the formula below, which

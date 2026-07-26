@@ -168,9 +168,9 @@ class SpyroAHTWorld(World):
                 gem_amount = int(item.name.split(" ")[0])
                 
                 if "Blink minigames" in item.name and self.options.blink_gems.value > 0:
-                    state.add_item("Gems", item.player, count=gem_amount * (self.options.blink_gems/100))
+                    state.add_item("Gems", item.player, count=int(gem_amount * (self.options.blink_gems.value/100)))
                 else:
-                    state.add_item("Gems", item.player, count=gem_amount * (self.options.non_blink_gems/100))
+                    state.add_item("Gems", item.player, count=int(gem_amount * (self.options.non_blink_gems.value/100)))
             return True
         return False
 
@@ -387,7 +387,7 @@ class SpyroAHTWorld(World):
                 highest = max(self._boss_lairs)
                 high_index = self._boss_lairs.index(highest)
                 convert = {0: "Gnasty Gnorc", 1: "Ineptune", 2: "Red", 3: "Mecha-Red"}
-                self.log(f"Swapping cost of {convert[low_index]} ({lowest}) and {convert[high_index]} ({highest}.", "Debug")
+                self.log(f"Swapping cost of {convert[low_index]} ({lowest}) and {convert[high_index]} ({highest}).", "Debug")
                 self._boss_lairs[low_index], self._boss_lairs[high_index] = self._boss_lairs[high_index], self._boss_lairs[low_index]
                 
         self.log(f"Boss lair costs are {self._boss_lairs}.", "Debug")
@@ -446,7 +446,7 @@ class SpyroAHTWorld(World):
                             add = add and option.value <= options['value']
                 if add:
                     f[l['name']] = l['id']
-                    self.log(f"Added \"{l['name']}\" with id {l['id']} to {f['name']}.", "MoreDebug")
+                    self.log(f"Added \"{l['name']}\" with id {l['id']} to {r['name']}.", "MoreDebug")
             region.add_locations(f)
         self.log("Locations created.", "Debug")
         
