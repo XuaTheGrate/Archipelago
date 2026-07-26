@@ -32,9 +32,10 @@ class LoggingLevel(OptionSet):
     Warning: Warnings are generated whenever there are issues stemming from YAML settings that impact generation. It is
     advised to have this option selected, at minimum.
     Debug: Extra information that is primarily meant to be helpful for developer debugging will be logged.
+    MoreDebug: Even more debug information. Intended for developer use, but you can enable it if curious :)
     """
     display_name = "Logging Level"
-    valid_keys = ("Info", "Warning", "Debug")
+    valid_keys = ("Info", "Warning", "Debug", "MoreDebug")
     default = ("Warning",)
     
 
@@ -169,15 +170,10 @@ class RandomizeMovement(Toggle):
 
 
 class StartingRealms(OptionSet):
-    """Access to a realm is granted when you possess its "access card" item. For example, the "Dragon Kingdom
-    Access Card" item grants access to the Dragon Kingdom realm. Note that you may experience a slightly higher
-    chance of generation failure if you have both movement and shop randomization off while starting with only 1
-    non-Dragon Kingdom realm. 
-    
-    This option lets you choose which realm(s) to start with access to. Their access cards will be added to your start
-    inventory. This is equivalent to putting the card(s) in your start inventory yourself.
-    
-    If the list is left empty, a random starting realm will be chosen for you if auto_corrections is enabled.
+    """Access to a realm is granted when you possess its "access card" item. For example, "Dragon Kingdom Access Card"
+    grants access to the Dragon Kingdom realm. This option lets you choose which realm(s) to start with access to.
+    Their access cards will be added to your start inventory. This is equivalent to putting the card(s) in your start
+    inventory yourself, except you can have a random one chosen for you if the list is left empty.
     
     Valid Options: ["Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle"]"""
     display_name = "Starting Realms"

@@ -321,7 +321,7 @@ class SpyroAHTWorld(World):
                         self.get_region(reg).add_event(f"{location['name']} Victory{count}", f"VictoryCon{count}", rule=self.rule_from_dict(location['access_rule']))
                         victory_cons.append(f"VictoryCon{count}")
                         count += 1
-                        self.log(f"Added VictoryCon{count} event item for {location['name']}.", "Debug")
+                        self.log(f"Added VictoryCon{count} event item for {location['name']}.", "MoreDebug")
         self.log(f"Set up {count} goal events.", "Debug")
 
         self.multiworld.completion_condition[self.player] = lambda state: state.has_all(victory_cons, self.player)
@@ -421,6 +421,7 @@ class SpyroAHTWorld(World):
                 c = self.get_region(con)
                 entrance = f'{region.name}=>{c.name}'
                 region.connect(c, entrance, rule=self.rule_from_dict(data[con]['access_rule']))
+                self.log(f"Connected {region.name} to {c.name}.", "MoreDebug")
         self.log("Region connections created.", "Debug")
 
         for r in data.values():
@@ -445,6 +446,7 @@ class SpyroAHTWorld(World):
                             add = add and option.value <= options['value']
                 if add:
                     f[l['name']] = l['id']
+                    self.log(f"Added \"{l['name']}\" with id {l['id']} to {f['name']}.", "MoreDebug")
             region.add_locations(f)
         self.log("Locations created.", "Debug")
         
@@ -457,6 +459,7 @@ class SpyroAHTWorld(World):
             for reg, region_data in data.items():
                 for gem_event in region_data["gem_events"]:
                     location_name = f"{reg}: {gem_event['name']}"
+                    self.log(f"Created gem event with location_name \"{location_name}\", item name \"{gem_event['name']}\", and access rule {gem_event['access_rule']}.", "MoreDebug")
                     self.get_region(reg).add_event(location_name, gem_event['name'], rule=self.rule_from_dict(gem_event["access_rule"]))
         
         self.log("create_regions is done.", "Debug")
@@ -581,6 +584,7 @@ class SpyroAHTWorld(World):
                     count -= minigames
 
                 for _ in range(count):
+                    self.log(f"Created item \"{item['name']}.", "MoreDebug")
                     itempool.append(self.create_item(item['name']))
                 
         # add filler. Randomly chooses a category, then within the list of items for that category, randomly chooses one.
@@ -592,7 +596,9 @@ class SpyroAHTWorld(World):
             while random_category not in filler_categories:
                 random_category = self.random.choice(filler_categories)
             filler_choices = filler_items[convert[random_category]]
-            itempool.append(self.create_item(self.random.choice(filler_choices)))
+            choice = self.random.choice(filler_choices)
+            self.log(f"Creating filler item \"{choice}\".", "MoreDebug")
+            itempool.append(self.create_item(choice))
 
         self.multiworld.itempool.extend(itempool)
   
