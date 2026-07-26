@@ -1,10 +1,8 @@
 2.0 (Beta Release 2)
 
 - New Goaling System: non-boss goals are now supported, as well as mixing and matching goals in a fully customizable form!
-    - You can choose between beating any of the 4 bosses (or multiple), flaming all fireworks, collecting all of each collectible (dark gems, dragon eggs, light gems), and opening all locked chests.
-    - You can also choose "Random". Each "Random" in the list will be replaced with a goal that hasn't already been selected yet.
-    - Additionally, a new option exclude_from_goal allows for excluding goals from being randomly chosen.
-    - To go along with this, a few location groups were added which coincide with most of the new goals.
+    - You can choose between beating any of the 4 bosses, flaming all fireworks, collecting all of each collectible (dark gems, dragon eggs, light gems), opening all locked chests, and buying all shop items.
+    - You can also choose "Random". Each "Random" in the list will be replaced with a goal that hasn't already been selected yet. A new option exclude_from_goal allows for excluding goals from being randomly chosen.
     
 - Re-implemented the old shop randomization system via the gem_logic option.
     - This was added for people who dislike the new system using gem logic to space out shop items.
@@ -18,10 +16,14 @@
 - New Option: boss_lair_forcing
     - This option replaces the now-previously default behavior of making the goal boss's lair the most expensive. Now that bosses are not guaranteed to be the one and only goal, this functionality was moved to this option.
     - Players can choose whether they want a specific boss to have the highest cost, regardless of whether that boss is part of their goal or not.
+
+- New Option Group: Generation Settings
+	- Includes logging_level which provides detail to the Archipelago log as specified.
+	- Includes auto_corrections which decides whether to automatically fix some YAML issues or to always halt generations when issues are encountered.
         
 - Other Things:
-    - Added a logging system (logging_level) to provide detail to the Archipelago log as specified.
-    - Added auto_corrections to tell the generator whether to resolve YAML issues or to halt generation when issues are found.
+    - Fixed an issue leading to the client crashing without Universal Tracker installed. It should load fine both ways now.
+    - Expanded location groups to have bosses, dark gems, dragon eggs, light gems, locked chests, and fireworks.
     - Took out an OptionError preventing generation if movement & shop randomization is off and starting with only 1 non-Dragon Kingdom realm.
     - Stopped forcing Double Jump to be an early item, since it didn't impact generation success/fail rate enough to justify having anymore. Majority of times, it winds up being an early item anyway.
     - Majorly overhauled some back-end stuff related to how the world loads in logic information for regions, locations, and gem events. This shouldn't impact the player experience at all, but it makes my development life SO SO SO SO SO much easier now that it's dealt with.
@@ -29,7 +31,6 @@
     - Flipped randomize_minigames to vanilla_minigame_rewards. Same exact feature, but opposite logic to be slightly easier to understand semantically.
     - Renamed gem_collection to non_blink_gems. Not a huge fan of this name, but it's a bit better and I don't think there's any better options.
     - Added start_inventory_from_pool to YAML. The only difference between it and the standard start_inventory is that start_inventory_from_pool will replace any items listed there with filler, while start_inventory keeps the original copy of items in the world.
-    - Fixed a bug where Double Jump (which is forced to be an early item) couldn't be placed early due to not recognizing Shop Item 1 as an early location.
 
 TO-DO LIST:
     - TODO 2.0 RC: updated death link messages

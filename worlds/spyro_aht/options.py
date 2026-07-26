@@ -67,18 +67,18 @@ class Goal(OptionList):
     Ineptune: Defeat Ineptune.
     Red: Defeat Red.
     Mecha-Red: Defeat Mecha-Red.
-    Fireworks: Flame all 22 fireworks. firework_checks will be enabled automatically if disabled and auto_corrections is enabled.
+    Fireworks: Flame all 22 fireworks. firework_checks will be enabled automatically if disabled and auto_corrections is set to 'fix'.
     Dark Gems: Break all 40 Dark Gems.
     Dragon Eggs: Collect all 80 Dragon Eggs.
     Light Gems: Collect all 100 Light Gems.
     Locked Chests: Open all 52 locked chests.
     Shop Items: Buy all randomized shop items (depends on key_rings). shop_randomization will be enabled automatically if
-    disabled and auto_corrections is enabled.
+    disabled and auto_corrections is set to 'fix'.
     Random: For each "Random" you include, a random goal from above will be chosen.
     
-    If the list is empty and auto_corrections is enabled, a single random choice will be made.
-    If the list has too many entries and auto_corrections is enabled, entries will be removed at random until in range.
-    If there are not enough available goals for random selections and auto_corrections is enabled, random selections will be skipped."""
+    If the list is empty and auto_corrections is set to 'fix', a single random choice will be made.
+    If the list has too many entries and auto_corrections is set to 'fix', entries will be removed at random until in range.
+    If there are not enough available goals for random selections and auto_corrections is set to 'fix', random selections will be skipped."""
     display_name = "Goal"
     valid_keys = ("Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red", "Fireworks", "Dark Gems", "Dragon Eggs", "Light Gems",
                   "Locked Chests", "Shop Items", "Random")
@@ -92,7 +92,7 @@ class ExcludeFromGoal(OptionSet):
     from random choices - for example, putting "Gnasty Gnorc" below will still allow you to explicitly choose Gnasty Gnorc
     as a goal above.
     
-    If too many goals are excluded to allow for enough random choices and auto_corrections is enabled, goals will be
+    If too many goals are excluded to allow for enough random choices and auto_corrections is set to 'fix', goals will be
     un-excluded at random until in range.
     
     Valid Options: ["Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red", "Fireworks", "Dark Gems", "Dragon Eggs", "Light Gems",
@@ -134,7 +134,7 @@ class FillerItems(OptionSet):
 
     Generics: Empty items which do nothing, but have humorous names referencing things in the game and series.
     
-    If the list is empty and auto_corrections is enabled, the filler pool will default to only "Generics".
+    If the list is empty and auto_corrections is set to 'fix', the filler pool will default to only "Generics".
 
     Valid options: ["Dragon Eggs", "Breath Bombs", "Gem Packs", "Generics"]"""
     display_name = "Filler Items"
@@ -291,7 +291,7 @@ class RandomizeBossLairDoorCosts(Choice):
 
 
 class BossLairDoorCostMin(Range):
-    """Minimum cost for boss lairs, if set to be random. Will be swapped with boss lair maximum if min > max and auto_corrections is enabled."""
+    """Minimum cost for boss lairs, if set to be random. Will be swapped with boss lair maximum if min > max and auto_corrections is set to 'fix'."""
     display_name = "Boss Lair Door Cost Minimum"
     range_start = 1
     range_end = 40
@@ -299,7 +299,7 @@ class BossLairDoorCostMin(Range):
 
 
 class BossLairDoorCostMax(Range):
-    """Maximum cost for boss lairs, if set to be random. Will be swapped with boss lair minimum if min > max and auto_corrections is enabled."""
+    """Maximum cost for boss lairs, if set to be random. Will be swapped with boss lair minimum if min > max and auto_corrections is set to 'fix'."""
     display_name = "Boss Lair Door Cost Maximum"
     range_start = 1
     range_end = 40
@@ -334,7 +334,7 @@ class RandomizeLightGemDoorCosts(Choice):
 
 
 class LightGemDoorCostMin(Range):
-    """Minimum cost for light gem doors, if set to be random. Will be swapped with light gem door maximum if min > max and auto_corrections is enabled."""
+    """Minimum cost for light gem doors, if set to be random. Will be swapped with light gem door maximum if min > max and auto_corrections is set to 'fix'."""
     display_name = "Minimum Light Gem Door Cost"
     range_start = 1
     range_end = 100
@@ -342,7 +342,7 @@ class LightGemDoorCostMin(Range):
 
 
 class LightGemDoorCostMax(Range):
-    """Maximum cost for light gem doors, if set to be random. Will be swapped with light gem door minimum if min > max and auto_corrections is enabled."""
+    """Maximum cost for light gem doors, if set to be random. Will be swapped with light gem door minimum if min > max and auto_corrections is set to 'fix'."""
     display_name = "Maximum Light Gem Door Cost"
     range_start = 1
     range_end = 100
@@ -364,7 +364,7 @@ class RandomizeGadgetCosts(Choice):
 
 
 class GadgetCostMin(Range):
-    """Minimum cost for gadgets, if set to be random. Will be swapped with gadget maximum if min > max and auto_corrections is enabled."""
+    """Minimum cost for gadgets, if set to be random. Will be swapped with gadget maximum if min > max and auto_corrections is set to 'fix'."""
     display_name = "Minimum Gadget Cost"
     range_start = 1
     range_end = 100
@@ -372,7 +372,7 @@ class GadgetCostMin(Range):
 
 
 class GadgetCostMax(Range):
-    """Maximum cost for gadgets, if set to be random. Will be swapped with gadget minimum if min > max and auto_corrections is enabled."""
+    """Maximum cost for gadgets, if set to be random. Will be swapped with gadget minimum if min > max and auto_corrections is set to 'fix'."""
     display_name = "Maximum Gadget Cost"
     range_start = 1
     range_end = 100

@@ -304,7 +304,7 @@ class DolphinClient(GenericClient):
             if "VictoryCon" in event:
                 continue
             gem_amount = int(event.split(" ", 1)[0])
-            if "Blink minigames" in event:
+            if "Blink minigames" in event and ctx.slot_data["blink_gems"] > 0:
                 blink_available += gem_amount
             else:
                 other_available += gem_amount

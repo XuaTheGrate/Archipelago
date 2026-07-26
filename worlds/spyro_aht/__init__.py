@@ -93,17 +93,17 @@ def create_location_groups(location_data) -> dict[str, set[str]]:
             if location['name'].split(': ')[0] in level_lookup:
                 abbreviation = location['name'].split(': ')[0]
                 loc_groups[level_lookup[abbreviation]].add(location['name'])
-            elif "Defeat" in location['name'] or "Breath from" in location['name']:  # bosses
+            if "Defeat" in location['name'] or "Breath from" in location['name']:  # bosses
                 loc_groups["Bosses"].add(location['name'])
-            elif ": Dark Gem" in location['name']:
+            if ": Dark Gem" in location['name']:
                 loc_groups["Dark Gems"].add(location['name'])
-            elif ": Dragon Egg" in location['name']:
+            if ": Dragon Egg" in location['name']:
                 loc_groups["Dragon Eggs"].add(location['name'])
-            elif ": Light Gem" in location['name']:
+            if ": Light Gem" in location['name']:
                 loc_groups["Light Gems"].add(location['name'])
-            elif "locked chest" in location['name']:
+            if "locked chest" in location['name']:
                 loc_groups["Locked Chests"].add(location['name'])
-            elif ": Firework" in location['name']:
+            if ": Firework" in location['name']:
                 loc_groups["Fireworks"].add(location['name'])
     
     for minigame_type, minigame_list in zip(["Sgt. Byrd", "Blink", "Sparx", "Turret"], minigame_locs):
@@ -320,9 +320,9 @@ class SpyroAHTWorld(World):
                             continue
                         self.get_region(reg).add_event(f"{location['name']} Victory{count}", f"VictoryCon{count}", rule=self.rule_from_dict(location['access_rule']))
                         victory_cons.append(f"VictoryCon{count}")
-                        count += 1
                         self.log(f"Added VictoryCon{count} event item for {location['name']}.", "MoreDebug")
-        self.log(f"Set up {count} goal events.", "Debug")
+                        count += 1
+        self.log(f"Set up {count-1} goal events.", "Debug")
 
         self.multiworld.completion_condition[self.player] = lambda state: state.has_all(victory_cons, self.player)
     
@@ -382,13 +382,12 @@ class SpyroAHTWorld(World):
                 self._boss_lairs = [self.random.randint(bmin, bmax) for _ in range(4)]
             
             if self.options.boss_lair_forcing.value < 4:  # if not "unchanged"
-                lowest = min(self._boss_lairs)
-                low_index = self._boss_lairs.index(lowest)
+                player_choice = self.options.boss_lair_forcing.value
                 highest = max(self._boss_lairs)
                 high_index = self._boss_lairs.index(highest)
                 convert = {0: "Gnasty Gnorc", 1: "Ineptune", 2: "Red", 3: "Mecha-Red"}
-                self.log(f"Swapping cost of {convert[low_index]} ({lowest}) and {convert[high_index]} ({highest}).", "Debug")
-                self._boss_lairs[low_index], self._boss_lairs[high_index] = self._boss_lairs[high_index], self._boss_lairs[low_index]
+                self.log(f"Swapping cost of {convert[high_index]} ({highest}) and {convert[player_choice]} ({self._boss_lairs[player_choice]}).", "Debug")
+                self._boss_lairs[high_index], self._boss_lairs[player_choice] = self._boss_lairs[player_choice], self._boss_lairs[high_index]
                 
         self.log(f"Boss lair costs are {self._boss_lairs}.", "Debug")
         
@@ -732,7 +731,10 @@ class ShopCheckRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
     #override
     def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
         if world.options.gem_logic:  # if gem logic in use, check Gems pseudo-item
+            if self.index == 0:
+                return True_().resolve(world)  # first item always free. Price is 0 but this ensures it's true prior to any gem collection
             cost_lookup = world.shop_costs[self.index]
+            print(f"price for shop item {self.index+1} found to be {cost_lookup}.")
             return Has("Gems", cost_lookup).resolve(world)
         else:
             return True_().resolve(world)  # always seen as accessible if gem logic is not in use

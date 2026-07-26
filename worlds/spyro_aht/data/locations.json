@@ -68,10 +68,12 @@
                     }
                 ],
                 "access_rule": {
-                    "rule": "True_",
+                    "rule": "ShopCheckRule",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {}
+                    "args": {
+                        "index": 0
+                    }
                 }
             }
         ],
