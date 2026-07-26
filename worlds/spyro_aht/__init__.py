@@ -225,14 +225,23 @@ class SpyroAHTWorld(World):
         random_choices = [goal for goal in self.options.goal.valid_keys if goal != "Random" and goal not in self.options.exclude_from_goal.value and goal not in self.options.goal.value]
         random_count = self.options.goal.value.count("Random")
         if random_count > len(random_choices):
-            if self.options.auto_corrections:
+            # fix (or halt) specifically for if random_choices list is empty
+            if len(random_choices) == 0:
+                if self.options.auto_corrections:
+                    self.log("No goals available for random selection due to being already included or being excluded, and auto_corrections is enabled. Fixing by skipping random choices.", "Warning")
+                    random_count = 0
+                else:
+                    self.log(f"There are no goals that can be selected at random due to exclusions, and auto_corrections is disabled. Halting generation.", "Warning")
+                    raise OptionError("No available goals for random selection due to all available goals being either included already or being excluded.")
+            
+            if random_count > 0 and self.options.auto_corrections:
                 removed = []
                 while random_count > len(random_choices):
                     to_remove = self.random.choice(random_choices)
                     removed.append(to_remove)
                     random_choices.remove(to_remove)
                 self.log(f"Not enough enabled goals to support {random_count}. Removed {removed} at random to shrink the list of exclusions.", "Warning")
-            else:
+            elif random_count > 0 and not self.options.auto_corrections:
                 self.log(f"Not enough enabled goals to support {random_count} random choice(s), and auto_corrections is disabled.", "Warning")
                 raise OptionError(f"Not enough enabled goals to support {random_count} random choice(s).")
         
@@ -378,7 +387,7 @@ class SpyroAHTWorld(World):
                 highest = max(self._boss_lairs)
                 high_index = self._boss_lairs.index(highest)
                 convert = {0: "Gnasty Gnorc", 1: "Ineptune", 2: "Red", 3: "Mecha-Red"}
-                self.log(f"Swapping cost of {convert[lowest]} ({self._boss_lairs[low_index]}) and {convert[highest]} ({self._boss_lairs[high_index]}.", "Debug")
+                self.log(f"Swapping cost of {convert[low_index]} ({lowest}) and {convert[high_index]} ({highest}.", "Debug")
                 self._boss_lairs[low_index], self._boss_lairs[high_index] = self._boss_lairs[high_index], self._boss_lairs[low_index]
                 
         self.log(f"Boss lair costs are {self._boss_lairs}.", "Debug")

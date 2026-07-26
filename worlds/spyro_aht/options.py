@@ -76,7 +76,8 @@ class Goal(OptionList):
     Random: For each "Random" you include, a random goal from above will be chosen.
     
     If the list is empty and auto_corrections is enabled, a single random choice will be made.
-    If the list has too many entries and auto_corrections is enabled, entries will be removed at random until in range."""
+    If the list has too many entries and auto_corrections is enabled, entries will be removed at random until in range.
+    If there are not enough available goals for random selections and auto_corrections is enabled, random selections will be skipped."""
     display_name = "Goal"
     valid_keys = ("Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red", "Fireworks", "Dark Gems", "Dragon Eggs", "Light Gems",
                   "Locked Chests", "Shop Items", "Random")
