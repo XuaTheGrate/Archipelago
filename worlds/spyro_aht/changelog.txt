@@ -1,5 +1,10 @@
 2.0 (Beta Release 2)
 
+- NOTE: this release contains a known issue that wasn't resolvable prior to release. tl;dr: shop items may appear as in-logic sooner than they should be, but the underlying logic is correct.
+    - For example, if your second shop item costs 6,500, it may appear as in-logic when you have access to less than 6,500 gems.
+    - You will not *actually* be expected to buy that item until you *do* have access to 6,500 gems. This is effectively just a visual bug in trackers.
+    - Figuring out the cause is proving complicated. I'm releasing this as-is because I suspect it will be easier to figure out after once I get the last phase of the 2.0 update a bit more in place.
+
 - New Goaling System: non-boss goals are now supported, as well as mixing and matching goals in a fully customizable form!
     - You can choose between beating any of the 4 bosses, flaming all fireworks, collecting all of each collectible (dark gems, dragon eggs, light gems), opening all locked chests, and buying all shop items.
     - You can also choose "Random". Each "Random" in the list will be replaced with a goal that hasn't already been selected yet. A new option exclude_from_goal allows for excluding goals from being randomly chosen.
