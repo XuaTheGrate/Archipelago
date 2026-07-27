@@ -158,6 +158,17 @@ class SpyroAHTWorld(World):
         self._starting_breath = -1  # represents none
         self._classifications = {i['name']: ItemClassification(i['classification']) for i in _load_file("items.json")}
         self.shop_costs = []
+        self.filler_categories: list
+        self.filler_items: list[list]
+        
+    def get_filler_item_name(self):
+        """Override of World.get_filler_item_name which returns a random filler item name.
+        Used whenever start_inventory_from_pool is used."""
+        random_category = self.random.choice(self.filler_categories)
+        convert = {"Gem Packs": 0, "Dragon Eggs": 1, "Breath Bombs": 2, "Generics": 3}
+        random_choice = self.random.choice(self.filler_items[convert[random_category]])    
+        self.log(f"Replacing start_inventory_from_pool item with \"{random_choice}\".", "Info")
+        return random_choice
             
     def collect(self, state: "CollectionState", item: "Item") -> bool:
         """Override of World.collect which additionally handles gem events."""
@@ -182,7 +193,7 @@ class SpyroAHTWorld(World):
         if name:
             state.remove_item(name, self.player)
 
-            if "Gems" in item.name:
+            if "Gems" in item.name:  # TODO: add logic from collect just in case it matters for the logic issue? remove should never be called anyways but y'never know at this point
                 gem_amount = int(item.name.split(" ")[0])
                 state.remove_item("Gems", item.player, count=gem_amount)
             return True
@@ -590,13 +601,13 @@ class SpyroAHTWorld(World):
                 
         # add filler. Randomly chooses a category, then within the list of items for that category, randomly chooses one.
         self.log("Setting up filler items.", "Info")
-        filler_categories, filler_items = self.setup_filler_list(item_data)
+        self.filler_categories, self.filler_items = self.setup_filler_list(item_data)
         convert = {"Gem Packs": 0, "Dragon Eggs": 1, "Breath Bombs": 2, "Generics": 3}
         while len(itempool) < len(self.multiworld.get_unfilled_locations(self.player)):
-            random_category = self.random.choice(filler_categories)
-            while random_category not in filler_categories:
-                random_category = self.random.choice(filler_categories)
-            filler_choices = filler_items[convert[random_category]]
+            random_category = self.random.choice(self.filler_categories)
+            while random_category not in self.filler_categories:
+                random_category = self.random.choice(self.filler_categories)
+            filler_choices = self.filler_items[convert[random_category]]
             choice = self.random.choice(filler_choices)
             self.log(f"Creating filler item \"{choice}\".", "MoreDebug")
             itempool.append(self.create_item(choice))
@@ -736,7 +747,6 @@ class ShopCheckRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
             if self.index == 0:
                 return True_().resolve(world)  # first item always free. Price is 0 but this ensures it's true prior to any gem collection
             cost_lookup = world.shop_costs[self.index]
-            print(f"price for shop item {self.index+1} found to be {cost_lookup}.")
             return Has("In-Logic Gems", cost_lookup).resolve(world)
         else:
             return True_().resolve(world)  # always seen as accessible if gem logic is not in use

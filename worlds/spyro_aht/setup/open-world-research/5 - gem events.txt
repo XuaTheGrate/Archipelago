@@ -1,0 +1,1 @@
+DVEntry | 150 Gems (chargeable wall near Elder) | Has('Charge')

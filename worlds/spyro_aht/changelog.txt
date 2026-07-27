@@ -1,3 +1,17 @@
+2.0 (Release Candidate)
+
+- uh
+
+TO-DO LIST:
+    - TODO: uhhhhhhhhhhh multiple breaths???
+    - TODO 2.0 RC: updated death link messages
+    - TODO 2.0 RC: a secret second major addition (if you pay attention you'll already know what it is, but I'm not spoiling it for those who haven't noticed :3)
+    - TODO 2.0 RC: make tool for testing gem access
+    - TODO 2.0 RC: what can we do to fix new save files on existing seeds, if anything?
+        - items aren't re-sent, understandably, but could be re-sent in cheat console if needed.
+        - gems aren't reset, that's a big deal now in shop rando. Could game mod check slot data and apply gem count to new files if there is an amount set?
+    - TODO 2.0 RC: fix client not properly processing duplicate sends from cheat console?
+
 2.0 (Beta Release 2)
 
 - NOTE: this release contains a known issue that wasn't resolvable prior to release. tl;dr: shop items may appear as in-logic sooner than they should be, but the underlying logic is correct.
@@ -36,15 +50,6 @@
     - Flipped randomize_minigames to vanilla_minigame_rewards. Same exact feature, but opposite logic to be slightly easier to understand semantically.
     - Renamed gem_collection to non_blink_gems. Not a huge fan of this name, but it's a bit better and I don't think there's any better options.
     - Added start_inventory_from_pool to YAML. The only difference between it and the standard start_inventory is that start_inventory_from_pool will replace any items listed there with filler, while start_inventory keeps the original copy of items in the world.
-
-TO-DO LIST:
-    - TODO 2.0 RC: updated death link messages
-    - TODO 2.0 RC: a secret second major addition (if you pay attention you'll already know what it is, but I'm not spoiling it for those who haven't noticed :3)
-    - TODO 2.0 RC: make tool for testing gem access
-    - TODO 2.0 RC: what can we do to fix new save files on existing seeds, if anything?
-        - items aren't re-sent, understandably, but could be re-sent in cheat console if needed.
-        - gems aren't reset, that's a big deal now in shop rando. Could game mod check slot data and apply gem count to new files if there is an amount set?
-    - TODO 2.0 RC: fix client not properly processing duplicate sends from cheat console?
 
 2.0 (Beta Release 1)
 - This apworld has officially switched hands to being primarily maintained by PhoenixAki.
