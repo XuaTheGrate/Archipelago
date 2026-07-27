@@ -168,9 +168,11 @@ class SpyroAHTWorld(World):
                 gem_amount = int(item.name.split(" ")[0])
                 
                 if "Blink minigames" in item.name and self.options.blink_gems.value > 0:
-                    state.add_item("Gems", item.player, count=int(gem_amount * (self.options.blink_gems.value/100)))
+                    state.add_item("Total Gems", item.player, count=gem_amount)
+                    state.add_item("In-Logic Gems", item.player, count=int(gem_amount * (self.options.blink_gems.value/100)))
                 else:
-                    state.add_item("Gems", item.player, count=int(gem_amount * (self.options.non_blink_gems.value/100)))
+                    state.add_item("Total Gems", item.player, count=gem_amount)
+                    state.add_item("In-Logic Gems", item.player, count=int(gem_amount * (self.options.non_blink_gems.value/100)))
             return True
         return False
 
@@ -735,7 +737,7 @@ class ShopCheckRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
                 return True_().resolve(world)  # first item always free. Price is 0 but this ensures it's true prior to any gem collection
             cost_lookup = world.shop_costs[self.index]
             print(f"price for shop item {self.index+1} found to be {cost_lookup}.")
-            return Has("Gems", cost_lookup).resolve(world)
+            return Has("In-Logic Gems", cost_lookup).resolve(world)
         else:
             return True_().resolve(world)  # always seen as accessible if gem logic is not in use
 
