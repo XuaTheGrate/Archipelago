@@ -300,19 +300,17 @@ class DolphinClient(GenericClient):
             return
         
         blink_available, non_blink_available = 0, 0
-        blink_in_logic, non_blink_in_logic = 0, 0
         for event in events:
             if "VictoryCon" in event:
                 continue
             gem_amount = int(event.split(" ", 1)[0])
             if "Blink minigames" in event:
                 blink_available += gem_amount
-                blink_in_logic += int(gem_amount * (ctx.slot_data["blink_gems"] / 100))
             else:
                 non_blink_available += gem_amount
-                non_blink_in_logic += int(gem_amount * (ctx.slot_data["non_blink_gems"] / 100))
         
-        dolphin_memory_engine.write_word(self.addresses.g_GEMS_IN_LOGIC, blink_in_logic + non_blink_in_logic)
+        in_logic = (blink_available * (ctx.slot_data['blink_gems'] / 100)) + (non_blink_available * (ctx.slot_data['non_blink_gems'] / 100))
+        dolphin_memory_engine.write_word(self.addresses.g_GEMS_IN_LOGIC, in_logic)
         dolphin_memory_engine.write_word(self.addresses.g_GEMS_AVAILABLE, blink_available + non_blink_available)
     
     async def allow_realm_access(self, id: int):

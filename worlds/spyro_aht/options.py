@@ -103,6 +103,16 @@ class ExcludeFromGoal(OptionSet):
     default = frozenset()
     
 
+class OpenWorldMode(Toggle):
+    """Patches the game so that all remote shop pads can be teleported to from the start of your save file.
+    This has a dramatic impact on the playing experience of the game, as you will be expected to utilize the
+    shop pads to, for instance, teleport deep into a level without needing to access it the vanilla way.
+    Note: Enabling open world mode will override your settings for starting_realms and give you all 4 access cards,
+    which helps prevent some potential softlock scenarios."""
+    display_name = "Open World Mode"
+    default = 0
+    
+
 class FireworkChecks(Toggle):
     """Whether to enable checks for flaming fireworks."""
     display_name = "Firework Checks"
@@ -230,18 +240,19 @@ class NonBlinkGems(Range):
     game's gems you want to be expected to collect. blink_gems handles gems from Blink minigames, while non_blink_gems handles
     the rest of the game's gems. For example, non_blink_gems being 50 means being expected to collect 50% of all gems outside
     of Blink minigames. If you have gem_logic enabled, the amount you are expected to have is visible on the pause screen.
-     
+
     This option contributes to determining your shop item prices. Moneybags always offers your first shop item for free,
     which prevents a number of restrictive starts. Other items will be priced in accordance to the formula below, which
     factors in a few things. If you are not math-inclined, you can always do some test generations to see how your shop reacts.
 
     ********************************FORMULA INFO (for the math nerds)********************************
-    non_blink_total = 122,429 * non_blink_gems%, rounded down
-    blink_total = 20,028 * blink_gems%, rounded down
-    base_shop_price = (non_blink_total + blink_total) / (number of shop items - 1), rounded down
+    non_blink_total = 122,796 * non_blink_gems%
+    blink_total = 20,028 * blink_gems%
+    base_shop_price = (non_blink_total + blink_total) / (number of shop items - 1)
 
     If gem_logic is disabled, shop items will each cost base_shop_price.
     If gem_logic is enabled, shop items will each cost base_shop_price * 1, base_shop_price * 2, etc. for all N shop items.
+    Note that whenever needed, shop item prices will be rounded down. No rounding is done prior to that step.
     *************************************************************************************************"""
     display_name = "Non Blink Gems"
     range_start = 1
@@ -253,8 +264,8 @@ class BlinkGems(Range):
     """This option is only used when the shop is randomized, and pairs with non_blink_gems. This option isolates Blink's
     minigame gems, because his contain notably more than the other types.
     
-    This option works identically to non_blink_gems. For example, setting this to 40 means collecting 40% of Blink's minigame
-    gems, which is 8,011. Set this option to 0 if you intend to skip Blink minigames, whether that be from
+    This option works identically to non_blink_gems. For example, setting this to 50 means collecting 50% of Blink's minigame
+    gems, which is roughly 10,014. Set this option to 0 if you intend to skip Blink minigames, whether that be from
     underground-air-a-phobia or because you excluded enough Blink minigame locations to justify it.
     """
     display_name = "Blink Gems"
@@ -271,9 +282,9 @@ class DoubleGems(Choice):
     ahead of the intended logic for the seed. This option allows you to eliminate Double Gems from your item pool, which
     ensures you have a consistent gem collection rate."""
     display_name = "Double Gems"
-    option_disabled = 0
-    option_enabled = 1
-    default = 1
+    option_enabled = 0
+    option_disabled = 1
+    default = 0
 
 ###############GATE & GADGET COSTS###############
 class RandomizeBossLairDoorCosts(Choice):
@@ -420,15 +431,6 @@ class TeleportAcrossRealms(Toggle):
     default = 0
 
 
-class OpenWorldMode(Toggle):
-    """NOT CURRENTLY SUPPORTED LOGICALLY. Turning this on will enable the patch, but logic will not
-    utilize it. This allows for teleporting to any Moneybags' shop pad from the start of your file.
-    Only left in for development testing purposes."""
-    display_name = "Open World Mode"
-    default = 0
-    visibility = Visibility.none
-
-
 @dataclass
 class SpyroAHTOptions(PerGameCommonOptions):
     death_link: DeathLink
@@ -438,6 +440,7 @@ class SpyroAHTOptions(PerGameCommonOptions):
     
     goal: Goal
     exclude_from_goal: ExcludeFromGoal
+    open_world_mode: OpenWorldMode
     firework_checks: FireworkChecks
     vanilla_minigame_rewards: VanillaMinigameRewards
     filler_items: FillerItems
@@ -470,7 +473,6 @@ class SpyroAHTOptions(PerGameCommonOptions):
     skip_cutscenes: SkipCutscenes
     skip_elevators: SkipElevators
     teleport_across_realms: TeleportAcrossRealms
-    open_world_mode: OpenWorldMode
     
     
 spyro_options_groups = [
@@ -478,7 +480,7 @@ spyro_options_groups = [
         LoggingLevel, AutoCorrections
     ]),
     OptionGroup("GOAL, CHECKS, AND ITEMS", [
-        Goal, ExcludeFromGoal, FireworkChecks, VanillaMinigameRewards, FillerItems
+        Goal, ExcludeFromGoal, OpenWorldMode, FireworkChecks, VanillaMinigameRewards, FillerItems
     ]),
     OptionGroup("START OF GAME", [
         StartingBreath, RandomizeMovement, StartingRealms
@@ -495,6 +497,6 @@ spyro_options_groups = [
         HintMinigameRewards, HintBossRewards,
         EasyBosses,
         SkipCutscenes, SkipElevators,
-        TeleportAcrossRealms, OpenWorldMode
+        TeleportAcrossRealms
     ])
 ]

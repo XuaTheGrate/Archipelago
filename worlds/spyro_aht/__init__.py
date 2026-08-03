@@ -1,7 +1,6 @@
 import asyncio
 import pkgutil
 import logging
-import random
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import Any, TextIO, override
@@ -11,7 +10,7 @@ import orjson
 import Utils
 from BaseClasses import Item, ItemClassification, MultiWorld, Region, CollectionState
 from Options import OptionError
-from rule_builder.rules import Has, Rule, True_, And
+from rule_builder.rules import Has, Rule, True_, And, False_
 from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import icon_paths
 from .options import RandomizeMovement, SpyroAHTOptions, StartingBreath, spyro_options_groups
@@ -147,6 +146,8 @@ class SpyroAHTWorld(World):
             logging.info(f"[Spyro AHT] WARNING: {message}")
         elif level == "Debug":
             logging.info(f"[Spyro AHT] DEBUG: {message}")
+        elif level == "MoreDebug":
+            logging.info(f"[Spyro AHT] MOREDEBUG: {message}")
 
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
@@ -158,8 +159,8 @@ class SpyroAHTWorld(World):
         self._starting_breath = -1  # represents none
         self._classifications = {i['name']: ItemClassification(i['classification']) for i in _load_file("items.json")}
         self.shop_costs = []
-        self.filler_categories: list
-        self.filler_items: list[list]
+        self.filler_categories: list = []
+        self.filler_items: list[list] = [[]]
         
     def get_filler_item_name(self):
         """Override of World.get_filler_item_name which returns a random filler item name.
@@ -177,13 +178,10 @@ class SpyroAHTWorld(World):
             state.add_item(name, self.player)
             if "Gems" in item.name and "VictoryCon" not in item.name:
                 gem_amount = int(item.name.split(" ")[0])
-                
-                if "Blink minigames" in item.name and self.options.blink_gems.value > 0:
-                    state.add_item("Total Gems", item.player, count=gem_amount)
-                    state.add_item("In-Logic Gems", item.player, count=int(gem_amount * (self.options.blink_gems.value/100)))
+                if "Blink minigames" in item.name:
+                    state.add_item("Blink Gems", item.player, count=gem_amount)
                 else:
-                    state.add_item("Total Gems", item.player, count=gem_amount)
-                    state.add_item("In-Logic Gems", item.player, count=int(gem_amount * (self.options.non_blink_gems.value/100)))
+                    state.add_item("Non-Blink Gems", item.player, count=gem_amount)
             return True
         return False
 
@@ -192,10 +190,12 @@ class SpyroAHTWorld(World):
         name = self.collect_item(state, item, True)
         if name:
             state.remove_item(name, self.player)
-
-            if "Gems" in item.name:  # TODO: add logic from collect just in case it matters for the logic issue? remove should never be called anyways but y'never know at this point
+            if "Gems" in item.name and "VictoryCon" not in item.name:
                 gem_amount = int(item.name.split(" ")[0])
-                state.remove_item("Gems", item.player, count=gem_amount)
+                if "Blink minigames" in item.name:
+                    state.remove_item("Blink Gems", item.player, count=gem_amount)
+                else:
+                    state.remove_item("Non-Blink Gems", item.player, count=gem_amount)
             return True
         return False
 
@@ -263,7 +263,7 @@ class SpyroAHTWorld(World):
             converted_goal_set.remove("Random")
 
         for _ in range(random_count):
-            random_goal = random.choice(random_choices)
+            random_goal = self.random.choice(random_choices)
             converted_goal_set.add(random_goal)
             random_choices.remove(random_goal)
 
@@ -294,6 +294,7 @@ class SpyroAHTWorld(World):
         
         self.options.goal.value = slot_data['goal']
         self.options.exclude_from_goal.value = slot_data['exclude_from_goal']
+        self.options.open_world_mode.value = slot_data['open_world_mode']
         self.options.firework_checks.value = slot_data['firework_checks']
         self.options.vanilla_minigame_rewards.value = slot_data['vanilla_minigame_rewards']
         self.options.filler_items.value = slot_data['filler_items']
@@ -346,19 +347,18 @@ class SpyroAHTWorld(World):
         if self.options.shop_randomization.value == 1:
             self.log("Setting up shop costs.", "Info")
             shop_item_count = 18 if self.options.key_rings.value else 56
-            blink_total = 20028 * self.options.blink_gems.value // 100
-            other_total = 122429 * self.options.non_blink_gems.value // 100
-            base_price = (blink_total + other_total) // (shop_item_count-1)
+            blink_total = 20028 * self.options.blink_gems.value / 100
+            other_total = 122796 * self.options.non_blink_gems.value / 100
+            base_price = (blink_total + other_total) / (shop_item_count-1)
             self.log(f"Setting up shop prices. shop_item_count = {shop_item_count}. blink_total = {blink_total}. other_total = {other_total}. base_price = {base_price}.", "Debug")
             self.shop_costs.append(0)
             
             if self.options.gem_logic:  # gem logic
                 for counter in range(shop_item_count-1):
-                    self.shop_costs.append(base_price * (counter + 1))  # each item has incrementing price
-                self.shop_costs[-1] = blink_total + other_total 
+                    self.shop_costs.append(int(base_price * (counter + 1)))  # each item has incrementing price
             else:  # no gem logic
                 for counter in range(shop_item_count-1):
-                    self.shop_costs.append(base_price)  # each item has same price
+                    self.shop_costs.append(int(base_price))  # each item has same price
             self.log(f"Shop costs are {self.shop_costs}.", "Debug")
             
         self.log("Setting up gadget costs.", "Info")
@@ -426,22 +426,23 @@ class SpyroAHTWorld(World):
         self.log("Setting up regions and locations.", "Info")
         self.multiworld.regions.extend(Region(r['name'], self.player, self.multiworld) for r in data.values())
         self.log("Regions created.", "Debug")
+        
+        self.log("Setting up region entrances.", "Info")
+        for region_name, region_data in data.items():
+            for entrance in region_data['entrances']:
+                region_from, region_to = entrance['name'].split(" -> ")
+                rule = self.rule_from_dict(entrance['access_rule'])
+                self.get_region(region_from).connect(self.get_region(region_to), f"{region_from} => {region_to}", rule)
+                self.log(f"Connected {region_from} to {region_to} with rule {rule}.", "MoreDebug")
+        self.log("Region entrances created.", "Debug")
 
-        for r in data.values():
-            region = self.get_region(r['name'])
-            for con in r['connections']:
-                c = self.get_region(con)
-                entrance = f'{region.name}=>{c.name}'
-                region.connect(c, entrance, rule=self.rule_from_dict(data[con]['access_rule']))
-                self.log(f"Connected {region.name} to {c.name}.", "MoreDebug")
-        self.log("Region connections created.", "Debug")
-
-        for r in data.values():
-            region = self.get_region(r['name'])
-            f = {}
-            for l in r['locations']:
+        self.log("Setting up locations.", "Info")
+        for region_data in data.values():
+            region_object = self.get_region(region_data['name'])
+            new_locations = {}
+            for location_data in region_data['locations']:
                 add = True
-                for options in l.get('options', ()):
+                for options in location_data.get('options', ()):
                     option = getattr(self.options, options['option'])
                     match options.get('operator', 'eq'):
                         case 'eq':
@@ -457,9 +458,9 @@ class SpyroAHTWorld(World):
                         case 'le':
                             add = add and option.value <= options['value']
                 if add:
-                    f[l['name']] = l['id']
-                    self.log(f"Added \"{l['name']}\" with id {l['id']} to {r['name']}.", "MoreDebug")
-            region.add_locations(f)
+                    new_locations[location_data['name']] = location_data['id']
+                    self.log(f"Added \"{location_data['name']}\" with id {location_data['id']} to {region_data['name']}.", "MoreDebug")
+            region_object.add_locations(new_locations)
         self.log("Locations created.", "Debug")
         
         self.log("Setting up goals.", "Info")
@@ -534,7 +535,10 @@ class SpyroAHTWorld(World):
             self.get_location("Starter Checks: Glide").place_locked_item(self.create_item("Glide"))
         
         self.log("Setting up starting realm(s).", "Info")
-        if len(self.options.starting_realms.value) == 0:
+        if self.options.open_world_mode.value == 1:  # all 4 if open world is on
+            self.log("Open world mode is enabled. Overriding starting_realms and giving all 4 access cards.", "Info")
+            self._starting_realms = ['Dragon Kingdom', 'Lost Cities', 'Icy Wilderness', 'Volcanic Isle']
+        elif len(self.options.starting_realms.value) == 0:
             if self.options.auto_corrections:
                 self.log("Starting realm list is empty and auto_corrections is enabled. Fixing by picking one at random.", "Warning")
                 self._starting_realms.append(self.random.choice(["Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle"]))
@@ -596,7 +600,7 @@ class SpyroAHTWorld(World):
                     count -= minigames
 
                 for _ in range(count):
-                    self.log(f"Created item \"{item['name']}.", "MoreDebug")
+                    self.log(f"Created item \"{item['name']}\".", "MoreDebug")
                     itempool.append(self.create_item(item['name']))
                 
         # add filler. Randomly chooses a category, then within the list of items for that category, randomly chooses one.
@@ -633,6 +637,7 @@ class SpyroAHTWorld(World):
             
             "goal": self.options.goal.value,
             "exclude_from_goal": self.options.exclude_from_goal.value,
+            "open_world_mode": self.options.open_world_mode.value,
             "firework_checks": self.options.firework_checks.value,
             "vanilla_minigame_rewards": self.options.vanilla_minigame_rewards.value,
             "filler_items": self.options.filler_items.value,
@@ -662,8 +667,7 @@ class SpyroAHTWorld(World):
             "easy_bosses": self.options.easy_bosses.value,
             "skip_cutscenes": self.options.skip_cutscenes.value,
             "skip_elevators": self.options.skip_elevators.value,
-            "teleport_across_realms": self.options.teleport_across_realms.value,
-            "open_world_mode": self.options.open_world_mode.value,
+            "teleport_across_realms": self.options.teleport_across_realms.value
         }
         
         return r
@@ -741,15 +745,40 @@ class LockedChestRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
 class ShopCheckRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
     index: int
     
-    #override
+    @override
     def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
-        if world.options.gem_logic:  # if gem logic in use, check Gems pseudo-item
+        if world.options.gem_logic:
             if self.index == 0:
-                return True_().resolve(world)  # first item always free. Price is 0 but this ensures it's true prior to any gem collection
-            cost_lookup = world.shop_costs[self.index]
-            return Has("In-Logic Gems", cost_lookup).resolve(world)
+                return True_().resolve(world)  # first item always free. This ensures True_() before evaluating any gem logic so that it's in sphere 1
+            blink_scaling = world.options.blink_gems.value / 100
+            non_blink_scaling = world.options.non_blink_gems.value / 100
+            return self.Resolved(world.shop_costs[self.index], blink_scaling, non_blink_scaling, player=world.player)
         else:
-            return True_().resolve(world)  # always seen as accessible if gem logic is not in use
+            return True_().resolve(world)  # always accessible if gem logic is not in use
+
+    class Resolved(Rule.Resolved):
+        item_cost: int
+        blink_scaling: float
+        non_blink_scaling: float
+        
+        @override
+        def _evaluate(self, state: CollectionState) -> bool:
+            blink_gems = state.count("Blink Gems", self.player)
+            non_blink_gems = state.count("Non-Blink Gems", self.player)
+            in_logic_gems = (blink_gems * self.blink_scaling) + (non_blink_gems * self.non_blink_scaling)
+            return in_logic_gems >= self.item_cost
+    
+
+@dataclass
+class OpenWorldRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
+    shop_names: str
+    
+    def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
+        # can easily be expanded later if individual shop unlocks become a thing
+        if world.options.open_world_mode.value == 1:
+            return True_().resolve(world)
+        else:
+            return False_().resolve(world)
 
 ###############CLIENT###############
 def _run_client(*args: str):

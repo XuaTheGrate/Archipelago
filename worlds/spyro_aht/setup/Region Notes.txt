@@ -1,0 +1,1254 @@
+Starter Checks
+--------------
+LOCATION START | Starter Checks: Glide | 229 | True_()
+LOCATION START | Starter Checks: Charge | 230 | True_()
+LOCATION START | Starter Checks: Breath | 231 | True_()
+LOCATION START | Starter Checks: Swim | 232 | True_()
+
+Shop Item Locations
+-------------------
+LOCATION ShopPads | Moneybags: Shop Item 1 | 1000 | True_()
+LOCATION ShopPads | Moneybags: Shop Item 2 | 1001 | ShopCheckRule(1)
+LOCATION ShopPads | Moneybags: Shop Item 3 | 1002 | ShopCheckRule(2)
+LOCATION ShopPads | Moneybags: Shop Item 4 | 1003 | ShopCheckRule(3)
+LOCATION ShopPads | Moneybags: Shop Item 5 | 1004 | ShopCheckRule(4)
+LOCATION ShopPads | Moneybags: Shop Item 6 | 2000 | ShopCheckRule(5)
+LOCATION ShopPads | Moneybags: Shop Item 7 | 2001 | ShopCheckRule(6)
+LOCATION ShopPads | Moneybags: Shop Item 8 | 2002 | ShopCheckRule(7)
+LOCATION ShopPads | Moneybags: Shop Item 9 | 2003 | ShopCheckRule(8)
+LOCATION ShopPads | Moneybags: Shop Item 10 | 2004 | ShopCheckRule(9)
+LOCATION ShopPads | Moneybags: Shop Item 11 | 2005 | ShopCheckRule(10)
+LOCATION ShopPads | Moneybags: Shop Item 12 | 2006 | ShopCheckRule(11)
+LOCATION ShopPads | Moneybags: Shop Item 13 | 2007 | ShopCheckRule(12)
+LOCATION ShopPads | Moneybags: Shop Item 14 | 2008 | ShopCheckRule(13)
+LOCATION ShopPads | Moneybags: Shop Item 15 | 2009 | ShopCheckRule(14)
+LOCATION ShopPads | Moneybags: Shop Item 16 | 2010 | ShopCheckRule(15)
+LOCATION ShopPads | Moneybags: Shop Item 17 | 2011 | ShopCheckRule(16)
+LOCATION ShopPads | Moneybags: Shop Item 18 | 2012 | ShopCheckRule(17)
+LOCATION ShopPads | Moneybags: Shop Item 19 | 3013 | ShopCheckRule(18)
+LOCATION ShopPads | Moneybags: Shop Item 20 | 3014 | ShopCheckRule(19)
+LOCATION ShopPads | Moneybags: Shop Item 21 | 3015 | ShopCheckRule(20)
+LOCATION ShopPads | Moneybags: Shop Item 22 | 3016 | ShopCheckRule(21)
+LOCATION ShopPads | Moneybags: Shop Item 23 | 3017 | ShopCheckRule(22)
+LOCATION ShopPads | Moneybags: Shop Item 24 | 3018 | ShopCheckRule(23)
+LOCATION ShopPads | Moneybags: Shop Item 25 | 3019 | ShopCheckRule(24)
+LOCATION ShopPads | Moneybags: Shop Item 26 | 3020 | ShopCheckRule(25)
+LOCATION ShopPads | Moneybags: Shop Item 27 | 3021 | ShopCheckRule(26)
+LOCATION ShopPads | Moneybags: Shop Item 28 | 3022 | ShopCheckRule(27)
+LOCATION ShopPads | Moneybags: Shop Item 29 | 3023 | ShopCheckRule(28)
+LOCATION ShopPads | Moneybags: Shop Item 30 | 3024 | ShopCheckRule(29)
+LOCATION ShopPads | Moneybags: Shop Item 31 | 3025 | ShopCheckRule(30)
+LOCATION ShopPads | Moneybags: Shop Item 32 | 3026 | ShopCheckRule(31)
+LOCATION ShopPads | Moneybags: Shop Item 33 | 3027 | ShopCheckRule(32)
+LOCATION ShopPads | Moneybags: Shop Item 34 | 3028 | ShopCheckRule(33)
+LOCATION ShopPads | Moneybags: Shop Item 35 | 3029 | ShopCheckRule(34)
+LOCATION ShopPads | Moneybags: Shop Item 36 | 3030 | ShopCheckRule(35)
+LOCATION ShopPads | Moneybags: Shop Item 37 | 3031 | ShopCheckRule(36)
+LOCATION ShopPads | Moneybags: Shop Item 38 | 3032 | ShopCheckRule(37)
+LOCATION ShopPads | Moneybags: Shop Item 39 | 3033 | ShopCheckRule(38)
+LOCATION ShopPads | Moneybags: Shop Item 40 | 3034 | ShopCheckRule(39)
+LOCATION ShopPads | Moneybags: Shop Item 41 | 3035 | ShopCheckRule(40)
+LOCATION ShopPads | Moneybags: Shop Item 42 | 3036 | ShopCheckRule(41)
+LOCATION ShopPads | Moneybags: Shop Item 43 | 3037 | ShopCheckRule(42)
+LOCATION ShopPads | Moneybags: Shop Item 44 | 3038 | ShopCheckRule(43)
+LOCATION ShopPads | Moneybags: Shop Item 45 | 3039 | ShopCheckRule(44)
+LOCATION ShopPads | Moneybags: Shop Item 46 | 3040 | ShopCheckRule(45)
+LOCATION ShopPads | Moneybags: Shop Item 47 | 3041 | ShopCheckRule(46)
+LOCATION ShopPads | Moneybags: Shop Item 48 | 3042 | ShopCheckRule(47)
+LOCATION ShopPads | Moneybags: Shop Item 49 | 3043 | ShopCheckRule(48)
+LOCATION ShopPads | Moneybags: Shop Item 50 | 3044 | ShopCheckRule(49)
+LOCATION ShopPads | Moneybags: Shop Item 51 | 3045 | ShopCheckRule(50)
+LOCATION ShopPads | Moneybags: Shop Item 52 | 3046 | ShopCheckRule(51)
+LOCATION ShopPads | Moneybags: Shop Item 53 | 3047 | ShopCheckRule(52)
+LOCATION ShopPads | Moneybags: Shop Item 54 | 3048 | ShopCheckRule(53)
+LOCATION ShopPads | Moneybags: Shop Item 55 | 3049 | ShopCheckRule(54)
+LOCATION ShopPads | Moneybags: Shop Item 56 | 3050 | ShopCheckRule(55)
+
+Other Regions
+-------------
+REGION START
+REGION ShopPads
+
+Dragon Village
+--------------
+REGION DVEntry: shop, ember, and elder areas
+	START -> DVEntry | Has('Dragon Kingdom Access Card')
+		could have nothing
+	ShopPads -> DVEntry | OpenWorldRule(['Village Depot'])
+		could have nothing
+	DVTunnelToCroc -> DVEntry | True_()
+		would have DJ
+	DFBallGadget -> DVEntry | True_()
+		would have Ball Gadget
+	DVEntry -> ShopPads | True_()
+
+	LOCATION DVEntry | DV: Double Jump from Elder Tomas | 1 | True_()
+	LOCATION DVEntry | DV: Dark Gem by Ember | 2 | Has('Double Jump')
+
+REGION DVGnastyCave: gnasty cave
+	DVEntry -> DVGnastyCave | BossLairRule(0)
+		could have nothing
+
+	LOCATION DVGnastyCave | DV: Dragon Egg in Gnasty Gnorc's Cave | 16 | True_()
+	LOCATION DVGnastyCave | DV: Electric Breath from Gnasty Gnorc | 17 | HasAny('Fire Breath', 'Charge')
+	LOCATION DVGnastyCave | DV: Defeat Gnasty Gnorc | 4000 | HasAny('Fire Breath', 'Charge')
+
+REGION DVByrdLower: lower part of byrd area
+	DVEntry -> DVByrdLower | Has('Double Jump')
+		would have DJ
+
+	LOCATION DVByrdLower | DV: Light Gem from locked chest on starting area Double Jump ledge | 7 | LockedChestRule('Dragon Village')
+	LOCATION DVByrdLower | DV: Dragon Egg from Sgt. Byrd | 13 | True_()
+	LOCATION DVByrdLower | DV: Light Gem from Sgt. Byrd | 14 | True_()
+
+REGION DVByrdUpper: upper part of byrd area
+	DVByrdLower -> DVByrdUpper | Has('Charge')
+		would have DJ and charge
+
+	LOCATION DVByrdUpper | DV: Firework after timed platform challenge | 5002 | Has('Fire Breath')
+	LOCATION DVByrdUpper | DV: Light Gem after timed platforming challenge | 10 | True_()
+	LOCATION DVByrdUpper | DV: Dark Gem by Sgt. Byrd | 11 | True_()
+	LOCATION DVByrdUpper | DV: Dragon Egg behind Dark Gem by Sgt. Byrd | 12 | True_()
+
+REGION DVLabSecret: path to lab secret entrance
+	DVByrdLower -> DVLabSecret | Has('Charge')
+		would have DJ and charge
+
+	LOCATION DVLabSecret | DV: Dragon Egg by river grating outside Lab Secret Entrance | 8 | True_()
+	LOCATION DVLabSecret | DV: Light Gem above Lab Secret Entrance | 9 | True_()
+
+REGION DVHunterPreGlide: hunter section before glide
+	DVEntry -> DVHunterPreGlide | Has('Double Jump')
+		would have DJ
+
+	LOCATION DVHunterPreGlide | DV: Dark Gem by Elder Tomas | 3 | True_()
+
+REGION DVHunterPostGlide: hunter section after glide
+	DVHunterPreGlide -> DVHunterPostGlide | Has('Glide')
+		would have DJ and glide
+
+	LOCATION DVHunterPostGlide | DV: Dragon Egg from Hunter gliding tutorial | 4 | True_()
+	LOCATION DVHunterPostGlide | DV: Firework at end of Hunter Glide Tutorial | 5000 | Has('Fire Breath')
+
+REGION DVOutsideBallGadget: ball gadget area (past the door Hunter opens)
+	DVHunterPostGlide -> DVOutsideBallGadget | True_()
+		would have DJ and Glide
+	DFBallGadget -> DVOutsideBallGadget | True_()
+		would have nothing
+
+	LOCATION DVOutsideBallGadget | DV: Light Gem in Nursery | 5 | True_()
+	LOCATION DVOutsideBallGadget | DV: Dragon Egg from locked chest near Ball Gadget | 6 | LockedChestRule('Dragon Village')
+	LOCATION DVOutsideBallGadget | DV: Firework next to Ball Gadget | 5001 | Has('Fire Breath')
+
+REGION DVTunnelToCroc: across ember's bridge
+	CSPyramidAndTemple -> DVTunnelToCroc | Has('Double Jump')
+		would have DJ
+
+	LOCATION DVTunnelToCroc | DV: Firework on other side of bridge | 5003 | Has('Fire Breath')
+	LOCATION DVTunnelToCroc | DV: Light Gem from locked chest before Crocovile Swamp | 15 | LockedChestRule('Dragon Village')
+
+Crocovile Swamp
+---------------
+REGION CSPyramidAndTemple: vanilla entryway, pyramid, and outside temple
+	DVEntry -> CSPyramidAndTemple | Has('Double Jump')
+		would have DJ
+	CSEast -> CSPyramidAndTemple | Has('Double Jump')
+		would have DJ
+	CSFredneck -> CSPyramidAndTemple | Has('Glide')
+		would have DJ and pole spin and glide
+	ShopPads -> CSPyramidAndTemple | OpenWorldRule(['Perilous Pyramid', 'Forgotten Temple'])
+		could have nothing
+	CSPyramidAndTemple -> ShopPads | True_()
+
+	LOCATION CSPyramidAndTemple | CS: Dark Gem across from Perilous Pyramid | 18 | Has('Double Jump')
+	LOCATION CSPyramidAndTemple | CS: Light Gem behind Perilous Pyramid supercharge door | 21 | SuperchargeGadget()
+	LOCATION CSPyramidAndTemple | CS: Light Gem in cannon-destroyed top of Perilous Pyramid | 22 | HasAll('Double Jump', 'Glide')
+	LOCATION CSPyramidAndTemple | CS: Dragon Egg from locked chest before tunnel to Forgotten Temple | 23 | LockedChestRule('Crocovile Swamp')
+	LOCATION CSPyramidAndTemple | CS: Light Gem behind chargeable wall with switch | 26 | Has('Charge')
+
+REGION CSWest: west area of map
+	CSPyramidAndTemple -> CSWest | Has('Double Jump')
+		would have DJ
+
+	LOCATION CSWest | CS: Light Gem from locked chest behind breakable wall | 19 | And(Has('Charge'), SuperchargeGadget())
+	LOCATION CSWest | CS: Firework behind cliff in western area | 5004 | Has('Fire Breath')
+	LOCATION CSWest | CS: Dragon Egg across platforms in western area | 20 | True_()
+
+REGION CSInsideTemple: inside forgotten temple
+	CSPyramidAndTemple -> CSInsideTemple | Has('Double Jump')
+		would have DJ
+
+	LOCATION CSInsideTemple | CS: Dragon Egg from enemy-guarded locked chest in Forgotten Temple | 24 | And(HasAny('Fire Breath', 'Electric Breath', 'Charge'), LockedChestRule('Crocovile Swamp'))
+	LOCATION CSInsideTemple | CS: Light Gem in Forgotten Temple cave | 25 | True_()
+
+REGION CSInsideTempleElectric: inside electric gate of temple
+	CSInsideTemple -> CSInsideTempleElectric | Has('Electric Breath')
+		would have DJ and Electric
+
+	LOCATION CSInsideTemple | CS: Dragon Egg from thief behind Forgotten Temple electric gate | 27 | Has('Charge')
+
+REGION CSEast: vanilla first half of area with Blink. include the single enemy above poles
+	CSPyramidAndTemple -> CSEast | True_()
+		could have nothing
+	CSTree -> CSEast | Has('Double Jump')
+		would have DJ
+
+REGION CSEastPoles: rest of cave above first set of poles
+	CSEast -> CSEastPoles | HasAll('Double Jump', 'Pole Spin')
+		would have DJ and pole spin
+
+	LOCATION CSEastPoles | CS: Dragon Egg behind chargeable gate in pole spin cave | 29 | Has('Charge')
+
+REGION CSTree: Blink, outside tree, and lower part of tree (including talking to elder). include the outside poles. include path to fredneck above Blink.
+	CSEast -> CSTree | Has('Double Jump')
+		would have DJ
+	ShopPads -> CSTree | OpenWorldRule(['Elder\'s Tree'])
+		could have nothing
+	CSTree -> ShopPads | True_()
+
+	LOCATION CSTree | CS: Light Gem after sinking platforms | 28 | Has('Double Jump')
+	LOCATION CSTree | CS: Dragon Egg from Blink | 30 | True_()
+	LOCATION CSTree | CS: Light Gem from Blink | 31 | True_()
+	LOCATION CSTree | CS: Dark Gem outside Elder Magnus tree | 32 | Has('Double Jump')
+	LOCATION CSTree | CS: Pole Spin from Elder Magnus | 33 | Has('Double Jump')
+	LOCATION CSTree | CS: Dark Gem in cave above Blink | 36 | HasAll('Pole Spin', 'Double Jump')
+
+REGION CSAboveElder: above poles directly across tree (not path to Fredneck)
+	CSTree -> CSAboveElder | HasAll('Double Jump', 'Pole Spin')
+		would have DJ and pole spin
+
+	LOCATION CSAboveElder | CS: Dragon Egg behind chargeable part of Elder Magnus tree | 34 | Has('Charge')
+	LOCATION CSAboveElder | CS: Firework behind chargeable part of Elder Magnus tree | 5006 | HasAll('Charge', 'Fire Breath')
+	LOCATION CSAboveElder | CS: Firework at top of Elder Magnus tree | 5005 | Has('Fire Breath')
+	LOCATION CSAboveElder | CS: Light Gem at top of Elder Magnus tree | 35 | True_()
+
+REGION CSFredneck: Fredneck area itself and going back to pyramid
+	CSTree -> CSFredneck | HasAll('Double Jump', 'Pole Spin')
+		would have DJ and pole spin
+
+	LOCATION CSFredneck | CS: Dragon Egg from Fredneck | 37 | True_()
+	LOCATION CSFredneck | CS: Light Gem from Fredneck | 38 | True_()
+	LOCATION CSFredneck | CS: Light Gem next to lilypads | 39 | True_()
+
+Dragonfly Falls
+---------------
+REGION DFBallGadget: ball gadget path
+	DVOutsideBallGadget -> DFBallGadget | BallGadget()
+		would have DJ and glide and Ball Gadget
+	DFEntry -> DFBallGadget | BallGadget()
+		would have Ball Gadget
+
+REGION DFEntry: just the crocovile after ball gadget. dunno how else to do this tbh.
+	DFBallGadget -> DFEntry | True_()
+		would have Ball Gadget
+	DFSteepCanyon -> DFEntry | True_()
+		could have nothing
+
+REGION DFSteepCanyon: first main chunk from shop up to vulture area (include going to the right and down whirlwind)
+	DFEntry -> DFSteepCanyon | Has('Double Jump')
+		would have DJ
+	DFCove -> DFSteepCanyon | True_()
+		would have DJ and Glide
+	ShopPads -> DFSteepCanyon | OpenWorldRule(['Steep Canyon'])
+		could have nothing
+	DFSteepCanyon -> ShopPads | True_()
+
+	LOCATION DFSteepCanyon | DF: Light Gem from locked chest in entry area | 40 | And(HasAll('Double Jump', 'Glide'), LockedChestRule('Dragonfly Falls'))
+	LOCATION DFSteepCanyon | DF: Dark Gem behind chargeable wall in entry area | 41 | HasAll('Charge', 'Double Jump')
+	LOCATION DFSteepCanyon | DF: Dragon Egg behind seocnd chargeable wall in entry area | 42 | HasAll('Charge', 'Double Jump')
+	LOCATION DFSteepCanyon | DF: Light Gem behind reinforced cannon wall | 43 | HasAll('Double Jump', 'Glide')
+	LOCATION DFSteepCanyon | DF: Dark Gem in vulture cannon area | 44 | HasAll('Double Jump', 'Glide')
+
+REGION DFAfterVultures: ledge after vultures up to the drop-off for elder statue area
+	DFSteepCanyon -> DFAfterVultures | HasAll('Double Jump', 'Glide')
+		would have DJ and Glide
+	DFLGDoorEntry -> DFAfterVultures | And(HasAll('Double Jump', 'Glide'), LGDoorRule(0))
+		would have DJ and glide and LGDoor
+
+	LOCATION DFAfterVultures | DF: Dragon Egg in vulture nest | 45 | True_()
+
+REGION DFLGDoorEntry: entry area past the door
+	DFAfterVultures -> DFLGDoorEntry | LGDoorRule(0)
+		would have DJ and Glide and LGDoor
+	DFLGDoorShop -> DFLGDoorEntry | True_()
+		could have nothing
+
+REGION DFLGDoorShop: majority of secret area
+	DFLGDoorEntry -> DFLGDoorShop | HasAll('Double Jump', 'Glide')
+		would have DJ and glide
+	ShopPads -> DFLGDoorShop | OpenWorldRule(['Secret Area'])
+		could have nothing
+	DFLGDoorShop -> ShopPads | True_()
+
+	LOCATION DFLGDoorShop | DF: Light Gem behind chargeable wall beyond Light Gem door | 56 | Has('Charge')
+	LOCATION DFLGDoorShop | DF: Dragon Egg from thief beyond Light Gem door | 57 | Has('Charge')
+
+REGION DFElderStatue: statue area
+	DFAfterVultures -> DFElderStatue | True_()
+		would have DJ and glide
+
+	LOCATION DFElderStatue | DF: Dark Gem next to elder statue | 46 | True_()
+	LOCATION DFElderStatue | DF: Light Gem after underwater breakable wall next to elder statue | 47 | HasAll('Swim', 'Charge')
+	LOCATION DFElderStatue | DF: Dragon Egg from Sparx | 48 | True_()
+	LOCATION DFElderStatue | DF: Light Gem from Sparx | 49 | True_()
+
+REGION DFCoveShop: just the shop area
+	DFElderStatue -> DFCoveShop | True_()
+		would have DJ and glide
+	ShopPads -> DFCoveShop | OpenWorldRule(['Tropical Cove'])
+		could have nothing
+	DFCoveAboveShop -> DFCoveShop | True_()
+		would have either (DJ and glide) or (wall kick)
+	DFCoveShop -> ShopPads | True_()
+
+REGION DFCoveAboveShop: wall kick area above shop
+	DFElderStatue -> DFCoveAboveShop | True_()
+		would have DJ and glide
+	DFCoveShop -> DFCoveAboveShop | Has('Wall Kick')
+		would have Wall Kick
+
+	LOCATION DFCoveAboveShop | DF: Dragon Egg behind chargeable wall above wall kick | 50 | Has('Charge')
+
+REGION DFCove: the rest of the cove
+	DFElderStatue -> DFCove | True_()
+		would have DJ and glide
+	DFCoveShop -> DFCove | HasAll('Double Jump', 'Glide')
+		would have DJ and glide
+
+	LOCATION DFCove | DF: Light Gem in piranha pool | 51 | True_()
+	LOCATION DFCove | DF: Light Gem from locked chest in piranha pool | 52 | LockedChestRule('Dragonfly Falls')
+	LOCATION DFCove | DF: Dark Gem at end of cove | 55 | True_()
+	LOCATION DFCove | DF: Light Gem via wall kick at end of cove | 58 | Has('Wall Kick')
+
+REGION DFHunter: hunter section
+	DFCove -> DFHunter | True_()
+		would have DJ and glide (irrelevant since Hunter)
+
+	LOCATION DFHunter | DF: Dragon Egg in Hunter section vulture nest | 53 | True_()
+	LOCATION DFHunter | DF: Light Gem at end of Hunter section | 54 | True_()
+
+Coastal Remains
+---------------
+REGION CREntry: shop, southern beach, east hub
+	START -> CREntry | Has('Lost Cities Access Card')
+		could have nothing
+	ShopPads -> CREntry | OpenWorldRule(['Coastal Depot'])
+		could have nothing
+	CREntry -> ShopPads | True_()
+	CRWindmills -> CREntry | True_()
+		would have DJ and glide
+	CROttoPool -> CREntry | Has('Double Jump')
+		would have DJ
+
+	LOCATION CREntry | CR: Dragon Egg from Turtle Mother | 63 | Has('Charge')
+	LOCATION CREntry | CR: Light Gem from Turtle Mother | 64 | Has('Charge')
+	LOCATION CREntry | CR: Empty locked chest behind Moneybags | 234 | LockedChestRule('Coastal Remains')
+	LOCATION CREntry | CR: Empty locked chest in southern beach | 235 | LockedChestRule('Coastal Remains')
+	LOCATION CREntry | CR: Light Gem in southern beach above water mill | 69 | HasAll('Water Breath', 'Double Jump')
+	LOCATION CREntry | CR: Dragon Egg in southern beach after moving shells | 68 | Has('Double Jump')
+
+REGION CRWateryTomb: ineptune
+	CREntry -> CRWateryTomb | BossLairRule(1)
+		could have nothing
+
+	LOCATION CRWateryTomb | CR: Water Breath from Ineptune | 79 | Has('Charge')
+	LOCATION CRWateryTomb | CR: Defeat Ineptune | 4001 | Has('Charge')
+	
+REGION CRPiranhas: piranha pool area
+	CREntry -> CRPiranhas | Has('Double Jump')
+		would have DJ
+
+	LOCATION CRPiranhas | CR: Dragon Egg after piranha pool | 78 | True_()
+
+REGION CRLGDoor: light gem door
+	CREntry -> CRLGDoor | LGDoorRule(1)
+		could have nothing
+
+	LOCATION CRLGDoor | CR: Dragon Egg beyond Light Gem door from thief | 61 | Has('Charge')
+	LOCATION CRLGDoor | CR: Light Gem beyond Light Gem door at far end | 62 | True_()
+
+REGION CRCannon: cannon area with pole spinning
+	CREntry -> CRCannon | True_()
+		could have nothing
+
+	LOCATION CRCannon | CR: Dark Gem in cannon area | 65 | Has('Double Jump')
+	LOCATION CRCannon | CR: Dragon Egg in cannon area | 66 | HasAll('Double Jump', 'Pole Spin', 'Glide')
+	LOCATION CRCannon | CR: Dark Gem after using cannon on reinforced door | 67 | HasAll('Double Jump', 'Glide')
+
+REGION CRWindmills: windmill area on the way to cloudy domain
+	CREntry -> CRWindmills | Has('Double Jump')
+		would have DJ
+	CRCloudyElevator -> CRWindmills | HasAll('Double Jump', 'Glide')
+		would have DJ and glide
+
+	LOCATION CRWindmills | CR: Light Gem via pole spinning on windmills | 59 | HasAll('Pole Spin', 'Glide')
+
+REGION CRCloudyElevator: cloudy elevator area
+	CRWindmills -> CRCloudyElevator | Has('Glide')
+		would have DJ and glide
+	ShopPads -> CRCloudyElevator | OpenWorldRule(['Domain Doorstep'])
+		could have nothing
+	CRCloudyElevator -> ShopPads | True_()
+	CDEntry -> CRCloudyElevator | True_()
+		could have nothing
+
+	LOCATION CRCloudyElevator | CR: Light Gem near Cloudy Domain elevator beyond electric platform | 60 | HasAll('Electric Breath', 'Double Jump')
+
+REGION CROttoPool: pool and first filling section. include crabs and metal chests but don't expect until after pool filled
+	CREntry -> CROttoPool | True_()
+		could have nothing
+	CRWest -> CROttoPool | Has('Double Jump')
+		would have DJ
+
+	LOCATION CROttoPool | CR: Light Gem in Otto's pool | 70 | HasAll('Double Jump', 'Pole Spin', 'Glide')
+	LOCATION CROttoPool | CR: Light Gem reward from Otto | 71 | HasAll('Double Jump', 'Pole Spin')
+
+REGION CRWest: left out of otto's pool to Blink and sunken entrance
+	CROttoPool -> CRWest | HasAll('Double Jump', 'Pole Spin')
+		would have DJ and pole spin
+	ShopPads -> CRWest | OpenWorldRule(['Waterfall Walkway'])
+		could have nothing
+	CRWest -> ShopPads | True_()
+
+	LOCATION CRWest | CR: Dragon Egg from Blink | 72 | True_()
+	LOCATION CRWest | CR: Light Gem from Blink | 73 | True_()
+	LOCATION CRWest | CR: Dark Gem next to Blink | 74 | Has('Double Jump')
+	LOCATION CRWest | CR: Dragon Egg after Archer Gnorc hallway | 75 | HasAll('Double Jump', 'Electric Breath')
+	LOCATION CRWest | CR: Dark Gem in western beach near Sunken Ruins | 76 | Has('Double Jump')
+	LOCATION CRWest | CR: Light Gem in western beach near Sunken Ruins | 77 | True_()
+
+Cloudy Domain
+-------------
+REGION CDEntry: top of elevator and inside room with headbash switch. includes first balloon gnorc of southwest
+	CRCloudyElevator -> CDEntry | True_()
+		could have nothing
+	ShopPads -> CDEntry | OpenWorldRule(['Elevator Top'])
+		could have nothing
+	CDEntry -> ShopPads | True_()
+	CDSouthWest -> CDEntry | True_()
+		would have DJ and glide and wing shield
+	CDBallGadget -> CDEntry | True_()
+		would have DJ and glide and ball gadget. Only including in case of a progressive open world mode
+
+	LOCATION CDEntry | CD: Light Gem from locked chest near elevator | 80 | LockedChestRule('Cloudy Domain')
+
+REGION CDCenter: going across the platforms and up the thermal
+    CDEntry -> CDCenter | Has('Double Jump')
+        would have DJ
+	CDOutsideElder -> CDCenter | Has('Double Jump')
+		would have DJ
+
+	LOCATION CDCenter | CD: Light Gem heading to Elder after thermal | 82 | True_()
+	LOCATION CDCenter | CD: Dark Gem heading to Elder before thermal | 81 | True_()
+	LOCATION CDCenter | CD: Firework heading to Elder to right of thermal | 5012 | Has('Fire Breath')
+
+REGION CDOutsideElder: outside Elder house
+	CDCenter -> CDOutsideElder | True_()
+		would have DJ
+	ShopPads -> CDOutsideElder | OpenWorldRule(['Elder\'s Homestead'])
+		could have nothing
+	CDOutsideElder -> ShopPads | True_()
+
+	LOCATION CDOutsideElder | CD: Dragon Egg from locked chest beyond Reinforced Door near Elder Titan | 85 | And(SuperchargeGadget(), LockedChestRule('Cloudy Domain'))
+
+REGION CDInsideElder: inside Elder house. include dragon egg after elder and first balloon gnorc
+	CDOutsideElder -> CDInsideElder | Has('Charge')
+		would have charge
+
+	LOCATION CDInsideElder | CD: Wing Shield from Elder Titan | 83 | True_()
+	LOCATION CDInsideElder | CD: Dragon Egg after Elder Titan | 84 | Has('Double Jump')
+
+REGION CDNorthEast: wing shield tutorial after talking to elder
+	CDInsideElder -> CDNorthEast | HasAll('Double Jump', 'Glide', 'Wing Shield')
+		would have DJ and glide and wing shield
+
+	LOCATION CDNorthEast | CD: Light Gem after northeast Wing Shield tutorial | 86 | True_()
+	LOCATION CDNorthEast | CD: Empty locked chest a glide away during Wing Shield tutorial | 236 | LockedChestRule('Cloudy Domain')
+
+REGION CDNorthWest: northwest area after charging switch in CDEntry
+	CDEntry -> CDNorthWest | HasAll('Charge', 'Double Jump', 'Glide')
+		would have DJ and charge and glide
+
+	LOCATION CDNorthWest | CD: Dragon Egg from locked chest in northwest | 87 | LockedChestRule('Cloudy Domain')
+	LOCATION CDNorthWest | CD: Light Gem after northwest platforming | 88 | True_()
+	LOCATION CDNorthWest | CD: Firework after northwest platforming | 5011 | Has('Fire Breath')
+
+REGION CDSouthWest: southwest area after charging switch in CDEntry. covers until last balloon gnorc
+	CDEntry -> CDSouthWest | HasAll('Charge', 'Double Jump', 'Wing Shield', 'Glide')
+		would have charge and DJ and wing shield and glide
+	CDEndlessPlatforms -> CDSouthWest | Has('Wing Shield')
+		would have DJ and glide and wing shield
+
+	LOCATION CDSouthWest | CD: Light Gem in southwest after temporary platforms | 89 | True_()
+
+REGION CDEndlessPlatforms: just past the balloon gnorcs which need wing shield to get past
+	CDSouthWest -> CDEndlessPlatforms | True_()
+		would have DJ and charge and wing shield
+	CDTallestTowerLower -> CDEndlessPlatforms | HasAll('Double Jump', 'Glide')
+		would have DJ and glide
+
+	LOCATION CDEndlessPlatforms | CD: Dragon Egg below endless orbiting platforms | 90 | True_()
+	LOCATION CDEndlessPlatforms | CD: Dragon Egg from thief after first endless orbiting platforms | 91 | Has('Charge')
+	LOCATION CDEndlessPlatforms | CD: Dark Gem after second endless orbiting platforms | 92 | Has('Glide')
+
+REGION CDTallestTowerLower: just the shop area
+	CDEndlessPlatforms -> CDTallestTowerLower | True_()
+		would have DJ and charge and wing shield
+	ShopPads -> CDTallestTowerLower | OpenWorldRule(['Tallest Tower'])
+		could have nothing
+	CDTallestTowerLower -> ShopPads | True_()
+
+REGION CDTallestTowerUpper: byrd and everything besides going into ball gadget
+	CDTallestTowerLower -> CDTallestTowerUpper | Has('Glide')
+		would have glide
+
+	LOCATION CDTallestTowerUpper | CD: Dragon Egg from Sgt. Byrd | 93 | True_()
+	LOCATION CDTallestTowerUpper | CD: Light Gem from Sgt. Byrd | 94 | True_()
+	LOCATION CDTallestTowerUpper | CD: Light Gem in Wall Kick building | 95 | HasAll('Double Jump', 'Wall Kick')
+	LOCATION CDTallestTowerUpper | CD: Dark Gem before Ball Gadget | 96 | Has('Double Jump')
+
+REGION CDBallGadget: ball gadget and area after
+	CDTallestTowerUpper -> CDBallGadget | And(Has('Double Jump'), BallGadget())
+		would have DJ and glide and ball gadget
+
+	LOCATION CDBallGadget | CD: Dragon Egg from Ball Gadget minigame | 97 | BallGadget()
+	LOCATION CDBallGadget | CD: Light Gem from Ball Gadget minigame | 98 | BallGadget()
+	LOCATION CDBallGadget | CD: Firework after Ball Gadget minigames | 5013 | Has('Fire Breath')
+
+Sunken Ruins
+------------
+REGION SREntry: entrance up to first swim
+	CRWest -> SREntry | Has('Double Jump')
+		would have DJ
+	ShopPads -> SREntry | OpenWorldRule(['Atlantian Entryway'])
+		could have nothing
+	SREntry -> ShopPads | True_()
+	SRReturnToStart -> SREntry | True_()
+		would have electric breath and DJ and glide and pole spin
+	SRSwim1 -> SREntry | True_()
+		would have DJ and glide and swim
+
+	LOCATION SREntry | SR: Empty locked chest at entrance | 237 | LockedChestRule('Sunken Ruins')
+
+REGION SRSwim1: first swim section and thermal room after
+	SREntry -> SRSwim1 | Has('Swim')
+		would have swim
+	SRSwim2 -> SRSwim1 | True_()
+		would have DJ and glide and swim
+
+	LOCATION SRSwim1 | SR: Dragon Egg from locked chest after first swim | 99 | LockedChestRule('Sunken Ruins')
+	LOCATION SRSwim1 | SR: Dark Gem in thermal room | 100 | Has('Double Jump')
+	LOCATION SRSwim1 | SR: Dragon Egg atop thermal room | 101 | HasAll('Double Jump', 'Glide')
+	LOCATION SRSwim1 | SR: Light Gem from locked chest atop thermal room | 102 | And(HasAll('Double Jump', 'Glide'), LockedChestRule('Sunken Ruins'))
+	LOCATION SRSwim1 | SR: Firework atop thermal room | 5007 | HasAll('Double Jump', 'Glide', 'Fire Breath')
+	LOCATION SRSwim1 | SR: Light Gem from locked chest before second swim | 103 | LockedChestRule('Sunken Ruins')
+
+REGION SRSwim2: second swim section by Lily
+	SRSwim1 -> SRSwim2 | True_()
+		would have swim
+	SRAfterSwim2 -> SRSwim2 | Has('Swim')
+		would have DJ and glide and swim
+
+REGION SRAfterSwim2: first invincibility swim room
+	SRSwim2 -> SRAfterSwim2 | True_()
+		would have swim
+	SRDepthsEntry -> SRAfterSwim2 | HasAll('Double Jump', 'Glide')
+		would have DJ and glide
+
+	LOCATION SRAfterSwim2 | SR: Light Gem behind window after acid swim | 104 | And(HasAll('Swim', 'Charge'), InvincibilityGadget())
+
+REGION SRDepthsEntry: middle layer of Depths room (with invince wall kick)
+	SRAfterSwim2 -> SRDepthsEntry | True_()
+		would have swim
+	ShopPads -> SRDepthsEntry | OpenWorldRule(['The Depths'])
+		could have nothing
+	SRDepthsEntry -> ShopPads | True_()
+
+	LOCATION SRDepthsEntry | SR: Dragon Egg from Sparx | 105 | True_()
+	LOCATION SRDepthsEntry | SR: Light Gem from Sparx | 106 | True_()
+
+REGION SRDepthsUpper: upper layer of Depths room (above invince wall kick)
+	SRDepthsEntry -> SRDepthsUpper | And(Has('Wall Kick'), InvincibilityGadget())
+		would have wall kick and invincibility gadget
+
+	LOCATION SRDepthsUpper | SR: Dragon Egg above heated wall kick | 107 | Has('Double Jump')
+	LOCATION SRDepthsUpper | SR: Firework above heated wall kick | 5008 | Has('Fire Breath')
+
+REGION SRDepthsLower: lower layer of Depths (below invince wall kick) and spitting fish room
+	SRDepthsEntry -> SRDepthsLower | True_()
+		could have nothing
+
+	LOCATION SRDepthsLower | SR: Dragon Egg from locked chest before fish statues | 108 | LockedChestRule('Sunken Ruins')
+	LOCATION SRDepthsLower | SR: Light Gem after fish statues | 109 | True_()
+
+REGION SRToxicSwim1: vanilla entry room of toxic swim
+	SRDepthsLower -> SRToxicSwim1 | Has('Electric Breath')
+		would have electric
+
+REGION SRToxicSwim2: vanilla exit room of toxic swim, not including post-statue hallway
+	SRToxicSwim1 -> SRToxicSwim2 | And(HasAll('Swim', 'Charge'), InvincibilityGadget())
+		would have electric and invince and swim and charge
+
+	LOCATION SRToxicSwim2 | SR: Light Gem inside acid swim puzzle tunnel | 110 | True_()
+
+REGION SRToxicSwimAbove: atop pole spin puzzle
+	SRToxicSwim2 -> SRToxicSwimAbove | HasAll('Double Jump', 'Glide', 'Pole Spin')
+		would have electric and invince and swim and charge and DJ and pole spin and glide
+
+	LOCATION SRToxicSwimAbove | SR: Dark Gem atop acid swim puzzle | 111 | True_()
+	LOCATION SRToxicSwimAbove | SR: Light Gem from locked chest atop acid swim puzzle | 112 | LockedChestRule('Sunken Ruins')
+	LOCATION SRToxicSwimAbove | SR: Firework atop acid swim puzzle | 5009 | Has('Fire Breath')
+
+REGION SRToxicRise: rising statue room. include stuff before it in toxic swim statue hallway
+	SRToxicSwimAbove -> SRToxicRise | True_()
+		would have electric and invince and swim and charge and DJ and pole spin and glide
+	ShopPads -> SRToxicRise | OpenWorldRule(['Toxic Rise'])
+		could have nothing
+	SRToxicRise -> ShopPads | True_()
+
+	LOCATION SRToxicRise | SR: Firework in rising statue room | 5010 | HasAll('Electric Breath', 'Double Jump')
+	LOCATION SRToxicRise | SR: Dragon Egg from locked chest in rising statue room | 114 | HasAll('Electric Breath', 'Double Jump')
+	LOCATION SRToxicRise | SR: Dark Gem on rising statue | 113 | HasAll('Electric Breath', 'Double Jump', 'Glide', 'Pole Spin')
+
+REGION SRReturnToStart: area after toxic rise
+	SRToxicRise -> SRReturnToStart | HasAll('Electric Breath', 'Double Jump', 'Glide', 'Pole Spin')
+		would have electric breath and DJ and glide and pole spin
+
+	LOCATION SRReturnToStart | SR: Light Gem from locked chest after rising statue room | 115 | LockedChestRule('Sunken Ruins')
+
+Frostbite Village
+-----------------
+REGION FVEntry1: entry area. very little here
+	START -> FVEntry1 | Has('Icy Wilderness Access Card')
+		could have nothing
+	ShopPads -> FVEntry1 | OpenWorldRule(['Frosty Depot'])
+		could have nothing
+	FVEntry1 -> ShopPads | True_()
+	FVReturnFromIC -> FVEntry1 | True_()
+		would have DJ and supercharge
+
+REGION FVRedChamber: red fight
+	FVEntry1 -> FVRedChamber | And(Has('Double Jump'), BossLairRule(2))
+		would have boss lair and DJ
+
+	LOCATION FVRedChamber | FV: Ice Breath from Red | 136 | Has('Water Breath')
+	LOCATION FVRedChamber | FV: Defeat Red | 4002 | Has('Water Breath')
+
+REGION FVElectricGate: past Phil's electric gate
+	FVEntry1 -> FVElectricGate | Has('Electric Breath')
+		would have electric
+
+	LOCATION FVElectricGate | FV: Light Gem in Peggy's area after floating platform | 116 | HasAll('Double Jump', 'Water Breath')
+	LOCATION FVElectricGate | FV: Dragon Egg from Peggy | 117 | True_()
+	LOCATION FVElectricGate | FV: Light Gem from Peggy | 118 | True_()
+	LOCATION FVElectricGate | FV: Dark Gem in Peggy's area | 119 | Has('Double Jump')
+	LOCATION FVElectricGate | FV: Dragon Egg under Peggy's area | 120 | Has('Double Jump')
+	LOCATION FVElectricGate | FV: Empty locked chest under Peggy's area | 238 | And(Has('Double Jump'), LockedChestRule('Frostbite Village'))
+
+REGION FVHeadingToCamp: past the headbash switch, up to the gate that leads to Icy Camp
+	FVEntry1 -> FVHeadingToCamp | Has('Double Jump')
+		would have DJ
+
+	LOCATION FVHeadingToCamp | FV: Dark Gem in icy camp blocking Blink | 121 | True_()
+	LOCATION FVHeadingToCamp | FV: Dragon Egg from Blink | 124 | True_()
+	LOCATION FVHeadingToCamp | FV: Light Gem from Blink | 125 | True_()
+	LOCATION FVHeadingToCamp | FV: Dragon Egg from thief in whirlwind cavern | 122 | Has('Charge')
+	LOCATION FVHeadingToCamp | FV: Light Gem after whirldwind cavern | 123 | True_()
+
+REGION FVIcyCamp: icy camp area and up to gloomy glacier entrance. includes immediates using just wall kick
+	FVHeadingToCamp -> FVIcyCamp | True_()
+		would have DJ
+	ShopPads -> FVIcyCamp | OpenWorldRule(['Icy Camp'])
+		could have nothing
+	FVIcyCamp -> ShopPads | True_()
+
+	LOCATION FVIcyCamp | FV: Light Gem by Hunter | 135 | True_()
+
+REGION FVIcyCampUpper: upper areas of icy camp that need both wall kick and double jump
+	FVIcyCamp -> FVIcyCampUpper | HasAll('Wall Kick', 'Double Jump')
+		would have wall kick and DJ
+
+	LOCATION FVIcyCampUpper | FV: Dragon Egg behind icy camp chargeable wall | 130 | Has('Charge')
+	LOCATION FVIcyCampUpper | FV: Dark Gem in icy camp orbiting platforms room | 131 | True_()
+	LOCATION FVIcyCampUpper | FV: Light Gem in icy camp orbiting platforms room | 132 | True_()
+
+REGION FVReturnFromIC: past the IC drawbridge
+	ICDrawbridge -> FVReturnFromIC | And(Has('Double Jump'), SuperchargeGadget())
+		would have DJ and supercharge
+
+	LOCATION FVReturnFromIC | FV: Light Gem through reinforced door coming from Ice Citadel | 172 | True_()
+
+REGION FVEntry2: eskimole village shop area
+	FVReturnFromIC -> FVEntry2 | True_()
+		would have DJ and supercharge
+	ShopPads -> FVEntry2 | OpenWorldRule(['Eskimole Village'])
+		could have nothing
+	FVEntry2 -> ShopPads | True_()
+
+	LOCATION FVEntry2 | FV: Dark Gem by eskimole village | 126 | Has('Double Jump')
+
+REGION FVLGDoorEntry: entrance of LG door
+	FVEntry2 -> FVLGDoorEntry | And(Has('Wall Kick'), LGDoorRule(2))
+		would have LGDoorRule and wall kick
+
+REGION FVLGDoorDJ: lg door entry area using DJ. include gems accessible via pole spin
+	FVLGDoorEntry -> FVLGDoorDJ | Has('Double Jump')
+		would have LGDoorRule and wall kick and DJ
+
+	LOCATION FVLGDoorDJ | FV: Dragon Egg from locked chest beyond Light Gem door | 133 | LockedChestRule('Frostbite Village')
+
+REGION FVLGDoorGlide: rest of LG door area locked behind glide. Probably don't need water as its own region
+	FVLGDoorDJ -> FVLGDoorGlide | HasAll('Pole Spin', 'Glide')
+		would have LGDoorRule and wall kick and DJ and pole spin and glide
+
+	LOCATION FVLGDoorGlide | FV: Light Gem at end of Light Gem door | 134 | True_()
+
+REGION FVEast: east falling icicles room and pole area. probably don't bother making poles its own region
+	FVEntry2 -> FVEast | Has('Double Jump')
+		would have DJ
+
+	LOCATION FVEast | FV: Dark Gem by falling icicles | 127 | True_()
+	LOCATION FVEast | FV: Dragon Egg from locked chest by falling icicles | 128 | True_()
+	LOCATION FVEast | FV: Empty locked chest after falling icicles under bridge | 244 | LockedChestRule('Frostbite Village')
+	LOCATION FVEast | FV: Light Gem after falling icicles above poles | 129 | Has('Pole Spin')
+
+Gloomy Glacier (regions only exist for raw gem data)
+----------------------------------------------------
+REGION GGEntry: Bentley's house and up to the gate he opens
+	FVIcyCamp -> GGEntry | True_()
+
+	LOCATION GGEntry | GG: Empty locked chest in Bentley Living Room | 239 | LockedChestRule('Gloomy Glacier')
+	LOCATION GGEntry | GG: Dragon Egg from locked chest in Bentley Bedroom | 137 | LockedChestRule('Gloomy Glacier')
+	LOCATION GGEntry | GG: Light Gem reward from Bentley | 138 | True_()
+	LOCATION GGEntry | GG: Light Gem in Skeleton Ambush room | 139 | True_()
+	LOCATION GGEntry | GG: Dragon Egg from locked chest after Skeleton Ambush room | 140 | LockedChestRule('Gloomy Glacier')
+	LOCATION GGEntry | GG: Dragon Egg behind breakable wall in Swinging Axe Room | 141 | True_()
+	LOCATION GGEntry | GG: Light Gem by Yeti behind breakable Rib Bones | 142 | True_()
+	LOCATION GGEntry | GG: Dragon Egg under Bone Bridge with Barrels | 143 | True_()
+	LOCATION GGEntry | GG: Light Gem behind Yeti in crumbling platform room | 144 | True_()
+	LOCATION GGEntry | GG: Dragon Egg after spinning bones | 145 | True_()
+	LOCATION GGEntry | GG: Dragon Egg from Sparx | 146 | True_()
+	LOCATION GGEntry | GG: Light Gem from Sparx | 147 | True_()
+	LOCATION GGEntry | GG: Light Gem beyond moving platform in Bone Spider room | 148 | True_()
+	LOCATION GGEntry | GG: Light Gem behind locked door in Bone Spider room | 149 | True_()
+	LOCATION GGEntry | GG: Light Gem before reaching Ice Citadel | 150 | True_()
+
+Ice Citadel
+-----------
+REGION ICCourtyardLower: entrance courtyard
+	GGEntry -> ICCourtyardLower | True_()
+		could have nothing
+	ShopPads -> ICCourtyardLower | OpenWorldRule(['Cool Courtyard'])
+		could have nothing
+	ICCourtyardLower -> ShopPads | True_()
+
+	LOCATION ICCourtyardLower | IC: Empty locked chest in entrance | 240 | LockedChestRule('Ice Citadel')
+	LOCATION ICCourtyardLower | IC: Light Gem from courtyard boiler | 151 | Has('Fire Breath')
+
+REGION ICCourtyardUpper: upper courtyard above floating platforms
+	ICCourtyardLower -> ICCourtyardUpper | Has('Double Jump')
+		would have DJ
+
+	LOCATION ICCourtyardUpper | IC: Light Gem at very top of Courtyard | 152 | True_()
+	LOCATION ICCourtyardUpper | IC: Firework next to waterwheel in Courtyard | 5014 | Has('Fire Breath')
+
+REGION ICPastWaterGate: past the water-opened gate, up to elder's door
+	ICCourtyardUpper -> ICPastWaterGate | Has('Water Breath')
+		would have DJ and water
+
+	LOCATION ICPastWaterGate | IC: Dragon Egg from locked chest behind breakable wall after Coal Room | 153 | And(Has('Charge'), LockedChestRule('Ice Citadel'))
+
+REGION ICElderRoom: elder's room, opened by killing armored huge gnorc in front
+	ICPastWaterGate -> ICElderRoom | And(HasAll('Double Jump', 'Water Breath', 'Charge'), HasAny('Fire Breath', 'Electric Breath', 'Ice Breath'))
+		would have DJ and water and charge and one of (fire, electric, ice)
+
+	LOCATION ICElderRoom | IC: Dark Gem above Elder Astor | 154 | True_()
+	LOCATION ICElderRoom | IC: Wall Kick from Elder Astor | 155 | True_()
+
+REGION ICSuperchargeShop: supercharge area past Elder. include enemies and boiler to the east needing DJ
+	ICElderRoom -> ICSuperchargeShop | Has('Wall Kick')
+		would have DJ and water and wall kick
+	ShopPads -> ICSuperchargeShop | OpenWorldRule(['Supercharge Central'])
+		could have nothing
+	ICSuperchargeShop -> ShopPads | True_()
+
+	LOCATION ICSuperchargeShop | IC: Light Gem from locked chest after Elder Astor | 156 | LockedChestRule('Ice Citadel')
+	LOCATION ICSuperchargeShop | IC: Dragon Egg from Sgt. Byrd | 160 | True_()
+	LOCATION ICSuperchargeShop | IC: Light Gem from Sgt. Byrd | 161 | True_()
+	LOCATION ICSuperchargeShop | IC: Light Gem from Sgt. Byrd boiler | 162 | HasAll('Double Jump', 'Fire Breath')
+	LOCATION ICSuperchargeShop | IC: Empty locked chest in tunnel after supercharge | 241 | LockedChestRule('Ice Citadel')
+	LOCATION ICSuperchargeShop | IC: Empty locked chest before reinforced wall by Byrd | 242 | LockedChestRule('Ice Citadel')
+
+REGION ICUseSupercharge: things you need to actually use supercharge to reach/do. includes dark gem on drawbridge
+	ICSuperchargeShop -> ICUseSupercharge | SuperchargeGadget()
+		would have supercharge
+
+	LOCATION ICUseSupercharge | IC: Dark Gem after sewer sprint | 157 | Has('Double Jump')
+	LOCATION ICUseSupercharge | IC: Dragon Egg after Dark Gem in sewer | 158 | Has('Double Jump')
+	LOCATION ICUseSupercharge | IC: Dragon Egg behind reinforced wall by Byrd | 159 | True_()
+	LOCATION ICUseSupercharge | IC: Dark Gem above ice-covered stairs | 170 | Has('Double Jump')
+
+REGION ICDrawbridge: room past the drawbridge
+	ICUseSupercharge -> ICDrawbridge | Has('Double Jump')
+		would have DJ and supercharge
+	ShopPads -> ICDrawbridge | OpenWorldRule(['Drawbridge Drop-off'])
+		could have nothing
+	ICDrawbridge -> ShopPads | True_()
+
+	LOCATION ICDrawbridge | IC: Dragon Egg from thief after Dark Gem | 171 | Has('Charge')
+
+REGION ICRoyal: royal chamber area. include egg after pole spin which doesn't need DJ but does need glide
+	ICSuperchargeShop -> ICRoyal | And(Has('Double Jump'), Or(HasAny('Fire Breath', 'Electric Breath'), HasAll('Ice Breath', 'Charge')))
+		would have DJ and one of (fire, electric, or (ice+charge))
+	ShopPads -> ICRoyal | OpenWorldRule(['Royal Chamber'])
+		could have nothing
+	ICRoyal -> ShopPads | True_()
+
+	LOCATION ICRoyal | IC: Empty locked chest by Ice Princess | 243 | LockedChestRule('Ice Citadel')
+	LOCATION ICRoyal | IC: Dragon Egg after pole spin after Yetis | 164 | HasAll('Pole Spin', 'Glide')
+	LOCATION ICRoyal | IC: Light Gem reward for lighting all boilers from Ice Princess | 169 | And(CanReachRegion('ICCourtyardLower'), CanReachRegion('ICPastWaterGate'), CanReachRegion('ICSuperchargeShop'), CanReachRegion('ICRoyalCannon'), Has('Fire Breath'))
+
+REGION ICRoyalBack: back entrance to chamber via electric platform. includes dark gem right after platform
+	ICRoyal -> ICRoyalBack | HasAll('Pole Spin', 'Electric Breath', 'Double Jump', 'Glide')
+		would have pole spin and electric and DJ and glide
+
+	LOCATION ICRoyalBack | IC: Dark Gem after moving electric platform after Yetis | 165 | True_()
+
+REGION ICRoyalCannon: stuff via cannon which needs DJ to use
+	ICRoyal -> ICRoyalCannon | Has('Double Jump')
+		would have DJ
+
+	LOCATION ICRoyalCannon | IC: Dark Gem in Cannon Area | 163 | True_()
+	LOCATION ICRoyalCannon | IC: Dragon Egg above elevator behind cannon reinforced wall | 166 | True_()
+	LOCATION ICRoyalCannon | IC: Light Gem behind cannon reinforced wall | 167 | Has('Glide')
+	LOCATION ICRoyalCannon | IC: Light Gem from cannon boiler | 168 | Has('Fire Breath')
+
+REGION ICRoyalToCourtyard: path above boiler that returns to lower courtyard
+	ICRoyalCannon -> ICRoyalToCourtyard | Has('Fire Breath')
+		would have DJ and fire breath
+
+Stormy Beach
+------------
+REGION SBEntryLower: realm entry and lower part of beach + west cove
+	START -> SBEntryLower | Has('Volcanic Isle Access Card')
+		could have nothing
+	SBShop -> SBEntryLower | True_()
+		could have nothing
+
+	LOCATION SBEntryLower | SB: Firework at ground level | 5015 | Has('Fire Breath')
+	LOCATION SBEntryLower | SB: Empty locked chest in west cove behind hut | 245 | LockedChestRule('Stormy Beach')
+	LOCATION SBEntryLower | SB: Empty locked chest in west cove at far end | 246 | LockedChestRule('Stormy Beach')
+	LOCATION SBEntryLower | SB: Firework in west cove at far end | 5016 | Has('Fire Breath')
+	LOCATION SBEntryLower | SB: Dragon Egg from thief underneath shop | 174 | Has('Charge')
+
+REGION SBShop: just the shop. only separate because it's not equally accessible with SBEntryLower
+	ShopPads -> SBShop | OpenWorldRule(['Stormy Depot'])
+		could have nothing
+	SBShop -> ShopPads | True_()
+	SBEntryLower -> SBShop | Has('Double Jump')
+		would have DJ
+
+REGION SBEntryUpper: DJ'able areas of SB
+	SBEntryLower -> SBEntryUpper | Has('Double Jump')
+		would have DJ
+
+	LOCATION SBEntryUpper | SB: Light Gem in west cove in shipwreck | 173 | True_()
+	LOCATION SBEntryUpper | SB: Empty locked chest near Wally | 247 | LockedChestRule('Stormy Beach')
+	LOCATION SBEntryUpper | SB: Dragon Egg from Wally | 175 | True_()
+	LOCATION SBEntryUpper | SB: Light Gem from Wally | 176 | True_()
+	LOCATION SBEntryUpper | SB: Empty locked chest in cave entrance | 248 | LockedChestRule('Stormy Beach')
+	LOCATION SBEntryUpper | SB: Firework next to hut in cave | 5017 | Has('Fire Breath')
+	LOCATION SBEntryUpper | SB: Dark Gem at entrance to Molten Mount | 177 | True_()
+
+REGION SBCaveUpper: upper part of cave needing wall kick and glide
+	SBEntryUpper -> SBCaveUpper | HasAll('Wall Kick', 'Glide')
+		would have DJ and wall kick and glide
+
+	LOCATION SBCaveUpper | SB: Empty locked chest atop cave | 249 | LockedChestRule('Stormy Beach')
+
+Molten Mount
+------------
+REGION MMEntryUpper: entry area of volcano
+	SBEntryUpper -> MMEntryUpper | Has('Glide')
+		would have DJ and glide
+
+	LOCATION MMEntryUpper | MM: Firework on log at start | 5018 | Has('Fire Breath')
+
+REGION MMEntryLower: lower area past the lava spurts. includes first fire imp and headbash rock right before village
+	MMEntryUpper -> MMEntryLower | True_()
+		would have DJ and glide
+	MMVillage -> MMEntryLower | And(HasAll('Double Jump', 'Glide'), HasAny('Water Breath', 'Ice Breath'))
+		would have DJ and glide and (water or ice)
+
+REGION MMVillage: hyena village
+	MMEntryLower -> MMVillage | HasAny('Water Breath', 'Ice Breath')
+		would have DJ and glide and (water or ice)
+	MMPostVillage -> MMVillage | True_()
+		would have DJ and (water or ice)
+	ShopPads -> MMVillage | OpenWorldRule(['Destroyed Village'])
+		could have nothing
+	MMVillage -> ShopPads | True_()
+
+	LOCATION MMVillage | MM: Dark Gem near rock monsters | 178 | Has('Double Jump')
+	LOCATION MMVillage | MM: Dragon Egg reward from Teena | 179 | Has('Charge')
+
+REGION MMVillageImps: going through fire imp area
+	MMVillage -> MMVillageImps | And(Has('Double Jump'), HasAny('Water Breath', 'Ice Breath'))
+		would have DJ and (water or ice)
+
+	LOCATION MMVillageImps | MM: Dragon Egg halfway to Sgt. Byrd | 180 | True_()
+	LOCATION MMVillageImps | MM: Dragon Egg from Sgt. Byrd | 181 | True_()
+	LOCATION MMVillageImps | MM: Light Gem from Sgt. Byrd | 182 | True_()
+	LOCATION MMVillageImps | MM: Light Gem from locked chest next to Sgt. Byrd | 183 | LockedChestRule('Molten Mount')
+
+REGION MMPostVillage: hallway post-village up to phoenix platforms by bridge. start at fire enemies. include pole spin room enemies and light gem
+	MMVillage -> MMPostVillage | HasAny('Water Breath', 'Ice Breath')
+		would have (water or ice)
+	MMAfterPoles -> MMPostVillage | True_()
+		would have DJ and (water or ice)
+
+	LOCATION MMPostVillage | MM: Light Gem in pole spin room | 184 | HasAny('Double Jump', 'Pole Spin')
+
+REGION MMAfterPoles: literally just the top area after the poles but before the phoenix platforms
+	MMPostVillage -> MMAfterPoles | HasAll('Double Jump', 'Pole Spin', 'Glide')
+		would have DJ and pole spin and glide and (water or ice)
+	MMBridgeEntry -> MMAfterPoles | True_()
+		would have DJ and (water or ice)
+
+REGION MMBridgeEntry: phoenix platforms leading to collapsed bridge
+	MMAfterPoles -> MMBridgeEntry | True_()
+		would have DJ and pole spin and glide and (water or ice)
+	MMBridge -> MMBridgeEntry | And(Has('Double Jump'), HasAny('Water Breath', 'Ice Breath'))
+		would have DJ and (water or ice)
+
+REGION MMBridge: collapsed bridge shop area. include the platforms heading to next hallway
+	MMBridgeEntry -> MMBridge | True_()
+		would have DJ and pole spin and glide and (water or ice)
+	MMPostBridge -> MMBridge | True_()
+		would have DJ and (water or ice)
+	ShopPads -> MMBridge | OpenWorldRule(['Collapsed Bridge'])
+		could have nothing
+	MMBridge -> ShopPads | True_()
+
+REGION MMBridgePoles: pole spinning in bridge area
+	MMBridge -> MMBridgePoles | HasAll('Double Jump', 'Pole Spin')
+		would have DJ and pole spin
+
+	LOCATION MMBridgePoles | MM: Light Gem on other side of collapsed bridge | 185 | True_()
+
+REGION MMPostBridge: platforms and hallway after bridge area. do not include the north intersection
+	MMBridge -> MMPostBridge | And(Has('Double Jump'), HasAny('Water Breath', 'Ice Breath'))
+		would have DJ and (water or ice)
+	MMLumber -> MMPostBridge | And(Has('Double Jump'), HasAny('Water Breath', 'Ice Breath'))
+		would have DJ and (water or ice)
+
+REGION MMLumberEntry: north intersection stuff, including pre-glide stuff in invince puzzle area
+	MMPostBridge -> MMLumberEntry | True_()
+		would have DJ and (water or ice)
+	MMLumber -> MMLumberEntry | Has('Double Jump')
+		would have DJ
+
+	LOCATION MMLumberEntry | MM: Dark Gem at intersection before lumber storage | 186 | True_()
+
+REGION MMNorth: invincibility puzzle area
+	MMLumberEntry -> MMNorth | And(Has('Glide'), HasAny('Water Breath', 'Ice Breath'))
+		would have DJ and glide and (water or ice)
+
+	LOCATION MMNorth | MM: Light Gem from timed platform challenge | 187 | True_()
+
+REGION MMLumber: lumber storage shop area
+	MMLumberEntry -> MMLumber | True_()
+		would have DJ and (water or ice)
+	ShopPads -> MMLumber | OpenWorldRule(['Lumber Storage'])
+		could have nothing
+	MMLumber -> ShopPads | True_()
+	MMPostLumber -> MMLumber | Has('Double Jump')
+		would have DJ
+
+REGION MMPostLumber: past the gap right after lumber shop
+	MMLumber -> MMPostLumber | Has('Double Jump')
+		would have DJ
+	MFtEntry -> MMPostLumber | Has('Double Jump')
+		would have DJ
+
+	LOCATION MMPostLumber | MM: Dragon Egg from locked chest behind chargeable wall after swinging axes | 188 | And(Has('Charge'), LockedChestRule('Molten Mount'))
+	LOCATION MMPostLumber | MM: Light Gem from locked chest behind chargeable wall before falling rocks | 190 | And(Has('Charge'), LockedChestRule('Molten Mount'))
+	LOCATION MMPostLumber | MM: Dark Gem before Magma Falls elevator | 191 | True_()
+
+REGION MMNorthEast: northeast area down hallway with fire imp
+	MMPostLumber -> MMNorthEast | HasAny('Water Breath', 'Ice Breath')
+		would have DJ and (water or ice)
+
+	LOCATION MMNorthEast | MM: Dragon Egg in northeast from thief | 189 | Has('Charge')
+	LOCATION MMNorthEast | MM: Empty locked chest in northeast | 250 | LockedChestRule('Molten Mount')
+
+Magma Falls
+-----------
+REGION MFtEntry: entry of MFt. technically includes the little stretch at end of MM
+	MMPostLumber -> MFtEntry | Has('Wall Kick')
+		would have DJ and wall kick
+	MFtCenter -> MFtEntry | True_()
+		would have (water or ice)
+
+REGION MFtCenter: center area past rock monster
+	MFtEntry -> MFtCenter | And(Has('Charge'), HasAny('Water Breath', 'Ice Breath'))
+		would have DJ and wall kick and charge and (water or ice)
+	MFtSouth -> MFtCenter | HasAny('Water Breath', 'Ice Breath')
+		would have (water or ice)
+	MFtBallGadgetEntry -> MFtCenter | HasAny('Water Breath', 'Ice Breath')
+		would have (water or ice) and ball gadget
+
+REGION MFtSouth: shop area and rest of south
+	MFtCenter -> MFtSouth | Has('Double Jump')
+		would have DJ and (water or ice)
+	ShopPads -> MFtSouth | OpenWorldRule(['Crackling Cave'])
+		could have nothing
+	MFtSouth -> ShopPads | True_()
+
+	LOCATION MFtSouth | MFt: Dragon Egg from locked chest behind chargeable wall behind shop | 193 | And(Has('Charge'), LockedChestRule('Magma Falls'))
+	LOCATION MFtSouth | MFt: Empty locked chest across from shop | 251 | Has('Double Jump')
+
+REGION MFtWallKickLower: hallway to and lower wall kick room
+	MFtSouth -> MFtWallKickLower | HasAny('Water Breath', 'Ice Breath')
+		would have (water or ice)
+
+REGION MFtWallKickUpper: after using wall kick in the room
+	MFtWallKickLower -> MFtWallKickUpper | Has('Wall Kick')
+		would have wall kick and (water or ice)
+
+	LOCATION MFtWallKickUpper | MFt: Light Gem in wall kick room | 192 | Has('Double Jump')
+	LOCATION MFtWallKickUpper | MFt: Firework atop wall kick room | 5019 | Has('Fire Breath')
+
+REGION MFtBallGadgetEntry: area next to ball gadget
+	MFtCenter -> MFtBallGadgetEntry | Has('Double Jump')
+		would have DJ and (water or ice)
+	MFBallGadget -> MFtBallGadgetEntry | True_()
+		would have ball gadget
+
+REGION MFBallGadget: ball gadget path
+	MFtBallGadgetEntry -> MFBallGadget | BallGadget()
+		would have DJ and ball gadget
+	MFbEntry -> MFBallGadget | BallGadget()
+		would have ball gadget
+
+	LOCATION MFBallGadget | MFt: Dragon Egg 1 in Ball Gadget | 194 | True_()
+	LOCATION MFBallGadget | MFt: Light Gem 1 in Ball Gadget | 195 | True_()
+	LOCATION MFBallGadget | MFt: Dragon Egg 2 in Ball Gadget | 196 | True_()
+	LOCATION MFBallGadget | MFt: Light Gem 2 in Ball Gadget | 197 | True_()
+
+REGION MFbEntry: right after ball gadget. include everything up to first dark gem including stuff above wall kick
+	MFBallGadget -> MFbEntry | True_()
+		would have DJ and ball gadget
+	ShopPads -> MFbEntry | OpenWorldRule(['Chains of Lava'])
+		could have nothing
+	MFbEntry -> ShopPads | True_()
+	MFbSouthEast -> MFbEntry | Has('Glide')
+		would have DJ and glide and (water or ice)
+
+	LOCATION MFbEntry | MFb: Dark Gem above wall kick | 198 | And(HasAll('Double Jump', 'Wall Kick'), HasAny('Water Breath', 'Ice Breath'))
+
+REGION MFbSouthEast: area past dark gem up to DJ gap
+	MFbEntry -> MFbSouthEast | And(HasAll('Double Jump', 'Wall Kick'), HasAny('Water Breath', 'Ice Breath'))
+		would have DJ and wall kick and (water or ice)
+	MFbBeforeImpRoom -> MFbSouthEast | Has('Double Jump')
+		would have DJ and (water or ice)
+
+REGION MFbBeforeImpRoom: past double jump and on the way to imp room
+	MFbSouthEast -> MFbBeforeImpRoom | True_()
+		would have DJ and wall kick and (water or ice)
+	MFbImpRoom -> MFbBeforeImpRoom | HasAny('Water Breath', 'Ice Breath')
+		would have (water or ice)
+
+	LOCATION MFbBeforeImpRoom | MFb: Light Gem from locked chest before fire imp room | 199 | LockedChestRule('Magma Falls')
+
+REGION MFbImpRoom: imp wizard room, only the room itself i.e. doesn't include anything in hallway after
+	MFbSouthEast -> MFbImpRoom | True_()
+		would have DJ and wall kick and (water or ice)
+	MFbSparxShop -> MFbImpRoom | True_()
+		could have nothing
+
+	LOCATION MFbImpRoom | MFb: Light Gem in fire imp room | 200 | And(HasAll('Double Jump', 'Glide'), HasAny('Water Breath', 'Ice Breath'))
+
+REGION MFbSparxShop: hallway post-imp room and shop area. don't think thief area needs its own region
+	MFbImpRoom -> MFbSparxShop | True_()
+		would have DJ and wall kick and (water or ice)
+	ShopPads -> MFbSparxShop | OpenWorldRule(['Sparx Can Fly'])
+		could have nothing
+	MFbSparxShop -> ShopPads | True_()
+	DMEntry -> MFbSparxShop | Has('Double Jump')
+		would have DJ
+
+	LOCATION MFbSparxShop | MFb: Dragon Egg from Sparx | 202 | True_()
+	LOCATION MFbSparxShop | MFb: Light Gem from Sparx | 203 | True_()
+	LOCATION MFbSparxShop | MFb: Dragon Egg from thief behind chargeable wall | 201 | Has('Charge')
+
+Dark Mine
+---------
+REGION DMEntry: entry area up to chargeable rocks
+	MFbSparxShop -> DMEntry | Has('Double Jump')
+		would have DJ
+	ShopPads -> DMEntry | OpenWorldRule(['Mine Mouth', 'Hidden Depths'])
+		could have nothing
+	DMEntry -> ShopPads | True_()
+
+	LOCATION DMEntry | DM: Empty locked chest near Light Gem door | 252 | LockedChestRule('Dark Mine')
+	LOCATION DMEntry | DM: Light Gem from locked chest in second room | 206 | LockedChestRule('Dark Mine')
+
+REGION DMLGDoor: LG door area, including toxic swim unless that proves to be a justifiable other region
+	DMEntry -> DMLGDoor | LGDoorRule(3)
+		would have LG door
+
+	LOCATION DMLGDoor | DM: Light Gem beyond Light Gem door in acid | 204 | And(Has('Swim'), InvincibilityGadget())
+	LOCATION DMLGDoor | DM: Dragon Egg beyond Light Gem Door in acid | 205 | And(Has('Swim'), InvincibilityGadget())
+
+REGION DMAfterRocks: past the chargeable rocks, starting with the piston wall kick room
+	DMEntry -> DMAfterRocks | HasAll('Double Jump', 'Charge')
+		would have DJ and charge
+
+	LOCATION DMAfterRocks | DM: Dragon Egg from locked chest in piston wall kick room | 207 | HasAll('Wall Kick', 'Glide')
+	LOCATION DMAfterRocks | DM: Firework at start of piston wall kick room | 5020 | Has('Fire Breath')
+	LOCATION DMAfterRocks | DM: Light Gem in piston wall kick room | 208 | HasAll('Wall Kick', 'Glide')
+
+REGION DMCaged: room with caged dark gem
+	DMAfterRocks -> DMCaged | Has('Electric Breath')
+		would have DJ and charge and electric
+
+	LOCATION DMCaged | DM: Dark Gem in laser turret room | 209 | True_()
+
+REGION DMAfterCaged: after caged dark gem room, up to the drop-off that uses wall kick
+	DMCaged -> DMAfterCaged | True_()
+		would have DJ and charge and electric
+	DMBeforeIcePoles -> DMAfterCaged | Has('Wall Kick')
+		would have DJ and wall kick and glide
+
+	LOCATION DMAfterCaged | DM: Dragon Egg from Blink | 210 | True_()
+	LOCATION DMAfterCaged | DM: Light Gem from Blink | 211 | True_()
+	LOCATION DMAfterCaged | DM: Dragon Egg below walkway after elevator | 212 | True_()
+
+REGION DMBeforeIcePoles: below wall kick drop-off, before needing ice
+	DMAfterCaged -> DMBeforeIcePoles | True_()
+		would have DJ and charge and electric
+	DMSeeSaw -> DMBeforeIcePoles | Has('Glide')
+		would have DJ and glide
+
+REGION DMSeeSaw: ledge leaving ice pole room, below it, big see saw room, and up to next wall kick. include enemy and stuff above wall kick
+	DMBeforeIcePoles -> DMSeeSaw | HasAll('Ice Breath', 'Pole Spin', 'Glide')
+		would have DJ and ice and pole spin and glide and charge and electric
+	DMSeeSawShop -> DMSeeSaw | Has('Double Jump')
+		would have DJ
+
+	LOCATION DMSeeSaw | DM: Light Gem below ice pole spin room | 213 | True_()
+	LOCATION DMSeeSaw | DM: Firework below ice pole spin room | 5021 | Has('Fire Breath')
+
+REGION DMSeeSawShop: just the ledge with the see saw shop pad
+	DMSeeSaw -> DMSeeSawShop | True_()
+		would have DJ
+	ShopPads -> DMSeeSawShop | OpenWorldRule(['Miner\'s Drop'])
+		could have nothing
+	DMSeeSawShop -> ShopPads | True_()
+
+	LOCATION DMSeeSawShop | DM: Dragon Egg next to shop in seesaw room | 214 | True_()
+
+REGION DMGreenPoles: green pole room, ending after stretch of red gems heading to red's lab
+	DMSeeSaw -> DMGreenPoles | And(HasAll('Wall Kick', 'Pole Spin', 'Glide'), Or(Has('Electric Breath'), HasAll('Ice Breath', 'Charge')))
+		would have (electric or ice + charge) and DJ and wall kick and pole spin and glide
+
+	LOCATION DMGreenPoles | DM: Light Gem in green pole room | 215 | True_()
+	LOCATION DMGreenPoles | DM: Dark Gem in green pole room | 216 | True_()
+
+Red's Lab
+---------
+REGION RLEntry: entry starting after stretch of red gems up to the exit door in charge switch room
+	DMGreenPoles -> RLEntry | True_()
+		would have (electric or ice + charge) and DJ and wall kick and pole spin and glide
+
+	LOCATION RLEntry | RL: Empty locked chest after pole spin puzzle in starting area | 253 | LockedChestRule('Red\'s Laboratory')
+	LOCATION RLEntry | RL: Empty locked chest above 4 charge switches | 254 | And(Has('Charge'), LockedChestRule('Red\'s Laboratory'))
+
+REGION RLCenter: center room. include any immediates from the different corridors
+	RLEntry -> RLCenter | True_()
+		would have (electric or ice + charge) and DJ and wall kick and pole spin and glide
+	ShopPads -> RLCenter | OpenWorldRule(['Celestial Show'])
+		could have nothing
+	RLCenter -> ShopPads | True_()
+
+	LOCATION RLCenter | RL: Dragon Egg from thief in center room | 217 | Has('Charge')
+
+REGION RLSouthWest: southwest area heading to mecha red. starts past the first hallway's door
+	RLCenter -> RLSouthWest | True_()
+		could have nothing
+
+REGION RLMechaRed: mecha red fight
+	RLSouthWest -> RLMechaRed | BossLairRule(3)
+		would have boss lair rule
+
+	LOCATION RLMechaRed | RL: Defeat Mecha-Red | 4003 | HasAll('Double Jump', 'Fire Breath', 'Electric Breath')
+
+REGION RLNorthEast1: room with electric platform. include stuff above it
+	RLCenter -> RLNorthEast1 | Or(Has('Electric Breath'), HasAll('Ice Breath', 'Charge'))
+		would have (electric or ice + charge)
+
+REGION RLNorthEast2: past electric room, up through conveyor room and up to lasers you have to DJ over
+	RLNorthEast1 -> RLNorthEast2 | Has('Electric Breath')
+		would have (electric or ice + charge) and electric
+
+	LOCATION RLNorthEast2 | RL: Light Gem in NE after conveyor belt | 226 | And(Has('Wall Kick'), InvincibilityGadget())
+
+REGION RLNorthEast2Above: gems above conveyor room
+	RLNorthEast2 -> RLNorthEast2Above | And(HasAll('Wall Kick', 'Double Jump', 'Pole Spin', 'Glide'), InvincibilityGadget())
+		would have DJ and (electric or ice + charge) and electric and wall kick and invincibility gadget and pole spin and glide
+
+REGION RLNorthEast3: small room with just the 2 small robo gnorcs because dumb
+	RLNorthEast2 -> RLNorthEast3 | True_()
+		would have (electric or ice + charge) and electric
+	RLNorthEast4 -> RLNorthEast3 | Has('Double Jump')
+		would have DJ
+
+REGION RLNorthEast4: past lasers you have to DJ over
+	RLNorthEast3 -> RLNorthEast4 | Has('Double Jump')
+		would have DJ and (electric or ice + charge) and electric
+	ShopPads -> RLNorthEast4 | OpenWorldRule(['Pre-production'])
+		could have nothing
+	RLNorthEast4 -> ShopPads | True_()
+
+	LOCATION RLNorthEast3 | RL: Dark Gem in NE guarded by robo-gnorcs | 227 | Has('Double Jump')
+
+REGION RLNorthWest1: up through double piston room
+	RLCenter -> RLNorthWest1 | Or(Has('Electric Breath'), HasAll('Ice Breath', 'Charge'))
+		would have (electric or ice + charge)
+
+	LOCATION RLNorthWest1 | RL: Dragon Egg in NW in piston room | 222 | HasAll('Double Jump', 'Glide')
+
+REGION RLNorthWest2: upper part of double piston room and beyond
+	RLNorthWest1 -> RLNorthWest2 | HasAll('Double Jump', 'Glide')
+		would have DJ and glide and (electric or ice + charge)
+	ShopPads -> RLNorthWest2 | OpenWorldRule(['Mechanical Mishaps'])
+		could have nothing
+	RLNorthWest2 -> ShopPads | True_()
+
+	LOCATION RLNorthWest2 | RL: Light Gem in NW via laser parkour | 223 | Has('Double Jump')
+	LOCATION RLNorthWest2 | RL: Light Gem in NW via pole spinning after Dark Gem | 224 | HasAll('Double Jump', 'Glide', 'Pole Spin')
+	LOCATION RLNorthWest2 | RL: Dark Gem in NW sealed chamber | 225 | HasAll('Double Jump', 'Glide', 'Pole Spin')
+
+REGION RLSouthEast1: room with exit up high
+	RLCenter -> RLSouthEast1 | Has('Charge')
+		would have charge
+
+	LOCATION RLSouthEast1 | RL: Light Gem in SE across upper exit | 218 | HasAll('Double Jump', 'Pole Spin', 'Glide')
+
+REGION RLSouthEast2: laser room entry, includes upper area of room with exit up high
+	RLSouthEast1 -> RLSouthEast2 | And(HasAll('Double Jump', 'Pole Spin', 'Glide'), Or(Has('Electric Breath'), HasAll('Ice Breath', 'Charge')))
+		would have DJ and pole spin and glide and (electric or ice + charge)
+	RLSouthEast3 -> RLSouthEast2 | Or(HasAny('Double Jump', 'Electric Breath'), HasAll('Ice Breath', 'Charge'))
+		would have DJ or (electric or ice + charge)
+
+REGION RLSouthEast3: laser room dark gem end and side path back
+	RLSouthEast2 -> RLSouthEast3 | True_()
+		would have DJ and pole spin and glide and (electric or ice + charge)
+	ShopPads -> RLSouthEast3 | OpenWorldRule(['Laser Leaps'])
+		could have nothing
+	RLSouthEast3 -> ShopPads | True_()
+
+	LOCATION RLSouthEast3 | RL: Dark Gem in SE after laser parkour | 219 | Has('Double Jump')
+	LOCATION RLSouthEast3 | RL: Light Gem in SE above boiler elevator | 220 | HasAll('Fire Breath', 'Double Jump', 'Glide')
+	LOCATION RLSouthEast3 | RL: Dragon Egg in SE behind lasers | 221 | HasAll('Fire Breath', 'Double Jump', 'Glide', 'Pole Spin')
