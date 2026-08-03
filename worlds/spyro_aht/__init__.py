@@ -180,8 +180,10 @@ class SpyroAHTWorld(World):
                 gem_amount = int(item.name.split(" ")[0])
                 if "Blink minigames" in item.name:
                     state.add_item("Blink Gems", item.player, count=gem_amount)
+                elif "[enemy]" in item.name:
+                    state.add_item("Non-Blink Enemies", item.player, count=gem_amount)
                 else:
-                    state.add_item("Non-Blink Gems", item.player, count=gem_amount)
+                    state.add_item("Other Gems", item.player, count=gem_amount)
             return True
         return False
 
@@ -194,8 +196,10 @@ class SpyroAHTWorld(World):
                 gem_amount = int(item.name.split(" ")[0])
                 if "Blink minigames" in item.name:
                     state.remove_item("Blink Gems", item.player, count=gem_amount)
+                elif "[enemy]" in item.name:
+                    state.remove_item("Non-Blink Enemies", item.player, count=gem_amount)
                 else:
-                    state.remove_item("Non-Blink Gems", item.player, count=gem_amount)
+                    state.remove_item("Other Gems", item.player, count=gem_amount)
             return True
         return False
 
@@ -304,10 +308,11 @@ class SpyroAHTWorld(World):
         self.options.starting_realms.value = slot_data['starting_realms']
         
         self.options.shop_randomization.value = slot_data['shop_randomization']
-        self.options.gem_logic.value = slot_data['gem_logic']
         self.options.key_rings.value = slot_data['key_rings']
-        self.options.non_blink_gems.value = slot_data['non_blink_gems']
+        self.options.gem_logic.value = slot_data['gem_logic']
         self.options.blink_gems.value = slot_data['blink_gems']
+        self.options.non_blink_enemies.value = slot_data['non_blink_enemies']
+        self.options.other_gems.value = slot_data['other_gems']
         self.options.double_gems.value = slot_data['double_gems']
         
         self._boss_lairs = slot_data['boss_lair_costs']
@@ -347,10 +352,12 @@ class SpyroAHTWorld(World):
         if self.options.shop_randomization.value == 1:
             self.log("Setting up shop costs.", "Info")
             shop_item_count = 18 if self.options.key_rings.value else 56
-            blink_total = 20028 * self.options.blink_gems.value / 100
-            other_total = 122796 * self.options.non_blink_gems.value / 100
-            base_price = (blink_total + other_total) / (shop_item_count-1)
-            self.log(f"Setting up shop prices. shop_item_count = {shop_item_count}. blink_total = {blink_total}. other_total = {other_total}. base_price = {base_price}.", "Debug")
+            blink = 20028 * self.options.blink_gems.value / 100
+            non_blink_enemies = 16153 * self.options.non_blink_enemies.value / 100
+            other = 106643 * self.options.other_gems.value / 100
+            gem_total = blink + non_blink_enemies + other
+            base_price = gem_total / (shop_item_count-1)
+            self.log(f"Setting up shop prices. shop_item_count = {shop_item_count}. blink = {blink}. non_blink_enemies = {non_blink_enemies}. other = {other}. base_price = {base_price}.", "Debug")
             self.shop_costs.append(0)
             
             if self.options.gem_logic:  # gem logic
@@ -647,10 +654,11 @@ class SpyroAHTWorld(World):
             "starting_realms": self._starting_realms,
 
             "shop_randomization": self.options.shop_randomization.value,
-            "gem_logic": self.options.gem_logic.value,
             "key_rings": self.options.key_rings.value,
-            "non_blink_gems": self.options.non_blink_gems.value,
+            "gem_logic": self.options.gem_logic.value,
             "blink_gems": self.options.blink_gems.value,
+            "non_blink_enemies": self.options.non_blink_enemies.value,
+            "other_gems": self.options.other_gems.value,
             "double_gems": self.options.double_gems.value,
             "shop_costs": self.shop_costs,
 
@@ -751,21 +759,24 @@ class ShopCheckRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
             if self.index == 0:
                 return True_().resolve(world)  # first item always free. This ensures True_() before evaluating any gem logic so that it's in sphere 1
             blink_scaling = world.options.blink_gems.value / 100
-            non_blink_scaling = world.options.non_blink_gems.value / 100
-            return self.Resolved(world.shop_costs[self.index], blink_scaling, non_blink_scaling, player=world.player)
+            non_blink_enemy_scaling = world.options.non_blink_enemies.value / 100
+            other_scaling = world.options.other_gems.value / 100
+            return self.Resolved(world.shop_costs[self.index], blink_scaling, non_blink_enemy_scaling, other_scaling, player=world.player)
         else:
             return True_().resolve(world)  # always accessible if gem logic is not in use
 
     class Resolved(Rule.Resolved):
         item_cost: int
         blink_scaling: float
-        non_blink_scaling: float
+        non_blink_enemy_scaling: float
+        other_scaling: float
         
         @override
         def _evaluate(self, state: CollectionState) -> bool:
             blink_gems = state.count("Blink Gems", self.player)
-            non_blink_gems = state.count("Non-Blink Gems", self.player)
-            in_logic_gems = (blink_gems * self.blink_scaling) + (non_blink_gems * self.non_blink_scaling)
+            non_blink_enemies = state.count("Non-Blink Enemies", self.player)
+            other = state.count("Other Gems", self.player)
+            in_logic_gems = (blink_gems * self.blink_scaling) + (non_blink_enemies * self.non_blink_enemy_scaling) + (other * self.other_scaling)
             return in_logic_gems >= self.item_cost
     
 

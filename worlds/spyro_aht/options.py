@@ -189,41 +189,25 @@ class StartingRealms(OptionSet):
     valid_keys = ("Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle")
     default = ("Dragon Kingdom",)
     
-###############SHOP###############
+###############SHOP & GEM LOGIC###############
 class ShopRandomization(Toggle):
     """Determines whether to randomize Moneybags' shop. If not randomized, it will function identically to the vanilla game. 
 
     If randomized, vanilla game shop items will be replaced with items from Archipelago. This has a few consequences:
         - Double Gems, if enabled, is permanent once received, as is the Butterfly Jar (it replenishes on death if depleted).
         - There is no limit on how many lockpicks you can hold at once. Same with ammo for breath bombs.
-        - If key rings are enabled, the world will have 14 level-specific key rings, instead of 52 lockpicks.
         - Shop item prices will be the same everywhere i.e. remote shop pads will not upcharge you.
-    The above information applies regardless of which type of shop randomization you choose below in gem_logic."""
+        
+    The above information applies regardless of your setting of gem_logic."""
     display_name = "Shop Randomization"
     default = 0
     
-    
-class GemLogic(Toggle):
-    """This option determines which of the 2 types of shop randomization your seed will use, when shop_randomization is enabled.
-
-    If gem_logic is disabled, there will be no logic used to determine when you can afford shop items, meaning the generator
-    will expect you to buy all shop items at the start of the run. Since this is infeasible, you will have to choose the
-    order you buy them as you collect gems. This means you risk getting stuck (requiring extra gem grinding to resolve)
-    if you choose a suboptimal order, but those who want to have a choice in their item ordering may prefer this anyway.
-
-    If gem_logic is enabled, shop items will be unlocked in a set order, with each one being purchasable for free once
-    you collect enough gems to unlock it (prices will be listed as "unlocked at X gems"). The generator accomplishes this
-    by keeping track of how many gems are accessible at all times. Items will have steadily increasing prices, which
-    avoids the possibility of buying them in the "wrong" order, but you lose the ability to choose the order you buy them."""
-    display_name = "Gem Logic"
-    default = 0
-
 
 class KeyRings(Toggle):
     """This option enables level-specific key rings which will open all locked chests in that level, which indirectly
     determines how many items you have in your shop.
 
-    If your shop is not randomized: key rings or lockpicks will be buyable in the shop depending on this option.
+    If your shop is not randomized: key rings or lockpicks will be buyable in the shop.
 
     If your shop is randomized, and key rings are enabled: you will have 18 shop items, and 14 key rings will
     be placed randomly in the world.
@@ -234,39 +218,43 @@ class KeyRings(Toggle):
     display_name = "Key Rings"
     default = 0
 
+    
+class GemLogic(Toggle):
+    """This option determines whether the generator should utilize logic rules to track the accessibility of gems throughout the seed.
+    
+    If disabled, the shop will price items equally and place them all in sphere 1. This can result in difficult
+    or impossible seeds because it is infeasible to afford every item then, but does give you the choice of which order to buy them.
 
-class NonBlinkGems(Range):
-    """This option is only used if your shop is randomized. This option, along with blink_gems, determines how much of the
-    game's gems you want to be expected to collect. blink_gems handles gems from Blink minigames, while non_blink_gems handles
-    the rest of the game's gems. For example, non_blink_gems being 50 means being expected to collect 50% of all gems outside
-    of Blink minigames. If you have gem_logic enabled, the amount you are expected to have is visible on the pause screen.
-
-    This option contributes to determining your shop item prices. Moneybags always offers your first shop item for free,
-    which prevents a number of restrictive starts. Other items will be priced in accordance to the formula below, which
-    factors in a few things. If you are not math-inclined, you can always do some test generations to see how your shop reacts.
-
+    If enabled, shop items will instead display "Unlocked at X Gems". Once you have X gems, the item will be free to purchase,
+    with prices steadily increasing so that you unlock them in a set order. This spreads the shop checks out through the
+    seed, but has the downside of you losing the choice of which order to unlock items.
+    
+    Either way, the formula below is used to calculate your shop item prices. The first item is always free due to inflation in the Dragon Kingdom.
+    The formula is included for those who are math-inclined and want to follow it, or you can do test generations to see your prices.
+    
     ********************************FORMULA INFO (for the math nerds)********************************
-    non_blink_total = 122,796 * non_blink_gems%
-    blink_total = 20,028 * blink_gems%
-    base_shop_price = (non_blink_total + blink_total) / (number of shop items - 1)
+    blink_gems_total = 20,028 * blink_gems%
+    non_blink_enemies_total = 16,153 * non_blink_enemies%
+    other_gems_total = 106,643 * other_gems%
+    gem_total = blink_gems_total + non_blink_enemies_total + other_gems_total
+    base_shop_price = gem_total / (number of shop items determined by key_rings - 1)
 
-    If gem_logic is disabled, shop items will each cost base_shop_price.
-    If gem_logic is enabled, shop items will each cost base_shop_price * 1, base_shop_price * 2, etc. for all N shop items.
-    Note that whenever needed, shop item prices will be rounded down. No rounding is done prior to that step.
-    *************************************************************************************************"""
-    display_name = "Non Blink Gems"
-    range_start = 1
-    range_end = 100
-    default = 50
+    If gem_logic is disabled, shop items will cost base_shop_price, rounded down if needed.
+    If gem_logic is enabled, shop items will cost base_shop_price * 1, base_shop_price * 2, etc., rounded down if needed.
+    *************************************************************************************************
+    """
+    display_name = "Gem Logic"
+    default = 0
 
 
 class BlinkGems(Range):
-    """This option is only used when the shop is randomized, and pairs with non_blink_gems. This option isolates Blink's
-    minigame gems, because his contain notably more than the other types.
+    """This option is used when shop_randomization and gem_logic are enabled. It lets you decide what percentage of
+    gems from Blink's minigames you want to be expected to collect. His minigames are frequently disliked/skipped, and
+    they have significantly gems than the other minigames, which is why this is an isolated option.
     
-    This option works identically to non_blink_gems. For example, setting this to 50 means collecting 50% of Blink's minigame
-    gems, which is roughly 10,014. Set this option to 0 if you intend to skip Blink minigames, whether that be from
-    underground-air-a-phobia or because you excluded enough Blink minigame locations to justify it.
+    For example, a value of 50 means being expected to collect approximately 50% of the gems available in each Blink minigame.
+    His minigames contain 20,028 total, so this would result in an expectation of 10,014 gems. Set this to 0 if you
+    intend to skip Blink minigames, whether that be from underground-air-a-phobia or because you excluded some/all of their checks.
     """
     display_name = "Blink Gems"
     range_start = 0
@@ -274,21 +262,37 @@ class BlinkGems(Range):
     default = 50
 
 
-class EnemyGems(Choice):
-    """This option is only used when gem_logic is true, and lets you exclude non-Blink enemy gems from your gem collection requirements.
-    Having this enabled adds to the logically-expected backtracking to defeat enemies that you couldn't on your first
-    visit to an area. This can be quite difficult to stay on top of, if you are the type to try to stick exactly to logic.
-    This option exists to lessen the potential backtracking expectations. Additionally, some enemies are quite inconsistent
-    with how many gems they drop, and this allows you to make that not matter logically. Gems from breakable containers are always enabled
-    as they make up the vast majority of the game's gems.
+class NonBlinkEnemies(Range):
+    """This option is used when shop_randomization and gem_logic are enabled. It lets you decide what percentage of gems
+    from enemies you want to be expected to collect. This only applies to enemies when playing as Spyro.
     
-    To be clear: disabling enemy gems does not mean you *can't* collect gems from enemies. Any enemy gems you *do* get
-    would still contribute to your overall gem collection, which allows you to skip some containers."""
-    display_name = "Enemy Gems"
-    option_enabled = 0
-    option_disabled = 1
-    default = 0
+    Gem logic assumes you will kill every enemy exactly once. This is nearly impossible to do accurately,
+    since enemies respawn on death or reloads, and you won't be able to kill every enemy you come across on first visit,
+    due to the nature of randomizers. This option was introduced to mitigate this issue.
+    
+    This option works similarly to blink_gems. For example, a value of 40 means being expected to collect approximately
+    40% of gems from enemies. This works out to be roughly 6,461 (enemies have 16,153 gems total)."""
+    display_name = "Non-Blink Enemies"
+    range_start = 0
+    range_end = 100
+    default = 75
 
+
+class OtherGems(Range):
+    """This option is used when shop_randomization and gem_logic are enabled. It works similarly to blink_gems and non_blink_enemies,
+    but applying to all other sources of gems. This primarily consists of gems from breakable containers and from
+    Sgt. Byrd + Sparx minigames, plus some misc. others (such as gems on the ground in levels).
+    
+    The total amount of "other" gems is 106,643. Like blink_gems and non_blink_enemies, a value of 35 means
+    being expected to collect approximately 37,325 "other" gems.
+    
+    Note: it's hard to get consistent gems from Sparx minigames. Their total was calculated as an average of 4-5 runs through
+    each one's Dragon Egg + Light Gem forms. The total for each worked out to be 1,523 -> 2,148 -> 2,218 -> 2,392."""
+    display_name = "Other Gems"
+    range_start = 1
+    range_end = 100
+    default = 75
+    
     
 class DoubleGems(Choice):
     """This option is only used if your shop is randomized with gem logic.
@@ -466,10 +470,11 @@ class SpyroAHTOptions(PerGameCommonOptions):
     starting_realms: StartingRealms
     
     shop_randomization: ShopRandomization
-    gem_logic: GemLogic
     key_rings: KeyRings
-    non_blink_gems: NonBlinkGems
+    gem_logic: GemLogic
     blink_gems: BlinkGems
+    non_blink_enemies: NonBlinkEnemies
+    other_gems: OtherGems
     double_gems: DoubleGems
     
     randomize_boss_lair_door_costs: RandomizeBossLairDoorCosts
@@ -501,8 +506,8 @@ spyro_options_groups = [
     OptionGroup("START OF GAME", [
         StartingBreath, RandomizeMovement, StartingRealms
     ]),
-    OptionGroup("SHOP", [
-        ShopRandomization, GemLogic, KeyRings, NonBlinkGems, BlinkGems, DoubleGems
+    OptionGroup("SHOP & GEM LOGIC", [
+        ShopRandomization, KeyRings, GemLogic, BlinkGems, NonBlinkEnemies, OtherGems, DoubleGems
     ]),
     OptionGroup("GATE & GADGET COSTS", [
         RandomizeBossLairDoorCosts, BossLairDoorCostMin, BossLairDoorCostMax, BossLairForcing,

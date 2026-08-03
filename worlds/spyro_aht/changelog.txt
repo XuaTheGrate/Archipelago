@@ -11,6 +11,7 @@
     - Updated the shop price calculation and gem collection logic to be more consistent across the board, which resolves an issue that would lead to shop items entering logic earlier than they were supposed to.
 
 TO-DO LIST:
+    - TODO 2.0 RC: *evil laugh* see if I break things by setting all gem logic options to 0
     - TODO 2.0 RC: investigate what things needing glide actually need DJ as well vs. just glide
     - TODO 2.0 RC: rule caching?
     - TODO 2.0 RC: updated death link messages

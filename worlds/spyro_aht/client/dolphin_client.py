@@ -299,19 +299,24 @@ class DolphinClient(GenericClient):
         if ctx.slot_data["shop_randomization"] and not ctx.slot_data["gem_logic"]:
             return
         
-        blink_available, non_blink_available = 0, 0
+        blink_available, non_blink_enemies_available, other_available = 0, 0, 0
         for event in events:
             if "VictoryCon" in event:
                 continue
             gem_amount = int(event.split(" ", 1)[0])
             if "Blink minigames" in event:
                 blink_available += gem_amount
+            elif "[enemy]" in event:
+                non_blink_enemies_available += gem_amount
             else:
-                non_blink_available += gem_amount
+                other_available += gem_amount
         
-        in_logic = (blink_available * (ctx.slot_data['blink_gems'] / 100)) + (non_blink_available * (ctx.slot_data['non_blink_gems'] / 100))
-        dolphin_memory_engine.write_word(self.addresses.g_GEMS_IN_LOGIC, in_logic)
-        dolphin_memory_engine.write_word(self.addresses.g_GEMS_AVAILABLE, blink_available + non_blink_available)
+        blink_in_logic = (blink_available * ctx.slot_data['blink_gems'] / 100)
+        non_blink_enemy_in_logic = (non_blink_enemies_available * ctx.slot_data['non_blink_enemies'] / 100)
+        other_in_logic = (other_available * ctx.slot_data['other_gems'] / 100)
+        
+        dolphin_memory_engine.write_word(self.addresses.g_GEMS_IN_LOGIC, blink_in_logic + non_blink_enemy_in_logic + other_in_logic)
+        dolphin_memory_engine.write_word(self.addresses.g_GEMS_AVAILABLE, blink_available + non_blink_enemies_available + other_available)
     
     async def allow_realm_access(self, id: int):
         current: list[bool] = list(struct.unpack(">????", dolphin_memory_engine.read_bytes(self.addresses.g_REALM_ACCESS, 4)))
