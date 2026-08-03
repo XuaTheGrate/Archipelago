@@ -273,6 +273,22 @@ class BlinkGems(Range):
     range_end = 100
     default = 50
 
+
+class EnemyGems(Choice):
+    """This option is only used when gem_logic is true, and lets you exclude non-Blink enemy gems from your gem collection requirements.
+    Having this enabled adds to the logically-expected backtracking to defeat enemies that you couldn't on your first
+    visit to an area. This can be quite difficult to stay on top of, if you are the type to try to stick exactly to logic.
+    This option exists to lessen the potential backtracking expectations. Additionally, some enemies are quite inconsistent
+    with how many gems they drop, and this allows you to make that not matter logically. Gems from breakable containers are always enabled
+    as they make up the vast majority of the game's gems.
+    
+    To be clear: disabling enemy gems does not mean you *can't* collect gems from enemies. Any enemy gems you *do* get
+    would still contribute to your overall gem collection, which allows you to skip some containers."""
+    display_name = "Enemy Gems"
+    option_enabled = 0
+    option_disabled = 1
+    default = 0
+
     
 class DoubleGems(Choice):
     """This option is only used if your shop is randomized with gem logic.
