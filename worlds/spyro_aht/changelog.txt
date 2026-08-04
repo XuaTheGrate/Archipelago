@@ -11,10 +11,10 @@
     - Updated the shop price calculation and gem collection logic to be more consistent across the board, which resolves an issue that would lead to shop items entering logic earlier than they were supposed to.
 
 TO-DO LIST:
+    - TODO 2.0 RC: access cards still in pool?
     - TODO 2.0 RC: rule caching?
     - TODO 2.0 RC: expanded death link messages and open world mode (mod versions 9/10)
     - TODO 2.0 RC: investigate client checking game mod version after it would matter? like check for it earlier?
-    - TODO 2.0 RC: add license to project
     - TODO 2.0 RC: what can we do to fix new save files on existing seeds, if anything?
         - make a re-sync/re-patch command? re-apply game patch things for items and maybe gems?
         - items aren't re-sent, understandably, but could be re-sent in cheat console if needed.
