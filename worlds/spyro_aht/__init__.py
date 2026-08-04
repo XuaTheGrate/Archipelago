@@ -10,10 +10,11 @@ import orjson
 import Utils
 from BaseClasses import Item, ItemClassification, MultiWorld, Region, CollectionState
 from Options import OptionError
-from rule_builder.rules import Has, Rule, True_, And, False_
+from rule_builder.rules import Has, Rule, True_, And, False_, HasAny
 from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import icon_paths
 from .options import RandomizeMovement, SpyroAHTOptions, StartingBreath, spyro_options_groups
+from .data.consts import LEVEL_SHOP_LOOKUP, REALM_LEVEL_LOOKUP
 
 icon_paths['spyro_aht'] = f'ap:{__name__}/icon.png'
 
@@ -175,15 +176,39 @@ class SpyroAHTWorld(World):
         """Override of World.collect which additionally handles gem events."""
         name = self.collect_item(state, item)
         if name:
-            state.add_item(name, self.player)
-            if "Gems" in item.name and "VictoryCon" not in item.name:
-                gem_amount = int(item.name.split(" ")[0])
-                if "Blink minigames" in item.name:
-                    state.add_item("Blink Gems", item.player, count=gem_amount)
-                elif "[enemy]" in item.name:
-                    state.add_item("Non-Blink Enemies", item.player, count=gem_amount)
-                else:
-                    state.add_item("Other Gems", item.player, count=gem_amount)
+            if "Unlock" not in item.name:
+                state.add_item(name, self.player)
+                if "Gems" in item.name and "VictoryCon" not in item.name:  # gem events
+                    gem_amount = int(item.name.split(" ")[0])
+                    if "Blink minigames" in item.name:
+                        state.add_item("Blink Gems", item.player, count=gem_amount)
+                    elif "[enemy]" in item.name:
+                        state.add_item("Non-Blink Enemies", item.player, count=gem_amount)
+                    else:
+                        state.add_item("Other Gems", item.player, count=gem_amount)
+            else:  # handle shop unlocks separately
+                choice = self.options.open_world_mode.value
+                if choice == 2:  # randomized
+                    state.add_item(item.name.replace(" Shop Unlock", ""), self.player)
+                elif choice == 3 or choice == 4:  # progressive and reverse progressive
+                    adjusted_name = item.name.replace("Progressive ", "")
+                    level = adjusted_name.split(" - ")[0]
+                    # index = 0 if choice == 3 else -1  # only part that differs is whether to grab levels from start or end of list
+                    shops = LEVEL_SHOP_LOOKUP[level].copy()
+                    if choice == 4: shops.reverse()
+                    for shop in shops:
+                        if not state.has(f"{level} - {shop}", self.player):
+                            state.add_item(f"{level} - {shop}", self.player)
+                            break
+                elif choice == 5:  # full levels
+                    level = item.name.split(" - ")[0]
+                    for shop in LEVEL_SHOP_LOOKUP[level]:
+                        state.add_item(f"{level} - {shop}", self.player)
+                elif choice == 6:  # full realms
+                    realm = item.name.split(" - ")[0]
+                    for level in REALM_LEVEL_LOOKUP[realm]:
+                        for shop in LEVEL_SHOP_LOOKUP[level]:
+                            state.add_item(f"{level} - {shop}", self.player)
             return True
         return False
 
@@ -191,15 +216,39 @@ class SpyroAHTWorld(World):
         """Override of World.remove which additionally handles gem events."""
         name = self.collect_item(state, item, True)
         if name:
-            state.remove_item(name, self.player)
-            if "Gems" in item.name and "VictoryCon" not in item.name:
-                gem_amount = int(item.name.split(" ")[0])
-                if "Blink minigames" in item.name:
-                    state.remove_item("Blink Gems", item.player, count=gem_amount)
-                elif "[enemy]" in item.name:
-                    state.remove_item("Non-Blink Enemies", item.player, count=gem_amount)
-                else:
-                    state.remove_item("Other Gems", item.player, count=gem_amount)
+            if "Unlock" not in item.name:
+                state.remove_item(name, self.player)
+                if "Gems" in item.name and "VictoryCon" not in item.name:  # gem events
+                    gem_amount = int(item.name.split(" ")[0])
+                    if "Blink minigames" in item.name:
+                        state.remove_item("Blink Gems", item.player, count=gem_amount)
+                    elif "[enemy]" in item.name:
+                        state.remove_item("Non-Blink Enemies", item.player, count=gem_amount)
+                    else:
+                        state.remove_item("Other Gems", item.player, count=gem_amount)
+            else:  # handle shop unlocks separately
+                choice = self.options.open_world_mode.value
+                if choice == 2:  # randomized
+                    state.remove_item(item.name.replace(" Shop Unlock", ""), self.player)
+                elif choice == 3 or choice == 4:  # progressive and reverse progressive
+                    adjusted_name = item.name.replace("Progressive ", "")
+                    level = adjusted_name.split(" - ")[0]
+                    # index = 0 if choice == 3 else -1  # only part that differs is whether to grab levels from start or end of list
+                    shops = LEVEL_SHOP_LOOKUP[level].copy()
+                    if choice == 4: shops.reverse()
+                    for shop in shops:
+                        if not state.has(f"{level} - {shop}", self.player):
+                            state.remove_item(f"{level} - {shop}", self.player)
+                            break
+                elif choice == 5:  # full levels
+                    level = item.name.split(" - ")[0]
+                    for shop in LEVEL_SHOP_LOOKUP[level]:
+                        state.remove_item(f"{level} - {shop}", self.player)
+                elif choice == 6:  # full realms
+                    realm = item.name.split(" - ")[0]
+                    for level in REALM_LEVEL_LOOKUP[realm]:
+                        for shop in LEVEL_SHOP_LOOKUP[level]:
+                            state.remove_item(f"{level} - {shop}", self.player)
             return True
         return False
 
@@ -782,14 +831,13 @@ class ShopCheckRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
 
 @dataclass
 class OpenWorldRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
-    shop_names: str
+    shop_names: list[str]
     
     def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
-        # can easily be expanded later if individual shop unlocks become a thing
-        if world.options.open_world_mode.value == 1:
-            return True_().resolve(world)
-        else:
+        if world.options.open_world_mode.value == 0:
             return False_().resolve(world)
+        
+        return HasAny(*self.shop_names).resolve(world)
 
 ###############CLIENT###############
 def _run_client(*args: str):

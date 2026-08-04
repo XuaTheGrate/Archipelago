@@ -74,7 +74,7 @@ Dragon Village
 REGION DVEntry: shop, ember, and elder areas
 	START -> DVEntry | Has('Dragon Kingdom Access Card')
 		could have nothing
-	ShopPads -> DVEntry | OpenWorldRule(['Village Depot'])
+	ShopPads -> DVEntry | OpenWorldRule(['Dragon Village - Village Depot'])
 		could have nothing
 	DVTunnelToCroc -> DVEntry | True_()
 		would have DJ
@@ -156,7 +156,7 @@ REGION CSPyramidAndTemple: vanilla entryway, pyramid, and outside temple
 		would have DJ
 	CSFredneck -> CSPyramidAndTemple | Has('Glide')
 		would have DJ and pole spin and glide
-	ShopPads -> CSPyramidAndTemple | OpenWorldRule(['Perilous Pyramid', 'Forgotten Temple'])
+	ShopPads -> CSPyramidAndTemple | OpenWorldRule(['Crocovile Swamp - Perilous Pyramid', 'Crocovile Swamp - Forgotten Temple'])
 		could have nothing
 	CSPyramidAndTemple -> ShopPads | True_()
 
@@ -202,7 +202,7 @@ REGION CSEastPoles: rest of cave above first set of poles
 REGION CSTree: Blink, outside tree, and lower part of tree (including talking to elder). include the outside poles. include path to fredneck above Blink.
 	CSEast -> CSTree | Has('Double Jump')
 		would have DJ
-	ShopPads -> CSTree | OpenWorldRule(['Elder\'s Tree'])
+	ShopPads -> CSTree | OpenWorldRule(['Crocovile Swamp - Elder\'s Tree'])
 		could have nothing
 	CSTree -> ShopPads | True_()
 
@@ -249,7 +249,7 @@ REGION DFSteepCanyon: first main chunk from shop up to vulture area (include goi
 		would have DJ
 	DFCove -> DFSteepCanyon | True_()
 		would have DJ and Glide
-	ShopPads -> DFSteepCanyon | OpenWorldRule(['Steep Canyon'])
+	ShopPads -> DFSteepCanyon | OpenWorldRule(['Dragonfly Falls - Steep Canyon'])
 		could have nothing
 	DFSteepCanyon -> ShopPads | True_()
 
@@ -276,7 +276,7 @@ REGION DFLGDoorEntry: entry area past the door
 REGION DFLGDoorShop: majority of secret area
 	DFLGDoorEntry -> DFLGDoorShop | HasAll('Double Jump', 'Glide')
 		would have DJ and glide
-	ShopPads -> DFLGDoorShop | OpenWorldRule(['Secret Area'])
+	ShopPads -> DFLGDoorShop | OpenWorldRule(['Dragonfly Falls - Secret Area'])
 		could have nothing
 	DFLGDoorShop -> ShopPads | True_()
 
@@ -295,7 +295,7 @@ REGION DFElderStatue: statue area
 REGION DFCoveShop: just the shop area
 	DFElderStatue -> DFCoveShop | True_()
 		would have DJ and glide
-	ShopPads -> DFCoveShop | OpenWorldRule(['Tropical Cove'])
+	ShopPads -> DFCoveShop | OpenWorldRule(['Dragonfly Falls - Tropical Cove'])
 		could have nothing
 	DFCoveAboveShop -> DFCoveShop | True_()
 		would have either (DJ and glide) or (wall kick)
@@ -332,7 +332,7 @@ Coastal Remains
 REGION CREntry: shop, southern beach, east hub
 	START -> CREntry | Has('Lost Cities Access Card')
 		could have nothing
-	ShopPads -> CREntry | OpenWorldRule(['Coastal Depot'])
+	ShopPads -> CREntry | OpenWorldRule(['Coastal Remains - Coastal Depot'])
 		could have nothing
 	CREntry -> ShopPads | True_()
 	CRWindmills -> CREntry | True_()
@@ -386,7 +386,7 @@ REGION CRWindmills: windmill area on the way to cloudy domain
 REGION CRCloudyElevator: cloudy elevator area
 	CRWindmills -> CRCloudyElevator | Has('Glide')
 		would have DJ and glide
-	ShopPads -> CRCloudyElevator | OpenWorldRule(['Domain Doorstep'])
+	ShopPads -> CRCloudyElevator | OpenWorldRule(['Coastal Remains - Domain Doorstep'])
 		could have nothing
 	CRCloudyElevator -> ShopPads | True_()
 	CDEntry -> CRCloudyElevator | True_()
@@ -406,7 +406,7 @@ REGION CROttoPool: pool and first filling section. include crabs and metal chest
 REGION CRWest: left out of otto's pool to Blink and sunken entrance
 	CROttoPool -> CRWest | HasAll('Double Jump', 'Pole Spin')
 		would have DJ and pole spin
-	ShopPads -> CRWest | OpenWorldRule(['Waterfall Walkway'])
+	ShopPads -> CRWest | OpenWorldRule(['Coastal Remains - Waterfall Walkway'])
 		could have nothing
 	CRWest -> ShopPads | True_()
 
@@ -422,7 +422,7 @@ Cloudy Domain
 REGION CDEntry: top of elevator and inside room with headbash switch. includes first balloon gnorc of southwest
 	CRCloudyElevator -> CDEntry | True_()
 		could have nothing
-	ShopPads -> CDEntry | OpenWorldRule(['Elevator Top'])
+	ShopPads -> CDEntry | OpenWorldRule(['Cloudy Domain - Elevator Top'])
 		could have nothing
 	CDEntry -> ShopPads | True_()
 	CDSouthWest -> CDEntry | True_()
@@ -445,7 +445,7 @@ REGION CDCenter: going across the platforms and up the thermal
 REGION CDOutsideElder: outside Elder house
 	CDCenter -> CDOutsideElder | True_()
 		would have DJ
-	ShopPads -> CDOutsideElder | OpenWorldRule(['Elder\'s Homestead'])
+	ShopPads -> CDOutsideElder | OpenWorldRule(['Cloudy Domain - Elder\'s Homestead'])
 		could have nothing
 	CDOutsideElder -> ShopPads | True_()
 
@@ -494,7 +494,7 @@ REGION CDEndlessPlatforms: just past the balloon gnorcs which need wing shield t
 REGION CDTallestTowerLower: just the shop area
 	CDEndlessPlatforms -> CDTallestTowerLower | True_()
 		would have DJ and charge and wing shield
-	ShopPads -> CDTallestTowerLower | OpenWorldRule(['Tallest Tower'])
+	ShopPads -> CDTallestTowerLower | OpenWorldRule(['Cloudy Domain - Tallest Tower'])
 		could have nothing
 	CDTallestTowerLower -> ShopPads | True_()
 
@@ -520,7 +520,7 @@ Sunken Ruins
 REGION SREntry: entrance up to first swim
 	CRWest -> SREntry | Has('Double Jump')
 		would have DJ
-	ShopPads -> SREntry | OpenWorldRule(['Atlantian Entryway'])
+	ShopPads -> SREntry | OpenWorldRule(['Sunken Ruins - Atlantian Entryway'])
 		could have nothing
 	SREntry -> ShopPads | True_()
 	SRReturnToStart -> SREntry | True_()
@@ -560,7 +560,7 @@ REGION SRAfterSwim2: first invincibility swim room
 REGION SRDepthsEntry: middle layer of Depths room (with invince wall kick)
 	SRAfterSwim2 -> SRDepthsEntry | True_()
 		would have swim
-	ShopPads -> SRDepthsEntry | OpenWorldRule(['The Depths'])
+	ShopPads -> SRDepthsEntry | OpenWorldRule(['Sunken Ruins - The Depths'])
 		could have nothing
 	SRDepthsEntry -> ShopPads | True_()
 
@@ -602,7 +602,7 @@ REGION SRToxicSwimAbove: atop pole spin puzzle
 REGION SRToxicRise: rising statue room. include stuff before it in toxic swim statue hallway
 	SRToxicSwimAbove -> SRToxicRise | True_()
 		would have electric and invince and swim and charge and DJ and pole spin and glide
-	ShopPads -> SRToxicRise | OpenWorldRule(['Toxic Rise'])
+	ShopPads -> SRToxicRise | OpenWorldRule(['Sunken Ruins - Toxic Rise'])
 		could have nothing
 	SRToxicRise -> ShopPads | True_()
 
@@ -621,7 +621,7 @@ Frostbite Village
 REGION FVEntry1: entry area. very little here
 	START -> FVEntry1 | Has('Icy Wilderness Access Card')
 		could have nothing
-	ShopPads -> FVEntry1 | OpenWorldRule(['Frosty Depot'])
+	ShopPads -> FVEntry1 | OpenWorldRule(['Frostbite Village - Frosty Depot'])
 		could have nothing
 	FVEntry1 -> ShopPads | True_()
 	FVReturnFromIC -> FVEntry1 | True_()
@@ -658,7 +658,7 @@ REGION FVHeadingToCamp: past the headbash switch, up to the gate that leads to I
 REGION FVIcyCamp: icy camp area and up to gloomy glacier entrance. includes immediates using just wall kick
 	FVHeadingToCamp -> FVIcyCamp | True_()
 		would have DJ
-	ShopPads -> FVIcyCamp | OpenWorldRule(['Icy Camp'])
+	ShopPads -> FVIcyCamp | OpenWorldRule(['Frostbite Village - Icy Camp'])
 		could have nothing
 	FVIcyCamp -> ShopPads | True_()
 
@@ -681,7 +681,7 @@ REGION FVReturnFromIC: past the IC drawbridge
 REGION FVEntry2: eskimole village shop area
 	FVReturnFromIC -> FVEntry2 | True_()
 		would have DJ and supercharge
-	ShopPads -> FVEntry2 | OpenWorldRule(['Eskimole Village'])
+	ShopPads -> FVEntry2 | OpenWorldRule(['Frostbite Village - Eskimole Village'])
 		could have nothing
 	FVEntry2 -> ShopPads | True_()
 
@@ -738,7 +738,7 @@ Ice Citadel
 REGION ICCourtyardLower: entrance courtyard
 	GGEntry -> ICCourtyardLower | True_()
 		could have nothing
-	ShopPads -> ICCourtyardLower | OpenWorldRule(['Cool Courtyard'])
+	ShopPads -> ICCourtyardLower | OpenWorldRule(['Ice Citadel - Cool Courtyard'])
 		could have nothing
 	ICCourtyardLower -> ShopPads | True_()
 
@@ -768,7 +768,7 @@ REGION ICElderRoom: elder's room, opened by killing armored huge gnorc in front
 REGION ICSuperchargeShop: supercharge area past Elder. include enemies and boiler to the east needing DJ
 	ICElderRoom -> ICSuperchargeShop | Has('Wall Kick')
 		would have DJ and water and wall kick
-	ShopPads -> ICSuperchargeShop | OpenWorldRule(['Supercharge Central'])
+	ShopPads -> ICSuperchargeShop | OpenWorldRule(['Ice Citadel - Supercharge Central'])
 		could have nothing
 	ICSuperchargeShop -> ShopPads | True_()
 
@@ -791,7 +791,7 @@ REGION ICUseSupercharge: things you need to actually use supercharge to reach/do
 REGION ICDrawbridge: room past the drawbridge
 	ICUseSupercharge -> ICDrawbridge | Has('Double Jump')
 		would have DJ and supercharge
-	ShopPads -> ICDrawbridge | OpenWorldRule(['Drawbridge Drop-off'])
+	ShopPads -> ICDrawbridge | OpenWorldRule(['Ice Citadel - Drawbridge Drop-off'])
 		could have nothing
 	ICDrawbridge -> ShopPads | True_()
 
@@ -800,7 +800,7 @@ REGION ICDrawbridge: room past the drawbridge
 REGION ICRoyal: royal chamber area. include egg after pole spin which doesn't need DJ but does need glide
 	ICSuperchargeShop -> ICRoyal | And(Has('Double Jump'), Or(HasAny('Fire Breath', 'Electric Breath'), HasAll('Ice Breath', 'Charge')))
 		would have DJ and one of (fire, electric, or (ice+charge))
-	ShopPads -> ICRoyal | OpenWorldRule(['Royal Chamber'])
+	ShopPads -> ICRoyal | OpenWorldRule(['Ice Citadel - Royal Chamber'])
 		could have nothing
 	ICRoyal -> ShopPads | True_()
 
@@ -842,7 +842,7 @@ REGION SBEntryLower: realm entry and lower part of beach + west cove
 	LOCATION SBEntryLower | SB: Dragon Egg from thief underneath shop | 174 | Has('Charge')
 
 REGION SBShop: just the shop. only separate because it's not equally accessible with SBEntryLower
-	ShopPads -> SBShop | OpenWorldRule(['Stormy Depot'])
+	ShopPads -> SBShop | OpenWorldRule(['Stormy Beach - Stormy Depot'])
 		could have nothing
 	SBShop -> ShopPads | True_()
 	SBEntryLower -> SBShop | Has('Double Jump')
@@ -885,7 +885,7 @@ REGION MMVillage: hyena village
 		would have DJ and glide and (water or ice)
 	MMPostVillage -> MMVillage | True_()
 		would have DJ and (water or ice)
-	ShopPads -> MMVillage | OpenWorldRule(['Destroyed Village'])
+	ShopPads -> MMVillage | OpenWorldRule(['Molten Mount - Destroyed Village'])
 		could have nothing
 	MMVillage -> ShopPads | True_()
 
@@ -926,7 +926,7 @@ REGION MMBridge: collapsed bridge shop area. include the platforms heading to ne
 		would have DJ and pole spin and glide and (water or ice)
 	MMPostBridge -> MMBridge | True_()
 		would have DJ and (water or ice)
-	ShopPads -> MMBridge | OpenWorldRule(['Collapsed Bridge'])
+	ShopPads -> MMBridge | OpenWorldRule(['Molten Mount - Collapsed Bridge'])
 		could have nothing
 	MMBridge -> ShopPads | True_()
 
@@ -959,7 +959,7 @@ REGION MMNorth: invincibility puzzle area
 REGION MMLumber: lumber storage shop area
 	MMLumberEntry -> MMLumber | True_()
 		would have DJ and (water or ice)
-	ShopPads -> MMLumber | OpenWorldRule(['Lumber Storage'])
+	ShopPads -> MMLumber | OpenWorldRule(['Molten Mount - Lumber Storage'])
 		could have nothing
 	MMLumber -> ShopPads | True_()
 	MMPostLumber -> MMLumber | Has('Double Jump')
@@ -1001,7 +1001,7 @@ REGION MFtCenter: center area past rock monster
 REGION MFtSouth: shop area and rest of south
 	MFtCenter -> MFtSouth | Has('Double Jump')
 		would have DJ and (water or ice)
-	ShopPads -> MFtSouth | OpenWorldRule(['Crackling Cave'])
+	ShopPads -> MFtSouth | OpenWorldRule(['Magma Falls - Crackling Cave'])
 		could have nothing
 	MFtSouth -> ShopPads | True_()
 
@@ -1039,7 +1039,7 @@ REGION MFBallGadget: ball gadget path
 REGION MFbEntry: right after ball gadget. include everything up to first dark gem including stuff above wall kick
 	MFBallGadget -> MFbEntry | True_()
 		would have DJ and ball gadget
-	ShopPads -> MFbEntry | OpenWorldRule(['Chains of Lava'])
+	ShopPads -> MFbEntry | OpenWorldRule(['Magma Falls - Chains of Lava'])
 		could have nothing
 	MFbEntry -> ShopPads | True_()
 	MFbSouthEast -> MFbEntry | Has('Glide')
@@ -1072,7 +1072,7 @@ REGION MFbImpRoom: imp wizard room, only the room itself i.e. doesn't include an
 REGION MFbSparxShop: hallway post-imp room and shop area. don't think thief area needs its own region
 	MFbImpRoom -> MFbSparxShop | True_()
 		would have DJ and wall kick and (water or ice)
-	ShopPads -> MFbSparxShop | OpenWorldRule(['Sparx Can Fly'])
+	ShopPads -> MFbSparxShop | OpenWorldRule(['Magma Falls - Sparx Can Fly'])
 		could have nothing
 	MFbSparxShop -> ShopPads | True_()
 	DMEntry -> MFbSparxShop | Has('Double Jump')
@@ -1087,7 +1087,7 @@ Dark Mine
 REGION DMEntry: entry area up to chargeable rocks
 	MFbSparxShop -> DMEntry | Has('Double Jump')
 		would have DJ
-	ShopPads -> DMEntry | OpenWorldRule(['Mine Mouth', 'Hidden Depths'])
+	ShopPads -> DMEntry | OpenWorldRule(['Dark Mine - Mine Mouth', 'Dark Mine - Hidden Depths'])
 		could have nothing
 	DMEntry -> ShopPads | True_()
 
@@ -1143,7 +1143,7 @@ REGION DMSeeSaw: ledge leaving ice pole room, below it, big see saw room, and up
 REGION DMSeeSawShop: just the ledge with the see saw shop pad
 	DMSeeSaw -> DMSeeSawShop | True_()
 		would have DJ
-	ShopPads -> DMSeeSawShop | OpenWorldRule(['Miner\'s Drop'])
+	ShopPads -> DMSeeSawShop | OpenWorldRule(['Dark Mine - Miner\'s Drop'])
 		could have nothing
 	DMSeeSawShop -> ShopPads | True_()
 
@@ -1168,7 +1168,7 @@ REGION RLEntry: entry starting after stretch of red gems up to the exit door in 
 REGION RLCenter: center room. include any immediates from the different corridors
 	RLEntry -> RLCenter | True_()
 		would have (electric or ice + charge) and DJ and wall kick and pole spin and glide
-	ShopPads -> RLCenter | OpenWorldRule(['Celestial Show'])
+	ShopPads -> RLCenter | OpenWorldRule(['Red\'s Laboratory - Celestial Show'])
 		could have nothing
 	RLCenter -> ShopPads | True_()
 
@@ -1207,7 +1207,7 @@ REGION RLNorthEast3: small room with just the 2 small robo gnorcs because dumb
 REGION RLNorthEast4: past lasers you have to DJ over
 	RLNorthEast3 -> RLNorthEast4 | Has('Double Jump')
 		would have DJ and (electric or ice + charge) and electric
-	ShopPads -> RLNorthEast4 | OpenWorldRule(['Pre-production'])
+	ShopPads -> RLNorthEast4 | OpenWorldRule(['Red\'s Laboratory - Pre-production'])
 		could have nothing
 	RLNorthEast4 -> ShopPads | True_()
 
@@ -1222,7 +1222,7 @@ REGION RLNorthWest1: up through double piston room
 REGION RLNorthWest2: upper part of double piston room and beyond
 	RLNorthWest1 -> RLNorthWest2 | HasAll('Double Jump', 'Glide')
 		would have DJ and glide and (electric or ice + charge)
-	ShopPads -> RLNorthWest2 | OpenWorldRule(['Mechanical Mishaps'])
+	ShopPads -> RLNorthWest2 | OpenWorldRule(['Red\'s Laboratory - Mechanical Mishaps'])
 		could have nothing
 	RLNorthWest2 -> ShopPads | True_()
 
@@ -1245,7 +1245,7 @@ REGION RLSouthEast2: laser room entry, includes upper area of room with exit up 
 REGION RLSouthEast3: laser room dark gem end and side path back
 	RLSouthEast2 -> RLSouthEast3 | True_()
 		would have DJ and pole spin and glide and (electric or ice + charge)
-	ShopPads -> RLSouthEast3 | OpenWorldRule(['Laser Leaps'])
+	ShopPads -> RLSouthEast3 | OpenWorldRule(['Red\'s Laboratory - Laser Leaps'])
 		could have nothing
 	RLSouthEast3 -> ShopPads | True_()
 

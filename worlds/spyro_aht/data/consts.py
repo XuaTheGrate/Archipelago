@@ -124,25 +124,50 @@ FIREWORK_IDS = [5003, 5000, 5001, 5002, 5004, 5006, 5005, 5012, 5011, 5013, 5007
 LOCKED_CHEST_IDS = [15, 7, 6, 19, 23, 24, 40, 52, 234, 235, 80, 85, 87, 236, 237, 99, 102, 103, 108, 112, 114, 115, 238, 239, 137, 140, 240, 153, 156, 241, 242, 243, 128, 244, 133, 245, 246, 247, 248, 249, 183, 188, 250, 190, 193, 251, 199, 252, 206, 207, 253, 254]
 SHOP_ITEM_IDS = [1000, 1001, 1002, 1003, 2000, 2001, 2002, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 3013, 3014, 3015, 3016, 3017, 3018, 3019, 3020, 3021, 3022, 3023, 3024, 3025, 3026, 3027, 3028, 3029, 3030, 3031, 3032, 3033, 3034, 3035, 3036, 3037, 3038, 3039, 3040, 3041, 3042, 3043, 3044, 3045, 3046, 3047, 3048, 3049, 3050]
 
-#class GameState:
-#    location_bitfield = 0x0
-#    starting_breath = 0x30
-#    starting_abilities = 0x34
-#    skip_realm_intro_cutscene = 0x38
-#    skip_cutscene_button = 0x39
-#    allow_teleport_to_hub = 0x3A
-#    allow_immediate_realm_access = 0x3B
-#
-#    init = 0x3C
-#
-#    xls_shop_sheetcount_ALWAYS_1 = 0x40
-#    xls_shop_sheet_offset_ALWAYS_4 = 0x44
-#    xls_shop_rowcount = 0x48
+# matches order of shops in bitfield. Will look up bitfield indexes via .index(shop_name)
+SHOP_PAD_LIST = [
+    "Dragon Village - Village Depot",
+    "Crocovile Swamp - Elder's Tree", "Crocovile Swamp - Forgotten Temple", "Crocovile Swamp - Perilous Pyramid",
+    "Dragonfly Falls - Steep Canyon", "Dragonfly Falls - Secret Area", "Dragonfly Falls - Tropical Cove",
+    "Coastal Remains - Waterfall Walkway", "Coastal Remains - Domain Doorstep", "Coastal Remains - Coastal Depot",
+    "Cloudy Domain - Elevator Top", "Cloudy Domain - Elder's Homestead", "Cloudy Domain - Tallest Tower",
+    "Sunken Ruins - Atlantian Entryway", "Sunken Ruins - The Depths", "Sunken Ruins - Toxic Rise",
+    "Frostbite Village - Eskimole Village", "Frostbite Village - Icy Camp", "Frostbite Village - Frosty Depot",
+    "Ice Citadel - Cool Courtyard", "Ice Citadel - Supercharge Central", "Ice Citadel - Royal Chamber", "Ice Citadel - Drawbridge Drop-off",
+    "Stormy Beach - Stormy Depot",
+    "Molten Mount - Destroyed Village", "Molten Mount - Collapsed Bridge", "Molten Mount - Lumber Storage",
+    "Magma Falls Top - Crackling Cave", "Magma Falls Bottom - Sparx Can Fly", "Magma Falls Bottom - Chains of Lava",
+    "Dark Mine - Mine Mouth", "Dark Mine - Hidden Depths", "Dark Mine - Miner's Drop",
+    "Red's Laboratory - Celestial Show", "Red's Laboratory - Mechanical Mishaps", "Red's Laboratory - Pre-production", "Red's Laboratory - Laser Leaps"
+]
 
+LEVEL_SHOP_LOOKUP = {
+    "Dragon Village": ["Village Depot"],
+    "Crocovile Swamp": ["Perilous Pyramid", "Forgotten Temple", "Elder's Tree"],
+    "Dragonfly Falls": ["Steep Canyon", "Tropical Cove", "Secret Area"],
+    "Coastal Remains": ["Coastal Depot", "Domain Doorstep", "Waterfall Walkway"],
+    "Cloudy Domain": ["Elevator Top", "Elder's Homestead", "Tallest Tower"],
+    "Sunken Ruins": ["Atlantian Entryway", "The Depths", "Toxic Rise"],
+    "Frostbite Village": ["Frosty Depot", "Icy Camp", "Eskimole Village"],
+    "Ice Citadel": ["Cool Courtyard", "Supercharge Central", "Royal Chamber", "Drawbridge Drop-off"],
+    "Stormy Beach": ["Stormy Depot"],
+    "Molten Mount": ["Destroyed Village", "Collapsed Bridge", "Lumber Storage"],
+    "Magma Falls": ["Crackling Cave", "Chains of Lava", "Sparx Can Fly"],
+    "Dark Mine": ["Mine Mouth", "Hidden Depths", "Miner's Drop"],
+    "Red's Laboratory": ["Celestial Show", "Mechanical Mishaps", "Pre-production", "Laser Leaps"]
+}
+
+REALM_LEVEL_LOOKUP = {
+    "Dragon Kingdom": ["Dragon Village", "Crocovile Swamp", "Dragonfly Falls"],
+    "Lost Cities": ["Coastal Remains", "Cloudy Domain", "Sunken Ruins"],
+    "Icy Wilderness": ["Frostbite Village", "Ice Citadel"],
+    "Volcanic Isle": ["Stormy Beach", "Molten Mount", "Magma Falls", "Dark Mine", "Red's Laboratory"]
+}
 
 class AddressList:
     p_LOCATION_BITFIELD: int
     p_KEYRING_BITFIELD: int
+    p_SHOPPAD_BITFIELD: int
     p_NUM_GEM_PACKS_RECEIVED: int
     p_NUM_LOCK_PICKS_RECEIVED: int
     p_NUM_FIRE_AMMO_RECEIVED: int
@@ -174,6 +199,7 @@ class AddressList:
     p_SHOP_UNLOCK_MODE: int
     p_TELEPORT_ANYWHERE: int
     p_UNLOCK_ALL_SHOPS: int
+    p_DISABLE_SHOP_PAD_PROXIMITY_ACTIVATE: int
     p_GEMS_IN_LOGIC: int
     p_GEMS_AVAILABLE: int
     p_XLS_SHOP_SHEETCOUNT_ALWAYS_1: int
@@ -184,6 +210,7 @@ class AddressList:
 
     g_LOCATION_BITFIELD: int
     g_KEYRING_BITFIELD: int
+    g_SHOPPAD_BITFIELD: int
     g_NUM_GEM_PACKS_RECEIVED: int
     g_NUM_LOCK_PICKS_RECEIVED: int
     g_NUM_FIRE_AMMO_RECEIVED: int
@@ -215,6 +242,7 @@ class AddressList:
     g_SHOP_UNLOCK_MODE: int
     g_TELEPORT_ANYWHERE: int
     g_UNLOCK_ALL_SHOPS: int
+    g_DISABLE_SHOP_PAD_PROXIMITY_ACTIVATE: int
     g_GEMS_IN_LOGIC: int
     g_GEMS_AVAILABLE: int
     g_XLS_SHOP_SHEETCOUNT_ALWAYS_1: int
@@ -260,89 +288,93 @@ class SLES_52569(AddressList):
 class G5SE7D(AddressList):
     p_LOCATION_BITFIELD = 0x803d8fa8
     p_KEYRING_BITFIELD = 0x803d8ff8
-    p_NUM_GEM_PACKS_RECEIVED = 0x803d8ffa
-    p_NUM_LOCK_PICKS_RECEIVED = 0x803d8ffb
-    p_NUM_FIRE_AMMO_RECEIVED = 0x803d8ffc
-    p_NUM_ELECTRIC_AMMO_RECEIVED = 0x803d8ffd
-    p_NUM_WATER_AMMO_RECEIVED = 0x803d8ffe
-    p_NUM_ICE_AMMO_RECEIVED = 0x803d8fff
-    p_DEATHLINK_INGOING = 0x803d9000
-    p_DEATHLINK_OUTGOING = 0x803d9001
-    p_INFINITE_BUTTERFLY_JAR = 0x803d9002
-    p_INFINITE_DOUBLE_GEM = 0x803d9003
-    p_FIREWORKS_ARE_RANDOMIZED = 0x803d9004
-    p_RANDOMIZE_SHOP = 0x803d9005
-    p_USE_KEY_RINGS = 0x803d9006
-    p_SKIP_CUTSCENE_BUTTON = 0x803d9007
-    p_ALLOW_TELEPORT_TO_HUB = 0x803d9008
-    p_DISABLE_POPUPS = 0x803d9009
-    p_INSTANT_ELEVATORS = 0x803d900a
-    p_STARTING_REALM = 0x803d900b
-    p_REALM_ACCESS = 0x803d900c
-    p_PATCH_BEEN_WRITTEN_TO = 0x803d9010
-    p_MW_SEED = 0x803d9014
-    p_INIT = 0x803d9018
-    p_BOSS_COSTS = 0x803d901c
-    p_LG_DOOR_COSTS = 0x803d9020
-    p_BALL_GADGET_COST = 0x803d9024
-    p_INVINCIBILITY_COST = 0x803d9025
-    p_SUPERCHARGE_COST = 0x803d9026
-    p_BOSS_EASY_MODE = 0x803d9027
-    p_SHOP_UNLOCK_MODE = 0x803d902b
-    p_TELEPORT_ANYWHERE = 0x803d902c
-    p_UNLOCK_ALL_SHOPS = 0x803d902d
-    p_GEMS_IN_LOGIC = 0x803d9030
-    p_GEMS_AVAILABLE = 0x803d9034
-    p_XLS_SHOP_SHEETCOUNT_ALWAYS_1 = 0x803d9038
-    p_XLS_SHOP_SHEET_OFFSET_ALWAYS_4 = 0x803d903c
-    p_XLS_SHOP_ROWCOUNT = 0x803d9040
-    p_XLS_SHOP_ITEMS = 0x803d9044
-    p_SHOP_TEXT = 0x803d97e4
+    p_SHOPPAD_BITFIELD = 0x803d8ffa
+    p_NUM_GEM_PACKS_RECEIVED = 0x803d9000
+    p_NUM_LOCK_PICKS_RECEIVED = 0x803d9001
+    p_NUM_FIRE_AMMO_RECEIVED = 0x803d9002
+    p_NUM_ELECTRIC_AMMO_RECEIVED = 0x803d9003
+    p_NUM_WATER_AMMO_RECEIVED = 0x803d9004
+    p_NUM_ICE_AMMO_RECEIVED = 0x803d9005
+    p_DEATHLINK_INGOING = 0x803d9006
+    p_DEATHLINK_OUTGOING = 0x803d9007
+    p_INFINITE_BUTTERFLY_JAR = 0x803d9008
+    p_INFINITE_DOUBLE_GEM = 0x803d9009
+    p_FIREWORKS_ARE_RANDOMIZED = 0x803d900a
+    p_RANDOMIZE_SHOP = 0x803d900b
+    p_USE_KEY_RINGS = 0x803d900c
+    p_SKIP_CUTSCENE_BUTTON = 0x803d900d
+    p_ALLOW_TELEPORT_TO_HUB = 0x803d900e
+    p_DISABLE_POPUPS = 0x803d900f
+    p_INSTANT_ELEVATORS = 0x803d9010
+    p_STARTING_REALM = 0x803d9010
+    p_REALM_ACCESS = 0x803d9011
+    p_PATCH_BEEN_WRITTEN_TO = 0x803d9015
+    p_MW_SEED = 0x803d9018
+    p_INIT = 0x803d901c
+    p_BOSS_COSTS = 0x803d9020
+    p_LG_DOOR_COSTS = 0x803d9024
+    p_BALL_GADGET_COST = 0x803d9028
+    p_INVINCIBILITY_COST = 0x803d9029
+    p_SUPERCHARGE_COST = 0x803d902a
+    p_BOSS_EASY_MODE = 0x803d902b
+    p_SHOP_UNLOCK_MODE = 0x803d902f
+    p_TELEPORT_ANYWHERE = 0x803d9030
+    p_UNLOCK_ALL_SHOPS = 0x803d9031
+    p_DISABLE_SHOP_PAD_PROXIMITY_ACTIVATE = 0x803d9032
+    p_GEMS_IN_LOGIC = 0x803d9034
+    p_GEMS_AVAILABLE = 0x803d9038
+    p_XLS_SHOP_SHEETCOUNT_ALWAYS_1 = 0x803d903c
+    p_XLS_SHOP_SHEET_OFFSET_ALWAYS_4 = 0x803d9040
+    p_XLS_SHOP_ROWCOUNT = 0x803d9044
+    p_XLS_SHOP_ITEMS = 0x803d9048
+    p_SHOP_TEXT = 0x803d97e8
 
     g_LOCATION_BITFIELD = 0x80467ce4
     g_KEYRING_BITFIELD = 0x80467d34
-    g_NUM_GEM_PACKS_RECEIVED = 0x80467d36
-    g_NUM_LOCK_PICKS_RECEIVED = 0x80467d37
-    g_NUM_FIRE_AMMO_RECEIVED = 0x80467d38
-    g_NUM_ELECTRIC_AMMO_RECEIVED = 0x80467d39
-    g_NUM_WATER_AMMO_RECEIVED = 0x80467d3a
-    g_NUM_ICE_AMMO_RECEIVED = 0x80467d3b
-    g_DEATHLINK_INGOING = 0x80467d3c
-    g_DEATHLINK_OUTGOING = 0x80467d3d
-    g_INFINITE_BUTTERFLY_JAR = 0x80467d3e
-    g_INFINITE_DOUBLE_GEM = 0x80467d3f
-    g_FIREWORKS_ARE_RANDOMIZED = 0x80467d40
-    g_RANDOMIZE_SHOP = 0x80467d41
-    g_USE_KEY_RINGS = 0x80467d42
-    g_SKIP_CUTSCENE_BUTTON = 0x80467d43
-    g_ALLOW_TELEPORT_TO_HUB = 0x80467d44
-    g_DISABLE_POPUPS = 0x80467d45
-    g_INSTANT_ELEVATORS = 0x80467d46
-    g_STARTING_REALM = 0x80467d47
-    g_REALM_ACCESS = 0x80467d48
-    g_PATCH_BEEN_WRITTEN_TO = 0x80467d4c
-    g_MW_SEED = 0x80467d50
-    g_INIT = 0x80467d54
-    g_BOSS_COSTS = 0x80467d58
-    g_LG_DOOR_COSTS = 0x80467d5c
-    g_BALL_GADGET_COST = 0x80467d60
-    g_INVINCIBILITY_COST = 0x80467d61
-    g_SUPERCHARGE_COST = 0x80467d62
-    g_BOSS_EASY_MODE = 0x80467d63
-    g_SHOP_UNLOCK_MODE = 0x80467d67
-    g_TELEPORT_ANYWHERE = 0x80467d68
-    g_UNLOCK_ALL_SHOPS = 0x80467d69
-    g_GEMS_IN_LOGIC = 0x80467d6c
-    g_GEMS_AVAILABLE = 0x80467d70
-    g_XLS_SHOP_SHEETCOUNT_ALWAYS_1 = 0x80467d74
-    g_XLS_SHOP_SHEET_OFFSET_ALWAYS_4 = 0x80467d78
-    g_XLS_SHOP_ROWCOUNT = 0x80467d7c
-    g_XLS_SHOP_ITEMS = 0x80467d80
-    g_SHOP_TEXT = 0x80468520
+    g_SHOPPAD_BITFIELD = 0x80467d36
+    g_NUM_GEM_PACKS_RECEIVED = 0x80467d3b
+    g_NUM_LOCK_PICKS_RECEIVED = 0x80467d3c
+    g_NUM_FIRE_AMMO_RECEIVED = 0x80467d3d
+    g_NUM_ELECTRIC_AMMO_RECEIVED = 0x80467d3e
+    g_NUM_WATER_AMMO_RECEIVED = 0x80467d3f
+    g_NUM_ICE_AMMO_RECEIVED = 0x80467d40
+    g_DEATHLINK_INGOING = 0x80467d41
+    g_DEATHLINK_OUTGOING = 0x80467d42
+    g_INFINITE_BUTTERFLY_JAR = 0x80467d43
+    g_INFINITE_DOUBLE_GEM = 0x80467d44
+    g_FIREWORKS_ARE_RANDOMIZED = 0x80467d45
+    g_RANDOMIZE_SHOP = 0x80467d46
+    g_USE_KEY_RINGS = 0x80467d47
+    g_SKIP_CUTSCENE_BUTTON = 0x80467d48
+    g_ALLOW_TELEPORT_TO_HUB = 0x80467d49
+    g_DISABLE_POPUPS = 0x80467d4a
+    g_INSTANT_ELEVATORS = 0x80467d4b
+    g_STARTING_REALM = 0x80467d4c
+    g_REALM_ACCESS = 0x80467d4d
+    g_PATCH_BEEN_WRITTEN_TO = 0x80467d51
+    g_MW_SEED = 0x80467d54
+    g_INIT = 0x80467d58
+    g_BOSS_COSTS = 0x80467d5c
+    g_LG_DOOR_COSTS = 0x80467d60
+    g_BALL_GADGET_COST = 0x80467d64
+    g_INVINCIBILITY_COST = 0x80467d65
+    g_SUPERCHARGE_COST = 0x80467d66
+    g_BOSS_EASY_MODE = 0x80467d67
+    g_SHOP_UNLOCK_MODE = 0x80467d6b
+    g_TELEPORT_ANYWHERE = 0x80467d6c
+    g_UNLOCK_ALL_SHOPS = 0x80467d6d
+    g_DISABLE_SHOP_PAD_PROXIMITY_ACTIVATE = 0x80467d6e
+    g_GEMS_IN_LOGIC = 0x80467d70
+    g_GEMS_AVAILABLE = 0x80467d74
+    g_XLS_SHOP_SHEETCOUNT_ALWAYS_1 = 0x80467d78
+    g_XLS_SHOP_SHEET_OFFSET_ALWAYS_4 = 0x80467d7c
+    g_XLS_SHOP_ROWCOUNT = 0x80467d80
+    g_XLS_SHOP_ITEMS = 0x80467d84
+    g_SHOP_TEXT = 0x80468524
 
-    n_AP_NOTIFICATION_COLOR = 0x8029dc2c
-    n_AP_NOTIFICATION_TIMER = 0x8029dc30
-    n_AP_NOTIFICATION_TEXT_BUFFER = 0x8029dc34
+    n_AP_NOTIFICATION_COLOR = 0x8029e32c
+    n_AP_NOTIFICATION_TIMER = 0x8029e330
+    n_AP_NOTIFICATION_TEXT_BUFFER = 0x8029e128
 
     OBJECTIVES = 0x80465C88
     DARK_GEM_COUNT = 0x80465BB7

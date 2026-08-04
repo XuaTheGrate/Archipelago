@@ -1554,7 +1554,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Village Depot"
+                            "Dragon Village - Village Depot"
                         ]
                     }
                 }
@@ -2522,8 +2522,8 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Perilous Pyramid",
-                            "Forgotten Temple"
+                            "Crocovile Swamp - Perilous Pyramid",
+                            "Crocovile Swamp - Forgotten Temple"
                         ]
                     }
                 }
@@ -3311,7 +3311,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Elder's Tree"
+                            "Crocovile Swamp - Elder's Tree"
                         ]
                     }
                 }
@@ -3924,7 +3924,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Steep Canyon"
+                            "Dragonfly Falls - Steep Canyon"
                         ]
                     }
                 }
@@ -4702,7 +4702,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Secret Area"
+                            "Dragonfly Falls - Secret Area"
                         ]
                     }
                 }
@@ -4990,7 +4990,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Tropical Cove"
+                            "Dragonfly Falls - Tropical Cove"
                         ]
                     }
                 }
@@ -5413,7 +5413,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Coastal Depot"
+                            "Coastal Remains - Coastal Depot"
                         ]
                     }
                 }
@@ -6403,7 +6403,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Domain Doorstep"
+                            "Coastal Remains - Domain Doorstep"
                         ]
                     }
                 }
@@ -6776,7 +6776,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Waterfall Walkway"
+                            "Coastal Remains - Waterfall Walkway"
                         ]
                     }
                 }
@@ -7138,7 +7138,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Elevator Top"
+                            "Cloudy Domain - Elevator Top"
                         ]
                     }
                 }
@@ -7428,7 +7428,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Elder's Homestead"
+                            "Cloudy Domain - Elder's Homestead"
                         ]
                     }
                 }
@@ -8131,7 +8131,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Tallest Tower"
+                            "Cloudy Domain - Tallest Tower"
                         ]
                     }
                 }
@@ -8455,7 +8455,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Atlantian Entryway"
+                            "Sunken Ruins - Atlantian Entryway"
                         ]
                     }
                 }
@@ -9149,7 +9149,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "The Depths"
+                            "Sunken Ruins - The Depths"
                         ]
                     }
                 }
@@ -9799,7 +9799,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Toxic Rise"
+                            "Sunken Ruins - Toxic Rise"
                         ]
                     }
                 }
@@ -10092,7 +10092,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Frosty Depot"
+                            "Frostbite Village - Frosty Depot"
                         ]
                     }
                 }
@@ -10609,7 +10609,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Icy Camp"
+                            "Frostbite Village - Icy Camp"
                         ]
                     }
                 }
@@ -10995,7 +10995,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Eskimole Village"
+                            "Frostbite Village - Eskimole Village"
                         ]
                     }
                 }
@@ -12072,7 +12072,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Cool Courtyard"
+                            "Ice Citadel - Cool Courtyard"
                         ]
                     }
                 }
@@ -12696,7 +12696,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Supercharge Central"
+                            "Ice Citadel - Supercharge Central"
                         ]
                     }
                 }
@@ -13143,7 +13143,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Drawbridge Drop-off"
+                            "Ice Citadel - Drawbridge Drop-off"
                         ]
                     }
                 }
@@ -13226,7 +13226,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Royal Chamber"
+                            "Ice Citadel - Royal Chamber"
                         ]
                     }
                 }
@@ -14094,7 +14094,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Stormy Depot"
+                            "Stormy Beach - Stormy Depot"
                         ]
                     }
                 }
@@ -14625,7 +14625,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Destroyed Village"
+                            "Molten Mount - Destroyed Village"
                         ]
                     }
                 }
@@ -15223,7 +15223,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Collapsed Bridge"
+                            "Molten Mount - Collapsed Bridge"
                         ]
                     }
                 }
@@ -15673,7 +15673,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Lumber Storage"
+                            "Molten Mount - Lumber Storage"
                         ]
                     }
                 }
@@ -16244,7 +16244,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Crackling Cave"
+                            "Magma Falls - Crackling Cave"
                         ]
                     }
                 }
@@ -16688,7 +16688,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Chains of Lava"
+                            "Magma Falls - Chains of Lava"
                         ]
                     }
                 }
@@ -17280,7 +17280,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Sparx Can Fly"
+                            "Magma Falls - Sparx Can Fly"
                         ]
                     }
                 }
@@ -17486,8 +17486,8 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Mine Mouth",
-                            "Hidden Depths"
+                            "Dark Mine - Mine Mouth",
+                            "Dark Mine - Hidden Depths"
                         ]
                     }
                 }
@@ -18513,7 +18513,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Miner's Drop"
+                            "Dark Mine - Miner's Drop"
                         ]
                     }
                 }
@@ -18766,7 +18766,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Celestial Show"
+                            "Red's Laboratory - Celestial Show"
                         ]
                     }
                 }
@@ -19344,7 +19344,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Pre-production"
+                            "Red's Laboratory - Pre-production"
                         ]
                     }
                 }
@@ -19532,7 +19532,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Mechanical Mishaps"
+                            "Red's Laboratory - Mechanical Mishaps"
                         ]
                     }
                 }
@@ -19960,7 +19960,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "shop_names": [
-                            "Laser Leaps"
+                            "Red's Laboratory - Laser Leaps"
                         ]
                     }
                 }

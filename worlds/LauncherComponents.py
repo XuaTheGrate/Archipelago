@@ -422,7 +422,9 @@ if not is_frozen():
         if not global_apignores:
             raise RuntimeError("Could not read global apignore file for build component")
 
-        apworlds_folder = os.path.join("build", "apworlds")
+        # TODO: undo this later
+        # apworlds_folder = os.path.join("build", "apworlds")
+        apworlds_folder = os.path.join("custom_worlds")
         os.makedirs(apworlds_folder, exist_ok=True)
         for worldname, worldtype in games:
             if not worldtype:
@@ -459,9 +461,10 @@ if not is_frozen():
                     zf.write(pathlib.Path(world_directory, file), pathlib.Path(file_name, file))
 
                 zf.writestr(apworld.manifest_path, json.dumps(manifest))
-
-        if not args.skip_open_folder:
-            open_folder(apworlds_folder)
+        
+        # TODO: undo this later
+        # if not args.skip_open_folder:
+        #     open_folder(apworlds_folder)
 
     components.append(Component("Build APWorlds", func=_build_apworlds, cli=True,
                                 description="Build APWorlds from loose-file world folders."))

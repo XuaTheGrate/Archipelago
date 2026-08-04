@@ -51,7 +51,7 @@ class AutoCorrections(Choice):
     display_name = "Auto Corrections"
     option_halt = 0
     option_fix = 1
-    default = 1
+    default = 0
 
 
 ###############GOAL, CHECKS, AND ITEMS###############
@@ -103,13 +103,42 @@ class ExcludeFromGoal(OptionSet):
     default = frozenset()
     
 
-class OpenWorldMode(Toggle):
-    """Patches the game so that all remote shop pads can be teleported to from the start of your save file.
-    This has a dramatic impact on the playing experience of the game, as you will be expected to utilize the
-    shop pads to, for instance, teleport deep into a level without needing to access it the vanilla way.
-    Note: Enabling open world mode will override your settings for starting_realms and give you all 4 access cards,
-    which helps prevent some potential softlock scenarios."""
+class OpenWorldMode(Choice):
+    """In the vanilla game, you can only teleport to a remote shop pad once you have physically reached it.
+    The AHT randomizer is capable of unlocking remote shop pads early so you can teleport to them without that requirement.
+    This has a dramatic impact on the logic of a seed, as you may be expected to, for example, teleport deep into
+    a level and play portions of it forwards or backwards from that point.
+    
+    **put notes here about if I have to give any realm cards early or similar**
+     
+    Options:
+    off: leaves the vanilla game shop unlock method in place.
+    
+    full: all shop pads are unlocked from the start of the seed.
+    
+    randomized: shop pads will be unlocked individually by AP items. For example, you could get
+    "Dark Mine - Miner's Drop Unlock" which allows you to teleport ot the Miner's Drop shop pad.
+    
+    progressive_per_level: shop pads will be unlocked per-level in the order you would reach them if playing the vanilla game.
+    For example, you could get "Progressive Crocovile Swamp Shop Unlock". The project's README has a reference list for
+    situations where it is not obvious what the "next" shop is for a level. 
+    
+    reverse_progressive_per_level: same as progressive_per_level, but backwards per level, unlocking the shop "furthest"
+    into the level first, and going backwards towards the entrance.
+    
+    full_per_level: all shops in the given level will unlock at the same time. For example, you could get
+    "Full Dark Mine Shop Unlock" which unlocks all shops in Dark Mine.
+    
+    full_per_realm: all shops in the given realm will unlock at the same time. For example, you could get
+    "Lost Cities Shop Unlock" which unlocks all shops in Coastal Remains, Sunken Ruins, and Cloudy Domain."""
     display_name = "Open World Mode"
+    option_off = 0
+    option_full = 1
+    option_randomized = 2
+    option_progressive_levels = 3
+    option_reverse_progressive_levels = 4
+    option_full_levels = 5
+    option_full_realms = 6
     default = 0
     
 

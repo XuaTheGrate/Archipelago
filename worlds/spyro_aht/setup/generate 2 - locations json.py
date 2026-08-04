@@ -91,3 +91,4 @@ for line in file_in:
 file_out = open("test-locations.json", "w")
 output = json.dumps(regions, indent=4)
 file_out.write(output)
+print("###############DON'T FORGET TO MOVE THE LOCATION DATA TO LOCATIONS.JSON, BOY###############")
