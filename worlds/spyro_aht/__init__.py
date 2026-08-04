@@ -562,7 +562,7 @@ class SpyroAHTWorld(World):
             new_card = self.create_item(f"{realm} Access Card")
             if new_card not in self.multiworld.precollected_items[self.player]:  # don't add the card if the player already put it there
                 self.push_precollected(new_card)
-                added_realms.append(realm)
+                added_realms.append(realm + " Access Card")
         
         self.log("Starting main create_item loop.", "Info")
         for item in item_data:

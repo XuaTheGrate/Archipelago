@@ -11,7 +11,6 @@
     - Updated the shop price calculation and gem collection logic to be more consistent across the board, which resolves an issue that would lead to shop items entering logic earlier than they were supposed to.
 
 TO-DO LIST:
-    - TODO 2.0 RC: access cards still in pool?
     - TODO 2.0 RC: rule caching?
     - TODO 2.0 RC: expanded death link messages and open world mode (mod versions 9/10)
     - TODO 2.0 RC: investigate client checking game mod version after it would matter? like check for it earlier?
