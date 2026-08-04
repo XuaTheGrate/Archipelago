@@ -11,21 +11,14 @@
     - Updated the shop price calculation and gem collection logic to be more consistent across the board, which resolves an issue that would lead to shop items entering logic earlier than they were supposed to.
 
 TO-DO LIST:
-    - TODO 2.0 RC: *evil laugh* see if I break things by setting all gem logic options to 0
-    - TODO 2.0 RC: investigate what things needing glide actually need DJ as well vs. just glide
     - TODO 2.0 RC: rule caching?
-    - TODO 2.0 RC: updated death link messages
+    - TODO 2.0 RC: expanded death link messages and open world mode (mod versions 9/10)
     - TODO 2.0 RC: investigate client checking game mod version after it would matter? like check for it earlier?
-    - TODO 2.0 RC: client command that explains what a region is, mainly for open world purposes. maybe expand?
-    - TODO 2.0 RC: enemy_gems option. Maybe put it into new group with non_blink_gems and blink_gems
-    - TODO 2.0 RC: make tool for testing gem access
-    - TODO 2.0 RC: can we modify mission screen text for light gem doors? "Collect 45 light gems to open the door to a secret area" for example
+    - TODO 2.0 RC: add license to project
     - TODO 2.0 RC: what can we do to fix new save files on existing seeds, if anything?
         - make a re-sync/re-patch command? re-apply game patch things for items and maybe gems?
         - items aren't re-sent, understandably, but could be re-sent in cheat console if needed.
         - gems aren't reset, that's a big deal now in shop rando. Could game mod check slot data and apply gem count to new files if there is an amount set?
-    - TODO 2.0 RC: fix client not properly processing duplicate sends from cheat console?
-    - TODO 2.0 RC: add license to project
     - TODO 2.0 RC: *actually* fully update docs with multiple pages as needed
         - include gem logic (maybe a master list of what each enemy requires?)
             - explain sparx minigames logic
@@ -45,6 +38,12 @@ TO-DO LIST:
         - also mention other logic oddities like the intentional avoidance of extended double jumps by charging to avoid needing glide
         - include detail on open world mode implications
         - include full breakdown of every feature and what logic is used internally for them
+        
+    - TODO 2.1: investigate what things needing glide actually need DJ as well vs. just glide
+    - TODO 2.1: client command that explains what a region is, mainly for open world purposes. maybe expand?
+    - TODO 2.1: make tool for testing gem access
+    - TODO 2.1: can we modify mission screen text for light gem doors? "Collect 45 light gems to open the door to a secret area" for example
+    - TODO 2.1: fix client not properly processing duplicate sends from cheat console?
 
 2.0 (Beta Release 2)
 

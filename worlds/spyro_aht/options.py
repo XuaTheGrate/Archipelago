@@ -259,7 +259,7 @@ class BlinkGems(Range):
     display_name = "Blink Gems"
     range_start = 0
     range_end = 100
-    default = 50
+    default = 75
 
 
 class NonBlinkEnemies(Range):
@@ -289,7 +289,7 @@ class OtherGems(Range):
     Note: it's hard to get consistent gems from Sparx minigames. Their total was calculated as an average of 4-5 runs through
     each one's Dragon Egg + Light Gem forms. The total for each worked out to be 1,523 -> 2,148 -> 2,218 -> 2,392."""
     display_name = "Other Gems"
-    range_start = 1
+    range_start = 0
     range_end = 100
     default = 75
     
