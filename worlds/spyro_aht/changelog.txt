@@ -7,11 +7,16 @@
         - Similarly, you could be expected to teleport to Cloudy Domain's "Tallest Tower" shop and double jump + glide away from it to traverse the south part of the map backwards.
     - Enabling open world mode automatically grants you all 4 realm access cards. This prevents a potential softlock if you were to get stuck in Stormy Beach's start area without Double Jump.
 
-- Gem Logic Fix
+- Gem Logic Fix & Expansion
     - Updated the shop price calculation and gem collection logic to be more consistent across the board, which resolves an issue that would lead to shop items entering logic earlier than they were supposed to.
+    - Also added `non_blink_enemies` to allow for a 3rd type of gem collection scaling that affects all enemies that don't come from a Blink minigame.
+    
+- Other Things
+    - Added an open-source license to the project. Apparently Maya (previous dev) had one in an older repo for AHT, but I wasn't aware of that and got my own lol.
+    - Maya signed onto this new version. It sums up to being "do whatever you want with our code, but don't sell it or profit off of it". Read the actual license file for details :)
+    - Figured out an issue that has been plagueing me for weeks that was slowing down my development workflow. It is now fixed and development is simplified :3
 
 TO-DO LIST:
-    - TODO 2.0 RC: get PhoenixAP repo based on source for easier building/testing/debugging
     - TODO 2.0 RC: rule caching?
     - TODO 2.0 RC: expanded death link messages and open world mode (mod versions 9/10)
     - TODO 2.0 RC: what can we do to fix new save files on existing seeds, if anything?
