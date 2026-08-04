@@ -141,6 +141,7 @@ SHOP_PAD_LIST = [
     "Red's Laboratory - Celestial Show", "Red's Laboratory - Mechanical Mishaps", "Red's Laboratory - Pre-production", "Red's Laboratory - Laser Leaps"
 ]
 
+# used to find all shops for a given level, in vanilla game order (list is reversed if reverse progressive is in use)
 LEVEL_SHOP_LOOKUP = {
     "Dragon Village": ["Village Depot"],
     "Crocovile Swamp": ["Perilous Pyramid", "Forgotten Temple", "Elder's Tree"],
@@ -157,6 +158,7 @@ LEVEL_SHOP_LOOKUP = {
     "Red's Laboratory": ["Celestial Show", "Mechanical Mishaps", "Pre-production", "Laser Leaps"]
 }
 
+# simplifies finding all the shops for a given realm. Look up realm here -> look up each level from that realm's list in LEVEL_SHOP_LOOKUP
 REALM_LEVEL_LOOKUP = {
     "Dragon Kingdom": ["Dragon Village", "Crocovile Swamp", "Dragonfly Falls"],
     "Lost Cities": ["Coastal Remains", "Cloudy Domain", "Sunken Ruins"],
@@ -289,23 +291,23 @@ class G5SE7D(AddressList):
     p_LOCATION_BITFIELD = 0x803d8fa8
     p_KEYRING_BITFIELD = 0x803d8ff8
     p_SHOPPAD_BITFIELD = 0x803d8ffa
-    p_NUM_GEM_PACKS_RECEIVED = 0x803d9000
-    p_NUM_LOCK_PICKS_RECEIVED = 0x803d9001
-    p_NUM_FIRE_AMMO_RECEIVED = 0x803d9002
-    p_NUM_ELECTRIC_AMMO_RECEIVED = 0x803d9003
-    p_NUM_WATER_AMMO_RECEIVED = 0x803d9004
-    p_NUM_ICE_AMMO_RECEIVED = 0x803d9005
-    p_DEATHLINK_INGOING = 0x803d9006
-    p_DEATHLINK_OUTGOING = 0x803d9007
-    p_INFINITE_BUTTERFLY_JAR = 0x803d9008
-    p_INFINITE_DOUBLE_GEM = 0x803d9009
-    p_FIREWORKS_ARE_RANDOMIZED = 0x803d900a
-    p_RANDOMIZE_SHOP = 0x803d900b
-    p_USE_KEY_RINGS = 0x803d900c
-    p_SKIP_CUTSCENE_BUTTON = 0x803d900d
-    p_ALLOW_TELEPORT_TO_HUB = 0x803d900e
-    p_DISABLE_POPUPS = 0x803d900f
-    p_INSTANT_ELEVATORS = 0x803d9010
+    p_NUM_GEM_PACKS_RECEIVED = 0x803dffff
+    p_NUM_LOCK_PICKS_RECEIVED = 0x803d9000
+    p_NUM_FIRE_AMMO_RECEIVED = 0x803d9001
+    p_NUM_ELECTRIC_AMMO_RECEIVED = 0x803d9002
+    p_NUM_WATER_AMMO_RECEIVED = 0x803d9003
+    p_NUM_ICE_AMMO_RECEIVED = 0x803d9004
+    p_DEATHLINK_INGOING = 0x803d9005
+    p_DEATHLINK_OUTGOING = 0x803d9006
+    p_INFINITE_BUTTERFLY_JAR = 0x803d9007
+    p_INFINITE_DOUBLE_GEM = 0x803d9008
+    p_FIREWORKS_ARE_RANDOMIZED = 0x803d9009
+    p_RANDOMIZE_SHOP = 0x803d900a
+    p_USE_KEY_RINGS = 0x803d900b
+    p_SKIP_CUTSCENE_BUTTON = 0x803d900c
+    p_ALLOW_TELEPORT_TO_HUB = 0x803d900d
+    p_DISABLE_POPUPS = 0x803d900e
+    p_INSTANT_ELEVATORS = 0x803d900f
     p_STARTING_REALM = 0x803d9010
     p_REALM_ACCESS = 0x803d9011
     p_PATCH_BEEN_WRITTEN_TO = 0x803d9015

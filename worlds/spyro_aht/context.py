@@ -231,9 +231,10 @@ class SpyroAHTContext(SuperContext):
         await self.emu_client.ready.wait()
     
     async def _receive_items(self):
+        from CommonClient import logger  # TODO: remove when done
         item_counts = collections.Counter(self.item_names.lookup_in_slot(i.item, self.slot) for i in self.items_received)
         for item in self.items_received:
-            if item in self._handled_items: continue
+            if item in self._handled_items: continue  # TODO: investigate here for cheat console things not sending?
             self._handled_items.add(item)
             match item.item:
                 case 0xB:
@@ -331,6 +332,15 @@ class SpyroAHTContext(SuperContext):
                     await self.emu_client.set_item(address, data)
                 case 0x30 | 0x31 | 0x32 | 0x33: # access cards
                     await self.emu_client.allow_realm_access(item.item)
+                case 0x64 | 0x65 | 0x66 | 0x67 | 0x68 | 0x69 | 0x6A | 0x6B | 0x6C | 0x6D | 0x6E | 0x6F | 0x70 | 0x71 | 0x72 | 0x73 | 0x74 | 0x75 \
+                | 0x76 | 0x77 | 0x78 | 0x79 | 0x7A | 0x7B | 0x7C | 0x7D | 0x7E | 0x7F | 0x80 | 0x81 | 0x82 | 0x83 | 0x84 | 0x85 | 0x86 | 0x87 | 0x88:
+                    logger.info(f"received individual shop unlock with id {item.item}")
+                case 0x89 | 0x8A | 0x8B | 0x8C | 0x8D | 0x8E | 0x8F | 0x90 | 0x91 | 0x92 | 0x93 | 0x94 | 0x95:
+                    logger.info(f"received progressive shop unlock with id {item.item}")
+                case 0x96 | 0x97 | 0x98 | 0x99 | 0x9A | 0x9B | 0x9C | 0x9D | 0x9E | 0x9F | 0xA0 | 0xA1 | 0xA2:
+                    logger.info(f"received level shop unlock with id {item.item}")
+                case 0xA3 | 0xA4 | 0xA5 | 0xA6:
+                    logger.info(f"received realm shop unlock with id {item.item}")
 
     async def _check_doors(self):
         dark = await self.emu_client.get_item_count(self.emu_client.addresses.DARK_GEM_COUNT)
