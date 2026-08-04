@@ -54,8 +54,9 @@ class DolphinClient(GenericClient):
             if game_id != b'G5SE7D':
                 dolphin_memory_engine.un_hook()
                 raise TypeError(f"Invalid or unsupported game id {game_id.decode()!r}")
-            mod_version = dolphin_memory_engine.read_bytes(0x80187620, 4)
-            if mod_version != b'\x00\x00\x00\x08':
+            mod_version = dolphin_memory_engine.read_byte(0x80187623)
+            if mod_version != 10:
+                dolphin_memory_engine.un_hook()
                 raise TypeError(f"Incorrect version of the game mod. Please update to version 8 and try again.")
         self.ready.set()
     
