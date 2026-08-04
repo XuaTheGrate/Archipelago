@@ -416,7 +416,7 @@ if not is_frozen():
             games = [(game, AutoWorldRegister.world_types.get(game, None)) for game in args.worlds]
         else:
             games = [(worldname, worldtype) for worldname, worldtype in AutoWorldRegister.world_types.items()
-                     if not worldtype.zip_path]
+                     if worldname == "Spyro: A Hero's Tail"]  # TODO: just speeds up the build process to only AHT
 
         global_apignores = read_apignore(local_path("data", "GLOBAL.apignore"))
         if not global_apignores:
