@@ -140,6 +140,14 @@ class DolphinClient(GenericClient):
         else:
             return False
     
+    async def debug_add_item(self, amount: int, address: int, bytes: int) -> bool:
+        current_amount = int.from_bytes(dolphin_memory_engine.read_bytes(address, bytes))
+        dolphin_memory_engine.write_bytes(address, (current_amount + amount).to_bytes(bytes, 'big'))
+        if address == self.addresses.GEMS:
+            current_total = int.from_bytes(dolphin_memory_engine.read_bytes(self.addresses.TOTAL_GEMS, bytes))
+            dolphin_memory_engine.write_bytes(self.addresses.TOTAL_GEMS, (current_total + amount).to_bytes(bytes, 'big'))        
+        return True
+    
     async def has_any_breath(self) -> bool:
         b = dolphin_memory_engine.read_word(self.addresses.ABILITY_FLAGS)
         return b & (0x800e0) != 0

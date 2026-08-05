@@ -14,6 +14,10 @@
     - Updated the shop price calculation and gem collection logic to be more consistent across the board, which resolves an issue that would lead to shop items entering logic earlier than they were supposed to.
     - Also added `non_blink_enemies` to allow for a 3rd type of gem collection scaling that affects all enemies that don't come from a Blink minigame.
     
+- Debug Client Command `/add_item`
+    - Added a client command `/add_item` to help with situations in which your save file gets corrupted or otherwise lost and want to continue the playthrough.
+    - The scope of this command is limited to Dark Gems, Light Gems, Lockpicks, and Gems because there is a known bug in the client that prevents you from cheat console sending multiple of an item to AHT.
+    - This command gets around that by adding the amount to the game's memory directly. Because the cheat console works for every other type of item (abilities, access cards, etc.) I didn't feel it necessary to support them in `/add_item`, at least for now.
     
 - Other Things
     - The game mod and client now supports custom DeathLink messages! Have fun annoying your friends by dying intentionally to try to find them all >:3
@@ -24,11 +28,6 @@
 
 TO-DO LIST:
     - TODO 2.0 RC: rule caching?
-    - TODO 2.0 RC: expanded death link messages
-    - TODO 2.0 RC: what can we do to fix new save files on existing seeds, if anything?
-        - make a re-sync/re-patch command? re-apply game patch things for items and maybe gems?
-        - items aren't re-sent, understandably, but could be re-sent in cheat console if needed.
-        - gems aren't reset, that's a big deal now in shop rando. Could game mod check slot data and apply gem count to new files if there is an amount set?
     - TODO 2.0 RC: *actually* fully update docs with multiple pages as needed
         - include gem logic (maybe a master list of what each enemy requires?)
             - explain sparx minigames logic
@@ -49,11 +48,12 @@ TO-DO LIST:
         - include detail on open world mode implications
         - include full breakdown of every feature and what logic is used internally for them
         
+    - TODO 2.1: option to hint shop items? maybe hint other things too?
+    - TODO 2.1: expand starting breath to be similar to starting realm? allow multiple starting?
     - TODO 2.1: investigate what things needing glide actually need DJ as well vs. just glide
     - TODO 2.1: client command that explains what a region is, mainly for open world purposes. maybe expand?
     - TODO 2.1: make tool for testing gem access
     - TODO 2.1: can we modify mission screen text for light gem doors? "Collect 45 light gems to open the door to a secret area" for example
-    - TODO 2.1: fix client not properly processing duplicate sends from cheat console?
 
 2.0 (Beta Release 2)
 

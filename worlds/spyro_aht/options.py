@@ -251,7 +251,8 @@ class KeyRings(Toggle):
 
     
 class GemLogic(Toggle):
-    """This option determines whether the generator should utilize logic rules to track the accessibility of gems throughout the seed.
+    """This option is only used when shop_randomization is enabled, and determines whether the generator should utilize logic rules
+    to track the accessibility of gems throughout the seed.
     
     If disabled, the shop will price items equally and place them all in sphere 1. This can result in difficult
     or impossible seeds because it is infeasible to afford every item then, but does give you the choice of which order to buy them.
@@ -271,7 +272,7 @@ class GemLogic(Toggle):
     base_shop_price = gem_total / (number of shop items determined by key_rings - 1)
 
     If gem_logic is disabled, shop items will cost base_shop_price, rounded down if needed.
-    If gem_logic is enabled, shop items will cost base_shop_price * 1, base_shop_price * 2, etc., rounded down if needed.
+    If gem_logic is enabled, shop items will cost base_shop_price * 1, base_shop_price * 2, etc., each rounded down if needed.
     *************************************************************************************************
     """
     display_name = "Gem Logic"

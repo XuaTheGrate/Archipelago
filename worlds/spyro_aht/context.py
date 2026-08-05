@@ -31,46 +31,71 @@ class SpyroAHTCommands(ClientCommandProcessor):
             await self.ctx.emu_client.disconnect()
         self.ctx.emu_loop = asyncio.create_task(self.ctx._emu_loop())
         return True
+    
+    async def _cmd_add_item(self, item, amount) -> bool:
+        """Format: /add_item item_name amount. Adds an amount of an item to your game. Currently supports "dark_gem", "light_gem", "gems", and "lockpick". Please use responsibly and safely - minimal error checking is done. This is intended for use in situations where you lose your save file and want to recover the amount of gems you had before, and similar other file recovery situations. You can safely have up to 127 Dark Gems, Light Gems, and Lockpicks, and ~2.14 billion gems (though the game's HUD will hate you for that last one)."""
+        types = {
+            "dark_gem": [self.ctx.emu_client.addresses.DARK_GEM_COUNT, 1],
+            "light_gem": [self.ctx.emu_client.addresses.LIGHT_GEM_COUNT, 1],
+            "gems": [self.ctx.emu_client.addresses.GEMS, 4],
+            "lockpick": [self.ctx.emu_client.addresses.LOCKPICKS, 1]
+        }
+        
+        if item not in types.keys():
+            self.output("Incorrect command format. Please use one of the supported item types.")
+            return True
 
-    # async def _cmd_debug_send(self, location: str) -> bool:
-    #     await self.ctx.send_msgs([{"cmd": "LocationChecks","locations":[int(location)]}])
-    #     return True
+        amount = int(amount)
+        if amount < 0:
+            self.output("This command can only add items. Please enter a positive amount.")
+            return True
+        
+        await self.ctx.emu_client.debug_add_item(amount, *types[item])
+        return True
 
     async def _cmd_list_options(self) -> bool:
-        # TODO: add open world mode once it's implemented
         # this is grossly repetitive, but it only runs when the player demands it so it's not a big deal
         # even if it was reformatted it'd still be the same amount of output and data lookup, it's just code cleanliness
         """Displays the options you set for this seed (in the same order as YAML). Data is sourced directly from slot data, so if something doesn't line up here, check your YAML for mistakes. Much of this info is also viewable in-game by pausing and pressing R/L."""
         
         # death link
-        output = "enabled" if self.ctx.slot_data["death_link"] == 1 else "disabled"
-        self.output(f"Death link is {output}.")
+        convert = {0: "disabled", 1: "shielded", 2: "enabled"}
+        self.output(f"Death link is set to {convert[self.ctx.slot_data['death_link']]}.")
+        
+        self.output("---------------GENERATION SETTINGS---------------")
+        # logging level
+        self.output(f"You set your logging level to include the following levels: {self.ctx.slot_data['logging_level']}.")
+        # auto corrections
+        convert = {0: "halt on", 1: "auto fix"}
+        self.output(f"You chose to {convert[self.ctx.slot_data['auto_corrections']]} generation errors.")
         
         self.output("---------------GOAL, CHECKS, & ITEMS---------------")
         # goal
         self.output(f"Your chose the following as your goal(s): {self.ctx.slot_data['goal']}.")
+        # exclude from goal
+        self.output(f"You chose to exclude the following goals from random choosing: {self.ctx.slot_data['exclude_from_goal']}.")
+        # open world mode
+        convert = {0: "off", 1: "full", 2: "randomized", 3: "progressive levels", 4: "reverse progressive levels", 5: "full levels", 6: "full realms"}
+        self.output(f"You chose to set open world mode to {convert[self.ctx.slot_data['open_world_mode']]}.")
         # firework checks
         output = "enabled" if self.ctx.slot_data["firework_checks"] else "disabled"
         self.output(f"Firework checks are {output}.")
-        # minigames
+        # vanilla minigame rewards
         output = ""
         for minigame_type in ["Sgt. Byrd", "Blink", "Turret", "Sparx"]:
-            output += f"{minigame_type} rewards are {'randomized' if minigame_type in self.ctx.slot_data['vanilla_minigame_rewards'] else 'vanilla'}, "
+            output += f"{minigame_type} rewards are {'vanilla' if minigame_type in self.ctx.slot_data['vanilla_minigame_rewards'] else 'randomized'}, "
         self.output(f"Minigames: {output[:-2]}.")
         # filler items
         output = ""
         for minigame_type in ["Dragon Eggs", "Breath Bombs", "Gem Packs", "Generic"]:
             if minigame_type in self.ctx.slot_data['filler_items']: output+= f"{minigame_type}, "
-        self.output(f"Enabled Filler Item Tpes: {output[:-2]}.")
+        self.output(f"Enabled Filler Item Types: {output[:-2]}.")
         
         self.output("---------------START OF GAME---------------")
         # movement & breath
         output = "randomized" if self.ctx.slot_data["randomize_movement"] == 1 else "not randomized"
-        if self.ctx.slot_data['starting_breath'] == 4:
-            output_2 = "no"
-        else:
-            convert = {0: "fire", 1: "electric", 2: "water", 3: "ice"}
-            output_2 = convert[self.ctx.slot_data['starting_breath']]
+        convert = {0: "fire", 1: "electric", 2: "water", 3: "ice", 4: "no"}
+        output_2 = convert[self.ctx.slot_data['starting_breath']]
         self.output(f"Movement abilities are {output} and you start with {output_2} breath.")
         # starting realm
         self.output(f"You chose to start with access to the following realm(s): {self.ctx.slot_data['starting_realms']}.")
@@ -87,7 +112,7 @@ class SpyroAHTCommands(ClientCommandProcessor):
         # shop randomization-related things
         if self.ctx.slot_data["shop_randomization"]:
             # non_blink_gems and blink_gems
-            self.output(f"You chose to collect {self.ctx.slot_data['blink_gems']}% of Blink's gems and {self.ctx.slot_data['non_blink_gems']}% of non-Blink gems.")
+            self.output(f"You chose to collect {self.ctx.slot_data['blink_gems']}% of Blink's gems, {self.ctx.slot_data['non_blink_enemies']}% of non-Blink enemy gems, and {self.ctx.slot_data['other_gems']}% of other gems.")
             # shop prices
             self.output(f"This means your shop prices are {self.ctx.slot_data['shop_costs']}.")
             if self.ctx.slot_data["gem_logic"]:
@@ -233,10 +258,9 @@ class SpyroAHTContext(SuperContext):
         await self.emu_client.ready.wait()
     
     async def _receive_items(self):
-        from CommonClient import logger  # TODO: remove when done
         item_counts = collections.Counter(self.item_names.lookup_in_slot(i.item, self.slot) for i in self.items_received)
         for item in self.items_received:
-            if item in self._handled_items: continue  # TODO: investigate here for cheat console things not sending?
+            if item in self._handled_items: continue
             self._handled_items.add(item)
             match item.item:
                 case 0xB:
