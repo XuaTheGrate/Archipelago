@@ -554,8 +554,11 @@ class SpyroAHTContext(SuperContext):
             logger.error("ERROR IN EMULATOR LOOP, PLEASE REPORT IN THE THREAD", exc_info=True)
     
     async def _send_deathlink(self):
-        if await self.emu_client.export_deathlink():
-            await self.send_death()
+        death_id = await self.emu_client.export_deathlink()
+        if death_id:
+            if death_id < 0 or death_id > 27:
+                raise TypeError(f"Invalid outgoing deathlink id: {death_id}.")
+            await self.send_death(consts.DEATHLINK_MESSAGES[death_id-1].format(name=self.player_names[self.slot]))
 
     async def _receive_deathlink(self, msg: str):
         self.emu_client.msg_queue.put_nowait((consts.COLOUR_RED, msg))

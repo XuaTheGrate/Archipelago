@@ -124,6 +124,36 @@ FIREWORK_IDS = [5003, 5000, 5001, 5002, 5004, 5006, 5005, 5012, 5011, 5013, 5007
 LOCKED_CHEST_IDS = [15, 7, 6, 19, 23, 24, 40, 52, 234, 235, 80, 85, 87, 236, 237, 99, 102, 103, 108, 112, 114, 115, 238, 239, 137, 140, 240, 153, 156, 241, 242, 243, 128, 244, 133, 245, 246, 247, 248, 249, 183, 188, 250, 190, 193, 251, 199, 252, 206, 207, 253, 254]
 SHOP_ITEM_IDS = [1000, 1001, 1002, 1003, 2000, 2001, 2002, 2002, 2003, 2004, 2005, 2006, 2007, 2008, 2009, 2010, 2011, 2012, 3013, 3014, 3015, 3016, 3017, 3018, 3019, 3020, 3021, 3022, 3023, 3024, 3025, 3026, 3027, 3028, 3029, 3030, 3031, 3032, 3033, 3034, 3035, 3036, 3037, 3038, 3039, 3040, 3041, 3042, 3043, 3044, 3045, 3046, 3047, 3048, 3049, 3050]
 
+DEATHLINK_MESSAGES = [
+    "{name} died.",
+    "{name} ended their tail.",
+    "{name} was fed to the fish.",
+    "{name} forgot their wings.",
+    "{name} did a jig and then blew up.",
+    "{name} became a dragon fossil.",
+    "{name} became a purple pancake.",
+    "{name} became grape ice cream.",
+    "{name} spend one of their 9 lives.",
+    "{name} failed to land on their feet.",
+    "{name} discovered why cats hate water.",
+    "{name} became roadkill.",
+    "{name} blinked out of existence.",
+    "{name} went in too deep.",
+    "{name} touched the Earth's mantle.",
+    "{name} discovered the dangers of cave diving.",
+    "{name} caved in.",
+    "{name} died in a reality-defying fashion.",
+    "{name} failed a water landing.",
+    "{name} became roasted chicken.",
+    "{name}'s parachute failed.",
+    "{name} ended the Bug's Life.",
+    "{name} dropped the ball.",
+    "{name} let Fredneck starve.",
+    "{name} was a terrible godfather.",
+    "{name} was put on ice.",
+    "{name} was overrun."
+]
+
 # matches order of shops in bitfield. Will look up bitfield indexes via .index(shop_name)
 SHOP_PAD_LIST = [
     "Dragon Village - Village Depot",

@@ -176,7 +176,7 @@ class DolphinClient(GenericClient):
         b = dolphin_memory_engine.read_byte(self.addresses.g_DEATHLINK_OUTGOING)
         if b:
             dolphin_memory_engine.write_byte(self.addresses.g_DEATHLINK_OUTGOING, 0)
-            return True
+            return b
         return False
 
     async def apply_patch(self, ctx: "SpyroAHTContext"):

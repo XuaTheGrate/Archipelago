@@ -14,7 +14,9 @@
     - Updated the shop price calculation and gem collection logic to be more consistent across the board, which resolves an issue that would lead to shop items entering logic earlier than they were supposed to.
     - Also added `non_blink_enemies` to allow for a 3rd type of gem collection scaling that affects all enemies that don't come from a Blink minigame.
     
+    
 - Other Things
+    - The game mod and client now supports custom DeathLink messages! Have fun annoying your friends by dying intentionally to try to find them all >:3
     - Added an open-source license to the project. Apparently Maya (previous dev) had one in an older repo for AHT, but I wasn't aware of that and got my own lol.
     - Added 2 new generic filler items "Portable Heater for the Ice Princess" and "Apartment Lease for Teena".
     - Maya signed onto this new version. It sums up to being "do whatever you want with our code, but don't sell it or profit off of it". Read the actual license file for details :)
