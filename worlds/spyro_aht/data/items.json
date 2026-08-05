@@ -368,6 +368,20 @@
         "type": "Generic"
     },
     {
+        "name": "Portable Heater for the Ice Princess",
+        "id": 64,
+        "classification": 0,
+        "group": "Filler",
+        "type": "Generic"
+    },
+    {
+        "name": "Apartment Lease for Teena",
+        "id": 65,
+        "classification": 0,
+        "group": "Filler",
+        "type": "Generic"
+    },
+    {
         "name": "Dragon Village - Village Depot Shop Unlock",
         "id": 100,
         "classification": 1,
@@ -557,21 +571,21 @@
         "group": "Shop Unlocks"
     },
     {
-        "name": "Magma Falls Top - Crackling Cave Shop Unlock",
+        "name": "Magma Falls - Crackling Cave Shop Unlock",
         "id": 127,
         "classification": 1,
         "option": [{"option": "open_world_mode", "value": 2}],
         "group": "Shop Unlocks"
     },
     {
-        "name": "Magma Falls Bottom - Chains of Lava Shop Unlock",
+        "name": "Magma Falls - Chains of Lava Shop Unlock",
         "id": 128,
         "classification": 1,
         "option": [{"option": "open_world_mode", "value": 2}],
         "group": "Shop Unlocks"
     },
     {
-        "name": "Magma Falls Bottom - Sparx Can Fly Shop Unlock",
+        "name": "Magma Falls - Sparx Can Fly Shop Unlock",
         "id": 129,
         "classification": 1,
         "option": [{"option": "open_world_mode", "value": 2}],

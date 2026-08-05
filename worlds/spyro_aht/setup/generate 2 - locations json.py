@@ -3,7 +3,7 @@ import json
 # These are imported so that eval() can recognize them as types below
 from rule_builder.rules import Rule, True_, Has, HasAll, And, HasAny, Or, CanReachRegion
 from worlds.spyro_aht import BossLairRule, BallGadget, LGDoorRule, InvincibilityGadget, SuperchargeGadget, \
-    ShopCheckRule, LockedChestRule, OpenWorldRule
+    ShopCheckRule, LockedChestRule, OpenWorldRule, RealmAccessRule
 
 regions = {}
 ########################################################################################################################

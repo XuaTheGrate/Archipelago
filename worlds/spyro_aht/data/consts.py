@@ -136,7 +136,7 @@ SHOP_PAD_LIST = [
     "Ice Citadel - Cool Courtyard", "Ice Citadel - Supercharge Central", "Ice Citadel - Royal Chamber", "Ice Citadel - Drawbridge Drop-off",
     "Stormy Beach - Stormy Depot",
     "Molten Mount - Destroyed Village", "Molten Mount - Collapsed Bridge", "Molten Mount - Lumber Storage",
-    "Magma Falls Top - Crackling Cave", "Magma Falls Bottom - Sparx Can Fly", "Magma Falls Bottom - Chains of Lava",
+    "Magma Falls - Crackling Cave", "Magma Falls - Sparx Can Fly", "Magma Falls - Chains of Lava",
     "Dark Mine - Mine Mouth", "Dark Mine - Hidden Depths", "Dark Mine - Miner's Drop",
     "Red's Laboratory - Celestial Show", "Red's Laboratory - Mechanical Mishaps", "Red's Laboratory - Pre-production", "Red's Laboratory - Laser Leaps"
 ]

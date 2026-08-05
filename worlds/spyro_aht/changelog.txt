@@ -1,11 +1,14 @@
 2.0 (Release Candidate)
 
 - Major Feature Addition: Open World Mode
-    - Added option open_world_mode which patches the game file to have all remote shop pads unlocked from the start. This enables you to teleport around the game freely.
+    - Added option `open_world_mode` which allows for unlocking remote shop pads in multiple ways. Currently supported are full, randomized, progressive and reverse progressive levels, full levels, and full realms.
     - This has MAJOR implications on the logic of the world. This was a massive undertaking to get supported, requiring an entire re-design of all logic rules for the game.
-        - Logic will expect you, for example, to teleport to Dark Mine's "Miner's Drop" shop to get the Dragon Egg next to it, and have that be considered a sphere 1 check.
-        - Similarly, you could be expected to teleport to Cloudy Domain's "Tallest Tower" shop and double jump + glide away from it to traverse the south part of the map backwards.
-    - Enabling open world mode automatically grants you all 4 realm access cards. This prevents a potential softlock if you were to get stuck in Stormy Beach's start area without Double Jump.
+
+- Realm Access Adjustments (to cooperate with open_world_mode better)    
+    - Enabling full open world mode will override your `starting_realms` choices and grant you all 4 access cards in sphere 0. This ensures smooth, simple traveling between realms.
+    - If using non-full open world mode, the only realm access cards that will be made are those included in `starting_realms`. All others will not be made.
+        - This is because the player will be expected, upon unlocking any shop in a non-starting realm, to pause and "teleport to HUB" to access the hub.
+        - Once this is done a single time, the game will then allow the player to teleport back to the realm via the realm teleporter as normal, without an access card.
 
 - Gem Logic Fix & Expansion
     - Updated the shop price calculation and gem collection logic to be more consistent across the board, which resolves an issue that would lead to shop items entering logic earlier than they were supposed to.
@@ -13,12 +16,13 @@
     
 - Other Things
     - Added an open-source license to the project. Apparently Maya (previous dev) had one in an older repo for AHT, but I wasn't aware of that and got my own lol.
+    - Added 2 new generic filler items "Portable Heater for the Ice Princess" and "Apartment Lease for Teena".
     - Maya signed onto this new version. It sums up to being "do whatever you want with our code, but don't sell it or profit off of it". Read the actual license file for details :)
     - Figured out an issue that has been plagueing me for weeks that was slowing down my development workflow. It is now fixed and development is simplified :3
 
 TO-DO LIST:
     - TODO 2.0 RC: rule caching?
-    - TODO 2.0 RC: expanded death link messages and open world mode (mod versions 9/10)
+    - TODO 2.0 RC: expanded death link messages
     - TODO 2.0 RC: what can we do to fix new save files on existing seeds, if anything?
         - make a re-sync/re-patch command? re-apply game patch things for items and maybe gems?
         - items aren't re-sent, understandably, but could be re-sent in cheat console if needed.

@@ -72,7 +72,7 @@ REGION ShopPads
 Dragon Village
 --------------
 REGION DVEntry: shop, ember, and elder areas
-	START -> DVEntry | Has('Dragon Kingdom Access Card')
+	START -> DVEntry | RealmAccessRule('Dragon Kingdom Access Card')
 		could have nothing
 	ShopPads -> DVEntry | OpenWorldRule(['Dragon Village - Village Depot'])
 		could have nothing
@@ -255,7 +255,7 @@ REGION DFSteepCanyon: first main chunk from shop up to vulture area (include goi
 
 	LOCATION DFSteepCanyon | DF: Light Gem from locked chest in entry area | 40 | And(HasAll('Double Jump', 'Glide'), LockedChestRule('Dragonfly Falls'))
 	LOCATION DFSteepCanyon | DF: Dark Gem behind chargeable wall in entry area | 41 | HasAll('Charge', 'Double Jump')
-	LOCATION DFSteepCanyon | DF: Dragon Egg behind seocnd chargeable wall in entry area | 42 | HasAll('Charge', 'Double Jump')
+	LOCATION DFSteepCanyon | DF: Dragon Egg behind second chargeable wall in entry area | 42 | HasAll('Charge', 'Double Jump')
 	LOCATION DFSteepCanyon | DF: Light Gem behind reinforced cannon wall | 43 | HasAll('Double Jump', 'Glide')
 	LOCATION DFSteepCanyon | DF: Dark Gem in vulture cannon area | 44 | HasAll('Double Jump', 'Glide')
 
@@ -330,7 +330,7 @@ REGION DFHunter: hunter section
 Coastal Remains
 ---------------
 REGION CREntry: shop, southern beach, east hub
-	START -> CREntry | Has('Lost Cities Access Card')
+	START -> CREntry | RealmAccessRule('Lost Cities Access Card')
 		could have nothing
 	ShopPads -> CREntry | OpenWorldRule(['Coastal Remains - Coastal Depot'])
 		could have nothing
@@ -619,7 +619,7 @@ REGION SRReturnToStart: area after toxic rise
 Frostbite Village
 -----------------
 REGION FVEntry1: entry area. very little here
-	START -> FVEntry1 | Has('Icy Wilderness Access Card')
+	START -> FVEntry1 | RealmAccessRule('Icy Wilderness Access Card')
 		could have nothing
 	ShopPads -> FVEntry1 | OpenWorldRule(['Frostbite Village - Frosty Depot'])
 		could have nothing
@@ -830,7 +830,7 @@ REGION ICRoyalToCourtyard: path above boiler that returns to lower courtyard
 Stormy Beach
 ------------
 REGION SBEntryLower: realm entry and lower part of beach + west cove
-	START -> SBEntryLower | Has('Volcanic Isle Access Card')
+	START -> SBEntryLower | RealmAccessRule('Volcanic Isle Access Card')
 		could have nothing
 	SBShop -> SBEntryLower | True_()
 		could have nothing

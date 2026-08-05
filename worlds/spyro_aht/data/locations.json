@@ -1537,12 +1537,11 @@
             {
                 "name": "START -> DVEntry",
                 "access_rule": {
-                    "rule": "Has",
+                    "rule": "RealmAccessRule",
                     "options": [],
                     "filtered_resolution": false,
                     "args": {
-                        "item_name": "Dragon Kingdom Access Card",
-                        "count": 1
+                        "access_card": "Dragon Kingdom Access Card"
                     }
                 }
             },
@@ -3979,7 +3978,7 @@
                 }
             },
             {
-                "name": "DF: Dragon Egg behind seocnd chargeable wall in entry area",
+                "name": "DF: Dragon Egg behind second chargeable wall in entry area",
                 "id": 42,
                 "options": [],
                 "access_rule": {
@@ -5396,12 +5395,11 @@
             {
                 "name": "START -> CREntry",
                 "access_rule": {
-                    "rule": "Has",
+                    "rule": "RealmAccessRule",
                     "options": [],
                     "filtered_resolution": false,
                     "args": {
-                        "item_name": "Lost Cities Access Card",
-                        "count": 1
+                        "access_card": "Lost Cities Access Card"
                     }
                 }
             },
@@ -10075,12 +10073,11 @@
             {
                 "name": "START -> FVEntry1",
                 "access_rule": {
-                    "rule": "Has",
+                    "rule": "RealmAccessRule",
                     "options": [],
                     "filtered_resolution": false,
                     "args": {
-                        "item_name": "Icy Wilderness Access Card",
-                        "count": 1
+                        "access_card": "Icy Wilderness Access Card"
                     }
                 }
             },
@@ -13777,12 +13774,11 @@
             {
                 "name": "START -> SBEntryLower",
                 "access_rule": {
-                    "rule": "Has",
+                    "rule": "RealmAccessRule",
                     "options": [],
                     "filtered_resolution": false,
                     "args": {
-                        "item_name": "Volcanic Isle Access Card",
-                        "count": 1
+                        "access_card": "Volcanic Isle Access Card"
                     }
                 }
             },

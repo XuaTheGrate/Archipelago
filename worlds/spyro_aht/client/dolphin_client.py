@@ -233,8 +233,13 @@ class DolphinClient(GenericClient):
             dolphin_memory_engine.write_byte(self.addresses.p_SHOP_UNLOCK_MODE, 1)
         if ctx.slot_data['teleport_across_realms']:
             dolphin_memory_engine.write_byte(self.addresses.p_TELEPORT_ANYWHERE, 1)
-        if ctx.slot_data['open_world_mode']:
+            
+        if ctx.slot_data['open_world_mode'] == 1:
             dolphin_memory_engine.write_byte(self.addresses.p_UNLOCK_ALL_SHOPS, 1)
+        elif ctx.slot_data['open_world_mode'] >= 2:
+            dolphin_memory_engine.write_byte(self.addresses.p_DISABLE_SHOP_PAD_PROXIMITY_ACTIVATE, 1)
+        if ctx.slot_data['open_world_mode'] != 0:
+            dolphin_memory_engine.write_byte(self.addresses.p_TELEPORT_ANYWHERE, 1)
         
         dolphin_memory_engine.write_byte(self.addresses.p_PATCH_BEEN_WRITTEN_TO, 1)
         

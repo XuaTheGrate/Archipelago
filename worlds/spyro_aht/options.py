@@ -105,32 +105,29 @@ class ExcludeFromGoal(OptionSet):
 
 class OpenWorldMode(Choice):
     """In the vanilla game, you can only teleport to a remote shop pad once you have physically reached it.
-    The AHT randomizer is capable of unlocking remote shop pads early so you can teleport to them without that requirement.
-    This has a dramatic impact on the logic of a seed, as you may be expected to, for example, teleport deep into
-    a level and play portions of it forwards or backwards from that point.
-    
-    **put notes here about if I have to give any realm cards early or similar**
+    Using open_world_mode, you can choose to change this behavior so that all shop pads can be teleported to
+    at the start of the seed, have them be unlocked by individual AP items, etc. This has a dramatic impact on the logic
+    of a seed, as you will be expected to utilize any and all unlocked shop pads to teleport deep into a level
+    and get what is available there, or progress the level forwards/backwards from that point. For all values other
+    than "off" and "full", shop pads you physically reach will be usable to purchase items, but you won't be able to
+    teleport to/from them until they are unlocked via AP items.
      
     Options:
     off: leaves the vanilla game shop unlock method in place.
     
     full: all shop pads are unlocked from the start of the seed.
     
-    randomized: shop pads will be unlocked individually by AP items. For example, you could get
-    "Dark Mine - Miner's Drop Unlock" which allows you to teleport ot the Miner's Drop shop pad.
+    randomized: shop pads will be unlocked individually by AP items. For example, "Dark Mine - Miner's Drop Shop Unlock".
     
-    progressive_per_level: shop pads will be unlocked per-level in the order you would reach them if playing the vanilla game.
-    For example, you could get "Progressive Crocovile Swamp Shop Unlock". The project's README has a reference list for
-    situations where it is not obvious what the "next" shop is for a level. 
+    progressive_levels: shop pads will be unlocked per-level in the order you would reach them in the vanilla game.
+    For example, "Progressive Crocovile Swamp Shop Unlock" would first unlock Perilous Pyramid, then Forgotten Temple,
+    then Elder's Tree. The project's README has a reference list for progressive and reverse progressive shop ordering. 
     
-    reverse_progressive_per_level: same as progressive_per_level, but backwards per level, unlocking the shop "furthest"
-    into the level first, and going backwards towards the entrance.
+    reverse_progressive_levels: same as progressive_levels, but in backwards vanilla order.
     
-    full_per_level: all shops in the given level will unlock at the same time. For example, you could get
-    "Full Dark Mine Shop Unlock" which unlocks all shops in Dark Mine.
+    full_level: all shop pads in a level will unlock at once. For example, "Sunken Ruins Shop Unlock".
     
-    full_per_realm: all shops in the given realm will unlock at the same time. For example, you could get
-    "Lost Cities Shop Unlock" which unlocks all shops in Coastal Remains, Sunken Ruins, and Cloudy Domain."""
+    full_realm: all shops in a realm will unlock at once. For example, "Icy Wilderness Shop Unlock"."""
     display_name = "Open World Mode"
     option_off = 0
     option_full = 1
@@ -211,7 +208,12 @@ class StartingRealms(OptionSet):
     """Access to a realm is granted when you possess its "access card" item. For example, "Dragon Kingdom Access Card"
     grants access to the Dragon Kingdom realm. This option lets you choose which realm(s) to start with access to.
     Their access cards will be added to your start inventory. This is equivalent to putting the card(s) in your start
-    inventory yourself, except you can have a random one chosen for you if the list is left empty.
+    inventory yourself. A random realm is chosen for you if the list is left empty.
+    
+    Note: if using any value for open_world_mode besides "off", the only access cards that will be in your seed will be
+    the ones you choose below. Realm access in open world mode is determined instead by whether you have a shop unlocked
+    in that realm. This is because once you do, you can pause and use the "teleport to hub" option to access the area,
+    which is logically equivalent to having that realm's access card.
     
     Valid Options: ["Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle"]"""
     display_name = "Starting Realms"
@@ -475,7 +477,9 @@ class SkipElevators(Toggle):
 class TeleportAcrossRealms(Toggle):
     """Allows for teleporting to unlocked Moneybags shop pads in any realm, from any realm.
     For example, you could teleport directly from Dragonfly Falls to Dark Mine
-    without needing to use a hub realm teleporter."""
+    without needing to use a hub realm teleporter.
+    
+    This option is automatically enabled if you are using any value for open_world_mode besides "off"."""
     display_name = "Teleport Across Realms"
     default = 0
 

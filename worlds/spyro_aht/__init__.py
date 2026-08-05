@@ -157,6 +157,7 @@ class SpyroAHTWorld(World):
         self._boss_lairs = [10, 20, 30, 40]
         self._gadget_costs = [8, 24, 40]  # ball, invincibility, supercharge
         self._starting_realms = []
+        self.added_realms = []
         self._starting_breath = -1  # represents none
         self._classifications = {i['name']: ItemClassification(i['classification']) for i in _load_file("items.json")}
         self.shop_costs = []
@@ -606,19 +607,21 @@ class SpyroAHTWorld(World):
         self.log(f"Starting Realms: {self._starting_realms}.", "Debug")
             
         # add starting realm choices to start inventory, if not already in start inventory
-        added_realms = []
         for realm in self._starting_realms:
             new_card = self.create_item(f"{realm} Access Card")
             if new_card not in self.multiworld.precollected_items[self.player]:  # don't add the card if the player already put it there
                 self.push_precollected(new_card)
-                added_realms.append(realm + " Access Card")
+                self.added_realms.append(realm + " Access Card")
         
         self.log("Starting main create_item loop.", "Info")
         for item in item_data:
             if item["group"] == "Filler":  # filler handled later
                 continue
-            if item['name'] in added_realms:  # exclude any access cards the player already added above
-                continue
+            
+            if self.options.open_world_mode.value != 0 and "Access Card" in item['name']:
+                continue  # open world mode has no access cards besides the one(s) the player starts with
+            elif item['name'] in self.added_realms:
+                continue  # non-open world has normal access card logic. only skip the ones pre-added, add the rest to the pool
             
             add = True
 
@@ -834,10 +837,29 @@ class OpenWorldRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
     shop_names: list[str]
     
     def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
-        if world.options.open_world_mode.value == 0:
+        if world.options.open_world_mode.value == 0:  # non-open world mode
             return False_().resolve(world)
+        elif world.options.open_world_mode.value == 1:  # fully unlocked shops
+            return True_().resolve(world)
         
         return HasAny(*self.shop_names).resolve(world)
+
+
+@dataclass
+class RealmAccessRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
+    access_card: str
+    
+    def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
+        items = [self.access_card]
+
+        # players can "teleport to hub" from unlocked shops in open world mode
+        if world.options.open_world_mode != 0:
+            for level in REALM_LEVEL_LOOKUP[self.access_card.replace(" Access Card", "")]:
+                for shop in LEVEL_SHOP_LOOKUP[level]:
+                    items.append(f"{level} - {shop}")
+        
+        return HasAny(*items).resolve(world)
+            
 
 ###############CLIENT###############
 def _run_client(*args: str):
