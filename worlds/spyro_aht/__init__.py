@@ -157,7 +157,6 @@ class SpyroAHTWorld(World):
         self._boss_lairs = [10, 20, 30, 40]
         self._gadget_costs = [8, 24, 40]  # ball, invincibility, supercharge
         self._starting_realms = []
-        self.added_realms = []
         self._starting_breath = -1  # represents none
         self._classifications = {i['name']: ItemClassification(i['classification']) for i in _load_file("items.json")}
         self.shop_costs = []
@@ -192,24 +191,31 @@ class SpyroAHTWorld(World):
                 if choice == 2:  # randomized
                     state.add_item(item.name.replace(" Shop Unlock", ""), self.player)
                 elif choice == 3 or choice == 4:  # progressive and reverse progressive
-                    adjusted_name = item.name.replace("Progressive ", "")
-                    level = adjusted_name.split(" - ")[0]
-                    # index = 0 if choice == 3 else -1  # only part that differs is whether to grab levels from start or end of list
-                    shops = LEVEL_SHOP_LOOKUP[level].copy()
-                    if choice == 4: shops.reverse()
-                    for shop in shops:
-                        if not state.has(f"{level} - {shop}", self.player):
-                            state.add_item(f"{level} - {shop}", self.player)
-                            break
+                    if "Depot" in item.name:  # a manually-unlocked starting realm shop. always collected before the rest
+                        state.add_item(item.name.replace(" Shop Unlock", ""), self.player)
+                    else:  # regular progressive or reverse progressive item
+                        adjusted_name = item.name.replace("Progressive ", "")
+                        level = adjusted_name.split(" - ")[0]
+                        shops = LEVEL_SHOP_LOOKUP[level].copy()
+                        if choice == 4: shops.reverse()
+                        for shop in shops:
+                            if not state.has(f"{level} - {shop}", self.player):
+                                state.add_item(f"{level} - {shop}", self.player)
+                                break
                 elif choice == 5:  # full levels
-                    level = item.name.split(" - ")[0]
-                    for shop in LEVEL_SHOP_LOOKUP[level]:
-                        state.add_item(f"{level} - {shop}", self.player)
+                    if "Depot" in item.name:  # a manually-unlocked starting realm shop. always collected before the rest
+                        state.add_item(item.name.replace(" Shop Unlock", ""), self.player)
+                    else:
+                        level = item.name.split(" - ")[0]
+                        for shop in LEVEL_SHOP_LOOKUP[level]:
+                            if not state.has(f"{level} - {shop}", self.player):
+                                state.add_item(f"{level} - {shop}", self.player)
                 elif choice == 6:  # full realms
                     realm = item.name.split(" - ")[0]
                     for level in REALM_LEVEL_LOOKUP[realm]:
                         for shop in LEVEL_SHOP_LOOKUP[level]:
-                            state.add_item(f"{level} - {shop}", self.player)
+                            if not state.has(f"{level} - {shop}", self.player):
+                                state.add_item(f"{level} - {shop}", self.player)
             return True
         return False
 
@@ -232,24 +238,31 @@ class SpyroAHTWorld(World):
                 if choice == 2:  # randomized
                     state.remove_item(item.name.replace(" Shop Unlock", ""), self.player)
                 elif choice == 3 or choice == 4:  # progressive and reverse progressive
-                    adjusted_name = item.name.replace("Progressive ", "")
-                    level = adjusted_name.split(" - ")[0]
-                    # index = 0 if choice == 3 else -1  # only part that differs is whether to grab levels from start or end of list
-                    shops = LEVEL_SHOP_LOOKUP[level].copy()
-                    if choice == 4: shops.reverse()
-                    for shop in shops:
-                        if not state.has(f"{level} - {shop}", self.player):
-                            state.remove_item(f"{level} - {shop}", self.player)
-                            break
+                    if "Depot" in item.name:  # a manually-unlocked starting realm shop. always collected before the rest
+                        state.remove_item(item.name.replace(" Shop Unlock", ""), self.player)
+                    else:  # regular progressive or reverse progressive item
+                        adjusted_name = item.name.replace("Progressive ", "")
+                        level = adjusted_name.split(" - ")[0]
+                        shops = LEVEL_SHOP_LOOKUP[level].copy()
+                        if choice == 4: shops.reverse()
+                        for shop in shops:
+                            if not state.has(f"{level} - {shop}", self.player):
+                                state.remove_item(f"{level} - {shop}", self.player)
+                                break
                 elif choice == 5:  # full levels
-                    level = item.name.split(" - ")[0]
-                    for shop in LEVEL_SHOP_LOOKUP[level]:
-                        state.remove_item(f"{level} - {shop}", self.player)
+                    if "Depot" in item.name:  # a manually-unlocked starting realm shop. always collected before the rest
+                        state.remove_item(item.name.replace(" Shop Unlock", ""), self.player)
+                    else:
+                        level = item.name.split(" - ")[0]
+                        for shop in LEVEL_SHOP_LOOKUP[level]:
+                            if not state.has(f"{level} - {shop}", self.player):
+                                state.remove_item(f"{level} - {shop}", self.player)
                 elif choice == 6:  # full realms
                     realm = item.name.split(" - ")[0]
                     for level in REALM_LEVEL_LOOKUP[realm]:
                         for shop in LEVEL_SHOP_LOOKUP[level]:
-                            state.remove_item(f"{level} - {shop}", self.player)
+                            if not state.has(f"{level} - {shop}", self.player):
+                                state.remove_item(f"{level} - {shop}", self.player)
             return True
         return False
 
@@ -368,6 +381,8 @@ class SpyroAHTWorld(World):
         self._boss_lairs = slot_data['boss_lair_costs']
         self._lg_doors = slot_data['light_gem_door_costs']
         self._gadget_costs = slot_data['gadget_costs']
+        
+        self.options.pause_menu_patch.value = slot_data['pause_menu_patch']
 
     def handle_goaling(self):
         # convert goal names to searchable form for location matching
@@ -450,14 +465,15 @@ class SpyroAHTWorld(World):
                         raise OptionError("Boss lair cost min must be smaller than boss lair cost max.")
 
                 self._boss_lairs = [self.random.randint(bmin, bmax) for _ in range(4)]
-            
-            if self.options.boss_lair_forcing.value > 0:  # if not "unchanged"
-                player_choice = self.options.boss_lair_forcing.value
-                highest = max(self._boss_lairs)
-                high_index = self._boss_lairs.index(highest)
-                convert = {1: "Gnasty Gnorc", 2: "Ineptune", 3: "Red", 4: "Mecha-Red"}
-                self.log(f"Swapping cost of {convert[high_index]} ({highest}) and {convert[player_choice]} ({self._boss_lairs[player_choice]}).", "Debug")
-                self._boss_lairs[high_index], self._boss_lairs[player_choice] = self._boss_lairs[player_choice], self._boss_lairs[high_index]
+        
+        self.log("Checking for boss lair forcing.", "Info")    
+        if self.options.boss_lair_forcing.value > 0:  # if not "unchanged"
+            player_choice = self.options.boss_lair_forcing.value
+            highest = max(self._boss_lairs)
+            high_index = self._boss_lairs.index(highest)
+            convert = {1: "Gnasty Gnorc", 2: "Ineptune", 3: "Red", 4: "Mecha-Red"}
+            self.log(f"Swapping cost of {convert[high_index+1]} ({highest}) and {convert[player_choice]} ({self._boss_lairs[player_choice-1]}).", "Debug")
+            self._boss_lairs[high_index], self._boss_lairs[player_choice-1] = self._boss_lairs[player_choice-1], self._boss_lairs[high_index]
                 
         self.log(f"Boss lair costs are {self._boss_lairs}.", "Debug")
         
@@ -593,7 +609,7 @@ class SpyroAHTWorld(World):
         
         self.log("Setting up starting realm(s).", "Info")
         if self.options.open_world_mode.value == 1:  # all 4 if open world is on
-            self.log("Open world mode is enabled. Overriding starting_realms and giving all 4 access cards.", "Info")
+            self.log("Open world mode is set to full. Overriding starting_realms and giving all 4 access cards.", "Info")
             self._starting_realms = ['Dragon Kingdom', 'Lost Cities', 'Icy Wilderness', 'Volcanic Isle']
         elif len(self.options.starting_realms.value) == 0:
             if self.options.auto_corrections:
@@ -607,11 +623,30 @@ class SpyroAHTWorld(World):
         self.log(f"Starting Realms: {self._starting_realms}.", "Debug")
             
         # add starting realm choices to start inventory, if not already in start inventory
+        added_realms = []
+        mode = self.options.open_world_mode.value
+        pause = self.options.pause_menu_patch.value
+        convert = {"Dragon Kingdom": "Dragon Village - Village Depot Shop Unlock", "Lost Cities": "Coastal Remains - Coastal Depot Shop Unlock", "Icy Wilderness": "Frostbite Village - Frosty Depot Shop Unlock", "Volcanic Isle": "Stormy Beach Stormy Depot Shop Unlock"}
+        subtract_one = []
         for realm in self._starting_realms:
             new_card = self.create_item(f"{realm} Access Card")
+            added_realms.append(f"{realm} Access Card")
             if new_card not in self.multiworld.precollected_items[self.player]:  # don't add the card if the player already put it there
                 self.push_precollected(new_card)
-                self.added_realms.append(realm + " Access Card")
+                
+            # also unlock starting realm depot shops if open world is on but not full and pause menu is open shop
+            # this is done by manually creating and pre-collecting individual depot unlock items regardless of mode
+            # modes 5 and 6 (full levels + realms) doesn't need to have an item subtracted
+            if pause == 0:
+                new_shop_unlock = self.create_item(convert[realm])
+                if new_shop_unlock not in self.multiworld.precollected_items[self.player]:
+                    self.push_precollected(new_shop_unlock)
+                
+                if mode == 2:  # randomized
+                    subtract_one.append(convert[realm])
+                elif mode == 3 or mode == 4:  # progressive or rev progressive
+                    depot_level = REALM_LEVEL_LOOKUP[realm][0]
+                    subtract_one.append(f"Progressive {depot_level} - Shop Unlock")
         
         self.log("Starting main create_item loop.", "Info")
         for item in item_data:
@@ -619,8 +654,10 @@ class SpyroAHTWorld(World):
                 continue
             
             if self.options.open_world_mode.value != 0 and "Access Card" in item['name']:
-                continue  # open world mode has no access cards besides the one(s) the player starts with
-            elif item['name'] in self.added_realms:
+                # open world mode == 1 has access cards, but they're created and pre-collected above
+                # open world mode > 1 has no access cards besides the one(s) the player starts with, created and pre-collected above
+                continue
+            elif item['name'] in added_realms:
                 continue  # non-open world has normal access card logic. only skip the ones pre-added, add the rest to the pool
             
             add = True
@@ -657,6 +694,8 @@ class SpyroAHTWorld(World):
                 count = item.get('count', 1)
                 if item['name'] == 'Light Gem':  # dragon eggs are handled above separately since they are fully filler now
                     count -= minigames
+                if item['name'] in subtract_one:  # make one less of each corresponding depot shop level unlock if added above already
+                    count -= 1
 
                 for _ in range(count):
                     self.log(f"Created item \"{item['name']}\".", "MoreDebug")
@@ -722,6 +761,7 @@ class SpyroAHTWorld(World):
             "randomize_gadget_costs": self.options.randomize_gadget_costs.value,
             "gadget_costs": self._gadget_costs,
 
+            "pause_menu_patch": self.options.pause_menu_patch.value,
             "hint_minigame_rewards": self.options.hint_minigame_rewards.value,
             "hint_boss_rewards": self.options.hint_boss_rewards.value,
             "easy_bosses": self.options.easy_bosses.value,
@@ -850,13 +890,22 @@ class RealmAccessRule(Rule[SpyroAHTWorld], game="Spyro: A Hero's Tail"):
     access_card: str
     
     def _instantiate(self, world: SpyroAHTWorld) -> Rule.Resolved:
+        # all option combinations can safely at least attempt to check for access card
         items = [self.access_card]
-
-        # players can "teleport to hub" from unlocked shops in open world mode
-        if world.options.open_world_mode != 0:
-            for level in REALM_LEVEL_LOOKUP[self.access_card.replace(" Access Card", "")]:
-                for shop in LEVEL_SHOP_LOOKUP[level]:
-                    items.append(f"{level} - {shop}")
+        
+        # non-full open world mode settings look for shop unlocks in addition to access card
+        if world.options.open_world_mode.value > 1:
+            realm_levels = REALM_LEVEL_LOOKUP[self.access_card.replace(" Access Card", "")]
+            if world.options.pause_menu_patch.value == 0:
+                # "open shop" pause menu only cares about Depot shop for that realm
+                level = realm_levels[0]
+                shop = LEVEL_SHOP_LOOKUP[level][0]  # in this case, index 0 is always the depot
+                items.append(f"{level} - {shop}")
+            else:
+                # "teleport to hub" pause menu cares about *any* shop in that realm
+                for level in REALM_LEVEL_LOOKUP[self.access_card.replace(" Access Card", "")]:
+                    for shop in LEVEL_SHOP_LOOKUP[level]:
+                        items.append(f"{level} - {shop}")
         
         return HasAny(*items).resolve(world)
             

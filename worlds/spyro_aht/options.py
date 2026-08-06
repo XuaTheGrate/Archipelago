@@ -205,15 +205,14 @@ class RandomizeMovement(Toggle):
 
 
 class StartingRealms(OptionSet):
-    """Access to a realm is granted when you possess its "access card" item. For example, "Dragon Kingdom Access Card"
-    grants access to the Dragon Kingdom realm. This option lets you choose which realm(s) to start with access to.
-    Their access cards will be added to your start inventory. This is equivalent to putting the card(s) in your start
-    inventory yourself. A random realm is chosen for you if the list is left empty.
+    """Realm access is controlled by "access card" items e.g. "Dragon Kingdom Access Card". Choose which realm(s) you will start with access cards for. 
     
-    Note: if using any value for open_world_mode besides "off", the only access cards that will be in your seed will be
-    the ones you choose below. Realm access in open world mode is determined instead by whether you have a shop unlocked
-    in that realm. This is because once you do, you can pause and use the "teleport to hub" option to access the area,
-    which is logically equivalent to having that realm's access card.
+    Notes:
+    - If the list is left empty and auto_corrections is set to 'fix', 1 random realm will be chosen for you.
+    - If open_world_mode is enabled and 'full', you will start with all 4 access cards regardless of this option.
+    - If open_world_mode is enabled and not 'full', starting realm access is still controlled by access cards, but non-starting realm
+    access will instead be granted once the "Depot" shop of that realm is unlocked. For example, unlocking "Frosty Depot" grants access to Icy Wilderness.
+        - See pause_menu_patch for some further alterations to starting realm logic.
     
     Valid Options: ["Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle"]"""
     display_name = "Starting Realms"
@@ -371,6 +370,7 @@ class BossLairDoorCostMax(Range):
 
 class BossLairForcing(Choice):
     """This option lets you force a specific boss lair to have the highest Dark Gem cost of the generated costs.
+    This is accomplished by swapping the cost of the currently highest boss lair with the one you select below.
     
     Selecting "unchanged" leaves boss lair costs untouched."""
     display_name = "Boss Lair Forcing"
@@ -442,6 +442,25 @@ class GadgetCostMax(Range):
     default = 40
     
 ###############QUALITY OF LIFE###############
+class PauseMenuPatch(Choice):
+    """The pause menu has 2 patches you can choose between which can help with escaping situations where you're stuck.
+    Take note that each one has logic implications if using open_world_mode.
+    
+    Choices:
+    open_shop: pressing Y will open the shop display without needing to go to a shop physically. You will be able to
+    purchase items like at physical shops, and teleport to any shop you have unlocked. If open_world_mode is enabled and
+    not 'full', having this enabled will auto-unlock your starting realm's "Depot" shop to prevent potential softlock scenarios.
+    
+    teleport_to_hub: pressing and holding Y will bring you to your current realm's realm teleporter.
+    This alters realm access slightly, if open_world_mode is enabled and not 'full'. Instead of requiring a realm's "Depot"
+    shop, realm access will be granted when *any* shop in that realm is unlocked. This is because you would be
+    expected to pause -> teleport to hub, which is logically equivalent to having direct realm access."""
+    display_name = "Pause Menu Patch"
+    option_open_shop = 0
+    option_teleport_to_hub = 1
+    default = 0
+    
+    
 class HintMinigameRewards(Toggle):
     """Whether to auto-hint a mini-game's reward when talking to its NPC."""
     display_name = "Hint Mini Game Rewards"
@@ -522,6 +541,7 @@ class SpyroAHTOptions(PerGameCommonOptions):
     gadget_cost_min: GadgetCostMin
     gadget_cost_max: GadgetCostMax
     
+    pause_menu_patch: PauseMenuPatch
     hint_minigame_rewards: HintMinigameRewards
     hint_boss_rewards: HintBossRewards
     easy_bosses: EasyBosses
@@ -549,6 +569,7 @@ spyro_options_groups = [
         RandomizeGadgetCosts, GadgetCostMin, GadgetCostMax
     ]),
     OptionGroup("QUALITY OF LIFE", [
+        PauseMenuPatch,
         HintMinigameRewards, HintBossRewards,
         EasyBosses,
         SkipCutscenes, SkipElevators,

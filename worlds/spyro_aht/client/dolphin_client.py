@@ -189,12 +189,16 @@ class DolphinClient(GenericClient):
 
     async def apply_patch(self, ctx: "SpyroAHTContext"):
         dolphin_memory_engine.write_byte(self.addresses.p_SKIP_CUTSCENE_BUTTON, ctx.slot_data['skip_cutscenes'])
-        dolphin_memory_engine.write_byte(self.addresses.p_ALLOW_TELEPORT_TO_HUB, 1)
         dolphin_memory_engine.write_byte(self.addresses.p_DISABLE_POPUPS, 1)
         dolphin_memory_engine.write_byte(self.addresses.p_INSTANT_ELEVATORS, ctx.slot_data['skip_elevators'])
         dolphin_memory_engine.write_word(self.addresses.p_MW_SEED, (int(ctx._seed) & 0xffffffff))
         dolphin_memory_engine.write_byte(self.addresses.p_USE_KEY_RINGS, ctx.slot_data['key_rings'])
         dolphin_memory_engine.write_byte(self.addresses.p_FIREWORKS_ARE_RANDOMIZED, ctx.slot_data['firework_checks'])
+
+        if ctx.slot_data['pause_menu_patch'] == 0:
+            dolphin_memory_engine.write_byte(self.addresses.p_INSTANT_TELEPORT_MODE, 2)
+        elif ctx.slot_data['pause_menu_patch'] == 1:
+            dolphin_memory_engine.write_byte(self.addresses.p_INSTANT_TELEPORT_MODE, 1)
 
         if ctx.slot_data['shop_randomization']:
             locations = list(range(1000, 1005))
@@ -222,6 +226,15 @@ class DolphinClient(GenericClient):
 
         dolphin_memory_engine.write_byte(self.addresses.p_STARTING_REALM, convert[ctx.slot_data['starting_realms'][0]])
         dolphin_memory_engine.write_bytes(self.addresses.p_REALM_ACCESS, struct.pack(">????", *realm_access))
+
+        if ctx.slot_data['open_world_mode'] > 1 and ctx.slot_data['pause_menu_patch'] == 0:
+            # non-full open world with "open shop" pause menu needs to have starting realm depot shops forcibly unlocked
+            convert = {0: "Dragon Village - Village Depot", 1: "Coastal Remains - Coastal Depot", 2: "Frostbite Village - Frosty Depot", 3: "Stormy Beach - Stormy Depot"}
+            for index, realm in enumerate(realm_access):
+                if realm:  # if this is a starting realm
+                    shop_name = convert[index]
+                    ctx.unlocked_shops.append(shop_name)
+                    await ctx._unlock_starting_realm_shop(shop_name)
         
         if ctx.slot_data['easy_bosses']:
             bosses = [False, False, False, False]

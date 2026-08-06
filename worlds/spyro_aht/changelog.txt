@@ -48,14 +48,17 @@ TO-DO LIST:
         - include detail on open world mode implications
         - include full breakdown of every feature and what logic is used internally for them
         
-    - TODO 2.0 RC: rule caching?
-    - TODO 2.1: custom rule explanations?
-    - TODO 2.1: option to hint shop items? maybe hint other things too?
-    - TODO 2.1: expand starting breath to be similar to starting realm? allow multiple starting?
-    - TODO 2.1: investigate what things needing glide actually need DJ as well vs. just glide
-    - TODO 2.1: client command that explains what a region is, mainly for open world purposes. maybe expand?
-    - TODO 2.1: make tool for testing gem access
-    - TODO 2.1: can we modify mission screen text for light gem doors? "Collect 45 light gems to open the door to a secret area" for example
+    - TODO: trick support
+    - TODO: rule caching?
+    - TODO: custom rule explanations?
+    - TODO: option to hint shop items? maybe hint other things too?
+    - TODO: expand starting breath to be similar to starting realm? allow multiple starting?
+    - TODO: investigate what things needing glide actually need DJ as well vs. just glide
+    - TODO: client command that explains what a region is, mainly for open world purposes. maybe expand?
+    - TODO: make tool for testing gem access
+    - TODO: can we modify mission screen text for light gem doors? "Collect 45 light gems to open the door to a secret area" for example
+    - TODO: auto-populate game mod addresses from mod itself?
+    - TODO: get map icons to show on all levels, not just the one you're currently in?
 
 2.0 (Beta Release 2)
 

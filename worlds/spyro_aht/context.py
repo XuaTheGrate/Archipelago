@@ -259,7 +259,7 @@ class SpyroAHTContext(SuperContext):
     
     async def _receive_items(self):
         item_counts = collections.Counter(self.item_names.lookup_in_slot(i.item, self.slot) for i in self.items_received)
-        for item in self.items_received:
+        for item in self.items_received:  # TODO: re-investigate and look at what each item object looks like? maybe look into counts?
             if item in self._handled_items: continue
             self._handled_items.add(item)
             match item.item:
@@ -401,6 +401,11 @@ class SpyroAHTContext(SuperContext):
                     bit = consts.SHOP_PAD_LIST.index(name)
                     address = self.emu_client.addresses.g_SHOPPAD_BITFIELD + (bit // 8)
                     await self._set_keyring_or_shop(bit, address)
+    
+    async def _unlock_starting_realm_shop(self, name: str):
+        bit = consts.SHOP_PAD_LIST.index(name)
+        address = self.emu_client.addresses.p_SHOPPAD_BITFIELD + (bit // 8)
+        await self._set_keyring_or_shop(bit, address)
     
     async def _set_keyring_or_shop(self, bit, address):
         data = await self.emu_client.get_item_count(address)
@@ -583,6 +588,8 @@ class SpyroAHTContext(SuperContext):
             if death_id < 0 or death_id > 27:
                 raise TypeError(f"Invalid outgoing deathlink id: {death_id}.")
             await self.send_death(consts.DEATHLINK_MESSAGES[death_id-1].format(name=self.player_names[self.slot]))
+    
+    
 
     async def _receive_deathlink(self, msg: str):
         self.emu_client.msg_queue.put_nowait((consts.COLOUR_RED, msg))

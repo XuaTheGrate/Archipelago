@@ -1,6 +1,10 @@
 .idea
 .vscode
-fuzz.py
+
+# my stuff
+worlds/spyro_aht/setup/test.py
+worlds/spyro_aht/setup/test-locations.json
+fuzz_output/
 meta.yaml
 
 *_Spoiler.txt
