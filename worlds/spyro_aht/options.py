@@ -374,12 +374,12 @@ class BossLairForcing(Choice):
     
     Selecting "unchanged" leaves boss lair costs untouched."""
     display_name = "Boss Lair Forcing"
-    option_gnasty_gnorc = 0
-    option_ineptune = 1
-    option_red = 2
-    option_mecha_red = 3
-    option_unchanged = 4
-    default = 4
+    option_unchanged = 0
+    option_gnasty_gnorc = 1
+    option_ineptune = 2
+    option_red = 3
+    option_mecha_red = 4
+    default = 0
     
 
 class RandomizeLightGemDoorCosts(Choice):

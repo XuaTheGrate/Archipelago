@@ -416,13 +416,13 @@ if not is_frozen():
             games = [(game, AutoWorldRegister.world_types.get(game, None)) for game in args.worlds]
         else:
             games = [(worldname, worldtype) for worldname, worldtype in AutoWorldRegister.world_types.items()
-                     if worldname == "Spyro: A Hero's Tail"]  # TODO: just speeds up the build process to only AHT
+                     if worldname == "Spyro: A Hero's Tail"]  # TODO from me: just speeds up the build process to only AHT
 
         global_apignores = read_apignore(local_path("data", "GLOBAL.apignore"))
         if not global_apignores:
             raise RuntimeError("Could not read global apignore file for build component")
 
-        # TODO: undo this later
+        # TODO from me: undo this later
         # apworlds_folder = os.path.join("build", "apworlds")
         apworlds_folder = os.path.join("custom_worlds")
         os.makedirs(apworlds_folder, exist_ok=True)
@@ -462,7 +462,7 @@ if not is_frozen():
 
                 zf.writestr(apworld.manifest_path, json.dumps(manifest))
         
-        # TODO: undo this later
+        # TODO from me: undo this later
         # if not args.skip_open_folder:
         #     open_folder(apworlds_folder)
 

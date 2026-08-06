@@ -451,11 +451,11 @@ class SpyroAHTWorld(World):
 
                 self._boss_lairs = [self.random.randint(bmin, bmax) for _ in range(4)]
             
-            if self.options.boss_lair_forcing.value < 4:  # if not "unchanged"
+            if self.options.boss_lair_forcing.value > 0:  # if not "unchanged"
                 player_choice = self.options.boss_lair_forcing.value
                 highest = max(self._boss_lairs)
                 high_index = self._boss_lairs.index(highest)
-                convert = {0: "Gnasty Gnorc", 1: "Ineptune", 2: "Red", 3: "Mecha-Red"}
+                convert = {1: "Gnasty Gnorc", 2: "Ineptune", 3: "Red", 4: "Mecha-Red"}
                 self.log(f"Swapping cost of {convert[high_index]} ({highest}) and {convert[player_choice]} ({self._boss_lairs[player_choice]}).", "Debug")
                 self._boss_lairs[high_index], self._boss_lairs[player_choice] = self._boss_lairs[player_choice], self._boss_lairs[high_index]
                 
