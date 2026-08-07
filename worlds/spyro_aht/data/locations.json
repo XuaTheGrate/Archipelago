@@ -12026,7 +12026,7 @@
                 }
             },
             {
-                "name": "200 Gems (steel traps via exploding arrows)",
+                "name": "200 Gems ([enemy] steel traps via exploding arrows)",
                 "gem_amount": 200,
                 "options": [],
                 "access_rule": {

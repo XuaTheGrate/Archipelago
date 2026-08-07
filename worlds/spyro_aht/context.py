@@ -75,7 +75,7 @@ class SpyroAHTCommands(ClientCommandProcessor):
         # exclude from goal
         self.output(f"You chose to exclude the following goals from random choosing: {self.ctx.slot_data['exclude_from_goal']}.")
         # open world mode
-        convert = {0: "off", 1: "full", 2: "randomized", 3: "progressive levels", 4: "reverse progressive levels", 5: "full levels", 6: "full realms"}
+        convert = {0: "vanilla", 1: "full", 2: "randomized", 3: "progressive levels", 4: "reverse progressive levels", 5: "full levels", 6: "full realms"}
         self.output(f"You chose to set open world mode to {convert[self.ctx.slot_data['open_world_mode']]}.")
         # firework checks
         output = "enabled" if self.ctx.slot_data["firework_checks"] else "disabled"
@@ -115,10 +115,9 @@ class SpyroAHTCommands(ClientCommandProcessor):
             self.output(f"You chose to collect {self.ctx.slot_data['blink_gems']}% of Blink's gems, {self.ctx.slot_data['non_blink_enemies']}% of non-Blink enemy gems, and {self.ctx.slot_data['other_gems']}% of other gems.")
             # shop prices
             self.output(f"This means your shop prices are {self.ctx.slot_data['shop_costs']}.")
-            if self.ctx.slot_data["gem_logic"]:
-                # double gems
-                output = "enable" if self.ctx.slot_data['double_gems'] else "disable"
-                self.output(f"You chose to {output} the Double Gems item.")
+            # double gems
+            output = "enable" if self.ctx.slot_data['double_gems'] else "disable"
+            self.output(f"You chose to {output} the Double Gems item.")
             
         self.output("---------------GATE AND GADGET COSTS---------------")
         # boss costs

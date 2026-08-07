@@ -316,7 +316,7 @@ GGEntry,656,[enemy] yeti/skeletons/eskimoles,True_()
 GGEntry,1060,standard breakables,True_()
 GGEntry,400,frozen gem blocks via exploding arrows,True_()
 GGEntry,1000,armored chests via exploding arrows,True_()
-GGEntry,200,steel traps via exploding arrows,True_()
+GGEntry,200,[enemy] steel traps via exploding arrows,True_()
 GGEntry,2218,Sparx minigames,True_()
 Ice Citadel,,,
 ICCourtyardLower,293,on the ground,True_()

@@ -56,6 +56,8 @@ TO-DO LIST:
         
     - TODO: trick support
     - TODO: rule caching?
+    - TODO: make randomize_movement an optionset instead of toggling all 3 at once
+    - TODO: option to hint shop items?
     - TODO: custom rule explanations?
     - TODO: option to hint shop items? maybe hint other things too?
     - TODO: expand starting breath to be similar to starting realm? allow multiple starting?
