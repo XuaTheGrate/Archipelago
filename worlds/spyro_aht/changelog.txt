@@ -5,6 +5,10 @@
     - This has MAJOR implications on the logic of the world. This was a massive undertaking to get supported, requiring an entire re-design of all logic rules for the game.
     - THOROUGH testing is needed to ensure it all works. I've done what I can and it seems to all be fine, but the more eyes, the better.
 
+- Project Wiki
+    - Added a brand-new and written from scratch series of wiki pages to this GitHub repo that documents the randomizer.
+    - I put as much as I could think of in it, but may add to it more later. Just wanted to get the initial bits in there now, and anything that I had left as a note to myself to include.
+
 - Realm Access Adjustments (to cooperate with open_world_mode better)    
     - Enabling full open world mode will override your `starting_realms` choices and grant you all 4 access cards in sphere 0. This ensures smooth, simple traveling between realms.
     - If using non-full open world mode, the only realm access cards that will be made are those included in `starting_realms`. All others will not be made.
@@ -26,50 +30,13 @@
     - This command gets around that by adding the amount to the game's memory directly. Because the cheat console works for every other type of item (abilities, access cards, etc.) I didn't feel it necessary to support them in `/add_item`, at least for now.
     
 - Other Things
+    - Updated double_gems to be usable when the shop is randomized at all (as in, regardless of gem_logic).
     - The game mod and client now supports custom DeathLink messages! Have fun annoying your friends by dying intentionally to try to find them all >:3
     - Added an open-source license to the project. Apparently Maya (previous dev) had one in an older repo for AHT, but I wasn't aware of that and got my own lol.
         - Maya signed onto this new version. It sums up to being "do whatever you want with our code, but don't sell it or profit off of it". Read the actual license file for details :)
     - Added 2 new generic filler items "Portable Heater for the Ice Princess" and "Apartment Lease for Teena".
     - Fixed boss_lair_forcing only doing its logic if boss lair costs are non-vanilla.
     - Figured out 2 issues that have been plagueing me for weeks that was slowing down my development workflow. It is now fixed and development is simplified :3
-
-TO-DO LIST:
-    - TODO 2.0 RC: *actually* fully update docs with multiple pages as needed
-        - include gem logic (maybe a master list of what each enemy requires?)
-            - explain sparx minigames logic
-            - otto's pool
-            - cannon in FV icy camp not needing glide?
-            - ICCourtyardUpper needs DJ despite not fully being needed
-            - ICCourtyardLower has some baskets and chests on the perimeter you can't DJ
-            - never expected to kill enemies with DJ. example in ICPastWaterGate must have fire or electric or ice + charge
-            - enemies are dumb in icy wilderness. yeti mainly but also ice monster, and some other oddities
-            - molten mount hallways needing water/ice to deal with fire imps
-            - needing charge for rock monster to get to upper part of MFt
-            - shockwave is not accounted for
-            - supercharge is only considered for objects, not enemies
-            - MFt wall kick room avoids needing DJ for gems
-            - MFb doesn't expect DJ until dark gem
-            - doesn't include the permanently shooting small robo-gnorc near end of Dark Mine
-        - also mention other logic oddities like the intentional avoidance of extended double jumps by charging to avoid needing glide
-        - include detail on open world mode implications
-        - include full breakdown of every feature and what logic is used internally for them
-        
-    - TODO: trick support
-    - TODO: rule caching?
-    - TODO: make randomize_movement an optionset instead of toggling all 3 at once
-    - TODO: option to hint shop items?
-    - TODO: improve Generic filler selection process so it picks one of each before duplicating any others
-    - TODO: custom rule explanations?
-    - TODO: option to hint shop items? maybe hint other things too?
-    - TODO: expand starting breath to be similar to starting realm? allow multiple starting?
-    - TODO: investigate what things needing glide actually need DJ as well vs. just glide
-    - TODO: client command that explains what a region is, mainly for open world purposes. maybe expand?
-        - similarly, command of "what regions do I have access to?"
-    - TODO: research how many enemy gems are truly required so non_blink_enemies can advise people of the minimum
-    - TODO: make tool for testing gem access
-    - TODO: can we modify mission screen text for light gem doors? "Collect 45 light gems to open the door to a secret area" for example
-    - TODO: auto-populate game mod addresses from mod itself?
-    - TODO: get map icons to show on all levels, not just the one you're currently in?
 
 2.0 (Beta Release 2)
 

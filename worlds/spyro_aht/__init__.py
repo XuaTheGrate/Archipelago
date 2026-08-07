@@ -291,14 +291,14 @@ class SpyroAHTWorld(World):
             raise OptionError("Goal list cannot be empty if auto_corrections is disabled.")
             
         bad_condition = len(self.options.goal.value) > len(self.options.goal.valid_keys)-1
-        if bad_condition and auto_corrections:
+        if len(self.options.goal.value) > len(self.options.goal.valid_keys)-1 and auto_corrections:
             removed = []  # logging
-            while bad_condition:
+            while len(self.options.goal.value) > len(self.options.goal.valid_keys)-1:
                 to_remove = self.random.choice(self.options.goal.value)
                 removed.append(to_remove)
                 self.options.goal.value.remove(to_remove)
             self.log(f"Too many entries in goal list. Removed {removed} at random to shrink the list.", "Warning")
-        elif bad_condition:
+        elif len(self.options.goal.value) > len(self.options.goal.valid_keys)-1:
             self.log("Too many entries in goal list. Halting generation.", "Warning")
             raise OptionError(f"Can't have more than {len(self.options.goal.valid_keys)-1} goals if auto_corrections is disabled.")
         
@@ -306,22 +306,26 @@ class SpyroAHTWorld(World):
         # this is disgustingly long, but it grabs all non-random and non-excluded goals which are not already chosen by the player
         random_choices = [goal for goal in self.options.goal.valid_keys if goal != "Random" and goal not in self.options.exclude_from_goal.value and goal not in self.options.goal.value]
         random_count = self.options.goal.value.count("Random")
-        if random_count > len(random_choices):  # more "random" choices to be made than there are non-excluded non-chosen goals
-            bad_condition = random_count > 0
-            if bad_condition and auto_corrections:
-                self.log(f"Not enough enabled goals to support {random_count} random choices. Removing goal exclusions at random to shrink the list.", "Warning")
+        if random_count > len(random_choices):
+            # fix (or halt) specifically for if random_choices list is empty
+            if len(random_choices) == 0:
+                if auto_corrections:
+                    self.log("No goals available for random selection, due to being picked already or excluded. Fixing by skipping random choices.", "Warning")
+                    random_count = 0
+                else:
+                    self.log(f"No goals available for random selection, due to being picked already or excluded. Halting generation.", "Warning")
+                    raise OptionError("Must have goals available for random selection if auto_corrections is disabled.")
+
+            if random_count > 0 and auto_corrections:
                 removed = []
                 while random_count > len(random_choices):
                     to_remove = self.random.choice(random_choices)
                     removed.append(to_remove)
                     random_choices.remove(to_remove)
-                if random_count == 0:
-                    self.log(f"Couldn't remove enough goal exclusions to allow for {random_count} random choices. Fixing by skipping random choices.", "Warning")
-                else:
-                    self.log(f"Removed {removed} at random to allow for {random_count} random choices.", "Warning")
-            elif bad_condition:
+                self.log(f"Not enough enabled goals to support {random_count} random choice(s). Removed {removed} at random to shrink the list of exclusions.", "Warning")
+            elif random_count > 0 and not self.options.auto_corrections:
                 self.log(f"Not enough enabled goals to support {random_count} random choice(s). Halting generation.", "Warning")
-                raise OptionError(f"Must have at least {random_count} enabled goals to support {random_count} random choices if auto_corrections is disabled.")
+                raise OptionError(f"Must have at least {random_count} goals available for random selection if auto_corrections is disabled.")
         
         converted_goal_set = set(self.options.goal.value)
         if "Random" in converted_goal_set:
@@ -625,7 +629,7 @@ class SpyroAHTWorld(World):
         added_realms = []
         mode = self.options.open_world_mode.value
         pause = self.options.pause_menu_patch.value
-        convert = {"Dragon Kingdom": "Dragon Village - Village Depot Shop Unlock", "Lost Cities": "Coastal Remains - Coastal Depot Shop Unlock", "Icy Wilderness": "Frostbite Village - Frosty Depot Shop Unlock", "Volcanic Isle": "Stormy Beach Stormy Depot Shop Unlock"}
+        convert = {"Dragon Kingdom": "Dragon Village - Village Depot Shop Unlock", "Lost Cities": "Coastal Remains - Coastal Depot Shop Unlock", "Icy Wilderness": "Frostbite Village - Frosty Depot Shop Unlock", "Volcanic Isle": "Stormy Beach - Stormy Depot Shop Unlock"}
         subtract_one = []
         for realm in self._starting_realms:
             new_card = self.create_item(f"{realm} Access Card")
@@ -639,7 +643,7 @@ class SpyroAHTWorld(World):
             # also unlock starting realm depot shops if open world is on but not full and pause menu is open shop
             # this is done by manually creating and pre-collecting individual depot unlock items regardless of mode
             # modes 5 and 6 (full levels + realms) doesn't need to have an item subtracted
-            if pause == 0:
+            if 2 <= mode <= 4 and pause == 0:
                 new_shop_unlock = self.create_item(convert[realm])
                 if new_shop_unlock not in self.multiworld.precollected_items[self.player]:
                     self.log(f"Adding {new_shop_unlock.name} to start inventory.", "Debug")

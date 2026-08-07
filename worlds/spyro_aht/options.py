@@ -95,7 +95,7 @@ class OpenWorldMode(Choice):
     """In the vanilla game, you can only teleport to a remote shop pad once you have physically reached it.
     open_world_mode lets you choose from a variety of ways to alter this behavior. For example, you can choose to have
     teleport access to a given shop pad be locked behind an Archipelago item which unlocks it. open_world_mode has a
-    dramatic impact on the logic of generated seeds, as you will be expected to utilize and and all unlocked shop pads
+    dramatic impact on the logic of generated seeds, as you will be expected to utilize any and all unlocked shop pads
     to cleverly teleport around the game.
     
     Options:
