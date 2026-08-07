@@ -311,8 +311,9 @@ def generate_yamls(*args):
 
     target = user_path("Players", "Templates")
     generate_yaml_templates(target, False)
-    if not args.skip_open_folder:
-        open_folder(target)
+    # TODO from me: undo this later
+    # if not args.skip_open_folder:
+    #     open_folder(target)
 
 
 def browse_files():

@@ -27,9 +27,9 @@ class LoggingLevel(OptionSet):
     
     Valid Options (roughly in order of importance to the average user):
     Warning: Warnings are generated whenever there are issues stemming from YAML settings that impact generation. It is
-    advised to have this option selected, at minimum.
+      advised to have this option selected, at minimum.
     Info: General information about the status of generation will be logged. For example, the log will include messages
-    like "[Spyro AHT] Item Creation beginning." and "[Spyro AHT] Item Creation done."
+      like "[Spyro AHT] Item Creation beginning." and "[Spyro AHT] Item Creation done."
     Debug: Extra information that is primarily meant to be helpful for developer debugging will be logged.
     MoreDebug: Even more debug information. Intended for developer use, but you can enable it if curious :)"""
     display_name = "Logging Level"
@@ -41,11 +41,10 @@ class AutoCorrections(Choice):
     """This option decides the behavior of the generator whenever YAML issues are encountered.
     
     halt: The generator will prioritize player choices by halting generation when an issue is encountered. This is ideal
-    for solo or small multiworld generations, since issues can be resolved by the player without much impact on time. 
-    
+      for solo or small multiworld generations, since issues can be resolved by the player without much impact on time. 
     fix: The generator will prioritize generation success by fixing issues automatically. Options which have situations
-    which can lead to this have the automatic behavior detailed. This is ideal for larger multiworld generations, since
-    a generation being halted after minutes (or longer) of generation time may not be ideal."""
+      which can lead to this have the automatic behavior detailed. This is ideal for larger multiworld generations, since
+      a generation being halted after minutes (or longer) of generation time may not be ideal."""
     display_name = "Auto Corrections"
     option_halt = 0
     option_fix = 1
@@ -104,8 +103,8 @@ class OpenWorldMode(Choice):
     full: Shop pads are unlocked from the start of the seed.
     randomized: Shop pads unlock through individual AP items. For example, "Dark Mine - Miner's Drop Shop Unlock".
     progressive_levels: Shop pads unlock per-level in the order you would reach them in the vanilla game.
-    For example, "Progressive Crocovile Swamp Shop Unlock" would first unlock Perilous Pyramid, then Forgotten Temple,
-    then Elder's Tree. The project's README has a reference list for progressive and reverse progressive shop ordering. 
+      For example, "Progressive Crocovile Swamp Shop Unlock" would first unlock Perilous Pyramid, then Forgotten Temple,
+      then Elder's Tree. The project's README has a reference list for progressive and reverse progressive shop ordering. 
     reverse_progressive_levels: Same as progressive_levels, but backwards vanilla order.
     full_level: All shop pads in a level will unlock at once through AP items. For example, "Sunken Ruins - Shop Unlock".
     full_realm: All shops in a realm will unlock at once through AP items. For example, "Icy Wilderness - Shop Unlock"."""
@@ -141,15 +140,12 @@ class FillerItems(OptionSet):
     a category from below will be chosen, and if needed, a random item from that category will then be chosen.
 
     Dragon Eggs: Dragon Eggs are considered filler because they are functionally useless in advancing the game.
-    Even if disabled here, Dragon Eggs will be rewarded from minigames if you enable vanilla_minigame_rewards.
-    
+      Even if disabled here, Dragon Eggs will be rewarded from minigames if you enable vanilla_minigame_rewards.
     Breath Bombs: Fire Bombs, Electric Bombs, Water Bombs, and Ice Bombs. Received bombs are only usable if you have that breath unlocked.
-
     Gem Packs: Each gives a random amount of gems (400-600 or 800-1200 if you have double gems). It is advised to
-    disable gem packs if using gem_logic, as gem logic does not account for them.
-
+      disable gem packs if using gem_logic, as gem logic does not account for them.
     Generics: Empty items which do nothing, but have humorous names referencing things in the game and series. We're always
-    looking for new suggestions if you have any!
+      looking for new suggestions if you have any!
     
     If the list is empty and auto_corrections is set to 'fix', the filler pool will default to only "Generics".
 
@@ -178,7 +174,7 @@ class RandomizeMovement(Toggle):
     """All seeds start with 3 "Starter Checks" for Glide, Swim, and Charge. This option decides whether they will each gets
     pre-filled with Glide/Swim/Charge, or random items from Archipelago (which could potentially still be a type of movement).
 
-    If you don't want to randomize a subset of these, add them to your start inventory."""
+    If you don't want to randomize a subset of these, add them to start_inventory or start_inventory_from_pool."""
     display_name = "Randomize Movement"
     default = 0
 
@@ -187,11 +183,9 @@ class StartingRealms(OptionSet):
     """Realm access is controlled by "access card" items e.g. "Dragon Kingdom Access Card". Choose which realm(s) you will start with access cards for. 
     
     If the list is left empty and auto_corrections is set to 'fix', 1 random realm will be chosen for you.
-    
     If open_world_mode is enabled and 'full', you will start with all 4 access cards.
-    
     If open_world_mode is enabled and not 'full', starting realm access is still controlled by access cards. However, non-starting realms
-    have their access granted once their "Depot" shop is unlocked. For example, "Frosty Depot" grants access to Icy Wilderness.
+      have their access granted once their "Depot" shop is unlocked. For example, "Frosty Depot" grants access to Icy Wilderness.
         - See pause_menu_patch for a potential alteration to this.
     
     Valid Options: ["Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle"]"""
@@ -216,8 +210,11 @@ class KeyRings(Toggle):
     This indirectly decides how many items you will have in your shop.
 
     If shop_randomization is disabled: this decides whether key rings or lockpicks will be buyable.
+      Locked chests you have access to will be in-logic immediately, like the vanilla game.
     If shop_randomization and key_rings are enabled: you will have 18 shop items, and 14 key rings will be placed into the world.
-    If shop_randomization is enabled and key_rings are disabled: you will have 56 shop items, and 52 lockpicks will be placed in the world."""
+      Locked chests will be in-logic once its level's key ring is obtained.
+    If shop_randomization is enabled and key_rings are disabled: you will have 56 shop items, and 52 lockpicks will be placed in the world.
+      Locked chests will not be in-logic until you have all 52 lockpicks, to prevent situations of buying them in the 'wrong' order."""
     display_name = "Key Rings"
     default = 0
 
@@ -226,12 +223,11 @@ class GemLogic(Toggle):
     """This option is only used when shop_randomization is enabled. It determines whether the generator should track
     the accessibility of gems throughout the seed.
     
-    If disabled, the shop will price items equally and place them all in sphere 1. This can result in difficult
-    or impossible seeds as it is infeasible to afford every item then. However, it does give you the choice of which order to buy them.
-
-    If enabled, shop items will instead display "Unlocked at X Gems". Once you have X gems, the item will be free to purchase.
-    Prices will steadily increase so that you unlock them in a spread-out set order, instead of all in sphere 1. This is significantly
-    safer and improves generation quality a bit, at the cost of losing the ability to choose which order you buy them.
+    disabled: the shop will price items equally and place them all in sphere 1. This can result in difficult
+      or impossible seeds as it is infeasible to afford every item then. However, it does give you the choice of which order to buy them.
+    enabled: shop items will instead display "Unlocked at X Gems". Once you have X gems, the item will be free to purchase.
+      Prices will steadily increase so that you unlock them in a spread-out set order, instead of all in sphere 1. This is significantly
+      safer and improves generation quality a bit, at the cost of losing the ability to choose which order you buy them.
     
     The formula below calculates your prices. The first item is always free due to inflation in the Dragon Kingdom (prevents restrictive starts).
     The formula is included for those who are math-inclined. If not, you can also can do test generation(s) to see your prices.
@@ -413,13 +409,12 @@ class PauseMenuPatch(Choice):
     
     Choices:
     open_shop: pressing Y will open the shop display without needing to go to a shop physically. You will be able to
-    purchase items like at physical shops, and teleport to any shop you have unlocked. If open_world_mode is enabled and
-    not 'full', having this enabled will auto-unlock your starting realm's "Depot" shop to prevent potential softlock scenarios.
-    
+      purchase items like at physical shops, and teleport to any shop you have unlocked. If open_world_mode is enabled and
+      not 'full', having this enabled will auto-unlock your starting realm's "Depot" shop to prevent potential softlock scenarios.
     teleport_to_hub: pressing and holding Y will bring you to the current realm's realm teleporter.
-    This alters realm access slightly, if open_world_mode is enabled and not 'full'. Instead of requiring a realm's "Depot"
-    shop, realm access will be granted when *any* shop in that realm is unlocked. This is because you are expected to
-    pause -> teleport to hub to get hub access."""
+      This alters realm access slightly, if open_world_mode is enabled and not 'full'. Instead of requiring a realm's "Depot"
+      shop, realm access will be granted when *any* shop in that realm is unlocked. This is because you are expected to
+      pause -> teleport to hub to get hub access."""
     display_name = "Pause Menu Patch"
     option_open_shop = 0
     option_teleport_to_hub = 1

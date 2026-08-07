@@ -58,11 +58,14 @@ TO-DO LIST:
     - TODO: rule caching?
     - TODO: make randomize_movement an optionset instead of toggling all 3 at once
     - TODO: option to hint shop items?
+    - TODO: improve Generic filler selection process so it picks one of each before duplicating any others
     - TODO: custom rule explanations?
     - TODO: option to hint shop items? maybe hint other things too?
     - TODO: expand starting breath to be similar to starting realm? allow multiple starting?
     - TODO: investigate what things needing glide actually need DJ as well vs. just glide
     - TODO: client command that explains what a region is, mainly for open world purposes. maybe expand?
+        - similarly, command of "what regions do I have access to?"
+    - TODO: research how many enemy gems are truly required so non_blink_enemies can advise people of the minimum
     - TODO: make tool for testing gem access
     - TODO: can we modify mission screen text for light gem doors? "Collect 45 light gems to open the door to a secret area" for example
     - TODO: auto-populate game mod addresses from mod itself?

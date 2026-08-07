@@ -138,7 +138,7 @@ class SpyroAHTWorld(World):
     ut_can_gen_without_yaml = True
     
     def log(self, message, level):
-        if level not in self.options.logging_level:
+        if level not in self.options.logging_level.valid_keys:
             return
         
         if level == "Info":
@@ -151,7 +151,6 @@ class SpyroAHTWorld(World):
             logging.info(f"[Spyro AHT] MOREDEBUG: {message}")
 
     def __init__(self, multiworld: MultiWorld, player: int):
-        self.log("Beginning world initialization.", "Debug")
         super().__init__(multiworld, player)
         
         self._lg_doors = [70, 20, 95, 45]
@@ -163,7 +162,6 @@ class SpyroAHTWorld(World):
         self.shop_costs = []
         self.filler_categories: list = []
         self.filler_items: list[list] = [[]]
-        self.log("Initial world initialation complete.", "Debug")
         
     def get_filler_item_name(self):
         """Override of World.get_filler_item_name which returns a random filler item name.
