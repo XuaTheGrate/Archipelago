@@ -26,16 +26,16 @@ class LoggingLevel(OptionSet):
     thread for AHT, please try to generate again with the maximal logging setting and upload it along with your report.
     This may save the developers some time and effort in narrowing down what the issue(s) are.
     
-    Valid Options:
-    Info: General information about the status of generation will be logged. For example, the log will include messages
-    like "[Spyro AHT] Item Creation beginning." and "[Spyro AHT] Item Creation done."
+    Valid Options (roughly in order of importance to the average user):
     Warning: Warnings are generated whenever there are issues stemming from YAML settings that impact generation. It is
     advised to have this option selected, at minimum.
+    Info: General information about the status of generation will be logged. For example, the log will include messages
+    like "[Spyro AHT] Item Creation beginning." and "[Spyro AHT] Item Creation done."
     Debug: Extra information that is primarily meant to be helpful for developer debugging will be logged.
     MoreDebug: Even more debug information. Intended for developer use, but you can enable it if curious :)
     """
     display_name = "Logging Level"
-    valid_keys = ("Info", "Warning", "Debug", "MoreDebug")
+    valid_keys = ("Warning", "Info", "Debug", "MoreDebug")
     default = ("Warning",)
     
 
