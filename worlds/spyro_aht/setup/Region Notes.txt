@@ -217,8 +217,8 @@ REGION CSAboveElder: above poles directly across tree (not path to Fredneck)
 	CSTree -> CSAboveElder | HasAll('Double Jump', 'Pole Spin')
 		would have DJ and pole spin
 
-	LOCATION CSAboveElder | CS: Dragon Egg behind chargeable part of Elder Magnus tree | 34 | Has('Charge')
-	LOCATION CSAboveElder | CS: Firework behind chargeable part of Elder Magnus tree | 5006 | HasAll('Charge', 'Fire Breath')
+	LOCATION CSAboveElder | CS: Dragon Egg behind chargeable part of Elder Magnus tree | 34 | HasAny('Charge', 'Glide')
+	LOCATION CSAboveElder | CS: Firework behind chargeable part of Elder Magnus tree | 5006 | And(Has('Fire Breath'), HasAny('Charge', 'Glide'))
 	LOCATION CSAboveElder | CS: Firework at top of Elder Magnus tree | 5005 | Has('Fire Breath')
 	LOCATION CSAboveElder | CS: Light Gem at top of Elder Magnus tree | 35 | True_()
 
@@ -373,7 +373,7 @@ REGION CRCannon: cannon area with pole spinning
 
 	LOCATION CRCannon | CR: Dark Gem in cannon area | 65 | Has('Double Jump')
 	LOCATION CRCannon | CR: Dragon Egg in cannon area | 66 | HasAll('Double Jump', 'Pole Spin', 'Glide')
-	LOCATION CRCannon | CR: Dark Gem after using cannon on reinforced door | 67 | HasAll('Double Jump', 'Glide')
+	LOCATION CRCannon | CR: Dark Gem after using cannon on reinforced door | 67 | HasAll('Double Jump', 'Glide', 'Charge')
 
 REGION CRWindmills: windmill area on the way to cloudy domain
 	CREntry -> CRWindmills | Has('Double Jump')
@@ -662,7 +662,7 @@ REGION FVIcyCamp: icy camp area and up to gloomy glacier entrance. includes imme
 		could have nothing
 	FVIcyCamp -> ShopPads | True_()
 
-	LOCATION FVIcyCamp | FV: Light Gem by Hunter | 135 | True_()
+	LOCATION FVIcyCamp | FV: Light Gem by Hunter | 135 | Has('Double Jump')
 
 REGION FVIcyCampUpper: upper areas of icy camp that need both wall kick and double jump
 	FVIcyCamp -> FVIcyCampUpper | HasAll('Wall Kick', 'Double Jump')
@@ -715,7 +715,7 @@ REGION FVEast: east falling icicles room and pole area. probably don't bother ma
 Gloomy Glacier (regions only exist for raw gem data)
 ----------------------------------------------------
 REGION GGEntry: Bentley's house and up to the gate he opens
-	FVIcyCamp -> GGEntry | True_()
+	FVIcyCamp -> GGEntry | Has('Double Jump')
 
 	LOCATION GGEntry | GG: Empty locked chest in Bentley Living Room | 239 | LockedChestRule('Gloomy Glacier')
 	LOCATION GGEntry | GG: Dragon Egg from locked chest in Bentley Bedroom | 137 | LockedChestRule('Gloomy Glacier')
@@ -737,7 +737,7 @@ Ice Citadel
 -----------
 REGION ICCourtyardLower: entrance courtyard
 	GGEntry -> ICCourtyardLower | True_()
-		could have nothing
+		would have DJ
 	ShopPads -> ICCourtyardLower | OpenWorldRule(['Ice Citadel - Cool Courtyard'])
 		could have nothing
 	ICCourtyardLower -> ShopPads | True_()
@@ -795,7 +795,7 @@ REGION ICDrawbridge: room past the drawbridge
 		could have nothing
 	ICDrawbridge -> ShopPads | True_()
 
-	LOCATION ICDrawbridge | IC: Dragon Egg from thief after Dark Gem | 171 | Has('Charge')
+	LOCATION ICDrawbridge | IC: Dragon Egg from thief after Dark Gem | 171 | HasAny('Charge', 'Fire Breath')
 
 REGION ICRoyal: royal chamber area. include egg after pole spin which doesn't need DJ but does need glide
 	ICSuperchargeShop -> ICRoyal | And(Has('Double Jump'), Or(HasAny('Fire Breath', 'Electric Breath'), HasAll('Ice Breath', 'Charge')))

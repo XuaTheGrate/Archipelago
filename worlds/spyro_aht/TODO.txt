@@ -1,3 +1,4 @@
+TODO: traps? capitalism trap that pops up a shop prompt, moneybags spam call of him playing "heyyyyy spyro I got some goods" etc.
 TODO: trick support
 TODO: rule caching?
 TODO: make randomize_movement an optionset instead of toggling all 3 at once
@@ -13,4 +14,3 @@ TODO: research how many enemy gems are truly required so non_blink_enemies can a
 TODO: make tool for testing gem access
 TODO: can we modify mission screen text for light gem doors? "Collect 45 light gems to open the door to a secret area" for example
 TODO: auto-populate game mod addresses from mod itself?
-TODO: get map icons to show on all levels, not just the one you're currently in?

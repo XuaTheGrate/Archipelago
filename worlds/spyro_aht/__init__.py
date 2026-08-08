@@ -138,7 +138,7 @@ class SpyroAHTWorld(World):
     ut_can_gen_without_yaml = True
     
     def log(self, message, level):
-        if level not in self.options.logging_level.valid_keys:
+        if level not in self.options.logging_level.value:
             return
         
         if level == "Info":
@@ -290,7 +290,6 @@ class SpyroAHTWorld(World):
             self.log("Goal list is empty. Halting generation.", "Warning")
             raise OptionError("Goal list cannot be empty if auto_corrections is disabled.")
             
-        bad_condition = len(self.options.goal.value) > len(self.options.goal.valid_keys)-1
         if len(self.options.goal.value) > len(self.options.goal.valid_keys)-1 and auto_corrections:
             removed = []  # logging
             while len(self.options.goal.value) > len(self.options.goal.valid_keys)-1:
@@ -356,7 +355,7 @@ class SpyroAHTWorld(World):
         self.options.goal.value = converted_goal_set
         
     def _apply_slot_data(self, slot_data: dict[str, Any]) -> None:
-        self.lot("Universal Tracker is applying slot data.", "Debug")
+        self.log("Universal Tracker is applying slot data.", "Debug")
         self._ut_active = True
         
         self.options.death_link.value = slot_data['death_link']
@@ -387,7 +386,8 @@ class SpyroAHTWorld(World):
         self._gadget_costs = slot_data['gadget_costs']
         
         self.options.pause_menu_patch.value = slot_data['pause_menu_patch']
-        self.lot("Universal Tracker is done applying slot data.", "MoreDebug")
+        self.options.shop_pad_proximity_activation.value = slot_data['shop_pad_proximity_activation']
+        self.log("Universal Tracker is done applying slot data.", "MoreDebug")
 
     def handle_goaling(self):
         self.log("Setting up goals.", "Info")
@@ -775,6 +775,7 @@ class SpyroAHTWorld(World):
             "gadget_costs": self._gadget_costs,
 
             "pause_menu_patch": self.options.pause_menu_patch.value,
+            "shop_pad_proximity_activation": self.options.shop_pad_proximity_activation.value,
             "hint_minigame_rewards": self.options.hint_minigame_rewards.value,
             "hint_boss_rewards": self.options.hint_boss_rewards.value,
             "easy_bosses": self.options.easy_bosses.value,

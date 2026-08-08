@@ -419,6 +419,21 @@ class PauseMenuPatch(Choice):
     option_open_shop = 0
     option_teleport_to_hub = 1
     default = 0
+
+
+class ShopPadProximityActivation(Toggle):
+    """This option is only used when open_world_mode is enabled and not 'full'.
+    
+    In the vanilla game, shop pads unlock for teleporting when you physically reach them. When open_world_mode is enabled and
+    not 'full', this is disabled so that shop pads only unlock when told to by Archipelago. For example: if you start with Village
+    Depot unlocked, reach Perilous Pyramid, and teleport away, you can't return to Perilous Pyramid unless you walk there again.
+    This keeps with the spirit of non-full open world mode, but increases backtracking time.
+    
+    This option lets you re-enable proximity-based activation of shop pads. In the above example, you could teleport back to
+    Perilous Pyramid once you've reached it. Note: this will lead to your Perilous Pyramid shop unlock item becoming
+    effectively filler once received. This option is offered for people who don't mind that tradeoff."""
+    display_name = "Shop Pad Proximity Activation"
+    default = 0
     
     
 class HintMinigameRewards(Toggle):
@@ -500,6 +515,7 @@ class SpyroAHTOptions(PerGameCommonOptions):
     gadget_cost_max: GadgetCostMax
     
     pause_menu_patch: PauseMenuPatch
+    shop_pad_proximity_activation: ShopPadProximityActivation
     hint_minigame_rewards: HintMinigameRewards
     hint_boss_rewards: HintBossRewards
     easy_bosses: EasyBosses
@@ -527,7 +543,7 @@ spyro_options_groups = [
         RandomizeGadgetCosts, GadgetCostMin, GadgetCostMax
     ]),
     OptionGroup("QUALITY OF LIFE", [
-        PauseMenuPatch,
+        PauseMenuPatch, ShopPadProximityActivation,
         HintMinigameRewards, HintBossRewards,
         EasyBosses,
         SkipCutscenes, SkipElevators,

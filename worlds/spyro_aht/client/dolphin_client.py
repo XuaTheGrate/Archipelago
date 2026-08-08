@@ -55,7 +55,7 @@ class DolphinClient(GenericClient):
                 dolphin_memory_engine.un_hook()
                 raise TypeError(f"Invalid or unsupported game id {game_id.decode()!r}")
             mod_version = dolphin_memory_engine.read_byte(0x80187623)
-            if mod_version != 10:
+            if mod_version != 11:
                 dolphin_memory_engine.un_hook()
                 raise TypeError(f"Incorrect version of the game mod. Please update to version 8 and try again.")
         self.ready.set()
@@ -257,8 +257,10 @@ class DolphinClient(GenericClient):
             
         if ctx.slot_data['open_world_mode'] == 1:
             dolphin_memory_engine.write_byte(self.addresses.p_UNLOCK_ALL_SHOPS, 1)
-        elif ctx.slot_data['open_world_mode'] >= 2:
-            dolphin_memory_engine.write_byte(self.addresses.p_DISABLE_SHOP_PAD_PROXIMITY_ACTIVATE, 1)
+        if ctx.slot_data['open_world_mode'] >= 2:
+            dolphin_memory_engine.write_byte(self.addresses.p_DISABLE_MAIN_SHOP_ALWAYS_AVAILABLE, 1)
+            if ctx.slot_data['shop_pad_proximity_activation'] == 0:
+                dolphin_memory_engine.write_byte(self.addresses.p_DISABLE_SHOP_PAD_PROXIMITY_ACTIVATE, 1)
         if ctx.slot_data['open_world_mode'] != 0:
             dolphin_memory_engine.write_byte(self.addresses.p_TELEPORT_ANYWHERE, 1)
         

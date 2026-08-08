@@ -3667,12 +3667,14 @@
                 "id": 34,
                 "options": [],
                 "access_rule": {
-                    "rule": "Has",
+                    "rule": "HasAny",
                     "options": [],
                     "filtered_resolution": false,
                     "args": {
-                        "item_name": "Charge",
-                        "count": 1
+                        "item_names": [
+                            "Charge",
+                            "Glide"
+                        ]
                     }
                 }
             },
@@ -3686,15 +3688,31 @@
                     }
                 ],
                 "access_rule": {
-                    "rule": "HasAll",
+                    "rule": "And",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {
-                        "item_names": [
-                            "Charge",
-                            "Fire Breath"
-                        ]
-                    }
+                    "children": [
+                        {
+                            "rule": "Has",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_name": "Fire Breath",
+                                "count": 1
+                            }
+                        },
+                        {
+                            "rule": "HasAny",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_names": [
+                                    "Charge",
+                                    "Glide"
+                                ]
+                            }
+                        }
+                    ]
                 }
             },
             {
@@ -6174,6 +6192,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "item_names": [
+                            "Charge",
                             "Double Jump",
                             "Glide"
                         ]
@@ -10618,10 +10637,13 @@
                 "id": 135,
                 "options": [],
                 "access_rule": {
-                    "rule": "True_",
+                    "rule": "Has",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {}
+                    "args": {
+                        "item_name": "Double Jump",
+                        "count": 1
+                    }
                 }
             }
         ],
@@ -11789,10 +11811,13 @@
             {
                 "name": "FVIcyCamp -> GGEntry",
                 "access_rule": {
-                    "rule": "True_",
+                    "rule": "Has",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {}
+                    "args": {
+                        "item_name": "Double Jump",
+                        "count": 1
+                    }
                 }
             }
         ],
@@ -13152,12 +13177,14 @@
                 "id": 171,
                 "options": [],
                 "access_rule": {
-                    "rule": "Has",
+                    "rule": "HasAny",
                     "options": [],
                     "filtered_resolution": false,
                     "args": {
-                        "item_name": "Charge",
-                        "count": 1
+                        "item_names": [
+                            "Charge",
+                            "Fire Breath"
+                        ]
                     }
                 }
             }
