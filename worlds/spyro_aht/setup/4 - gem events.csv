@@ -240,12 +240,9 @@ SRDepthsLower,120,headbash chests,Has('Double Jump')
 SRDepthsLower,75,[enemy] critters,"HasAny('Fire Breath', 'Electric Breath', 'Charge')"
 SRDepthsLower,321,on the ground,True_()
 SRDepthsLower,175,metal chests,"HasAny('Double Jump', 'Charge', 'Electric Breath')"
-SRToxicSwim1,300,dark shards,"HasAny('Double Jump', 'Charge')"
-SRToxicSwim1,150,dark shards you can glide to in first room,"And(Has('Glide'), HasAny('Charge', 'Double Jump'))"
-SRToxicSwim1,246,baskets/metal chests/on the ground,True_()
-SRToxicSwim1,60,headbash chest,Has('Double Jump')
-SRToxicSwim2,205,on the ground/metal chests/dark shard/baskets,True_()
-SRToxicSwim2,30,headbash chest,Has('Double Jump')
+SRToxicSwim1,606,dark shards/baskets/chests/on the ground,True_()
+SRToxicSwim1,150,dark shards you can glide to in first room,"Has('Glide')"
+SRToxicSwim2,235,on the ground/chests/dark shard/baskets,True_()
 SRToxicSwimAbove,513,dark shards/metal chests/on the ground/basket/headbash chest,True_()
 SRToxicSwimAbove,1500,armored chests via firework atop puzzle,Has('Fire Breath')
 SRToxicRise,46,on the ground before rising statue room,True_()
@@ -274,7 +271,8 @@ FVHeadingToCamp,1016,baskets/in the air/on the ground/shests and rocks/dark shar
 FVHeadingToCamp,3837,Blink minigames,True_()
 FVIcyCamp,50,headbash rock,Has('Double Jump')
 FVIcyCamp,50,2 baskets on ice,"HasAny('Charge', 'Fire Breath', 'Electric Breath', 'Water Breath', 'Ice Breath')"
-FVIcyCamp,85,[enemy] eskimoles,"HasAny('Fire Breath', 'Electric Breath', 'Charge')"
+FVIcyCamp,35,[enemy] eskimoles,"HasAny('Fire Breath', 'Electric Breath', 'Charge')"
+FVIcyCamp,50,[enemy] eskimoles on DJ ledge,And(Has('Double Jump'), HasAny('Fire Breath', 'Electric Breath', 'Charge'))
 FVIcyCamp,25,metal chest via wall kick,"And(Has('Wall Kick'), HasAny('Double Jump', 'Charge', 'Electric Breath'))"
 FVIcyCamp,175,baskets via wall kick,"And(Has('Wall Kick'), HasAny('Double Jump', 'Charge', 'Fire Breath', 'Electric Breath', 'Water Breath', 'Ice Breath'))"
 FVIcyCamp,20,[enemy] unarmored middle gnorc via wall kick,"And(Has('Wall Kick'), HasAny('Fire Breath', 'Electric Breath', 'Charge'))"
@@ -311,13 +309,13 @@ FVLGDoorGlide,60,headbash chest,Has('Double Jump')
 FVLGDoorGlide,160,baskets/headbash and metal chests behind water gate,Has('Water Breath')
 FVLGDoorGlide,225,underwater icy vases,"And(InvincibilityGadget(), HasAll('Swim', 'Charge'))"
 Gloomy Glacier,,,
-GGEntry,110,on the ground,True_()
-GGEntry,656,[enemy] yeti/skeletons/eskimoles,True_()
-GGEntry,1060,standard breakables,True_()
-GGEntry,400,frozen gem blocks via exploding arrows,True_()
-GGEntry,1000,armored chests via exploding arrows,True_()
-GGEntry,200,[enemy] steel traps via exploding arrows,True_()
-GGEntry,2218,Sparx minigames,True_()
+GGFullLevel,110,on the ground,True_()
+GGFullLevel,656,[enemy] yeti/skeletons/eskimoles,True_()
+GGFullLevel,1060,standard breakables,True_()
+GGFullLevel,400,frozen gem blocks via exploding arrows,True_()
+GGFullLevel,1000,armored chests via exploding arrows,True_()
+GGFullLevel,200,[enemy] steel traps via exploding arrows,True_()
+GGFullLevel,2218,Sparx minigames,True_()
 Ice Citadel,,,
 ICCourtyardLower,293,on the ground,True_()
 ICCourtyardLower,200,[enemy] steel traps,"Or(Has('Electric Breath'), HasAll('Ice Breath', 'Charge'))"

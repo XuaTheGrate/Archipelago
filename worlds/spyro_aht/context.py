@@ -135,6 +135,13 @@ class SpyroAHTCommands(ClientCommandProcessor):
         self.output(f"Ball gadget requires {data[0]} Light Gems, invincibility requires {data[1]} Light Gems, and supercharge requires {data[2]} Light Gems.")
 
         self.output("---------------QUALITY OF LIFE---------------")
+        # pause menu patch
+        output = "open shop" if self.ctx.slot_data["pause_menu_patch"] == 0 else "teleport to hub"
+        self.output(f"You set your pause menu patch to {output}.")
+        # shop pad proximity activation
+        if self.ctx.slot_data["open_world_mode"] >= 2:
+            output = "re-enable" if self.ctx.slot_data["shop_pad_proximity_activation"] else "disable"
+            self.output(f"You chose to {output} shop pad proximity activation.")
         # hint rewards
         output = "will" if self.ctx.slot_data["hint_boss_rewards"] else "won't"
         output_2 = "will" if self.ctx.slot_data["hint_minigame_rewards"] else "won't"

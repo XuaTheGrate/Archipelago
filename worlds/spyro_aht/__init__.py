@@ -21,29 +21,33 @@ icon_paths['spyro_aht'] = f'ap:{__name__}/icon.png'
 minigame_locs = [
     {
         ("DV: Dragon Egg from Sgt. Byrd", "DV: Light Gem from Sgt. Byrd"),
-        ("CD: Dragon Egg from Sgt. Byrd", "CD: Light Gem from Sgt. Byrd"),
-        ("IC: Dragon Egg from Sgt. Byrd", "IC: Light Gem from Sgt. Byrd"),
+        ("CD: Dragon Egg atop tower from Sgt. Byrd", "CD: Light Gem atop tower from Sgt. Byrd"),
+        ("IC: Dragon Egg opposite drawbridge from Sgt. Byrd", "IC: Light Gem opposite drawbridge from Sgt. Byrd"),
         ("MM: Dragon Egg from Sgt. Byrd", "MM: Light Gem from Sgt. Byrd")
     },
     {
-        ("CS: Dragon Egg from Blink", "CS: Light Gem from Blink"),
-        ("CR: Dragon Egg from Blink", "CR: Light Gem from Blink"),
-        ("FV: Dragon Egg from Blink", "FV: Light Gem from Blink"),
-        ("DM: Dragon Egg from Blink", "DM: Light Gem from Blink")
+        ("CS: Dragon Egg near Elder's tree from Blink", "CS: Light Gem near Elder's tree from Blink"),
+        ("CR: Dragon Egg in west area from Blink", "CR: Light Gem in west area from Blink"),
+        ("FV: Dragon Egg approaching icy camp from Blink", "FV: Light Gem approaching icy camp from Blink"),
+        ("DM: Dragon Egg after turret room from Blink", "DM: Light Gem after turret room from Blink")
     },
     {
-        ("DF: Dragon Egg from Sparx", "DF: Light Gem from Sparx"),
-        ("SR: Dragon Egg from Sparx", "SR: Light Gem from Sparx"),
-        ("GG: Dragon Egg from Sparx", "GG: Light Gem from Sparx"),
-        ("MFb: Dragon Egg from Sparx", "MFb: Light Gem from Sparx")
+        ("DF: Dragon Egg near elder statue from Sparx", "DF: Light Gem near elder statue from Sparx"),
+        ("SR: Dragon Egg in depths from Sparx", "SR: Light Gem in depths from Sparx"),
+        ("GG: Dragon Egg after spinning bones from Sparx", "GG: Light Gem after spinning bones from Sparx"),
+        ("MFb: Dragon Egg after fire imp room from Sparx", "MFb: Light Gem after fire imp room from Sparx")
     },
     {
         ("CS: Dragon Egg from Fredneck", "CS: Light Gem from Fredneck"),
-        ("CR: Dragon Egg from Turtle Mother", "CR: Light Gem from Turtle Mother"),
-        ("FV: Dragon Egg from Peggy", "FV: Light Gem from Peggy"),
-        ("SB: Dragon Egg from Wally", "SB: Light Gem from Wally")
+        ("CR: Dragon Egg from southern beach Turtle Mother", "CR: Light Gem from southern beach Turtle Mother"),
+        ("FV: Dragon Egg after electric gate from Peggy", "FV: Light Gem after electric gate from Peggy"),
+        ("SB: Dragon Egg in upper Stormy Beach from Wally", "SB: Light Gem in upper Stormy Beach from Wally")
     }
 ]
+
+prepositions = ["from", "by", "in", "near", "above", "next to", "across", "inside", "atop", "behind", "after", "via", "at end of", "after first", "after second", "approaching", "opposite"]
+id_lookup = {"Starter Checks": "A", "Moneybags": "B", "DV": "C", "CS": "D", "DF": "E", "CR": "F", "CD": "G", "SR": "H", "FV": "I", "GG": "J", "IC": "K", "SB": "L", "MM": "M", "MFt": "N", "MFb": "O", "DM": "P", "RL": "Q"}
+starts = {"Electric Breath": 0, "Water Breath": 0, "Ice Breath": 0, "Double Jump": 0, "Pole Spin": 0, "Wing Shield": 0, "Wall Kick": 0, "Dragon Egg": 1, "Dark Gem": 1, "Light Gem": 1, "Locked Chest": 1, "Firework": 1, "Defeat": 1}
 
 ###############WORLD CLASS HELPER FUNCTIONS###############
 def _load_file(file: str) -> Any:
@@ -101,7 +105,7 @@ def create_location_groups(location_data) -> dict[str, set[str]]:
                 loc_groups["Dragon Eggs"].add(location['name'])
             if ": Light Gem" in location['name']:
                 loc_groups["Light Gems"].add(location['name'])
-            if "locked chest" in location['name']:
+            if "Locked Chest" in location['name']:
                 loc_groups["Locked Chests"].add(location['name'])
             if ": Firework" in location['name']:
                 loc_groups["Fireworks"].add(location['name'])
@@ -388,6 +392,28 @@ class SpyroAHTWorld(World):
         self.options.pause_menu_patch.value = slot_data['pause_menu_patch']
         self.options.shop_pad_proximity_activation.value = slot_data['shop_pad_proximity_activation']
         self.log("Universal Tracker is done applying slot data.", "MoreDebug")
+    
+    def custom_ut_sort(self, region_label: str, location_label: str) -> str | int:
+        level_acronym, rest_of_name = location_label.split(": ")
+        level_id = id_lookup[level_acronym]
+        if level_id == "A" or level_id == "B":
+            return f"{level_id}"
+
+        for start in starts.keys():
+            if rest_of_name.startswith(start):
+                name_without_start = rest_of_name.replace(start + " ", "")
+                the_start = start
+                break
+
+        for prep in prepositions:
+            if name_without_start.startswith(prep):
+                name_without_prep = name_without_start.replace(prep + " ", "")
+                break
+        else:
+            name_without_prep = name_without_start
+
+        sorting_key: str | int = f"{level_id} {name_without_prep} {starts[the_start]}"
+        return sorting_key
 
     def handle_goaling(self):
         self.log("Setting up goals.", "Info")
@@ -396,7 +422,7 @@ class SpyroAHTWorld(World):
             # TODO: do something about it then, boy!
         convert = {"Fireworks": ": Firework", "Dragon Eggs": ": Dragon Egg", "Dark Gems": ": Dark Gem",
                    "Light Gems": ": Light Gem", "Gnasty Gnorc": "Defeat Gnasty Gnorc", "Ineptune": "Defeat Ineptune",
-                   "Red": "Defeat Red", "Mecha-Red": "Defeat Mecha-Red", "Locked Chests": "locked chest", "Shop Items": "Shop Item"}
+                   "Red": "Defeat Red", "Mecha-Red": "Defeat Mecha-Red", "Locked Chests": "Locked Chest", "Shop Items": "Shop Item"}
         victory_cons = []
 
         # a bit ugly to have triple nested loop, but I don't think it's avoidable
