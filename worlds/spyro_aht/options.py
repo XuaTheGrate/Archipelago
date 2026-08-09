@@ -31,9 +31,9 @@ class LoggingLevel(OptionSet):
     Info: General information about the status of generation will be logged. For example, the log will include messages
       like "[Spyro AHT] Item Creation beginning." and "[Spyro AHT] Item Creation done."
     Debug: Extra information that is primarily meant to be helpful for developer debugging will be logged.
-    MoreDebug: Even more debug information. Intended for developer use, but you can enable it if curious :)"""
+    Extra: Extra debug information. Intended for developer use, but you can enable it if curious :)"""
     display_name = "Logging Level"
-    valid_keys = ("Warning", "Info", "Debug", "MoreDebug")
+    valid_keys = ("Warning", "Info", "Debug", "Extra")
     default = ("Warning",)
     
 
@@ -54,10 +54,11 @@ class AutoCorrections(Choice):
 ###############GOAL, CHECKS, AND ITEMS###############
 class Goal(OptionList):
     """Determines the goal(s) of this seed. Your goal can contain as many or as few of the below as you like.
-    For clarity, collectible-related goals are all determined based on the AHT checks, not their corresponding items.
-    For example, "Dragon Eggs" as a goal means to check all 80 AHT locations which would have given a Dragon Egg in
-    the vanilla game. This leads to an important warning that if your world allows the use of !collect, AHT goals can
-    be registered unexpectedly, if !collect leads to goal-related AHT locations being checked. 
+    For clarity, collectible goals are determined based on AHT *locations*, not their items. For example, "Dragon Eggs"
+    requires checking all 80 in-game locations which have "Dragon Egg" in their name. This leads to an important warning
+    that early goals can register unexpected if your seed allows the use !collect (check the project wiki FAQ for details).
+    
+    Any locations added to exclude_locations will be excluded from any goal requirements that location belongs to.
 
     Available Goals:
     Gnasty Gnorc/Ineptune/Red/Mecha-Red: Must defeat each boss you list below.
@@ -67,7 +68,8 @@ class Goal(OptionList):
     Light Gems: Collect all 100 Light Gems.
     Locked Chests: Open all 52 locked chests.
     Shop Items: Buy all randomized shop items. shop_randomization will be enabled automatically if auto_corrections is set to 'fix'.
-    Random: For each "Random" you include, a random goal from above will be chosen, excluding any from exclude_from_goal.
+    Random: For each "Random" you include, a random goal from above will be chosen, excluding any from exclude_from_goal. If
+      you want to view what goals were selected for you, check the spoiler file or use the client command /list_options.
     
     If the list is empty and auto_corrections is set to 'fix', a single random choice will be made.
     If the list has too many entries and auto_corrections is set to 'fix', entries will be removed at random until in range."""
@@ -229,13 +231,16 @@ class GemLogic(Toggle):
       Prices will steadily increase so that you unlock them in a spread-out set order, instead of all in sphere 1. This is significantly
       safer and improves generation quality a bit, at the cost of losing the ability to choose which order you buy them.
     
-    The formula below calculates your prices. The first item is always free due to inflation in the Dragon Kingdom (prevents restrictive starts).
+    Gems that come from any minigame locations added to exclude_locations will not be factored into gem calculations.
+    You can see which gem events are in logic by using the client commands /event_locations and/or /event_inventory. 
+    
+    The formula below calculates your prices. The first item is always free due to inflation in the Dragon Kingdom (it prevents restrictive starts).
     The formula is included for those who are math-inclined. If not, you can also can do test generation(s) to see your prices.
     
     ********************************FORMULA INFO (for the math nerds)********************************
-    blink_gems_total = 20,028 * blink_gems%
+    blink_gems_total = (20,203 - blink exclusions) * blink_gems%
     non_blink_enemies_total = 16,353 * non_blink_enemies%
-    other_gems_total = 106,443 * other_gems%
+    other_gems_total = (106,440 - sparx/byrd exclusions) * other_gems%
     gem_total = blink_gems_total + non_blink_enemies_total + other_gems_total
     base_shop_price = gem_total / (number of shop items determined by key_rings - 1)
 
@@ -252,8 +257,7 @@ class BlinkGems(Range):
     they have significantly more gems than the other minigames, which is why this is an isolated option.
     
     For example, a value of 50 means being expected to collect approximately 50% of the gems available in each Blink minigame.
-    His minigames contain 20,028 total, so this would result in an expectation of 10,014 gems. Set this to 0 if you
-    intend to skip Blink minigames, whether that be from underground-air-a-phobia or because you excluded some/all of their locations."""
+    His minigames contain 20,203 total, so this would result in an expectation of ~10,101 gems."""
     display_name = "Blink Gems"
     range_start = 0
     range_end = 100
@@ -281,11 +285,11 @@ class OtherGems(Range):
     on_blink_enemies, but applying to all other sources of gems. This primarily consists of gems from breakable containers,
     Sgt. Byrd + Sparx minigames, and some misc. others (such as gems on the ground in levels).
     
-    The total amount of "other" gems is 106,443. Like blink_gems and non_blink_enemies, a value of 35 means
-    being expected to collect approximately 37,255 "other" gems.
+    The total amount of "other" gems is 106,237. Like blink_gems and non_blink_enemies, a value of 35 would mean being
+    expected to collect approximately 37,182 "other" gems.
     
-    Note: it's hard to get consistent gems from Sparx minigames. Their totals were calculated as an average of 4-5 runs.
-    The total for each worked out to be 1,523 -> 2,148 -> 2,218 -> 2,392."""
+    Note: it's hard to get consistent gems from Sparx minigames. Their totals were calculated as an average of 4-5 runs,
+    scaled down slightly. Each pair expects, at other_gems 100: 675/800 -> 1100/1000 -> 1100/1050 -> 1300/1050."""
     display_name = "Other Gems"
     range_start = 0
     range_end = 100

@@ -16,33 +16,25 @@ from worlds.LauncherComponents import icon_paths
 from .options import RandomizeMovement, SpyroAHTOptions, StartingBreath, spyro_options_groups
 from .data.consts import LEVEL_SHOP_LOOKUP, REALM_LEVEL_LOOKUP
 
-icon_paths['spyro_aht'] = f'ap:{__name__}/icon.png'
+icon_paths['spyro_aht'] = f'ap:{__name__}/gem_icon.png'
 
 minigame_locs = [
-    {
-        ("DV: Dragon Egg from Sgt. Byrd", "DV: Light Gem from Sgt. Byrd"),
-        ("CD: Dragon Egg atop tower from Sgt. Byrd", "CD: Light Gem atop tower from Sgt. Byrd"),
-        ("IC: Dragon Egg opposite drawbridge from Sgt. Byrd", "IC: Light Gem opposite drawbridge from Sgt. Byrd"),
-        ("MM: Dragon Egg from Sgt. Byrd", "MM: Light Gem from Sgt. Byrd")
-    },
-    {
-        ("CS: Dragon Egg near Elder's tree from Blink", "CS: Light Gem near Elder's tree from Blink"),
-        ("CR: Dragon Egg in west area from Blink", "CR: Light Gem in west area from Blink"),
-        ("FV: Dragon Egg approaching icy camp from Blink", "FV: Light Gem approaching icy camp from Blink"),
-        ("DM: Dragon Egg after turret room from Blink", "DM: Light Gem after turret room from Blink")
-    },
-    {
-        ("DF: Dragon Egg near elder statue from Sparx", "DF: Light Gem near elder statue from Sparx"),
-        ("SR: Dragon Egg in depths from Sparx", "SR: Light Gem in depths from Sparx"),
-        ("GG: Dragon Egg after spinning bones from Sparx", "GG: Light Gem after spinning bones from Sparx"),
-        ("MFb: Dragon Egg after fire imp room from Sparx", "MFb: Light Gem after fire imp room from Sparx")
-    },
-    {
-        ("CS: Dragon Egg from Fredneck", "CS: Light Gem from Fredneck"),
-        ("CR: Dragon Egg from southern beach Turtle Mother", "CR: Light Gem from southern beach Turtle Mother"),
-        ("FV: Dragon Egg after electric gate from Peggy", "FV: Light Gem after electric gate from Peggy"),
-        ("SB: Dragon Egg in upper Stormy Beach from Wally", "SB: Light Gem in upper Stormy Beach from Wally")
-    }
+        "DV: Dragon Egg from Sgt. Byrd", "DV: Light Gem from Sgt. Byrd",
+        "CD: Dragon Egg atop tower from Sgt. Byrd", "CD: Light Gem atop tower from Sgt. Byrd",
+        "IC: Dragon Egg opposite drawbridge from Sgt. Byrd", "IC: Light Gem opposite drawbridge from Sgt. Byrd",
+        "MM: Dragon Egg from Sgt. Byrd", "MM: Light Gem from Sgt. Byrd",
+        "CS: Dragon Egg near Elder's tree from Blink", "CS: Light Gem near Elder's tree from Blink",
+        "CR: Dragon Egg in west area from Blink", "CR: Light Gem in west area from Blink",
+        "FV: Dragon Egg approaching icy camp from Blink", "FV: Light Gem approaching icy camp from Blink",
+        "DM: Dragon Egg after turret room from Blink", "DM: Light Gem after turret room from Blink",
+        "DF: Dragon Egg near elder statue from Sparx", "DF: Light Gem near elder statue from Sparx",
+        "SR: Dragon Egg in depths from Sparx", "SR: Light Gem in depths from Sparx",
+        "GG: Dragon Egg after spinning bones from Sparx", "GG: Light Gem after spinning bones from Sparx",
+        "MFb: Dragon Egg after fire imp room from Sparx", "MFb: Light Gem after fire imp room from Sparx",
+        "CS: Dragon Egg from Fredneck", "CS: Light Gem from Fredneck",
+        "CR: Dragon Egg from southern beach Turtle Mother", "CR: Light Gem from southern beach Turtle Mother",
+        "FV: Dragon Egg after electric gate from Peggy", "FV: Light Gem after electric gate from Peggy",
+        "SB: Dragon Egg in upper Stormy Beach from Wally", "SB: Light Gem in upper Stormy Beach from Wally"
 ]
 
 prepositions = ["from", "by", "in", "near", "above", "next to", "across", "inside", "atop", "behind", "after", "via", "at end of", "after first", "after second", "approaching", "opposite"]
@@ -110,9 +102,15 @@ def create_location_groups(location_data) -> dict[str, set[str]]:
             if ": Firework" in location['name']:
                 loc_groups["Fireworks"].add(location['name'])
     
-    for minigame_type, minigame_list in zip(["Sgt. Byrd", "Blink", "Sparx", "Turret"], minigame_locs):
-        for minigame_location in minigame_list:
-            loc_groups[minigame_type].update(minigame_location)
+    for minigame_location in minigame_locs:
+        if "Sgt. Byrd" in minigame_location:
+            loc_groups["Sgt. Byrd"].add(minigame_location)
+        elif "Blink" in minigame_location:
+            loc_groups["Blink"].add(minigame_location)
+        elif "Sparx" in minigame_location:
+            loc_groups["Sparx"].add(minigame_location)
+        else:
+            loc_groups["Turret"].add(minigame_location)
         
     return loc_groups
 
@@ -151,11 +149,12 @@ class SpyroAHTWorld(World):
             logging.info(f"[Spyro AHT] WARNING: {message}")
         elif level == "Debug":
             logging.info(f"[Spyro AHT] DEBUG: {message}")
-        elif level == "MoreDebug":
-            logging.info(f"[Spyro AHT] MOREDEBUG: {message}")
+        elif level == "Extra":
+            logging.info(f"[Spyro AHT] EXTRA: {message}")
 
     def __init__(self, multiworld: MultiWorld, player: int):
         super().__init__(multiworld, player)
+        self.multiworld.early_items[self.player]["Double Jump"] = 1
         
         self._lg_doors = [70, 20, 95, 45]
         self._boss_lairs = [10, 20, 30, 40]
@@ -339,7 +338,7 @@ class SpyroAHTWorld(World):
             converted_goal_set.add(random_goal)
             random_choices.remove(random_goal)
         
-        self.log("Checking for fireworks and shop randomization being enabled if selected as a goal.", "Warning")
+        self.log("Checking for fireworks and shop randomization being enabled if selected as a goal.", "Debug")
         bad_condition = "Fireworks" in converted_goal_set and not self.options.firework_checks.value
         if bad_condition and auto_corrections:
             self.log("\"Fireworks\" is a goal but firework_checks is disabled. Fixing by enabling firework_checks.", "Warning")
@@ -391,7 +390,7 @@ class SpyroAHTWorld(World):
         
         self.options.pause_menu_patch.value = slot_data['pause_menu_patch']
         self.options.shop_pad_proximity_activation.value = slot_data['shop_pad_proximity_activation']
-        self.log("Universal Tracker is done applying slot data.", "MoreDebug")
+        self.log("Universal Tracker is done applying slot data.", "Extra")
     
     def custom_ut_sort(self, region_label: str, location_label: str) -> str | int:
         level_acronym, rest_of_name = location_label.split(": ")
@@ -434,9 +433,12 @@ class SpyroAHTWorld(World):
                     if convert[goal] in location["name"]:
                         if "Shop Item" in location["name"] and int(location["name"][-2:]) > 18 and self.options.key_rings:
                             continue  # skip shop items that aren't enabled
+                        if location['name'] in self.options.exclude_locations.value:
+                            self.log(f"Skipping adding \"{location['name']}\" to goal \"{goal}\" because it is excluded.", "Debug")
+                            continue
                         self.get_region(reg).add_event(f"{location['name']} Victory{count}", f"VictoryCon{count}", rule=self.rule_from_dict(location['access_rule']))
                         victory_cons.append(f"VictoryCon{count}")
-                        self.log(f"Added VictoryCon{count} event item for {location['name']}.", "MoreDebug")
+                        self.log(f"Added VictoryCon{count} event item for {location['name']}.", "Extra")
                         count += 1
         self.log(f"Set up {count-1} goal events.", "Debug")
 
@@ -445,26 +447,6 @@ class SpyroAHTWorld(World):
     def create_regions(self):
         # TODO: how much of this needs to be here specifically? lot of setup done here and in create_items and probably would be good to review if it could be all in one place
         auto_corrections = self.options.auto_corrections.value  # setting as micro-optimization for checking later
-        
-        # shop costs determined by multiple options
-        if self.options.shop_randomization.value == 1:
-            self.log("Setting up randomized shop costs.", "Info")
-            shop_item_count = 18 if self.options.key_rings.value else 56
-            blink = 20028 * self.options.blink_gems.value / 100
-            non_blink_enemies = 16353 * self.options.non_blink_enemies.value / 100
-            other = 106443 * self.options.other_gems.value / 100
-            gem_total = blink + non_blink_enemies + other
-            base_price = gem_total / (shop_item_count-1)
-            self.log(f"Set up shop prices. shop_item_count = {shop_item_count}. blink = {blink}. non_blink_enemies = {non_blink_enemies}. other = {other}. base_price = {base_price}.", "Debug")
-            self.shop_costs.append(0)
-            
-            if self.options.gem_logic:  # gem logic
-                for counter in range(shop_item_count-1):
-                    self.shop_costs.append(int(base_price * (counter + 1)))  # each item has incrementing price
-            else:  # no gem logic
-                for counter in range(shop_item_count-1):
-                    self.shop_costs.append(int(base_price))  # each item has same price
-            self.log(f"Shop costs are {self.shop_costs}.", "Info")
             
         self.log("Setting up gadget costs.", "Info")
         if self.options.randomize_gadget_costs.value != 0:
@@ -537,7 +519,7 @@ class SpyroAHTWorld(World):
                 region_from, region_to = entrance['name'].split(" -> ")
                 rule = self.rule_from_dict(entrance['access_rule'])
                 self.get_region(region_from).connect(self.get_region(region_to), f"{region_from} => {region_to}", rule)
-                self.log(f"Connected {region_from} to {region_to} with rule {rule}.", "MoreDebug")
+                self.log(f"Connected {region_from} to {region_to} with rule {rule}.", "Extra")
         self.log("Regions connected.", "Debug")
 
         for region_data in data.values():
@@ -562,20 +544,69 @@ class SpyroAHTWorld(World):
                             add = add and option.value <= options['value']
                 if add:
                     new_locations[location_data['name']] = location_data['id']
-                    self.log(f"Added \"{location_data['name']}\" with id {location_data['id']} to {region_data['name']}.", "MoreDebug")
+                    
+                    self.log(f"Added \"{location_data['name']}\" with id {location_data['id']} to {region_data['name']}.", "Extra")
             region_object.add_locations(new_locations)
         self.log("Locations created.", "Debug")
-        
-        self.handle_goaling()
 
         # add gem events, only if shop is randomized with gem logic
+        blink_exclusions, other_exclusions = 0, 0
+        enemy_count = 0
+        convert = {"1-1": 0, "1-2": 1, "2-1": 2, "2-2": 3, "3-1": 4, "3-2": 5, "4-1": 6, "4-2": 7}
         if self.options.shop_randomization and self.options.gem_logic:
             self.log("Setting up gem logic.", "Info")
             for reg, region_data in data.items():
                 for gem_event in region_data["gem_events"]:
-                    location_name = f"{reg}: {gem_event['name']}"
-                    self.log(f"Created gem event with location_name \"{location_name}\", item name \"{gem_event['name']}\", and access rule {gem_event['access_rule']}.", "MoreDebug")
-                    self.get_region(reg).add_event(location_name, gem_event['name'], rule=self.rule_from_dict(gem_event["access_rule"]))
+                    normal = False
+                    for key in convert.keys():
+                        if key in gem_event['name']:
+                            if "Byrd minigames" in gem_event['name'] and minigame_locs[convert[key]] in self.options.exclude_locations.value:
+                                self.log(f"Skipping Sgt. Byrd gem event \"{gem_event['name']}\" because its associated location \"{minigame_locs[convert[key]+8]}\" was excluded.", "Debug")
+                                other_exclusions += int(gem_event['gem_amount'])
+                                self.log(f"other_exclusions is now {other_exclusions}", "Debug")
+                                break
+                            elif "Blink minigames" in gem_event['name'] and minigame_locs[convert[key]+8] in self.options.exclude_locations.value:
+                                self.log(f"Skipping Blink gem event \"{gem_event['name']}\" because its associated location \"{minigame_locs[convert[key]+8]}\" was excluded.", "Debug")
+                                blink_exclusions += int(gem_event['gem_amount'])
+                                self.log(f"blink_exclusions is now {blink_exclusions}", "Debug")
+                                break
+                            elif "Sparx minigames" in gem_event['name'] and minigame_locs[convert[key]+16] in self.options.exclude_locations.value:
+                                self.log(f"Skipping Sparx gem event \"{gem_event['name']}\" because its associated location \"{minigame_locs[convert[key]+16]}\" was excluded.", "Debug")
+                                other_exclusions += int(gem_event['gem_amount'])
+                                self.log(f"other_exclusions is now {other_exclusions}", "Debug")
+                                break
+                    else:
+                        normal = True  # only becomes True if no exclusions found since that triggers the else. Slightly cleaner than settng it False in each of the 3 exclusion scenarios above
+                                
+                    if normal:
+                        location_name = f"{reg}: {gem_event['name']}"
+                        if "[enemy]" in gem_event['name']: enemy_count += int(gem_event['gem_amount'])
+                        self.log(f"Created gem event with location_name \"{location_name}\", item name \"{gem_event['name']}\", and access rule {gem_event['access_rule']}.", "Extra")
+                        self.get_region(reg).add_event(location_name, gem_event['name'], rule=self.rule_from_dict(gem_event["access_rule"]))
+                        
+            self.log(f"enemy count total is {enemy_count}.", "Debug")
+                    
+        # shop costs determined by multiple options. Doing after gem events in case of exclusions
+        if self.options.shop_randomization.value == 1:
+            self.log("Setting up randomized shop costs.", "Info")
+            shop_item_count = 18 if self.options.key_rings.value else 56
+            blink = (20203 - blink_exclusions) * self.options.blink_gems.value / 100
+            non_blink_enemies = 16353 * self.options.non_blink_enemies.value / 100
+            other = (106237 - other_exclusions) * self.options.other_gems.value / 100
+            gem_total = blink + non_blink_enemies + other
+            base_price = gem_total / (shop_item_count - 1)
+            self.log(f"Set up shop prices. shop_item_count = {shop_item_count}. blink = {blink}. non_blink_enemies = {non_blink_enemies}. other = {other}. base_price = {base_price}.","Debug")
+            self.shop_costs.append(0)
+
+            if self.options.gem_logic:  # gem logic
+                for counter in range(shop_item_count - 1):
+                    self.shop_costs.append(int(base_price * (counter + 1)))  # each item has incrementing price
+            else:  # no gem logic
+                for counter in range(shop_item_count - 1):
+                    self.shop_costs.append(int(base_price))  # each item has same price
+            self.log(f"Shop costs are {self.shop_costs}.", "Info")
+            
+        self.handle_goaling()
     
     def create_item(self, name: str) -> Item:
         """Helper method for create_items which returns an Item object."""
@@ -612,14 +643,16 @@ class SpyroAHTWorld(World):
         item_pool = []
         
         self.log("Checking for vanilla minigame rewards.", "Info")
-        minigames = 0
-        for npc, npc_list in zip(["Sgt. Byrd", "Blink", "Sparx", "Turret"], minigame_locs):
+        # a bit weird but sets up big list of NPC names to associate to each minigame location
+        npc_names = ["Sgt. Byrd"] * 8 + ["Blink"] * 8 + ["Sparx"] * 8 + ["Fredneck"] * 2 + ["Turtle Mother"] * 2 + ["Peggy"] * 2 + ["Wally"] * 2
+        minigames, counter = 0, 0
+        for npc, minigame_loc in zip(npc_names, minigame_locs):
             if npc in self.options.vanilla_minigame_rewards.value:
-                self.log(f"Making {npc}'s rewards vanilla.", "Debug")
-                for egg, light_gem in npc_list:
-                    self.get_location(egg).place_locked_item(self.create_item("Dragon Egg"))
-                    self.get_location(light_gem).place_locked_item(self.create_item("Light Gem"))
-                minigames += 4
+                self.log(f"Making {npc}'s minigames vanilla.", "Debug")
+                item = "Dragon Egg" if counter % 2 == 0 else "Light Gem"
+                self.get_location(minigame_loc).place_locked_item(self.create_item(item))
+                if item == "Light Gem": minigames += 1
+            counter += 1
         
         self.log("Setting up starting breath.", "Info")
         starting = self.options.starting_breath.value
@@ -647,8 +680,16 @@ class SpyroAHTWorld(World):
             self.log("starting_realms is empty. Halting generation.", "Warning")
             raise OptionError("starting_realms cannot be empty with auto_corrections disabled.")
         else:
-            self._starting_realms = self.options.starting_realms.value
+            self._starting_realms = list(self.options.starting_realms.value)
         self.log(f"Starting Realms: {self._starting_realms}.", "Debug")
+        
+        if len(self._starting_realms) == 1 and self._starting_realms[0] == "Icy Wilderness" and self.options.shop_randomization.value == 0 and self.options.randomize_movement.value == 0:
+            if self.options.auto_corrections:
+                self.log("Generations have a high frequency of failure if starting in Icy Wilderness with shop_randomization and randomize_movement disabled. Fixing by changing starting realm to Dragon Kingdom.", "Warning")
+                self._starting_realms[0] = "Dragon Kingdom"
+            else:
+                self.log("Generations have a high frequency of failure if starting in Icy Wilderness with shop_randomization and randomize_movement disabled. Halting generation.", "Warning")
+                raise OptionError("Can't start in Icy Wilderness if shop_randomization and randomize_movement are disabled if auto_corrections is disabled.", "Warning")
             
         # add starting realm choices to start inventory, if not already in start inventory
         self.log("Adding starting realm access cards and unlocking starting realm shops (if using open_world_mode).", "Info")
@@ -730,7 +771,7 @@ class SpyroAHTWorld(World):
             if add:
                 count = item.get('count', 1)
                 if item['name'] == 'Light Gem':  # dragon eggs are handled above separately since they are fully filler now
-                    self.log(f"Making {count} less Light Gems due to forcing vanilla minigame rewards.", "Debug")
+                    self.log(f"Making {minigames} less Light Gems due to forcing vanilla minigame rewards.", "Debug")
                     count -= minigames
                 if item['name'] in subtract_one:  # make one less of each corresponding depot shop level unlock if added above already
                     self.log(f"Making 1 less {item['name']} due to open_world_mode.", "Debug")
@@ -738,7 +779,7 @@ class SpyroAHTWorld(World):
 
                 for _ in range(count):
                     item_pool.append(self.create_item(item['name']))
-                self.log(f"Created {count} of item \"{item['name']}\".", "MoreDebug")
+                self.log(f"Created {count} of item \"{item['name']}\".", "Extra")
                 
         # add filler. Randomly chooses a category, then within the list of items for that category, randomly chooses one.
         self.filler_categories, self.filler_items = self.setup_filler_list(item_data)
@@ -749,7 +790,7 @@ class SpyroAHTWorld(World):
                 random_category = self.random.choice(self.filler_categories)
             filler_choices = self.filler_items[convert[random_category]]
             choice = self.random.choice(filler_choices)
-            self.log(f"Created filler item \"{choice}\".", "MoreDebug")
+            self.log(f"Created filler item \"{choice}\".", "Extra")
             item_pool.append(self.create_item(choice))
 
         self.multiworld.itempool.extend(item_pool)

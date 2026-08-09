@@ -15,3 +15,7 @@ TODO: research how many enemy gems are truly required so non_blink_enemies can a
 TODO: make tool for testing gem access
 TODO: can we modify mission screen text for light gem doors? "Collect 45 light gems to open the door to a secret area" for example
 TODO: auto-populate game mod addresses from mod itself?
+TODO: is it possible to get gem logic pause text to accurately reflect the amount needed from a given minigame?
+    may or may not be doable on its own. less likely to be doable in a way that also factors in excluded locations
+TODO: is it possible to add an option for forcing early DJ?
+    conceptually of course it is, but idk if I can force early items in non __init__ world methods
