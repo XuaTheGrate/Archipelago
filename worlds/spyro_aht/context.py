@@ -87,7 +87,7 @@ class SpyroAHTCommands(ClientCommandProcessor):
         self.output(f"Minigames: {output[:-2]}.")
         # filler items
         output = ""
-        for minigame_type in ["Dragon Eggs", "Breath Bombs", "Gem Packs", "Generic"]:
+        for minigame_type in ["Dragon Eggs", "Breath Bombs", "Gem Packs", "Generics"]:
             if minigame_type in self.ctx.slot_data['filler_items']: output+= f"{minigame_type}, "
         self.output(f"Enabled Filler Item Types: {output[:-2]}.")
         
@@ -116,7 +116,7 @@ class SpyroAHTCommands(ClientCommandProcessor):
             # shop prices
             self.output(f"This means your shop prices are {self.ctx.slot_data['shop_costs']}.")
             # double gems
-            output = "enable" if self.ctx.slot_data['double_gems'] else "disable"
+            output = "disable" if self.ctx.slot_data['double_gems'] else "enable"
             self.output(f"You chose to {output} the Double Gems item.")
             
         self.output("---------------GATE AND GADGET COSTS---------------")
@@ -132,7 +132,7 @@ class SpyroAHTCommands(ClientCommandProcessor):
         self.output(f"The Light Gem doors require, in vanilla realm order: {data[0]}, {data[1]}, {data[2]}, and {data[3]} Light Gems.")
         # gadget costs
         data = self.ctx.slot_data["gadget_costs"]
-        self.output(f"Ball gadget requires {data[0]} Light Gems, invincibility requires {data[1]} Light Gems, and supercharge requires {data[2]} Light Gems.")
+        self.output(f"Gadget Costs: Ball requires {data[0]} Light Gems, invincibility requires {data[1]} Light Gems, and supercharge requires {data[2]} Light Gems.")
 
         self.output("---------------QUALITY OF LIFE---------------")
         # pause menu patch

@@ -1568,7 +1568,7 @@
                 }
             },
             {
-                "name": "DFBallGadget -> DVEntry",
+                "name": "DVOutsideBallGadget -> DVEntry",
                 "access_rule": {
                     "rule": "True_",
                     "options": [],
@@ -2435,6 +2435,18 @@
                         "count": 1
                     }
                 }
+            },
+            {
+                "name": "DVEntry -> DVTunnelToCroc",
+                "access_rule": {
+                    "rule": "Has",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {
+                        "item_name": "Double Jump",
+                        "count": 1
+                    }
+                }
             }
         ],
         "locations": [
@@ -2489,15 +2501,12 @@
         "name": "CSPyramidAndTemple",
         "entrances": [
             {
-                "name": "DVEntry -> CSPyramidAndTemple",
+                "name": "DVTunnelToCroc -> CSPyramidAndTemple",
                 "access_rule": {
-                    "rule": "Has",
+                    "rule": "True_",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {
-                        "item_name": "Double Jump",
-                        "count": 1
-                    }
+                    "args": {}
                 }
             },
             {
@@ -2994,20 +3003,6 @@
                     "filtered_resolution": false,
                     "args": {}
                 }
-            },
-            {
-                "name": "CS: Dragon Egg from Forgotten Temple electric gate thief",
-                "id": 27,
-                "options": [],
-                "access_rule": {
-                    "rule": "Has",
-                    "options": [],
-                    "filtered_resolution": false,
-                    "args": {
-                        "item_name": "Charge",
-                        "count": 1
-                    }
-                }
             }
         ],
         "gem_events": [
@@ -3097,7 +3092,22 @@
                 }
             }
         ],
-        "locations": [],
+        "locations": [
+            {
+                "name": "CS: Dragon Egg from Forgotten Temple electric gate thief",
+                "id": 27,
+                "options": [],
+                "access_rule": {
+                    "rule": "Has",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {
+                        "item_name": "Charge",
+                        "count": 1
+                    }
+                }
+            }
+        ],
         "gem_events": [
             {
                 "name": "175 Gems (baskets/metal chests)",
@@ -5010,8 +5020,8 @@
                 }
             },
             {
-                "name": "800 Gems (Sparx minigames 1-2)",
-                "gem_amount": 800,
+                "name": "700 Gems (Sparx minigames 1-2)",
+                "gem_amount": 700,
                 "options": [],
                 "access_rule": {
                     "rule": "True_",
@@ -5045,15 +5055,6 @@
                             "Dragonfly Falls - Tropical Cove"
                         ]
                     }
-                }
-            },
-            {
-                "name": "DFCoveAboveShop -> DFCoveShop",
-                "access_rule": {
-                    "rule": "True_",
-                    "options": [],
-                    "filtered_resolution": false,
-                    "args": {}
                 }
             }
         ],
@@ -7238,6 +7239,49 @@
                         "level": "Cloudy Domain"
                     }
                 }
+            },
+            {
+                "name": "CD: Locked Chest after Elder Titan in the distance",
+                "id": 236,
+                "options": [],
+                "access_rule": {
+                    "rule": "And",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "children": [
+                        {
+                            "rule": "LockedChestRule",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "level": "Cloudy Domain"
+                            }
+                        },
+                        {
+                            "rule": "Or",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "children": [
+                                {
+                                    "rule": "CanReachRegion",
+                                    "options": [],
+                                    "filtered_resolution": false,
+                                    "args": {
+                                        "region_name": "CDNorthEast"
+                                    }
+                                },
+                                {
+                                    "rule": "CanReachRegion",
+                                    "options": [],
+                                    "filtered_resolution": false,
+                                    "args": {
+                                        "region_name": "CDTallestTowerUpper"
+                                    }
+                                }
+                            ]
+                        }
+                    ]
+                }
             }
         ],
         "gem_events": [
@@ -7476,6 +7520,15 @@
         "entrances": [
             {
                 "name": "CDCenter -> CDOutsideElder",
+                "access_rule": {
+                    "rule": "True_",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {}
+                }
+            },
+            {
+                "name": "CDTallestTowerUpper -> CDOutsideElder",
                 "access_rule": {
                     "rule": "True_",
                     "options": [],
@@ -7723,19 +7776,6 @@
                     "options": [],
                     "filtered_resolution": false,
                     "args": {}
-                }
-            },
-            {
-                "name": "CD: Locked Chest after Elder Titan in the distance",
-                "id": 236,
-                "options": [],
-                "access_rule": {
-                    "rule": "LockedChestRule",
-                    "options": [],
-                    "filtered_resolution": false,
-                    "args": {
-                        "level": "Cloudy Domain"
-                    }
                 }
             }
         ],
@@ -8038,20 +8078,17 @@
                 "id": 92,
                 "options": [],
                 "access_rule": {
-                    "rule": "Has",
+                    "rule": "True_",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {
-                        "item_name": "Glide",
-                        "count": 1
-                    }
+                    "args": {}
                 }
             }
         ],
         "gem_events": [
             {
-                "name": "150 Gems ([enemy] flying middle and small gnorcs)",
-                "gem_amount": 150,
+                "name": "200 Gems ([enemy] flying middle and small gnorcs)",
+                "gem_amount": 200,
                 "options": [],
                 "access_rule": {
                     "rule": "HasAny",
@@ -8066,8 +8103,8 @@
                 }
             },
             {
-                "name": "280 Gems (in the air/basket/metal chest/headbash purple thing/dark shard)",
-                "gem_amount": 280,
+                "name": "505 Gems (in the air/basket/metal chest/headbash purple thing/dark shard)",
+                "gem_amount": 505,
                 "options": [],
                 "access_rule": {
                     "rule": "True_",
@@ -8077,73 +8114,14 @@
                 }
             },
             {
-                "name": "20 Gems ([enemy] unarmored huge gnorc after glide)",
+                "name": "20 Gems ([enemy] unarmored huge gnorc)",
                 "gem_amount": 20,
                 "options": [],
                 "access_rule": {
-                    "rule": "And",
+                    "rule": "Or",
                     "options": [],
                     "filtered_resolution": false,
                     "children": [
-                        {
-                            "rule": "Has",
-                            "options": [],
-                            "filtered_resolution": false,
-                            "args": {
-                                "item_name": "Glide",
-                                "count": 1
-                            }
-                        },
-                        {
-                            "rule": "Or",
-                            "options": [],
-                            "filtered_resolution": false,
-                            "children": [
-                                {
-                                    "rule": "HasAny",
-                                    "options": [],
-                                    "filtered_resolution": false,
-                                    "args": {
-                                        "item_names": [
-                                            "Electric Breath",
-                                            "Fire Breath"
-                                        ]
-                                    }
-                                },
-                                {
-                                    "rule": "HasAll",
-                                    "options": [],
-                                    "filtered_resolution": false,
-                                    "args": {
-                                        "item_names": [
-                                            "Charge",
-                                            "Ice Breath"
-                                        ]
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                }
-            },
-            {
-                "name": "50 Gems ([enemy] flying small gnorcs after glide)",
-                "gem_amount": 50,
-                "options": [],
-                "access_rule": {
-                    "rule": "And",
-                    "options": [],
-                    "filtered_resolution": false,
-                    "children": [
-                        {
-                            "rule": "Has",
-                            "options": [],
-                            "filtered_resolution": false,
-                            "args": {
-                                "item_name": "Glide",
-                                "count": 1
-                            }
-                        },
                         {
                             "rule": "HasAny",
                             "options": [],
@@ -8154,22 +8132,19 @@
                                     "Fire Breath"
                                 ]
                             }
+                        },
+                        {
+                            "rule": "HasAll",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_names": [
+                                    "Charge",
+                                    "Ice Breath"
+                                ]
+                            }
                         }
                     ]
-                }
-            },
-            {
-                "name": "225 Gems (dark shards/baskets/and metal chests after glide)",
-                "gem_amount": 225,
-                "options": [],
-                "access_rule": {
-                    "rule": "Has",
-                    "options": [],
-                    "filtered_resolution": false,
-                    "args": {
-                        "item_name": "Glide",
-                        "count": 1
-                    }
                 }
             }
         ]
@@ -8209,12 +8184,14 @@
             {
                 "name": "CDTallestTowerLower -> CDTallestTowerUpper",
                 "access_rule": {
-                    "rule": "Has",
+                    "rule": "HasAll",
                     "options": [],
                     "filtered_resolution": false,
                     "args": {
-                        "item_name": "Glide",
-                        "count": 1
+                        "item_names": [
+                            "Double Jump",
+                            "Glide"
+                        ]
                     }
                 }
             }
@@ -8247,14 +8224,12 @@
                 "id": 95,
                 "options": [],
                 "access_rule": {
-                    "rule": "HasAll",
+                    "rule": "Has",
                     "options": [],
                     "filtered_resolution": false,
                     "args": {
-                        "item_names": [
-                            "Double Jump",
-                            "Wall Kick"
-                        ]
+                        "item_name": "Wall Kick",
+                        "count": 1
                     }
                 }
             },
@@ -8263,13 +8238,10 @@
                 "id": 96,
                 "options": [],
                 "access_rule": {
-                    "rule": "Has",
+                    "rule": "True_",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {
-                        "item_name": "Double Jump",
-                        "count": 1
-                    }
+                    "args": {}
                 }
             }
         ],
@@ -8331,61 +8303,14 @@
                 }
             },
             {
-                "name": "180 Gems (in the air after Byrd)",
-                "gem_amount": 180,
+                "name": "410 Gems (in the air/metal chests/dark shards/headbash purple thing)",
+                "gem_amount": 410,
                 "options": [],
                 "access_rule": {
                     "rule": "True_",
                     "options": [],
                     "filtered_resolution": false,
                     "args": {}
-                }
-            },
-            {
-                "name": "100 Gems (metal chests)",
-                "gem_amount": 100,
-                "options": [],
-                "access_rule": {
-                    "rule": "HasAny",
-                    "options": [],
-                    "filtered_resolution": false,
-                    "args": {
-                        "item_names": [
-                            "Charge",
-                            "Double Jump",
-                            "Electric Breath"
-                        ]
-                    }
-                }
-            },
-            {
-                "name": "100 Gems (dark shards)",
-                "gem_amount": 100,
-                "options": [],
-                "access_rule": {
-                    "rule": "HasAny",
-                    "options": [],
-                    "filtered_resolution": false,
-                    "args": {
-                        "item_names": [
-                            "Charge",
-                            "Double Jump"
-                        ]
-                    }
-                }
-            },
-            {
-                "name": "30 Gems (headbash purple thing)",
-                "gem_amount": 30,
-                "options": [],
-                "access_rule": {
-                    "rule": "Has",
-                    "options": [],
-                    "filtered_resolution": false,
-                    "args": {
-                        "item_name": "Double Jump",
-                        "count": 1
-                    }
                 }
             },
             {
@@ -8412,26 +8337,10 @@
             {
                 "name": "CDTallestTowerUpper -> CDBallGadget",
                 "access_rule": {
-                    "rule": "And",
+                    "rule": "BallGadget",
                     "options": [],
                     "filtered_resolution": false,
-                    "children": [
-                        {
-                            "rule": "Has",
-                            "options": [],
-                            "filtered_resolution": false,
-                            "args": {
-                                "item_name": "Double Jump",
-                                "count": 1
-                            }
-                        },
-                        {
-                            "rule": "BallGadget",
-                            "options": [],
-                            "filtered_resolution": false,
-                            "args": {}
-                        }
-                    ]
+                    "args": {}
                 }
             }
         ],
@@ -9333,8 +9242,8 @@
                 }
             },
             {
-                "name": "1100 Gems (Sparx minigames 2-1)",
-                "gem_amount": 1100,
+                "name": "900 Gems (Sparx minigames 2-1)",
+                "gem_amount": 900,
                 "options": [],
                 "access_rule": {
                     "rule": "True_",
@@ -9344,8 +9253,8 @@
                 }
             },
             {
-                "name": "1000 Gems (Sparx minigames 2-2)",
-                "gem_amount": 1000,
+                "name": "800 Gems (Sparx minigames 2-2)",
+                "gem_amount": 800,
                 "options": [],
                 "access_rule": {
                     "rule": "True_",
@@ -9723,7 +9632,6 @@
                     "filtered_resolution": false,
                     "args": {
                         "item_names": [
-                            "Double Jump",
                             "Glide",
                             "Pole Spin"
                         ]
@@ -9847,7 +9755,7 @@
                     "args": {
                         "item_names": [
                             "Double Jump",
-                            "Electric Breath"
+                            "Fire Breath"
                         ]
                     }
                 }
@@ -9870,14 +9778,12 @@
                             }
                         },
                         {
-                            "rule": "HasAll",
+                            "rule": "Has",
                             "options": [],
                             "filtered_resolution": false,
                             "args": {
-                                "item_names": [
-                                    "Double Jump",
-                                    "Electric Breath"
-                                ]
+                                "item_name": "Double Jump",
+                                "count": 1
                             }
                         }
                     ]
@@ -9972,25 +9878,22 @@
                     "args": {
                         "item_names": [
                             "Double Jump",
-                            "Electric Breath",
                             "Fire Breath"
                         ]
                     }
                 }
             },
             {
-                "name": "50 Gems (baskets)",
+                "name": "50 Gems (baskets on perimeter)",
                 "gem_amount": 50,
                 "options": [],
                 "access_rule": {
-                    "rule": "HasAll",
+                    "rule": "Has",
                     "options": [],
                     "filtered_resolution": false,
                     "args": {
-                        "item_names": [
-                            "Double Jump",
-                            "Electric Breath"
-                        ]
+                        "item_name": "Double Jump",
+                        "count": 1
                     }
                 }
             },
@@ -10962,7 +10865,7 @@
         ],
         "gem_events": [
             {
-                "name": "141 Gems (dark shards on ice/headbash rock and on the gorund behind chargeable wall)",
+                "name": "141 Gems (dark shards on ice/headbash rock and on the ground behind chargeable wall)",
                 "gem_amount": 141,
                 "options": [],
                 "access_rule": {
@@ -12131,8 +12034,8 @@
                 }
             },
             {
-                "name": "1100 Gems (Sparx minigames 3-1)",
-                "gem_amount": 1100,
+                "name": "950 Gems (Sparx minigames 3-1)",
+                "gem_amount": 950,
                 "options": [],
                 "access_rule": {
                     "rule": "True_",
@@ -12142,8 +12045,8 @@
                 }
             },
             {
-                "name": "1050 Gems (Sparx minigames 3-2)",
-                "gem_amount": 1050,
+                "name": "900 Gems (Sparx minigames 3-2)",
+                "gem_amount": 900,
                 "options": [],
                 "access_rule": {
                     "rule": "True_",
@@ -12177,6 +12080,15 @@
                             "Ice Citadel - Cool Courtyard"
                         ]
                     }
+                }
+            },
+            {
+                "name": "ICRoyalToCourtyard -> ICCourtyardLower",
+                "access_rule": {
+                    "rule": "True_",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {}
                 }
             }
         ],
@@ -12710,15 +12622,12 @@
                     "filtered_resolution": false,
                     "children": [
                         {
-                            "rule": "HasAll",
+                            "rule": "Has",
                             "options": [],
                             "filtered_resolution": false,
                             "args": {
-                                "item_names": [
-                                    "Charge",
-                                    "Double Jump",
-                                    "Water Breath"
-                                ]
+                                "item_name": "Charge",
+                                "count": 1
                             }
                         },
                         {
@@ -12734,6 +12643,15 @@
                             }
                         }
                     ]
+                }
+            },
+            {
+                "name": "ICSuperchargeShop -> ICElderRoom",
+                "access_rule": {
+                    "rule": "True_",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {}
                 }
             }
         ],
@@ -14521,6 +14439,20 @@
                         "count": 1
                     }
                 }
+            },
+            {
+                "name": "MMVillage -> MMEntryUpper",
+                "access_rule": {
+                    "rule": "HasAll",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {
+                        "item_names": [
+                            "Double Jump",
+                            "Glide"
+                        ]
+                    }
+                }
             }
         ],
         "locations": [
@@ -15006,7 +14938,7 @@
                 }
             },
             {
-                "name": "MMAfterPoles -> MMPostVillage",
+                "name": "MMPolesLower -> MMPostVillage",
                 "access_rule": {
                     "rule": "True_",
                     "options": [],
@@ -15015,28 +14947,11 @@
                 }
             }
         ],
-        "locations": [
-            {
-                "name": "MM: Light Gem after village in pole spin room",
-                "id": 184,
-                "options": [],
-                "access_rule": {
-                    "rule": "HasAny",
-                    "options": [],
-                    "filtered_resolution": false,
-                    "args": {
-                        "item_names": [
-                            "Double Jump",
-                            "Pole Spin"
-                        ]
-                    }
-                }
-            }
-        ],
+        "locations": [],
         "gem_events": [
             {
-                "name": "100 Gems ([enemy] fire imps)",
-                "gem_amount": 100,
+                "name": "50 Gems ([enemy] fire imps before pole room)",
+                "gem_amount": 50,
                 "options": [],
                 "access_rule": {
                     "rule": "True_",
@@ -15173,11 +15088,63 @@
             }
         ]
     },
-    "MMAfterPoles": {
-        "name": "MMAfterPoles",
+    "MMPolesLower": {
+        "name": "MMPolesLower",
         "entrances": [
             {
-                "name": "MMPostVillage -> MMAfterPoles",
+                "name": "MMPostVillage -> MMPolesLower",
+                "access_rule": {
+                    "rule": "Has",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {
+                        "item_name": "Double Jump",
+                        "count": 1
+                    }
+                }
+            },
+            {
+                "name": "MMPolesUpper -> MMPolesLower",
+                "access_rule": {
+                    "rule": "True_",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {}
+                }
+            }
+        ],
+        "locations": [
+            {
+                "name": "MM: Light Gem after village in pole spin room",
+                "id": 184,
+                "options": [],
+                "access_rule": {
+                    "rule": "True_",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {}
+                }
+            }
+        ],
+        "gem_events": [
+            {
+                "name": "50 Gems ([enemy] fire imps)",
+                "gem_amount": 50,
+                "options": [],
+                "access_rule": {
+                    "rule": "True_",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {}
+                }
+            }
+        ]
+    },
+    "MMPolesUpper": {
+        "name": "MMPolesUpper",
+        "entrances": [
+            {
+                "name": "MMPostVillage -> MMPolesUpper",
                 "access_rule": {
                     "rule": "HasAll",
                     "options": [],
@@ -15192,7 +15159,7 @@
                 }
             },
             {
-                "name": "MMBridgeEntry -> MMAfterPoles",
+                "name": "MMBridgeEntry -> MMPolesUpper",
                 "access_rule": {
                     "rule": "True_",
                     "options": [],
@@ -15254,7 +15221,7 @@
         "name": "MMBridgeEntry",
         "entrances": [
             {
-                "name": "MMAfterPoles -> MMBridgeEntry",
+                "name": "MMPolesUpper -> MMBridgeEntry",
                 "access_rule": {
                     "rule": "True_",
                     "options": [],
@@ -15532,33 +15499,17 @@
                 }
             },
             {
-                "name": "MMLumber -> MMPostBridge",
+                "name": "MMLumberEntry -> MMPostBridge",
                 "access_rule": {
-                    "rule": "And",
+                    "rule": "HasAny",
                     "options": [],
                     "filtered_resolution": false,
-                    "children": [
-                        {
-                            "rule": "Has",
-                            "options": [],
-                            "filtered_resolution": false,
-                            "args": {
-                                "item_name": "Double Jump",
-                                "count": 1
-                            }
-                        },
-                        {
-                            "rule": "HasAny",
-                            "options": [],
-                            "filtered_resolution": false,
-                            "args": {
-                                "item_names": [
-                                    "Ice Breath",
-                                    "Water Breath"
-                                ]
-                            }
-                        }
-                    ]
+                    "args": {
+                        "item_names": [
+                            "Ice Breath",
+                            "Water Breath"
+                        ]
+                    }
                 }
             }
         ],
@@ -17528,8 +17479,8 @@
                 }
             },
             {
-                "name": "1300 Gems (Sparx minigames 4-1)",
-                "gem_amount": 1300,
+                "name": "1100 Gems (Sparx minigames 4-1)",
+                "gem_amount": 1100,
                 "options": [],
                 "access_rule": {
                     "rule": "True_",
@@ -17539,8 +17490,8 @@
                 }
             },
             {
-                "name": "1050 Gems (Sparx minigames 4-2)",
-                "gem_amount": 1050,
+                "name": "900 Gems (Sparx minigames 4-2)",
+                "gem_amount": 900,
                 "options": [],
                 "access_rule": {
                     "rule": "True_",
@@ -17823,11 +17774,11 @@
             }
         ]
     },
-    "DMLGDoor": {
-        "name": "DMLGDoor",
+    "DMLGDoorEntry": {
+        "name": "DMLGDoorEntry",
         "entrances": [
             {
-                "name": "DMEntry -> DMLGDoor",
+                "name": "DMEntry -> DMLGDoorEntry",
                 "access_rule": {
                     "rule": "LGDoorRule",
                     "options": [],
@@ -17835,6 +17786,93 @@
                     "args": {
                         "index": 3
                     }
+                }
+            }
+        ],
+        "locations": [],
+        "gem_events": [
+            {
+                "name": "20 Gems ([enemy] huge robo-gnorc)",
+                "gem_amount": 20,
+                "options": [],
+                "access_rule": {
+                    "rule": "Or",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "children": [
+                        {
+                            "rule": "Has",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_name": "Electric Breath",
+                                "count": 1
+                            }
+                        },
+                        {
+                            "rule": "HasAll",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_names": [
+                                    "Charge",
+                                    "Ice Breath"
+                                ]
+                            }
+                        }
+                    ]
+                }
+            },
+            {
+                "name": "25 Gems (metal chests)",
+                "gem_amount": 25,
+                "options": [],
+                "access_rule": {
+                    "rule": "HasAny",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {
+                        "item_names": [
+                            "Charge",
+                            "Double Jump",
+                            "Electric Breath"
+                        ]
+                    }
+                }
+            }
+        ]
+    },
+    "DMLGDoorPastGnorc": {
+        "name": "DMLGDoorPastGnorc",
+        "entrances": [
+            {
+                "name": "DMLGDoorEntry -> DMLGDoorPastGnorc",
+                "access_rule": {
+                    "rule": "Or",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "children": [
+                        {
+                            "rule": "Has",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_name": "Electric Breath",
+                                "count": 1
+                            }
+                        },
+                        {
+                            "rule": "HasAll",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_names": [
+                                    "Charge",
+                                    "Ice Breath"
+                                ]
+                            }
+                        }
+                    ]
                 }
             }
         ],
@@ -17896,72 +17934,25 @@
         ],
         "gem_events": [
             {
-                "name": "100 Gems (baskets)",
-                "gem_amount": 100,
+                "name": "175 Gems (baskets/metal chests)",
+                "gem_amount": 175,
                 "options": [],
                 "access_rule": {
-                    "rule": "HasAny",
+                    "rule": "True_",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {
-                        "item_names": [
-                            "Charge",
-                            "Double Jump",
-                            "Electric Breath",
-                            "Fire Breath",
-                            "Ice Breath",
-                            "Water Breath"
-                        ]
-                    }
+                    "args": {}
                 }
             },
             {
-                "name": "100 Gems (metal chests)",
-                "gem_amount": 100,
+                "name": "215 Gems ([enemy] huge robo-gnorc/steel traps/critters)",
+                "gem_amount": 215,
                 "options": [],
                 "access_rule": {
-                    "rule": "HasAny",
+                    "rule": "True_",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {
-                        "item_names": [
-                            "Charge",
-                            "Double Jump",
-                            "Electric Breath"
-                        ]
-                    }
-                }
-            },
-            {
-                "name": "110 Gems ([enemy] huge robo-gnorc/steel traps)",
-                "gem_amount": 110,
-                "options": [],
-                "access_rule": {
-                    "rule": "Or",
-                    "options": [],
-                    "filtered_resolution": false,
-                    "children": [
-                        {
-                            "rule": "Has",
-                            "options": [],
-                            "filtered_resolution": false,
-                            "args": {
-                                "item_name": "Electric Breath",
-                                "count": 1
-                            }
-                        },
-                        {
-                            "rule": "HasAll",
-                            "options": [],
-                            "filtered_resolution": false,
-                            "args": {
-                                "item_names": [
-                                    "Charge",
-                                    "Ice Breath"
-                                ]
-                            }
-                        }
-                    ]
+                    "args": {}
                 }
             },
             {
@@ -17976,23 +17967,6 @@
                         "item_names": [
                             "Charge",
                             "Double Jump"
-                        ]
-                    }
-                }
-            },
-            {
-                "name": "125 Gems ([enemy] critters)",
-                "gem_amount": 125,
-                "options": [],
-                "access_rule": {
-                    "rule": "HasAny",
-                    "options": [],
-                    "filtered_resolution": false,
-                    "args": {
-                        "item_names": [
-                            "Charge",
-                            "Electric Breath",
-                            "Fire Breath"
                         ]
                     }
                 }
@@ -18267,11 +18241,11 @@
             }
         ]
     },
-    "DMAfterCaged": {
-        "name": "DMAfterCaged",
+    "DMAfterCaged1": {
+        "name": "DMAfterCaged1",
         "entrances": [
             {
-                "name": "DMCaged -> DMAfterCaged",
+                "name": "DMCaged -> DMAfterCaged1",
                 "access_rule": {
                     "rule": "True_",
                     "options": [],
@@ -18280,15 +18254,33 @@
                 }
             },
             {
-                "name": "DMBeforeIcePoles -> DMAfterCaged",
+                "name": "DMAfterCaged2 -> DMAfterCaged1",
                 "access_rule": {
-                    "rule": "Has",
+                    "rule": "Or",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {
-                        "item_name": "Wall Kick",
-                        "count": 1
-                    }
+                    "children": [
+                        {
+                            "rule": "Has",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_name": "Electric Breath",
+                                "count": 1
+                            }
+                        },
+                        {
+                            "rule": "HasAll",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_names": [
+                                    "Charge",
+                                    "Ice Breath"
+                                ]
+                            }
+                        }
+                    ]
                 }
             }
         ],
@@ -18329,8 +18321,8 @@
         ],
         "gem_events": [
             {
-                "name": "540 Gems (baskets/dark shards/metal chests/headbash chests)",
-                "gem_amount": 540,
+                "name": "490 Gems (baskets/dark shards/metal chests/headbash chests)",
+                "gem_amount": 490,
                 "options": [],
                 "access_rule": {
                     "rule": "True_",
@@ -18394,7 +18386,7 @@
                 }
             },
             {
-                "name": "195 Gems ([enemy] steel traps/huge robo-gnorc)",
+                "name": "195 Gems ([enemy] steel traps/huge robo-gnorc blocking door)",
                 "gem_amount": 195,
                 "options": [],
                 "access_rule": {
@@ -18427,11 +18419,51 @@
             }
         ]
     },
+    "DMAfterCaged2": {
+        "name": "DMAfterCaged2",
+        "entrances": [
+            {
+                "name": "DMAfterCaged1 -> DMAfterCaged2",
+                "access_rule": {
+                    "rule": "True_",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {}
+                }
+            },
+            {
+                "name": "DMBeforeIcePoles -> DMAfterCaged2",
+                "access_rule": {
+                    "rule": "Has",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {
+                        "item_name": "Wall Kick",
+                        "count": 1
+                    }
+                }
+            }
+        ],
+        "locations": [],
+        "gem_events": [
+            {
+                "name": "50 Gems (baskets)",
+                "gem_amount": 50,
+                "options": [],
+                "access_rule": {
+                    "rule": "True_",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {}
+                }
+            }
+        ]
+    },
     "DMBeforeIcePoles": {
         "name": "DMBeforeIcePoles",
         "entrances": [
             {
-                "name": "DMAfterCaged -> DMBeforeIcePoles",
+                "name": "DMAfterCaged2 -> DMBeforeIcePoles",
                 "access_rule": {
                     "rule": "True_",
                     "options": [],
@@ -18442,13 +18474,31 @@
             {
                 "name": "DMSeeSaw -> DMBeforeIcePoles",
                 "access_rule": {
-                    "rule": "Has",
+                    "rule": "Or",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {
-                        "item_name": "Glide",
-                        "count": 1
-                    }
+                    "children": [
+                        {
+                            "rule": "Has",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_name": "Glide",
+                                "count": 1
+                            }
+                        },
+                        {
+                            "rule": "HasAll",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_names": [
+                                    "Ice Breath",
+                                    "Pole Spin"
+                                ]
+                            }
+                        }
+                    ]
                 }
             }
         ],
@@ -18549,7 +18599,18 @@
         ],
         "gem_events": [
             {
-                "name": "60 Gems ([enemy] small robo-gnorcs/drill robot)",
+                "name": "100 Gems (baskets at ledge (50 below 50 above))",
+                "gem_amount": 100,
+                "options": [],
+                "access_rule": {
+                    "rule": "True_",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {}
+                }
+            },
+            {
+                "name": "60 Gems ([enemy] small robo-gnorc/drill robots)",
                 "gem_amount": 60,
                 "options": [],
                 "access_rule": {
@@ -18565,8 +18626,8 @@
                 }
             },
             {
-                "name": "185 Gems ([enemy] roller robot/huge robo-gnorc/steel traps)",
-                "gem_amount": 185,
+                "name": "165 Gems ([enemy] roller robot/huge robo-gnorcs/steel traps)",
+                "gem_amount": 165,
                 "options": [],
                 "access_rule": {
                     "rule": "Or",
@@ -18597,8 +18658,8 @@
                 }
             },
             {
-                "name": "40 Gems ([enemy] armored middle robo-gnorc)",
-                "gem_amount": 40,
+                "name": "20 Gems ([enemy] armored middle robo-gnorc)",
+                "gem_amount": 20,
                 "options": [],
                 "access_rule": {
                     "rule": "And",
@@ -18629,8 +18690,8 @@
                 }
             },
             {
-                "name": "150 Gems ([enemy] critters)",
-                "gem_amount": 150,
+                "name": "75 Gems ([enemy] critters)",
+                "gem_amount": 75,
                 "options": [],
                 "access_rule": {
                     "rule": "HasAny",
@@ -18643,17 +18704,6 @@
                             "Fire Breath"
                         ]
                     }
-                }
-            },
-            {
-                "name": "275 Gems (baskets/dark shards/metal chest)",
-                "gem_amount": 275,
-                "options": [],
-                "access_rule": {
-                    "rule": "True_",
-                    "options": [],
-                    "filtered_resolution": false,
-                    "args": {}
                 }
             },
             {
@@ -18713,56 +18763,114 @@
         ],
         "gem_events": []
     },
-    "DMGreenPoles": {
-        "name": "DMGreenPoles",
+    "DMPostSeeSaw": {
+        "name": "DMPostSeeSaw",
         "entrances": [
             {
-                "name": "DMSeeSaw -> DMGreenPoles",
+                "name": "DMSeeSaw -> DMPostSeeSaw",
                 "access_rule": {
-                    "rule": "And",
+                    "rule": "Or",
                     "options": [],
                     "filtered_resolution": false,
                     "children": [
+                        {
+                            "rule": "Has",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_name": "Electric Breath",
+                                "count": 1
+                            }
+                        },
                         {
                             "rule": "HasAll",
                             "options": [],
                             "filtered_resolution": false,
                             "args": {
                                 "item_names": [
-                                    "Glide",
-                                    "Pole Spin",
-                                    "Wall Kick"
+                                    "Charge",
+                                    "Ice Breath"
                                 ]
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
+        "locations": [],
+        "gem_events": [
+            {
+                "name": "95 Gems ([enemy] critters/huge robo-gnorc)",
+                "gem_amount": 95,
+                "options": [],
+                "access_rule": {
+                    "rule": "True_",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {}
+                }
+            },
+            {
+                "name": "20 Gems ([enemy] armored middle robo-gnorc)",
+                "gem_amount": 20,
+                "options": [],
+                "access_rule": {
+                    "rule": "And",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "children": [
+                        {
+                            "rule": "Has",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_name": "Charge",
+                                "count": 1
                             }
                         },
                         {
-                            "rule": "Or",
+                            "rule": "HasAny",
                             "options": [],
                             "filtered_resolution": false,
-                            "children": [
-                                {
-                                    "rule": "Has",
-                                    "options": [],
-                                    "filtered_resolution": false,
-                                    "args": {
-                                        "item_name": "Electric Breath",
-                                        "count": 1
-                                    }
-                                },
-                                {
-                                    "rule": "HasAll",
-                                    "options": [],
-                                    "filtered_resolution": false,
-                                    "args": {
-                                        "item_names": [
-                                            "Charge",
-                                            "Ice Breath"
-                                        ]
-                                    }
-                                }
-                            ]
+                            "args": {
+                                "item_names": [
+                                    "Electric Breath",
+                                    "Ice Breath"
+                                ]
+                            }
                         }
                     ]
+                }
+            },
+            {
+                "name": "175 Gems (baskets/dark shards/metal chest)",
+                "gem_amount": 175,
+                "options": [],
+                "access_rule": {
+                    "rule": "True_",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {}
+                }
+            }
+        ]
+    },
+    "DMGreenPoles": {
+        "name": "DMGreenPoles",
+        "entrances": [
+            {
+                "name": "DMPostSeeSaw -> DMGreenPoles",
+                "access_rule": {
+                    "rule": "HasAll",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {
+                        "item_names": [
+                            "Glide",
+                            "Pole Spin",
+                            "Wall Kick"
+                        ]
+                    }
                 }
             }
         ],
@@ -19465,22 +19573,7 @@
                 }
             }
         ],
-        "locations": [
-            {
-                "name": "RL: Dark Gem in northeast guarded by Robo-Gnorcs",
-                "id": 227,
-                "options": [],
-                "access_rule": {
-                    "rule": "Has",
-                    "options": [],
-                    "filtered_resolution": false,
-                    "args": {
-                        "item_name": "Double Jump",
-                        "count": 1
-                    }
-                }
-            }
-        ],
+        "locations": [],
         "gem_events": [
             {
                 "name": "40 Gems ([enemy] small robo-gnorcs)",
@@ -19529,7 +19622,22 @@
                 }
             }
         ],
-        "locations": [],
+        "locations": [
+            {
+                "name": "RL: Dark Gem in northeast guarded by Robo-Gnorcs",
+                "id": 227,
+                "options": [],
+                "access_rule": {
+                    "rule": "Has",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "args": {
+                        "item_name": "Double Jump",
+                        "count": 1
+                    }
+                }
+            }
+        ],
         "gem_events": [
             {
                 "name": "60 Gems ([enemy] small robo-gnorc)",

@@ -86,7 +86,7 @@ DFElderStatue,223,baskets/metal chests/on the ground,True_()
 DFElderStatue,95,[enemy] normal and boomerang crocoviles,"HasAny('Fire Breath', 'Electric Breath', 'Charge')"
 DFElderStatue,20,[enemy] unarmored huge gnorc,"Or(HasAny('Fire Breath', 'Electric Breath'), HasAll('Ice Breath', 'Charge'))"
 DFElderStatue,675,Sparx minigames 1-1,True_()
-DFElderStatue,800,Sparx minigames 1-2,True_()
+DFElderStatue,700,Sparx minigames 1-2,True_()
 DFCoveAboveShop,20,[enemy] armored huge gnorc,"And(Has('Charge'), HasAny('Fire Breath', 'Electric Breath', 'Ice Breath'))"
 DFCoveAboveShop,125,baskets,"HasAny('Double Jump', 'Charge', 'Fire Breath', 'Electric Breath', 'Water Breath', 'Ice Breath')"
 DFCoveAboveShop,25,metal chest behind chargeable wall,Has('Charge')
@@ -192,18 +192,13 @@ CDNorthWest,500,armored chest via firework,Has('Fire Breath')
 CDSouthWest,100,[enemy] balloon gnorcs,True_()
 CDSouthWest,150,[enemy] flying middle and small gnorcs,"HasAny('Fire Breath', 'Electric Breath')"
 CDSouthWest,85,on the ground/baskets/headbash chest,True_()
-CDEndlessPlatforms,150,[enemy] flying middle and small gnorcs,"HasAny('Fire Breath', 'Electric Breath')"
-CDEndlessPlatforms,280,in the air/basket/metal chest/headbash purple thing/dark shard,True_()
-CDEndlessPlatforms,20,[enemy] unarmored huge gnorc after glide,"And(Has('Glide'), Or(HasAny('Fire Breath', 'Electric Breath'), HasAll('Ice Breath', 'Charge')))"
-CDEndlessPlatforms,50,[enemy] flying small gnorcs after glide,"And(Has('Glide'), HasAny('Fire Breath', 'Electric Breath'))"
-CDEndlessPlatforms,225,dark shards/baskets/and metal chests after glide,Has('Glide')
+CDEndlessPlatforms,200,[enemy] flying middle and small gnorcs,"HasAny('Fire Breath', 'Electric Breath')"
+CDEndlessPlatforms,505,in the air/basket/metal chest/headbash purple thing/dark shard,True_()
+CDEndlessPlatforms,20,[enemy] unarmored huge gnorc,"Or(HasAny('Fire Breath', 'Electric Breath'), HasAll('Ice Breath', 'Charge'))"
 CDTallestTowerUpper,200,Byrd minigames 2-1,True_()
 CDTallestTowerUpper,200,Byrd minigames 2-2,True_()
 CDTallestTowerUpper,20,[enemy] unarmored huge gnorc,"Or(HasAny('Fire Breath', 'Electric Breath'), HasAll('Ice Breath', 'Charge'))"
-CDTallestTowerUpper,180,in the air after Byrd,True_()
-CDTallestTowerUpper,100,metal chests,"HasAny('Double Jump', 'Charge', 'Electric Breath')"
-CDTallestTowerUpper,100,dark shards,"HasAny('Double Jump', 'Charge')"
-CDTallestTowerUpper,30,headbash purple thing,Has('Double Jump')
+CDTallestTowerUpper,410,in the air/metal chests/dark shards/headbash purple thing,True_()
 CDTallestTowerUpper,50,[enemy] flying small gnorcs,"HasAny('Fire Breath', 'Electric Breath')"
 CDBallGadget,815,ball gadget minigame,True_()
 CDBallGadget,500,armored chest via firework after ball gadget minigames,Has('Fire Breath')
@@ -236,8 +231,8 @@ SRDepthsEntry,50,baskets,"HasAny('Double Jump', 'Charge', 'Fire Breath', 'Electr
 SRDepthsEntry,100,metal chests,"HasAny('Double Jump', 'Charge', 'Electric Breath')"
 SRDepthsEntry,30,headbash chest,Has('Double Jump')
 SRDepthsEntry,150,dark shards,"HasAny('Double Jump', 'Charge')"
-SRDepthsEntry,1100,Sparx minigames 2-1,True_()
-SRDepthsEntry,1000,Sparx minigames 2-2,True_()
+SRDepthsEntry,900,Sparx minigames 2-1,True_()
+SRDepthsEntry,800,Sparx minigames 2-2,True_()
 SRDepthsUpper,50,[enemy] mer-gnorcs,"And(Has('Double Jump'), HasAny('Fire Breath', 'Electric Breath', 'Charge'))"
 SRDepthsUpper,1500,armored chests below via firework,Has('Fire Breath')
 SRDepthsLower,300,dark shards,"HasAny('Double Jump', 'Charge')"
@@ -255,8 +250,8 @@ SRToxicRise,46,on the ground before rising statue room,True_()
 SRToxicRise,25,[enemy] mer-gnorc before rising statue room,"HasAny('Fire Breath', 'Electric Breath', 'Charge')"
 SRToxicRise,50,dark shard before rising statue room,"HasAny('Double Jump', 'Charge')"
 SRToxicRise,30,headbash chest before rising statue room,Has('Double Jump')
-SRToxicRise,1500,armored chests via firework on perimeter,"HasAll('Electric Breath', 'Double Jump', 'Fire Breath')"
-SRToxicRise,50,baskets,"HasAll('Electric Breath', 'Double Jump')"
+SRToxicRise,1500,armored chests via firework on perimeter,"HasAll('Double Jump', 'Fire Breath')"
+SRToxicRise,50,baskets on perimeter,Has('Double Jump')
 SRToxicRise,50,dark shard before needing dj,"And(HasAll('Electric Breath', 'Pole Spin', 'Glide'), HasAny('Charge', 'Double Jump'))"
 SRToxicRise,50,dark shard after needing dj,"HasAll('Electric Breath', 'Pole Spin', 'Glide', 'Double Jump')"
 SRReturnToStart,250,[enemy] mer-gnorcs/orange crabs/blue crab,True_()
@@ -284,7 +279,7 @@ FVIcyCamp,25,metal chest via wall kick,"And(Has('Wall Kick'), HasAny('Double Jum
 FVIcyCamp,175,baskets via wall kick,"And(Has('Wall Kick'), HasAny('Double Jump', 'Charge', 'Fire Breath', 'Electric Breath', 'Water Breath', 'Ice Breath'))"
 FVIcyCamp,20,[enemy] unarmored middle gnorc via wall kick,"And(Has('Wall Kick'), HasAny('Fire Breath', 'Electric Breath', 'Charge'))"
 FVIcyCamp,20,[enemy] armored huge gnorc via wall kick,"And(HasAll('Charge', 'Wall Kick'), HasAny('Fire Breath', 'Electric Breath', 'Ice Breath'))"
-FVIcyCampUpper,141,dark shards on ice/headbash rock and on the gorund behind chargeable wall,Has('Charge')
+FVIcyCampUpper,141,dark shards on ice/headbash rock and on the ground behind chargeable wall,Has('Charge')
 FVIcyCampUpper,571,baskets/metal chests/headbash chests + rock/on the ground/in air,True_()
 FVIcyCampUpper,50,[enemy] eskimole on platforms,"HasAny('Fire Breath', 'Electric Breath', 'Charge')"
 FVReturnFromIC,4500,armored chests via supercharge,True_()
@@ -322,8 +317,8 @@ GGFullLevel,1060,standard breakables,True_()
 GGFullLevel,400,frozen gem blocks via exploding arrows,True_()
 GGFullLevel,1000,armored chests via exploding arrows,True_()
 GGFullLevel,200,[enemy] steel traps via exploding arrows,True_()
-GGFullLevel,1100,Sparx minigames 3-1,True_()
-GGFullLevel,1050,Sparx minigames 3-2,True_()
+GGFullLevel,950,Sparx minigames 3-1,True_()
+GGFullLevel,900,Sparx minigames 3-2,True_()
 Ice Citadel,,,
 ICCourtyardLower,293,on the ground,True_()
 ICCourtyardLower,200,[enemy] steel traps,"Or(Has('Electric Breath'), HasAll('Ice Breath', 'Charge'))"
@@ -419,15 +414,16 @@ MMVillage,30,headbash chest,Has('Double Jump')
 MMVillageImps,225,[enemy] fire imps,True_()
 MMVillageImps,443,Byrd minigames 4-1,True_()
 MMVillageImps,443,Byrd minigames 4-2,True_()
-MMPostVillage,100,[enemy] fire imps,True_()
+MMPostVillage,50,[enemy] fire imps before pole room,True_()
 MMPostVillage,40,[enemy] armored huge gnorc,"And(Has('Charge'), HasAny('Fire Breath', 'Electric Breath', 'Ice Breath'))"
 MMPostVillage,153,on the ground,True_()
 MMPostVillage,20,[enemy] unarmored huge gnorc,"Or(HasAny('Fire Breath', 'Electric Breath'), HasAll('Ice Breath', 'Charge'))"
 MMPostVillage,20,[enemy] unarmored middle gnorc,"HasAny('Fire Breath', 'Electric Breath', 'Charge')"
 MMPostVillage,50,metal chests,"HasAny('Double Jump', 'Charge', 'Electric Breath')"
 MMPostVillage,25,headbash rocks,Has('Double Jump')
-MMAfterPoles,25,headbash rocks under unarmored huge gnorc,"Or(HasAny('Fire Breath', 'Electric Breath'), HasAll('Ice Breath', 'Charge'))"
-MMAfterPoles,235,on the ground/headbash chest and rock/baskets,True_()
+MMPolesLower,50,[enemy] fire imps,True_()
+MMPolesUpper,25,headbash rocks under unarmored huge gnorc,"Or(HasAny('Fire Breath', 'Electric Breath'), HasAll('Ice Breath', 'Charge'))"
+MMPolesUpper,235,on the ground/headbash chest and rock/baskets,True_()
 MMBridgeEntry,75,[enemy] phoenixes,True_()
 MMBridgeEntry,55,headbash rocks,True_()
 MMBridge,50,metal chests,"HasAny('Double Jump', 'Charge', 'Electric Breath')"
@@ -497,8 +493,8 @@ MFbImpRoom,25,[enemy] fire imp 8,"And(HasAll('Double Jump', 'Glide'), HasAny('Wa
 MFbSparxShop,40,[enemy] unarmored middle gnorc,"HasAny('Fire Breath', 'Electric Breath', 'Charge')"
 MFbSparxShop,201,on the ground,True_()
 MFbSparxShop,50,baskets,"HasAny('Double Jump', 'Charge', 'Fire Breath', 'Electric Breath', 'Water Breath', 'Ice Breath')"
-MFbSparxShop,1300,Sparx minigames 4-1,True_()
-MFbSparxShop,1050,Sparx minigames 4-2,True_()
+MFbSparxShop,1100,Sparx minigames 4-1,True_()
+MFbSparxShop,900,Sparx minigames 4-2,True_()
 MFbSparxShop,20,[enemy] armored huge gnorc,"And(Has('Charge'), HasAny('Fire Breath', 'Electric Breath', 'Ice Breath'))"
 MFbSparxShop,20,[enemy] armored middle gnorc in thief area,"HasAll('Double Jump', 'Charge')"
 MFbSparxShop,291,on the ground in thief area,"HasAll('Double Jump', 'Charge')"
@@ -511,13 +507,13 @@ DMEntry,60,[enemy] drill robots,"HasAny('Electric Breath', 'Charge')"
 DMEntry,150,[enemy] spike robots/steel traps,"Or(Has('Electric Breath'), HasAll('Ice Breath', 'Charge'))"
 DMEntry,100,metal chests,"HasAny('Double Jump', 'Charge', 'Electric Breath')"
 DMEntry,100,metal chest and baskets behind chargeable wall,Has('Charge')
-DMLGDoor,100,baskets,"HasAny('Double Jump', 'Charge', 'Fire Breath', 'Electric Breath', 'Water Breath', 'Ice Breath')"
-DMLGDoor,100,metal chests,"HasAny('Double Jump', 'Charge', 'Electric Breath')"
-DMLGDoor,110,[enemy] huge robo-gnorc/steel traps,"Or(Has('Electric Breath'), HasAll('Ice Breath', 'Charge'))"
-DMLGDoor,150,dark shards,"HasAny('Double Jump', 'Charge')"
-DMLGDoor,125,[enemy] critters,"HasAny('Fire Breath', 'Electric Breath', 'Charge')"
-DMLGDoor,60,headbash chest,Has('Double Jump')
-DMLGDoor,350,underwater toxic metal chests and dark shards,"And(HasAll('Swim', 'Charge'), InvincibilityGadget())"
+DMLGDoorEntry,20,[enemy] huge robo-gnorc,"Or(Has('Electric Breath'), HasAll('Ice Breath', 'Charge'))"
+DMLGDoorEntry,25,metal chests,"HasAny('Double Jump', 'Charge', 'Electric Breath')"
+DMLGDoorPastGnorc,175,baskets/metal chests,True_()
+DMLGDoorPastGnorc,215,[enemy] huge robo-gnorc/steel traps/critters,True_()
+DMLGDoorPastGnorc,150,dark shards,"HasAny('Double Jump', 'Charge')"
+DMLGDoorPastGnorc,60,headbash chest,Has('Double Jump')
+DMLGDoorPastGnorc,350,underwater toxic metal chests and dark shards,"And(HasAll('Swim', 'Charge'), InvincibilityGadget())"
 DMAfterRocks,530,dark shards/baskets/headbash chest/metal chests,True_()
 DMAfterRocks,1500,armored chests via firework,Has('Fire Breath')
 DMAfterRocks,20,[enemy] huge robo-gnorc,"HasAny('Electric Breath', 'Ice Breath')"
@@ -526,19 +522,23 @@ DMAfterRocks,20,[enemy] small robo-gnorc above wall kick,Has('Wall Kick')
 DMAfterRocks,50,dark shard by light gem,"HasAll('Wall Kick', 'Glide')"
 DMCaged,75,[enemy] turret robots,True_()
 DMCaged,285,baskets/metal chests/dark shards/headbash chest,True_()
-DMAfterCaged,540,baskets/dark shards/metal chests/headbash chests,True_()
-DMAfterCaged,5240,Blink minigames 4-1,True_()
-DMAfterCaged,6980,Blink minigames 4-2,True_()
-DMAfterCaged,40,[enemy] armored middle robo-gnorc,"And(Has('Charge'), HasAny('Electric Breath', 'Ice Breath'))"
-DMAfterCaged,195,[enemy] steel traps/huge robo-gnorc,"Or(Has('Electric Breath'), HasAll('Ice Breath', 'Charge'))"
+DMAfterCaged1,490,baskets/dark shards/metal chests/headbash chests,True_()
+DMAfterCaged1,5240,Blink minigames 4-1,True_()
+DMAfterCaged1,6980,Blink minigames 4-2,True_()
+DMAfterCaged1,40,[enemy] armored middle robo-gnorc,"And(Has('Charge'), HasAny('Electric Breath', 'Ice Breath'))"
+DMAfterCaged1,195,[enemy] steel traps/huge robo-gnorc blocking door,"Or(Has('Electric Breath'), HasAll('Ice Breath', 'Charge'))"
+DMAfterCaged2,50,baskets,True_()
 DMBeforeIcePoles,105,baskets/headbash chest,True_()
 DMBeforeIcePoles,1500,armored chests via firework after ice poles,"HasAll('Glide', 'Ice Breath', 'Pole Spin')"
-DMSeeSaw,60,[enemy] small robo-gnorcs/drill robot,"HasAny('Electric Breath', 'Charge')"
-DMSeeSaw,185,[enemy] roller robot/huge robo-gnorc/steel traps,"Or(Has('Electric Breath'), HasAll('Ice Breath', 'Charge'))"
-DMSeeSaw,40,[enemy] armored middle robo-gnorc,"And(Has('Charge'), HasAny('Electric Breath', 'Ice Breath'))"
-DMSeeSaw,150,[enemy] critters,"HasAny('Fire Breath', 'Electric Breath', 'Charge')"
-DMSeeSaw,275,baskets/dark shards/metal chest,True_()
+DMSeeSaw,100,baskets at ledge (50 below 50 above),True_()
+DMSeeSaw,60,[enemy] small robo-gnorc/drill robots,"HasAny('Electric Breath', 'Charge')"
+DMSeeSaw,165,[enemy] roller robot/huge robo-gnorcs/steel traps,"Or(Has('Electric Breath'), HasAll('Ice Breath', 'Charge'))"
+DMSeeSaw,20,[enemy] armored middle robo-gnorc,"And(Has('Charge'), HasAny('Electric Breath', 'Ice Breath'))"
+DMSeeSaw,75,[enemy] critters,"HasAny('Fire Breath', 'Electric Breath', 'Charge')"
 DMSeeSaw,25,metal chest via wall kick,Has('Wall Kick')
+DMPostSeeSaw,95,[enemy] critters/huge robo-gnorc,True_()
+DMPostSeeSaw,20,[enemy] armored middle robo-gnorc,"And(Has('Charge'), HasAny('Electric Breath', 'Ice Breath'))"
+DMPostSeeSaw,175,baskets/dark shards/metal chest,True_()
 DMGreenPoles,160,[enemy] drill robot/huge robo-gnorcs/steel traps,True_()
 DMGreenPoles,16,on the ground,True_()
 Red's Laboratory,,,

@@ -1,4 +1,10 @@
+TODO 2.0: maybe scale down sparx minigame gem amounts?
+TODO: light gems sent when count is 100 don't get added? seemingly when sent from AP only (/add_items works)
+TODO: molten mount path to byrd: imps don't always spawn?
+TODO: add "sent <item> to <player>" notification? mimic "received" type
+TODO: make updated logic spreadsheet or equivalent
 TODO: traps? capitalism trap that pops up a shop prompt, moneybags spam call of him playing "heyyyyy spyro I got some goods" etc.
+TODO: implement /event_inventory and /event_locations into client? they're only UT currently
 TODO: trick support
 TODO: rule caching?
 TODO: make randomize_movement an optionset instead of toggling all 3 at once
@@ -19,3 +25,4 @@ TODO: is it possible to get gem logic pause text to accurately reflect the amoun
     may or may not be doable on its own. less likely to be doable in a way that also factors in excluded locations
 TODO: is it possible to add an option for forcing early DJ?
     conceptually of course it is, but idk if I can force early items in non __init__ world methods
+TODO: make starting_realms not require auto_corrections to get a random choice. Allow for entering random like goal?

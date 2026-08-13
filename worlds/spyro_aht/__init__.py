@@ -16,7 +16,7 @@ from worlds.LauncherComponents import icon_paths
 from .options import RandomizeMovement, SpyroAHTOptions, StartingBreath, spyro_options_groups
 from .data.consts import LEVEL_SHOP_LOOKUP, REALM_LEVEL_LOOKUP
 
-icon_paths['spyro_aht'] = f'ap:{__name__}/gem_icon.png'
+icon_paths['spyro_aht'] = f'ap:{__name__}/icons/dark_gem_icon.png'
 
 minigame_locs = [
         "DV: Dragon Egg from Sgt. Byrd", "DV: Light Gem from Sgt. Byrd",

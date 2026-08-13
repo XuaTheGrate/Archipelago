@@ -231,8 +231,7 @@ class GemLogic(Toggle):
       Prices will steadily increase so that you unlock them in a spread-out set order, instead of all in sphere 1. This is significantly
       safer and improves generation quality a bit, at the cost of losing the ability to choose which order you buy them.
     
-    Gems that come from any minigame locations added to exclude_locations will not be factored into gem calculations.
-    You can see which gem events are in logic by using the client commands /event_locations and/or /event_inventory. 
+    Gems that come from any minigame locations added to exclude_locations will not be factored into gem calculations. 
     
     The formula below calculates your prices. The first item is always free due to inflation in the Dragon Kingdom (it prevents restrictive starts).
     The formula is included for those who are math-inclined. If not, you can also can do test generation(s) to see your prices.

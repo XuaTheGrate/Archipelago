@@ -30,7 +30,7 @@
     - This command gets around that by adding the amount to the game's memory directly. Because the cheat console works for every other type of item (abilities, access cards, etc.) I didn't feel it necessary to support them in `/add_item`, at least for now.
     
 - Other Things
-    - Nearly ever location in the world has been renamed to follow a new naming format. This allowed for setting Universal Tracker to sort them based on this new formatting which goes in vanilla level order -> sub-areas of level -> abilities and breaths before everything else aphabetically
+    - Nearly every location in the world has been renamed to follow a new naming format. This allowed for setting Universal Tracker to sort them based on this new formatting which goes in vanilla level order -> sub-areas of level -> abilities and breaths before everything else aphabetically
     - Game mod updated to have the in-game map icons render for all maps you have access to, not just the one you're currently loaded into.
     - Updated double_gems to be usable when the shop is randomized at all (as in, regardless of gem_logic).
     - The game mod and client now supports custom DeathLink messages! Have fun annoying your friends by dying intentionally to try to find them all >:3
