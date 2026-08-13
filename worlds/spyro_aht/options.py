@@ -239,7 +239,7 @@ class GemLogic(Toggle):
     ********************************FORMULA INFO (for the math nerds)********************************
     blink_gems_total = (20,203 - blink exclusions) * blink_gems%
     non_blink_enemies_total = 16,353 * non_blink_enemies%
-    other_gems_total = (106,440 - sparx/byrd exclusions) * other_gems%
+    other_gems_total = (105,087 - sparx/byrd exclusions) * other_gems%
     gem_total = blink_gems_total + non_blink_enemies_total + other_gems_total
     base_shop_price = gem_total / (number of shop items determined by key_rings - 1)
 
@@ -284,11 +284,11 @@ class OtherGems(Range):
     on_blink_enemies, but applying to all other sources of gems. This primarily consists of gems from breakable containers,
     Sgt. Byrd + Sparx minigames, and some misc. others (such as gems on the ground in levels).
     
-    The total amount of "other" gems is 106,237. Like blink_gems and non_blink_enemies, a value of 35 would mean being
-    expected to collect approximately 37,182 "other" gems.
+    The total amount of "other" gems is 105,087. Like blink_gems and non_blink_enemies, a value of 35 would mean being
+    expected to collect approximately 36,780 "other" gems.
     
     Note: it's hard to get consistent gems from Sparx minigames. Their totals were calculated as an average of 4-5 runs,
-    scaled down slightly. Each pair expects, at other_gems 100: 675/800 -> 1100/1000 -> 1100/1050 -> 1300/1050."""
+    scaled down ~80-90% for casual approachability. Each pair expects, at other_gems 100: 675/700 -> 900/800 -> 950/900 -> 1100/900."""
     display_name = "Other Gems"
     range_start = 0
     range_end = 100
