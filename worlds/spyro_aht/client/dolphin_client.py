@@ -55,9 +55,9 @@ class DolphinClient(GenericClient):
                 dolphin_memory_engine.un_hook()
                 raise TypeError(f"Invalid or unsupported game id {game_id.decode()!r}")
             mod_version = dolphin_memory_engine.read_byte(0x80187623)
-            if mod_version != 11:
+            if mod_version != 12:
                 dolphin_memory_engine.un_hook()
-                raise TypeError(f"Incorrect version of the game mod. Please update to version 8 and try again.")
+                raise TypeError(f"Incorrect version of the game mod (detected version {mod_version}). Please update to version 12 and try again.")
         self.ready.set()
     
     async def disconnect(self):
@@ -194,6 +194,7 @@ class DolphinClient(GenericClient):
         dolphin_memory_engine.write_word(self.addresses.p_MW_SEED, (int(ctx._seed) & 0xffffffff))
         dolphin_memory_engine.write_byte(self.addresses.p_USE_KEY_RINGS, ctx.slot_data['key_rings'])
         dolphin_memory_engine.write_byte(self.addresses.p_FIREWORKS_ARE_RANDOMIZED, ctx.slot_data['firework_checks'])
+        dolphin_memory_engine.write_byte(self.addresses.p_UT_ENABLED, ctx.tracker_found)
 
         if ctx.slot_data['pause_menu_patch'] == 0:
             dolphin_memory_engine.write_byte(self.addresses.p_INSTANT_TELEPORT_MODE, 2)

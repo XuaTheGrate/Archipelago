@@ -173,6 +173,7 @@ class SpyroAHTContext(SuperContext):
         if tracker_loaded:
             super().set_events_callback(self._event_update)
             super().set_callback(self._location_update)
+        self.tracker_found = tracker_loaded
         
         # these update whenever UT reports a new location or event is in logic
         self.loc_flag = False
@@ -579,9 +580,9 @@ class SpyroAHTContext(SuperContext):
                     await self._check_doors()
                     await self._location_checks()
                     await self._location_scouts()
-                    if self.event_flag:
+                    if self.event_flag and tracker_loaded:
                         await self.emu_client.update_pause_gems(self, self._in_logic_events)
-                    if self.loc_flag:
+                    if self.loc_flag and tracker_loaded:
                         await self.emu_client.update_tracker(self, self._in_logic_locations)
                     if not has_goaled:
                         has_goaled = await self.check_goal()
