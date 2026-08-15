@@ -642,6 +642,9 @@ class SpyroAHTWorld(World):
         item_data = _load_file("items.json")
         item_pool = []
         
+        self.log("Checking for double gems item status.", "Info")
+        skip_double_gems = self.options.shop_randomization.value == 1 and self.options.double_gems.value == 1
+        
         self.log("Checking for vanilla minigame rewards.", "Info")
         # a bit weird but sets up big list of NPC names to associate to each minigame location
         npc_names = ["Sgt. Byrd"] * 8 + ["Blink"] * 8 + ["Sparx"] * 8 + ["Fredneck"] * 2 + ["Turtle Mother"] * 2 + ["Peggy"] * 2 + ["Wally"] * 2
@@ -727,6 +730,10 @@ class SpyroAHTWorld(World):
         self.log("Starting main item creation loop.", "Info")
         for item in item_data:
             if item["group"] == "Filler":  # filler handled later
+                continue
+            
+            if item['name'] == "Double Gems" and skip_double_gems:
+                self.log("Skipping creating item \"Double Gems\" because shop_randomization is enabled but double_gems is disabled.", "Debug")
                 continue
             
             if self.options.open_world_mode.value != 0 and "Access Card" in item['name']:

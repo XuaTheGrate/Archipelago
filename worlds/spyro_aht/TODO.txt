@@ -1,4 +1,5 @@
 TODO 2.0: maybe scale down sparx minigame gem amounts?
+TODO: is it possible to prevent early goals because of !collect impacting goal locations?
 TODO: light gems sent when count is 100 don't get added? seemingly when sent from AP only (/add_items works)
 TODO: molten mount path to byrd: imps don't always spawn?
 TODO: add "sent <item> to <player>" notification? mimic "received" type
