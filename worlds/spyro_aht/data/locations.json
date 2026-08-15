@@ -6636,16 +6636,39 @@
                 "id": 70,
                 "options": [],
                 "access_rule": {
-                    "rule": "HasAll",
+                    "rule": "And",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {
-                        "item_names": [
-                            "Double Jump",
-                            "Glide",
-                            "Pole Spin"
-                        ]
-                    }
+                    "children": [
+                        {
+                            "rule": "CanReachRegion",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "region_name": "CRWest"
+                            }
+                        },
+                        {
+                            "rule": "Has",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_name": "Double Jump",
+                                "count": 1
+                            }
+                        },
+                        {
+                            "rule": "HasAll",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_names": [
+                                    "Glide",
+                                    "Pole Spin"
+                                ]
+                            }
+                        }
+                    ]
                 }
             },
             {
@@ -6653,15 +6676,28 @@
                 "id": 71,
                 "options": [],
                 "access_rule": {
-                    "rule": "HasAll",
+                    "rule": "And",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {
-                        "item_names": [
-                            "Double Jump",
-                            "Pole Spin"
-                        ]
-                    }
+                    "children": [
+                        {
+                            "rule": "CanReachRegion",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "region_name": "CRWest"
+                            }
+                        },
+                        {
+                            "rule": "Has",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_name": "Double Jump",
+                                "count": 1
+                            }
+                        }
+                    ]
                 }
             }
         ],

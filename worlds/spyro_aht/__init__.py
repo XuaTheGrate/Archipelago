@@ -13,7 +13,7 @@ from Options import OptionError
 from rule_builder.rules import Has, Rule, True_, And, False_, HasAny
 from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import icon_paths
-from .options import RandomizeMovement, SpyroAHTOptions, StartingBreath, spyro_options_groups
+from .options import MovementRandomization, SpyroAHTOptions, StartingBreath, spyro_options_groups
 from .data.consts import LEVEL_SHOP_LOOKUP, REALM_LEVEL_LOOKUP
 
 icon_paths['spyro_aht'] = f'ap:{__name__}/icons/dark_gem_icon.png'
