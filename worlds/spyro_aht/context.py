@@ -165,8 +165,9 @@ class SpyroAHTCommands(ClientCommandProcessor):
 
         return True
 
-    async def _cmd_check_goal(self, argument) -> bool:
+    async def _cmd_check_goal(self, argument: str) -> bool:
         """Details your remaining goal requirements. Run as "/check_goal overview" for an abbreviated overview of all goal requirements or as "/check_goal goal_name" for a more detailed breakdown of a specific goal's requirements."""
+        argument = argument.lower()  # just in case
         
         if argument == "overview":
             self.goal_overview()
@@ -616,8 +617,8 @@ class SpyroAHTContext(SuperContext):
             if goal_component_id not in self.checked_locations:
                 return False
         self.goal_tally += 1
-        if last_one: output = f"Your {goal} goal is complete, nice work! The client should recognize your goals being complete momentarily."
-        else: output = f"Your {goal} goal is complete, nice work! You still have more to do: run /check_goal overview for an overview."
+        if last_one: output = f"Your final goal of {goal} is complete, nice work! The client should recognize your full goal status momentarily."
+        else: output = f"Your goal of {goal} is complete, nice work! You still have more to do: run /check_goal overview for an overview."
         logger.info(output)
         return True
     
