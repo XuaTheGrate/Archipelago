@@ -401,8 +401,8 @@ REGION CROttoPool: pool and first filling section. include crabs and metal chest
 	CRWest -> CROttoPool | Has('Double Jump')
 		would have DJ
 
-	LOCATION CROttoPool | CR: Light Gem above Otto pool | 70 | HasAll('Double Jump', 'Pole Spin', 'Glide')
-	LOCATION CROttoPool | CR: Light Gem from Otto | 71 | HasAll('Double Jump', 'Pole Spin')
+	LOCATION CROttoPool | CR: Light Gem above Otto pool | 70 | And(CanReachRegion('CRWest'), Has('Double Jump'), HasAll('Pole Spin', 'Glide'))
+	LOCATION CROttoPool | CR: Light Gem from Otto | 71 | And(CanReachRegion('CRWest'), Has('Double Jump'))
 
 REGION CRWest: left out of otto's pool to Blink and sunken entrance
 	CROttoPool -> CRWest | HasAll('Double Jump', 'Pole Spin')

@@ -9,7 +9,9 @@ TODO: add "sent <item> to <player>" notification? mimic "received" type
 TODO: make updated logic spreadsheet or equivalent
 TODO: traps? capitalism trap that pops up a shop prompt, moneybags spam call of him playing "heyyyyy spyro I got some goods" etc.
 TODO: implement /event_inventory and /event_locations into client? they're only UT currently
+TODO: maybe review logic (again...) with more awareness of using CanReachRegion to simplify some things?
 TODO: trick support
+    platform in byrd area. double jumping to get Zoe zap in dark mine near green poles. what else?
 TODO: rule caching?
 TODO: make movement_randomization an optionset instead of toggling all 3 at once
 TODO: improve Generic filler selection process so it picks one of each before duplicating any others
