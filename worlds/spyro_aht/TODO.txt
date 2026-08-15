@@ -1,5 +1,4 @@
-TODO: fix client realm access
-
+TODO: "automatic" setting for boss_lair_forcing to auto force highest cost onto goal bosses
 TODO: make starting_realms not require auto_corrections to get a random choice. Allow for entering random like goal?
 TODO: is it possible to prevent early goals because of !collect impacting goal locations?
 TODO: light gems sent when count is 100 don't get added? seemingly when sent from AP only (/add_items works)

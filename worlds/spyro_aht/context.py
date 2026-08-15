@@ -444,6 +444,7 @@ class SpyroAHTContext(SuperContext):
     async def _unlock_shop(self, item_id, shop_type):
         if shop_type == "Randomized":
             name = self.item_names.lookup_in_slot(item_id, self.slot).replace(" Shop Unlock", "")
+            if "Depot" in name: await self.check_hub_access(name)
             bit = consts.SHOP_PAD_LIST.index(name)
             address = self.emu_client.addresses.g_SHOPPAD_BITFIELD + (bit // 8)
             await self._set_keyring_or_shop(bit, address)
@@ -455,6 +456,7 @@ class SpyroAHTContext(SuperContext):
             for shop in shops:
                 if f"{level} - {shop}" not in self.unlocked_shops:
                     name = f"{level} - {shop}"
+                    if "Depot" in name: await self.check_hub_access(name)
                     self.unlocked_shops.append(name)
                     bit = consts.SHOP_PAD_LIST.index(name)
                     address = self.emu_client.addresses.g_SHOPPAD_BITFIELD + (bit // 8)
@@ -464,6 +466,7 @@ class SpyroAHTContext(SuperContext):
             level = self.item_names.lookup_in_slot(item_id, self.slot).split(" - ")[0]
             for shop in consts.LEVEL_SHOP_LOOKUP[level]:
                 name = f"{level} - {shop}"
+                if "Depot" in name: await self.check_hub_access(name)
                 self.unlocked_shops.append(name)
                 bit = consts.SHOP_PAD_LIST.index(name)
                 address = self.emu_client.addresses.g_SHOPPAD_BITFIELD + (bit // 8)
@@ -473,6 +476,7 @@ class SpyroAHTContext(SuperContext):
             for level in consts.REALM_LEVEL_LOOKUP[realm]:
                 for shop in consts.LEVEL_SHOP_LOOKUP[level]:
                     name = f"{level} - {shop}"
+                    if "Depot" in name: await self.check_hub_access(name)
                     self.unlocked_shops.append(name)
                     bit = consts.SHOP_PAD_LIST.index(name)
                     address = self.emu_client.addresses.g_SHOPPAD_BITFIELD + (bit // 8)
@@ -488,6 +492,12 @@ class SpyroAHTContext(SuperContext):
         flag = 1 << (bit % 8)
         data |= flag
         await self.emu_client.set_item(address, data)
+        
+    async def check_hub_access(self, name: str):
+        if "Village Depot" in name: await self.emu_client.allow_realm_access(0x30)
+        elif "Coastal Depot" in name: await self.emu_client.allow_realm_access(0x31)
+        elif "Frosty Depot" in name: await self.emu_client.allow_realm_access(0x32)
+        elif "Stormy Depot" in name: await self.emu_client.allow_realm_access(0x33)
 
     async def _check_doors(self):
         dark = await self.emu_client.get_item_count(self.emu_client.addresses.DARK_GEM_COUNT)
