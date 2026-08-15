@@ -161,6 +161,63 @@ class SpyroAHTCommands(ClientCommandProcessor):
 
         return True
 
+    async def _cmd_check_goal(self, argument) -> bool:
+        """Details your remaining goal requirements. Run as "/check_goal overview" for an abbreviated overview of all goal requirements or as "/check_goal goal_name" for a more detailed breakdown of a specific goal's requirements."""
+        
+        if argument == "overview":
+            self.goal_overview()
+            return True
+
+        if "_" in argument:
+            fixed = argument.replace("_", " ").title()  # gnasty_gnorc -> Gnasty Gnorc, for example
+            if fixed == "Mecha Red": fixed = "Mecha-Red"  # Mecha Red doesn't match internal goal name of Mecha-Red this fixes it
+        else:
+            fixed = argument.title()
+
+        if fixed in self.ctx.goal_list:
+            self.goal_full(fixed)
+        elif fixed not in self.ctx.goal_list and fixed in list(self.ctx.convert_goal_info.keys()):
+            self.output(f"You do not have {fixed} as one of your enabled goals.")
+        else:
+            self.output("Invalid argument for command. Must be /check_goal overview or /check_goal goal_name.")
+
+        return True
+
+    def goal_overview(self):
+        fully_done = True
+        done, not_done = "", ""
+        self.output(f"Goals: {", ".join(self.ctx.goal_list)}.")
+        for goal in self.ctx.goal_list:
+            goal_locs = self.ctx.convert_goal_info[goal][1]
+            if goal == "Shop Items" and self.ctx.slot_data['key_rings'] == 1: goal_locs = goal_locs[0:18]
+            count = len([loc for loc in goal_locs if loc not in self.ctx.checked_locations])
+            if count > 0:
+                not_done += f"{goal} ({count} check(s) left), "
+                fully_done = False
+            else:
+                done += f"{goal}, "
+
+        if fully_done:
+            self.output("All goals appear to be complete! If the client did not recognize this automatically, please report this to the developers.")
+        else:
+            if done != "": self.output(f"You have completed the following goals: {done[:-2]}.")
+            if not_done != "": self.output(f"You have not completed the following goals: {not_done[:-2]}.")
+            self.output("For a detailed breakdown (with potentially very long output), run this command again with a goal as the argument. For example, /check_goal mecha_red or /check_goal locked_chests.")
+
+    def goal_full(self, goal):
+        goal_locs = self.ctx.convert_goal_info[goal][1]
+        if goal == "Shop Items" and self.ctx.slot_data['key_rings'] == 1: goal_locs = goal_locs[0:18]
+        not_checked = ""
+
+        for loc in goal_locs:
+            if loc not in self.ctx.checked_locations:
+                not_checked += f"{self.ctx.location_names.lookup_in_slot(loc)}, "
+
+        if not_checked == "":
+            self.output(f"You have completed the {goal} goal!")
+        else:
+            self.output(f"You have not completed the {goal} goal. The following checks are not done yet: {not_checked[:-2]}.")
+        
 
 class SpyroAHTContext(SuperContext):
     tags = {"AP"}
@@ -186,6 +243,11 @@ class SpyroAHTContext(SuperContext):
         self.goal_list = None
         self.goal_tally, self.goal_target = 0, 0
         self.finished_goals = [False, False, False, False, False, False, False, False, False, False]
+        self.convert_goal_info = {
+            "Gnasty Gnorc": (0, [consts.BOSS_IDS[0]]), "Ineptune": (1, [consts.BOSS_IDS[1]]), "Red": (2, [consts.BOSS_IDS[2]]), "Mecha-Red": (3, [consts.BOSS_IDS[3]]),
+            "Fireworks": (4, consts.FIREWORK_IDS), "Dark Gems": (5, consts.DARK_GEM_IDS), "Dragon Eggs": (6, consts.DRAGON_EGG_IDS), "Light Gems": (7, consts.LIGHT_GEM_IDS),
+            "Locked Chests": (8, consts.LOCKED_CHEST_IDS), "Shop Items": (9, consts.SHOP_ITEM_IDS)
+        }
         
         self.unlocked_shops = []
 
@@ -507,31 +569,15 @@ class SpyroAHTContext(SuperContext):
 
     async def check_goal(self) -> bool:
         # self.finished_goals avoids re-checking goals that have already been found to be complete
+        last_one = (self.goal_tally == self.goal_target - 1)  # marks if check-goal_component should acknowledge being last goal or not
         for goal in self.goal_list:
-            if goal == "Gnasty Gnorc" and not self.finished_goals[0]:
-                self.finished_goals[0] = await self.check_goal_component("defeating Gnasty Gnorc", [consts.BOSS_IDS[0]])
-            if goal == "Ineptune" and not self.finished_goals[1]:
-                self.finished_goals[1] = await self.check_goal_component("defeating Ineptune", [consts.BOSS_IDS[1]])
-            if goal == "Red" and not self.finished_goals[2]:
-                self.finished_goals[2] = await self.check_goal_component("defeating Red", [consts.BOSS_IDS[2]])
-            if goal == "Mecha-Red" and not self.finished_goals[3]:
-                self.finished_goals[3] = await self.check_goal_component("defeating Mecha-Red", [consts.BOSS_IDS[3]])
-            if goal == "Fireworks" and not self.finished_goals[4]:
-                self.finished_goals[4] = await self.check_goal_component("flaming all fireworks", consts.FIREWORK_IDS)
-            if goal == "Dark Gems" and not self.finished_goals[5]:
-                self.finished_goals[5] = await self.check_goal_component("breaking all Dark Gems", consts.DARK_GEM_IDS)
-            if goal == "Dragon Eggs" and not self.finished_goals[6]:
-                self.finished_goals[6] = await self.check_goal_component("collecting all Dragon Eggs", consts.DRAGON_EGG_IDS)
-            if goal == "Light Gems" and not self.finished_goals[7]:
-                self.finished_goals[7] = await self.check_goal_component("collecting all Light Gems", consts.LIGHT_GEM_IDS)
-            if goal == "Locked Chests" and not self.finished_goals[8]:
-                self.finished_goals[8] = await self.check_goal_component("opening all locked chests", consts.LOCKED_CHEST_IDS)
-            if goal == "Shop Items" and not self.finished_goals[9]:
-                if self.slot_data['key_rings'] == 0:  # no key rings = all 56 items
-                    self.finished_goals[9] = await self.check_goal_component("buying all shop items", consts.SHOP_ITEM_IDS)
-                else:  # yes key rings = only 18 items
-                    self.finished_goals[9] = await self.check_goal_component("buying all shop items", consts.SHOP_ITEM_IDS[0:18])
-        
+            goal_index, goal_locs = self.convert_goal_info[goal]
+            if goal == "Shop Items" and self.slot_data['key_rings'] == 1:
+                goal_locs = goal_locs[0:18]
+            
+            if not self.finished_goals[goal_index]:
+                self.finished_goals[goal_index] = await self.check_goal_component(goal, goal_locs, last_one)
+            
         # tally goes +1 when a goal component is met. If that value matches however many goals there are, we're done!
         if self.goal_tally == self.goal_target:
             await self.send_msgs([{"cmd": "StatusUpdate", "status": ClientStatus.CLIENT_GOAL}])
@@ -539,13 +585,15 @@ class SpyroAHTContext(SuperContext):
         
         return False
 
-    async def check_goal_component(self, goal, loc_id_list) -> bool:
+    async def check_goal_component(self, goal: str, loc_id_list, last_one: bool) -> bool:
         from CommonClient import logger
         for goal_component_id in loc_id_list:
             if goal_component_id not in self.checked_locations:
                 return False
         self.goal_tally += 1
-        logger.info(f"Goal of {goal} has been met, nice work! If this was your only or final goal, the client should recognize that in a moment.")
+        if last_one: output = f"Your {goal} goal is complete, nice work! The client should recognize your goals being complete momentarily."
+        else: output = f"Your {goal} goal is complete, nice work! You still have more to do: run /check_goal overview for an overview."
+        logger.info(output)
         return True
     
     
