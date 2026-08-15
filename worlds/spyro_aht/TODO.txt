@@ -1,3 +1,4 @@
+TODO: potentially remove VanillaMinigameRewards? redundant and can be plando'd
 TODO: "automatic" setting for boss_lair_forcing to auto force highest cost onto goal bosses
 TODO: make starting_realms not require auto_corrections to get a random choice. Allow for entering random like goal?
 TODO: is it possible to prevent early goals because of !collect impacting goal locations?
