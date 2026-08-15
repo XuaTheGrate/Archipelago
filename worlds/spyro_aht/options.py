@@ -68,8 +68,8 @@ class Goal(OptionList):
     Light Gems: Collect all 100 Light Gems.
     Locked Chests: Open all 52 locked chests.
     Shop Items: Buy all randomized shop items. shop_randomization will be enabled automatically if auto_corrections is set to 'fix'.
-    Random: For each "Random" you include, a random goal from above will be chosen, excluding any from exclude_from_goal. If
-      you want to view what goals were selected for you, check the spoiler file or use the client command /list_options.
+    Random: For each "Random" you include, a random goal from above will be chosen, excluding any from exclude_from_goal. To
+      view your goals, use /check_goal overview or /list_options in the client.
     
     If the list is empty and auto_corrections is set to 'fix', a single random choice will be made.
     If the list has too many entries and auto_corrections is set to 'fix', entries will be removed at random until in range."""
@@ -172,7 +172,7 @@ class StartingBreath(Choice):
     default = 0
 
 
-class RandomizeMovement(Toggle):
+class MovementRandomization(Toggle):
     """All seeds start with 3 "Starter Checks" for Glide, Swim, and Charge. This option decides whether they will each gets
     pre-filled with Glide/Swim/Charge, or random items from Archipelago (which could potentially still be a type of movement).
 
@@ -189,6 +189,9 @@ class StartingRealms(OptionSet):
     If open_world_mode is enabled and not 'full', starting realm access is still controlled by access cards. However, non-starting realms
       have their access granted once their "Depot" shop is unlocked. For example, "Frosty Depot" grants access to Icy Wilderness.
         - See pause_menu_patch for a potential alteration to this.
+        
+    Starting in Icy Wilderness with shop_randomization and movement_randomization disabled is disallowed due to impossible starts. If this is done
+    and auto_corrections is set to 'fix', your starting realm will be changed to Dragon Kingdom.
     
     Valid Options: ["Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle"]"""
     display_name = "Starting Realms"
@@ -495,7 +498,7 @@ class SpyroAHTOptions(PerGameCommonOptions):
     filler_items: FillerItems
     
     starting_breath: StartingBreath
-    randomize_movement: RandomizeMovement
+    movement_randomization: MovementRandomization
     starting_realms: StartingRealms
     
     shop_randomization: ShopRandomization
@@ -535,7 +538,7 @@ spyro_options_groups = [
         Goal, ExcludeFromGoal, OpenWorldMode, FireworkChecks, VanillaMinigameRewards, FillerItems
     ]),
     OptionGroup("START OF GAME", [
-        StartingBreath, RandomizeMovement, StartingRealms
+        StartingBreath, MovementRandomization, StartingRealms
     ]),
     OptionGroup("SHOP & GEM LOGIC", [
         ShopRandomization, KeyRings, GemLogic, BlinkGems, NonBlinkEnemies, OtherGems, DoubleGems

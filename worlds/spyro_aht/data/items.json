@@ -71,21 +71,21 @@
         "name": "Swim",
         "id": 11,
         "classification": 1,
-        "option": [{"option": "randomize_movement", "value": 1}],
+        "option": [{"option": "movement_randomization", "value": 1}],
         "group": "Abilities"
     },
     {
         "name": "Glide",
         "id": 12,
         "classification": 1,
-        "option": [{"option": "randomize_movement", "value": 1}],
+        "option": [{"option": "movement_randomization", "value": 1}],
         "group": "Abilities"
     },
     {
         "name": "Charge",
         "id": 13,
         "classification": 1,
-        "option": [{"option": "randomize_movement", "value": 1}],
+        "option": [{"option": "movement_randomization", "value": 1}],
         "group": "Abilities"
     },
     {

@@ -93,7 +93,7 @@ class SpyroAHTCommands(ClientCommandProcessor):
         
         self.output("---------------START OF GAME---------------")
         # movement & breath
-        output = "randomized" if self.ctx.slot_data["randomize_movement"] == 1 else "not randomized"
+        output = "randomized" if self.ctx.slot_data["movement_randomization"] == 1 else "not randomized"
         convert = {0: "fire", 1: "electric", 2: "water", 3: "ice", 4: "no"}
         output_2 = convert[self.ctx.slot_data['starting_breath']]
         self.output(f"Movement abilities are {output} and you start with {output_2} breath.")

@@ -1,23 +1,23 @@
-TODO 2.0: maybe scale down sparx minigame gem amounts?
+TODO: option to hint shop items? maybe hint other things too?
+TODO: make starting_realms not require auto_corrections to get a random choice. Allow for entering random like goal?
+TODO: fix otto pool light gem reward
+TODO: fix client realm access
+
 TODO: is it possible to prevent early goals because of !collect impacting goal locations?
 TODO: light gems sent when count is 100 don't get added? seemingly when sent from AP only (/add_items works)
-TODO: molten mount path to byrd: imps don't always spawn?
 TODO: add "sent <item> to <player>" notification? mimic "received" type
 TODO: make updated logic spreadsheet or equivalent
 TODO: traps? capitalism trap that pops up a shop prompt, moneybags spam call of him playing "heyyyyy spyro I got some goods" etc.
 TODO: implement /event_inventory and /event_locations into client? they're only UT currently
 TODO: trick support
 TODO: rule caching?
-TODO: make randomize_movement an optionset instead of toggling all 3 at once
-TODO: option to hint shop items?
+TODO: make movement_randomization an optionset instead of toggling all 3 at once
 TODO: improve Generic filler selection process so it picks one of each before duplicating any others
 TODO: custom rule explanations?
-TODO: option to hint shop items? maybe hint other things too?
 TODO: expand starting breath to be similar to starting realm? allow multiple starting?
 TODO: investigate what things needing glide actually need DJ as well vs. just glide
 TODO: client command that explains what a region is, mainly for open world purposes. maybe expand?
     similarly, command of "what regions do I have access to?"
-TODO: /check_goal command or similar for random goals. Currently can use /list_options but eh
 TODO: research how many enemy gems are truly required so non_blink_enemies can advise people of the minimum
 TODO: make tool for testing gem access
 TODO: can we modify mission screen text for light gem doors? "Collect 45 light gems to open the door to a secret area" for example
@@ -26,4 +26,3 @@ TODO: is it possible to get gem logic pause text to accurately reflect the amoun
     may or may not be doable on its own. less likely to be doable in a way that also factors in excluded locations
 TODO: is it possible to add an option for forcing early DJ?
     conceptually of course it is, but idk if I can force early items in non __init__ world methods
-TODO: make starting_realms not require auto_corrections to get a random choice. Allow for entering random like goal?
