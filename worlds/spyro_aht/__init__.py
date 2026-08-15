@@ -852,6 +852,8 @@ class SpyroAHTWorld(World):
             "shop_pad_proximity_activation": self.options.shop_pad_proximity_activation.value,
             "hint_minigame_rewards": self.options.hint_minigame_rewards.value,
             "hint_boss_rewards": self.options.hint_boss_rewards.value,
+            "hint_shop_items": self.options.hint_shop_items.value,
+            "hide_shop_item_names": self.options.hide_shop_item_names.value,
             "easy_bosses": self.options.easy_bosses.value,
             "skip_cutscenes": self.options.skip_cutscenes.value,
             "skip_elevators": self.options.skip_elevators.value,

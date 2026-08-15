@@ -142,10 +142,14 @@ class SpyroAHTCommands(ClientCommandProcessor):
         if self.ctx.slot_data["open_world_mode"] >= 2:
             output = "re-enable" if self.ctx.slot_data["shop_pad_proximity_activation"] else "disable"
             self.output(f"You chose to {output} shop pad proximity activation.")
-        # hint rewards
+        # auto-hinting
         output = "will" if self.ctx.slot_data["hint_boss_rewards"] else "won't"
         output_2 = "will" if self.ctx.slot_data["hint_minigame_rewards"] else "won't"
-        self.output(f"Boss rewards {output} be hinted and minigame rewards {output_2} be hinted.")
+        output_3 = "will" if self.ctx.slot_data["hint_shop_items"] else "won't"
+        self.output(f"Boss rewards {output} be hinted, minigame rewards {output_2} be hinted, and randomized shop items {output_3} be hinted.")
+        # hide shop item names
+        output = "hidden" if self.ctx.slot_data["hide_shop_item_names"] else "not hidden"
+        self.output(f"Your shop item names are {output}.")
         # easy bosses
         output = "Boss Difficulty: "
         for boss in ["Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red"]:
@@ -237,6 +241,9 @@ class SpyroAHTContext(SuperContext):
         self.event_flag = False
         self._in_logic_events: list[str] = []
         self._in_logic_locations: list[str] = []
+        
+        # these cut back on repetitively scanning to-be-hinted locations after they've been hinted already
+        self.shop_hinted, self.bosses_hinted, self.minigames_hinted = False, False, False
         
         # used for checking goal components
         self.goal_stuff_setup = False
@@ -541,17 +548,25 @@ class SpyroAHTContext(SuperContext):
     
     async def _location_scouts(self):
         locations = set()
-        if self.slot_data['hint_minigame_rewards']:
+        if self.slot_data['hint_minigame_rewards'] and not self.minigames_hinted:
             for obj, loc in consts.MINIGAME_OBJECTIVES.items():
                 flag = await self.emu_client.get_objective(obj)
                 if flag:
                     locations.update(loc)
+            self.minigames_hinted = True
         
-        if self.slot_data['hint_boss_rewards']:
+        if self.slot_data['hint_boss_rewards'] and not self.bosses_hinted:
             for obj, loc in consts.BOSS_OBJECTIVES.items():
                 flag = await self.emu_client.get_objective(obj)
                 if flag:
                     locations.add(loc)
+            self.bosses_hinted = True
+        
+        if self.slot_data['hint_shop_items'] and not self.shop_hinted:
+            if self.slot_data['key_rings']: locations.update(consts.SHOP_ITEM_IDS[0:18])
+            else: locations.update(consts.SHOP_ITEM_IDS)
+            self.shop_hinted = True
+                
         locations -= self._scouted_locations
         if locations:
             self._scouted_locations.update(locations)

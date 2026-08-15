@@ -454,6 +454,20 @@ class HintBossRewards(Toggle):
     default = 0
 
 
+class HintShopItems(Toggle):
+    """Whether to auto-hint randomized shop items upon starting your save file."""
+    display_name = "Hint Shop Items"
+    default = 0
+
+
+class HideShopItemNames(Toggle):
+    """Whether to hide the name of each randomized shop item (player name is still shown). This adds a mystery element to
+    what item you'll get, at risk of wasting your gems (if gem logic is off) on fillers or traps. The mystery is only on the
+    AHT's end: hinted shop items will still have their associated item name in the hint."""
+    display_name = "Hide Shop Item Names"
+    default = 0
+    
+
 class EasyBosses(OptionSet):
     """Toggles 'easy mode' for each boss, making them take triple damage to significantly shorten fights.
     Valid options: ["Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red"]"""
@@ -465,7 +479,7 @@ class EasyBosses(OptionSet):
 class SkipCutscenes(Toggle):
     """Enables skipping most cutscenes with the Y button. In rare cases, this may have glitchy side effects."""
     display_name = "Auto Skip Cutscenes"
-    default = 0
+    default = 1
 
 
 class SkipElevators(Toggle):
@@ -524,6 +538,8 @@ class SpyroAHTOptions(PerGameCommonOptions):
     shop_pad_proximity_activation: ShopPadProximityActivation
     hint_minigame_rewards: HintMinigameRewards
     hint_boss_rewards: HintBossRewards
+    hint_shop_items: HintShopItems
+    hide_shop_item_names: HideShopItemNames
     easy_bosses: EasyBosses
     skip_cutscenes: SkipCutscenes
     skip_elevators: SkipElevators
@@ -550,7 +566,7 @@ spyro_options_groups = [
     ]),
     OptionGroup("QUALITY OF LIFE", [
         PauseMenuPatch, ShopPadProximityActivation,
-        HintMinigameRewards, HintBossRewards,
+        HintMinigameRewards, HintBossRewards, HintShopItems, HideShopItemNames,
         EasyBosses,
         SkipCutscenes, SkipElevators,
         TeleportAcrossRealms

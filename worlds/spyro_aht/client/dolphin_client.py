@@ -206,7 +206,7 @@ class DolphinClient(GenericClient):
             locations.extend(range(2000, 2013))
             if not ctx.slot_data['key_rings']:
                 locations.extend(range(3013, 3051))
-            await ctx.send_msgs([{"cmd": "LocationScouts", "locations": locations, "create_as_hint": 0}])  # TODO: maybe add option to hint shop items?
+            await ctx.send_msgs([{"cmd": "LocationScouts", "locations": locations, "create_as_hint": 0}])
             await ctx._shop_items_received.wait()
             await self._prepare_shop_items(ctx, *ctx._shop_items)
         
@@ -304,6 +304,7 @@ class DolphinClient(GenericClient):
             
             remote_price = price if ctx.slot_data["shop_randomization"] else (price * 1.25)
             large_prices = ctx.slot_data["shop_randomization"] and ctx.slot_data["gem_logic"]  # large prices are only a concern if gem logic enabled
+            name = "???" if ctx.slot_data["hide_shop_item_names"] else name
             i = consts.XLSShoppingItem(model, consts.TextEntry(idx, f"{player}'s {name}"), (price, remote_price), large_prices)
             dolphin_memory_engine.write_bytes(self.addresses.p_XLS_SHOP_ITEMS + (0x20 * (idx + 1)), i.to_bytes('big'))
             dolphin_memory_engine.write_bytes(self.addresses.p_SHOP_TEXT + (0x62 * idx), i.text.to_bytes('big'))
