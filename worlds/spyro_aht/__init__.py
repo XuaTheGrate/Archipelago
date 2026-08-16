@@ -165,7 +165,12 @@ class SpyroAHTWorld(World):
         self.shop_costs = []
         self.filler_categories: list = []
         self.filler_items: list[list] = [[]]
-        
+
+        # tracks IDs of all locations that are part of a goal but are excluded. Sent to client via slot data
+        self.excluded_goal_ids = {"Gnasty Gnorc": [], "Ineptune": [], "Red": [], "Mecha-Red": [],
+            "Fireworks": [], "Dark Gems": [], "Dragon Eggs": [], "Light Gems": [], "Locked Chests": [], "Shop Items": []
+        }
+
     def get_filler_item_name(self):
         """Override of World.get_filler_item_name which returns a random filler item name.
         Used whenever start_inventory_from_pool is used."""
@@ -390,6 +395,7 @@ class SpyroAHTWorld(World):
         
         self.options.pause_menu_patch.value = slot_data['pause_menu_patch']
         self.options.shop_pad_proximity_activation.value = slot_data['shop_pad_proximity_activation']
+        self.excluded_goal_ids = slot_data['excluded_goal_ids']
         self.log("Universal Tracker is done applying slot data.", "Extra")
     
     def custom_ut_sort(self, region_label: str, location_label: str) -> str | int:
@@ -426,7 +432,6 @@ class SpyroAHTWorld(World):
 
         # a bit ugly to have triple nested loop, but I don't think it's avoidable
         # needs to be "for every location in every region, check every enabled goal for matches" which is just inherently triple-nested
-        excluded_per_goal = defaultdict(list[int])
         count = 1
         shop_item_count = 18 if self.options.key_rings else 56
         for reg, region_data in _load_file("locations.json").items():
@@ -437,7 +442,7 @@ class SpyroAHTWorld(World):
                             continue  # skip shop items that aren't enabled
                         if location['name'] in self.options.exclude_locations.value:
                             self.log(f"Skipping adding \"{location['name']}\" to goal \"{goal}\" because it is excluded.", "Debug")
-                            excluded_per_goal[goal].append(location['id'])
+                            self.excluded_goal_ids[goal].append(location['id'])
                             continue
                         self.get_region(reg).add_event(f"{location['name']} Victory{count}", f"VictoryCon{count}", rule=self.rule_from_dict(location['access_rule']))
                         victory_cons.append(f"VictoryCon{count}")
@@ -447,11 +452,14 @@ class SpyroAHTWorld(World):
         # handle cases where the player excluded all locations for a given goal
         counts = {"Gnasty Gnorc": 1, "Ineptune": 1, "Red": 1, "Mecha-Red": 1, "Fireworks": 22, "Dragon Eggs": 80, "Dark Gems": 40, "Light Gems": 100, "Locked Chests": 52, "Shop Items": shop_item_count}
         found_valid_goal = False
+        to_remove = []
         for goal in self.options.goal.value:
-            if len(excluded_per_goal[goal]) == counts[goal]:
-                self.log(f"All locations that belong to the \"{goal}\" goal were excluded by player.", "Warning")
+            if len(self.excluded_goal_ids[goal]) == counts[goal]:
+                self.log(f"All locations that belong to the \"{goal}\" goal were excluded by player. \"{goal}\" has been removed from goal list accordingly.", "Warning")
+                to_remove.append(goal)
             elif not found_valid_goal:
                 found_valid_goal = True
+        self.options.goal.value = [goal for goal in self.options.goal.value if goal not in to_remove]
         
         if not found_valid_goal and self.options.auto_corrections:
             self.log(f"All locations for all selected goals were excluded, meaning there are no valid goals. Fixing by forcing Mecha-Red as the only goal.", "Warning")
@@ -881,7 +889,9 @@ class SpyroAHTWorld(World):
             "easy_bosses": self.options.easy_bosses.value,
             "skip_cutscenes": self.options.skip_cutscenes.value,
             "skip_elevators": self.options.skip_elevators.value,
-            "teleport_across_realms": self.options.teleport_across_realms.value
+            "teleport_across_realms": self.options.teleport_across_realms.value,
+            
+            "excluded_goal_ids": self.excluded_goal_ids
         }
         
         return slot_data

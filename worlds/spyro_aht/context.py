@@ -251,11 +251,7 @@ class SpyroAHTContext(SuperContext):
         self.goal_list = None
         self.goal_tally, self.goal_target = 0, 0
         self.finished_goals = [False, False, False, False, False, False, False, False, False, False]
-        self.convert_goal_info = {
-            "Gnasty Gnorc": (0, [consts.BOSS_IDS[0]]), "Ineptune": (1, [consts.BOSS_IDS[1]]), "Red": (2, [consts.BOSS_IDS[2]]), "Mecha-Red": (3, [consts.BOSS_IDS[3]]),
-            "Fireworks": (4, consts.FIREWORK_IDS), "Dark Gems": (5, consts.DARK_GEM_IDS), "Dragon Eggs": (6, consts.DRAGON_EGG_IDS), "Light Gems": (7, consts.LIGHT_GEM_IDS),
-            "Locked Chests": (8, consts.LOCKED_CHEST_IDS), "Shop Items": (9, consts.SHOP_ITEM_IDS)
-        }
+        self.convert_goal_info = {}
         
         self.unlocked_shops = []
 
@@ -288,6 +284,12 @@ class SpyroAHTContext(SuperContext):
         await self.get_username()
         await self.send_connect(game=self.game)
     
+    def goal_id_helper(self, goal: str, id_list: list[int]):
+        if goal == "Shop Items" and self.slot_data['key_rings']:
+            return [id for id in id_list[0:18] if id not in self.slot_data['excluded_goal_ids'][goal]]
+        else:
+            return [id for id in id_list if id not in self.slot_data['excluded_goal_ids'][goal]]
+    
     def on_package(self, cmd: str, args: dict):
         super().on_package(cmd, args)
         
@@ -301,6 +303,12 @@ class SpyroAHTContext(SuperContext):
                     self.emu_loop.cancel()
                 self.emu_loop = asyncio.create_task(self._emu_loop())
                 self.auth_ready.set()
+                
+                # set up internal goal ID lists now that slot data is obtained. TODO this is almost certainly not the best/right place to do this. Figure that out later?
+                self.convert_goal_info = {"Gnasty Gnorc": (0, [consts.BOSS_IDS[0]]), "Ineptune": (1, [consts.BOSS_IDS[1]]), "Red": (2, [consts.BOSS_IDS[2]]), "Mecha-Red": (3, [consts.BOSS_IDS[3]]),
+                    "Fireworks": (4, self.goal_id_helper("Fireworks", consts.FIREWORK_IDS)), "Dark Gems": (5, self.goal_id_helper("Dark Gems", consts.DARK_GEM_IDS)), "Dragon Eggs": (6, self.goal_id_helper("Dragon Eggs", consts.DRAGON_EGG_IDS)),
+                    "Light Gems": (7, self.goal_id_helper("Light Gems", consts.LIGHT_GEM_IDS)), "Locked Chests": (8, self.goal_id_helper("Locked Chests", consts.LOCKED_CHEST_IDS)), "Shop Items": (9, self.goal_id_helper("Shop Items", consts.SHOP_ITEM_IDS))
+                }
             case 'RoomInfo':
                 self._seed = args['seed_name']
             case 'LocationInfo':
