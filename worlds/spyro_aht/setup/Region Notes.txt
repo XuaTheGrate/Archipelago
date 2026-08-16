@@ -762,13 +762,13 @@ REGION ICPastWaterGate: past the water-opened gate, up to elder's door
 		would have DJ and water
 
 	LOCATION ICPastWaterGate | IC: Dragon Egg after upper courtyard in Locked Chest behind chargeable wall | 153 | And(Has('Charge'), LockedChestRule('Ice Citadel'))
+    LOCATION ICPastWaterGate | IC: Dark Gem above Elder Astor | 154 | And(Has('Charge'), HasAny('Fire Breath', 'Electric Breath', 'Ice Breath'))
 
 REGION ICElderRoom: elder's room, opened by killing armored huge gnorc in front
 	ICPastWaterGate -> ICElderRoom | And(Has('Charge'), HasAny('Fire Breath', 'Electric Breath', 'Ice Breath'))
 		would have DJ and water and charge and one of (fire, electric, ice)
 	ICSuperchargeShop -> ICElderRoom | True_()
 
-	LOCATION ICElderRoom | IC: Dark Gem above Elder Astor | 154 | True_()
 	LOCATION ICElderRoom | IC: Wall Kick from Elder Astor | 155 | True_()
 
 REGION ICSuperchargeShop: supercharge area past Elder. include enemies and boiler to the east needing DJ
