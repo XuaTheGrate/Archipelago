@@ -1,3 +1,5 @@
+TODO: allow for excluding full level's worth of gem events if put into exclude_locations
+TODO: possibly expand location groups a bit? per-level collections like Dragon Village Dark Gems or similar
 TODO: potentially remove VanillaMinigameRewards? redundant and can be plando'd
 TODO: "automatic" setting for boss_lair_forcing to auto force highest cost onto goal bosses
 TODO: make starting_realms not require auto_corrections to get a random choice. Allow for entering random like goal?

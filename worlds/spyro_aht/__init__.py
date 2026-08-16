@@ -90,27 +90,31 @@ def create_location_groups(location_data) -> dict[str, set[str]]:
                 abbreviation = location['name'].split(': ')[0]
                 loc_groups[level_lookup[abbreviation]].add(location['name'])
             if "Defeat" in location['name'] or "Breath from" in location['name']:  # bosses
-                loc_groups["Bosses"].add(location['name'])
+                loc_groups["All Bosses"].add(location['name'])
             if ": Dark Gem" in location['name']:
-                loc_groups["Dark Gems"].add(location['name'])
+                loc_groups["All Dark Gems"].add(location['name'])
             if ": Dragon Egg" in location['name']:
-                loc_groups["Dragon Eggs"].add(location['name'])
+                loc_groups["All Dragon Eggs"].add(location['name'])
             if ": Light Gem" in location['name']:
-                loc_groups["Light Gems"].add(location['name'])
+                loc_groups["All Light Gems"].add(location['name'])
             if "Locked Chest" in location['name']:
-                loc_groups["Locked Chests"].add(location['name'])
+                loc_groups["All Locked Chests"].add(location['name'])
             if ": Firework" in location['name']:
-                loc_groups["Fireworks"].add(location['name'])
+                loc_groups["All Fireworks"].add(location['name'])
     
     for minigame_location in minigame_locs:
         if "Sgt. Byrd" in minigame_location:
-            loc_groups["Sgt. Byrd"].add(minigame_location)
+            loc_groups["Sgt. Byrd Minigames"].add(minigame_location)
+            loc_groups["All Minigames"].add(minigame_location)
         elif "Blink" in minigame_location:
-            loc_groups["Blink"].add(minigame_location)
+            loc_groups["Blink Minigames"].add(minigame_location)
+            loc_groups["All Minigames"].add(minigame_location)
         elif "Sparx" in minigame_location:
-            loc_groups["Sparx"].add(minigame_location)
+            loc_groups["Sparx Minigames"].add(minigame_location)
+            loc_groups["All Minigames"].add(minigame_location)
         else:
-            loc_groups["Turret"].add(minigame_location)
+            loc_groups["Turret Minigames"].add(minigame_location)
+            loc_groups["All Minigames"].add(minigame_location)
         
     return loc_groups
 
