@@ -313,16 +313,16 @@ REGION DFCoveAboveShop: wall kick area above shop
 REGION DFCove: the rest of the cove
 	DFElderStatue -> DFCove | True_()
 		would have DJ and glide
-	DFCoveShop -> DFCove | HasAll('Double Jump', 'Glide')
-		would have DJ and glide
+	DFCoveShop -> DFCove | HasAll('Double Jump')
+		would have DJ
 
 	LOCATION DFCove | DF: Light Gem after cove piranha platforms | 51 | True_()
 	LOCATION DFCove | DF: Light Gem next to cove piranha platforms in Locked Chest | 52 | LockedChestRule('Dragonfly Falls')
-	LOCATION DFCove | DF: Dark Gem after cove | 55 | True_()
-	LOCATION DFCove | DF: Light Gem after cove via wall kick | 58 | Has('Wall Kick')
+	LOCATION DFCove | DF: Dark Gem after cove | 55 | Has('Glide')
+	LOCATION DFCove | DF: Light Gem after cove via wall kick | 58 | HasAll('Wall Kick', 'Glide')
 
 REGION DFHunter: hunter section
-	DFCove -> DFHunter | True_()
+	DFCove -> DFHunter | Has('Glide')
 		would have DJ and glide (irrelevant since Hunter)
 
 	LOCATION DFHunter | DF: Dragon Egg in Hunter's area vulture nest | 53 | True_()

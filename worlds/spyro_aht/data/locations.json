@@ -5210,8 +5210,7 @@
                     "filtered_resolution": false,
                     "args": {
                         "item_names": [
-                            "Double Jump",
-                            "Glide"
+                            "Double Jump"
                         ]
                     }
                 }
@@ -5247,10 +5246,13 @@
                 "id": 55,
                 "options": [],
                 "access_rule": {
-                    "rule": "True_",
+                    "rule": "Has",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {}
+                    "args": {
+                        "item_name": "Glide",
+                        "count": 1
+                    }
                 }
             },
             {
@@ -5258,12 +5260,14 @@
                 "id": 58,
                 "options": [],
                 "access_rule": {
-                    "rule": "Has",
+                    "rule": "HasAll",
                     "options": [],
                     "filtered_resolution": false,
                     "args": {
-                        "item_name": "Wall Kick",
-                        "count": 1
+                        "item_names": [
+                            "Glide",
+                            "Wall Kick"
+                        ]
                     }
                 }
             }
@@ -5345,17 +5349,6 @@
                         ]
                     }
                 }
-            },
-            {
-                "name": "12 Gems (on the ground as Hunter walks to his cave)",
-                "gem_amount": 12,
-                "options": [],
-                "access_rule": {
-                    "rule": "True_",
-                    "options": [],
-                    "filtered_resolution": false,
-                    "args": {}
-                }
             }
         ]
     },
@@ -5365,10 +5358,13 @@
             {
                 "name": "DFCove -> DFHunter",
                 "access_rule": {
-                    "rule": "True_",
+                    "rule": "Has",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {}
+                    "args": {
+                        "item_name": "Glide",
+                        "count": 1
+                    }
                 }
             }
         ],
@@ -5398,8 +5394,8 @@
         ],
         "gem_events": [
             {
-                "name": "994 Gems (on the ground/baskets/headbash chests/metal chests)",
-                "gem_amount": 994,
+                "name": "1006 Gems (on the ground/baskets/headbash chests/metal chests)",
+                "gem_amount": 1006,
                 "options": [],
                 "access_rule": {
                     "rule": "True_",
@@ -12521,6 +12517,39 @@
                         }
                     ]
                 }
+            },
+            {
+                "name": "IC: Dark Gem above Elder Astor",
+                "id": 154,
+                "options": [],
+                "access_rule": {
+                    "rule": "And",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "children": [
+                        {
+                            "rule": "Has",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_name": "Charge",
+                                "count": 1
+                            }
+                        },
+                        {
+                            "rule": "HasAny",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_names": [
+                                    "Electric Breath",
+                                    "Fire Breath",
+                                    "Ice Breath"
+                                ]
+                            }
+                        }
+                    ]
+                }
             }
         ],
         "gem_events": [
@@ -12692,17 +12721,6 @@
             }
         ],
         "locations": [
-            {
-                "name": "IC: Dark Gem above Elder Astor",
-                "id": 154,
-                "options": [],
-                "access_rule": {
-                    "rule": "True_",
-                    "options": [],
-                    "filtered_resolution": false,
-                    "args": {}
-                }
-            },
             {
                 "name": "IC: Wall Kick from Elder Astor",
                 "id": 155,

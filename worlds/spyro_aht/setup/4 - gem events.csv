@@ -95,8 +95,7 @@ DFCove,330,baskets/metal chests/headbash chest,True_()
 DFCove,75,[enemy] normal crocoviles,"HasAny('Fire Breath', 'Electric Breath', 'Charge')"
 DFCove,60,[enemy] armored huge gnorcs,"And(Has('Charge'), HasAny('Fire Breath', 'Electric Breath', 'Ice Breath'))"
 DFCove,100,underwater vases near piranhas,"HasAll('Swim', 'Charge')"
-DFCove,12,on the ground as Hunter walks to his cave,True_()
-DFHunter,994,on the ground/baskets/headbash chests/metal chests,True_()
+DFHunter,1006,on the ground/baskets/headbash chests/metal chests,True_()
 DFHunter,275,[enemy] archer gnorcs/unarmored huge gnorcs,True_()
 DFHunter,118,on ground behind breakable walls using exploding arrows,True_()
 DFHunter,50,metal chests using exploding arrows,True_()
