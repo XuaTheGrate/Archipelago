@@ -311,7 +311,7 @@ class SpyroAHTWorld(World):
         
         self.log("Checking for problems with random goal selection.", "Debug")
         # this is disgustingly long, but it grabs all non-random and non-excluded goals which are not already chosen by the player
-        random_choices = [goal for goal in self.options.goal.valid_keys if goal != "Random" and goal not in self.options.exclude_from_goal.value and goal not in self.options.goal.value]
+        random_choices = [goal for goal in self.options.goal.valid_keys if goal != "Random" and goal not in self.options.exclude_from_random_goal.value and goal not in self.options.goal.value]
         random_count = self.options.goal.value.count("Random")
         if random_count > len(random_choices):
             # fix (or halt) specifically for if random_choices list is empty
@@ -371,7 +371,7 @@ class SpyroAHTWorld(World):
         self.options.auto_corrections.value = slot_data['auto_corrections']
         
         self.options.goal.value = slot_data['goal']
-        self.options.exclude_from_goal.value = slot_data['exclude_from_goal']
+        self.options.exclude_from_random_goal.value = slot_data['exclude_from_random_goal']
         self.options.open_world_mode.value = slot_data['open_world_mode']
         self.options.firework_checks.value = slot_data['firework_checks']
         self.options.vanilla_minigame_rewards.value = slot_data['vanilla_minigame_rewards']
@@ -853,7 +853,7 @@ class SpyroAHTWorld(World):
             "auto_corrections": self.options.auto_corrections.value,
             
             "goal": self.options.goal.value,
-            "exclude_from_goal": self.options.exclude_from_goal.value,
+            "exclude_from_random_goal": self.options.exclude_from_random_goal.value,
             "open_world_mode": self.options.open_world_mode.value,
             "firework_checks": self.options.firework_checks.value,
             "vanilla_minigame_rewards": self.options.vanilla_minigame_rewards.value,

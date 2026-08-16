@@ -63,7 +63,7 @@ class Goal(OptionList):
     Light Gems: Collect all 100 Light Gems (including those from locked chests).
     Locked Chests: Open all 52 locked chests.
     Shop Items: Buy all randomized shop items. shop_randomization will be enabled automatically if auto_corrections is set to 'fix'.
-    Random: For each "Random" you include, a random goal from above will be chosen, excluding any from exclude_from_goal.
+    Random: For each "Random" you include, a random goal from above will be chosen, excluding any from exclude_from_random_goal.
     
     If the list is empty and auto_corrections is set to 'fix', a single random goal will be chosen.
     If the list has too many entries and auto_corrections is set to 'fix', entries will be removed at random until in range."""
@@ -72,7 +72,7 @@ class Goal(OptionList):
     default = ("Mecha-Red",)
     
     
-class ExcludeFromGoal(OptionSet):
+class ExcludeFromRandomGoal(OptionSet):
     """This option lets you exclude goals from being randomly chosen. For example, entering "Shop Items" below means "Shop Items"
     will never be chosen in place of "Random" (you can still explicitly choose "Shop Items" in this example).
     
@@ -80,7 +80,7 @@ class ExcludeFromGoal(OptionSet):
     un-excluded at random until in range. If this isn't enough to fix it, random choices will be skipped entirely.
     
     Valid Options: ["Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red", "Fireworks", "Dark Gems", "Dragon Eggs", "Light Gems", "Locked Chests", "Shop Items"]"""
-    display_name= "Exclude From Goal"
+    display_name= "Exclude From Random Goal"
     valid_keys = ("Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red", "Fireworks", "Dark Gems", "Dragon Eggs", "Light Gems", "Locked Chests", "Shop Items")
     default = frozenset()
     
@@ -472,7 +472,7 @@ class SpyroAHTOptions(PerGameCommonOptions):
     start_inventory_from_pool: StartInventoryPool
     
     goal: Goal
-    exclude_from_goal: ExcludeFromGoal
+    exclude_from_random_goal: ExcludeFromRandomGoal
     open_world_mode: OpenWorldMode
     firework_checks: FireworkChecks
     vanilla_minigame_rewards: VanillaMinigameRewards
@@ -518,7 +518,7 @@ spyro_options_groups = [
         LoggingLevel, AutoCorrections
     ]),
     OptionGroup("GOAL, CHECKS, AND ITEMS", [
-        Goal, ExcludeFromGoal, OpenWorldMode, FireworkChecks, VanillaMinigameRewards, FillerItems
+        Goal, ExcludeFromRandomGoal, OpenWorldMode, FireworkChecks, VanillaMinigameRewards, FillerItems
     ]),
     OptionGroup("START OF GAME", [
         StartingBreath, MovementRandomization, StartingRealms

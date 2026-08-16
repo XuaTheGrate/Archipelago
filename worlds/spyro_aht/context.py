@@ -72,8 +72,8 @@ class SpyroAHTCommands(ClientCommandProcessor):
         self.output("---------------GOAL, CHECKS, & ITEMS---------------")
         # goal
         self.output(f"Your chose the following as your goal(s): {self.ctx.slot_data['goal']}.")
-        # exclude from goal
-        self.output(f"You chose to exclude the following goals from random choosing: {self.ctx.slot_data['exclude_from_goal']}.")
+        # exclude from random goal
+        self.output(f"You chose to exclude the following goals from random choosing: {self.ctx.slot_data['exclude_from_random_goal']}.")
         # open world mode
         convert = {0: "vanilla", 1: "full", 2: "randomized", 3: "progressive levels", 4: "reverse progressive levels", 5: "full levels", 6: "full realms"}
         self.output(f"You chose to set open world mode to {convert[self.ctx.slot_data['open_world_mode']]}.")

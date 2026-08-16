@@ -49,7 +49,7 @@
 
 - New Goaling System: non-boss goals are now supported, as well as mixing and matching goals in a fully customizable form!
     - You can choose between beating any of the 4 bosses, flaming all fireworks, collecting all of each collectible (dark gems, dragon eggs, light gems), opening all locked chests, and buying all shop items.
-    - You can also choose "Random". Each "Random" in the list will be replaced with a goal that hasn't already been selected yet. A new option exclude_from_goal allows for excluding goals from being randomly chosen.
+    - You can also choose "Random". Each "Random" in the list will be replaced with a goal that hasn't already been selected yet. A new option exclude_from_random_goal allows for excluding goals from being randomly chosen.
     
 - Re-implemented the old shop randomization system via the gem_logic option.
     - This was added for people who dislike the new system using gem logic to space out shop items.
