@@ -47,13 +47,13 @@ class AutoCorrections(Choice):
 
 ###############GOAL, CHECKS, AND ITEMS###############
 class Goal(OptionList):
-    """Determines the goal(s) of this seed. Your goal can contain as many or as few of the below as you like.
+    """Choose your goal(s) for this seed. Run /check_goal overview in the client for mid-run information. Any locations in
+    exclude_locations will be left out of goals they belong to. If you exclude all locations for all chosen goal types and
+    auto_corrections is set to 'fix', Mecha-Red will be forced as your goal regardless of exclusions.
     
     Collectible goals are based on *AHT locations*, not item collection. For example, "Dragon Eggs" requires checking all
     80 AHT locations which have "Dragon Egg" in their name. This can lead to early goals if your seed allows the use !collect
-    (check the project wiki FAQ for details). Any locations added to exclude_locations will be excluded from any goal requirements they belong to.
-    
-    The client has 2 commands (/check_goal and /list_options) which can be used to view goal information.
+    (check the project wiki FAQ for details). 
 
     Available Goals:
     Gnasty Gnorc/Ineptune/Red/Mecha-Red: Defeat each boss.
@@ -288,7 +288,7 @@ class DoubleGems(Choice):
 class RandomizeBossLairDoorCosts(Choice):
     """Determines the Dark Gem cost for each boss lair.
 
-    default: Each boss lair has their vanilla cost (10, 20, 30, 40).
+    default: Each boss lair has their vanilla cost (10/20/30/40).
     randomized: Randomly pick costs in the range defined by boss_lair_door_cost_min and boss_lair_door_cost_max.
     shuffle: Vanilla boss lair costs are shuffled between each other (still 10/20/30/40 but in a random order)."""
     display_name = "Randomize Boss Lair Requirements"
@@ -329,9 +329,9 @@ class BossLairForcing(Choice):
     
 
 class RandomizeLightGemDoorCosts(Choice):
-    """Determines the Light Gem cost for each boss lair.
+    """Determines the Light Gem cost for each Light Gem door.
 
-    default: Each door has their vanilla cost (20, 45, 70, 95).
+    default: Each door has their vanilla cost (20/45/70/95).
     randomized: Randomly pick costs in the range defined by light_gem_door_cost_min and light_gem_door_cost_max.
     shuffle: Each door has their vanilla cost shuffled with the others (still 20/45/70/95 but in a random order)."""
     display_name = "Randomize Light Gem Door Cost"
@@ -358,9 +358,9 @@ class LightGemDoorCostMax(Range):
 
 
 class RandomizeGadgetCosts(Choice):
-    """Determines the Light Gem cost for each gadget.
+    """Determines the Light Gem cost for each gadget. Listed in order of Ball Gadget -> Invincibility -> Supercharge.
 
-    default: Each gadget has their vanilla cost (8, 24, 40).
+    default: Each gadget has their vanilla cost (8/24/40).
     randomized: Randomly picks costs in the range defined by gadget_cost_min and gadget_cost_max.
     shuffle: Each gadget has their vanilla cost shuffled with the others (still 8/24/40 but in a random order)."""
     display_name = "Randomize Gadget Cost"

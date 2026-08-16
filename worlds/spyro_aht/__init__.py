@@ -10,7 +10,7 @@ import orjson
 import Utils
 from BaseClasses import Item, ItemClassification, MultiWorld, Region, CollectionState
 from Options import OptionError
-from rule_builder.rules import Has, Rule, True_, And, False_, HasAny
+from rule_builder.rules import Has, Rule, True_, And, False_, HasAny, HasAll
 from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import icon_paths
 from .options import MovementRandomization, SpyroAHTOptions, StartingBreath, spyro_options_groups
@@ -426,20 +426,44 @@ class SpyroAHTWorld(World):
 
         # a bit ugly to have triple nested loop, but I don't think it's avoidable
         # needs to be "for every location in every region, check every enabled goal for matches" which is just inherently triple-nested
+        excluded_per_goal = defaultdict(list[int])
         count = 1
+        shop_item_count = 18 if self.options.key_rings else 56
         for reg, region_data in _load_file("locations.json").items():
             for location in region_data["locations"]:
                 for goal in self.options.goal.value:
                     if convert[goal] in location["name"]:
-                        if "Shop Item" in location["name"] and int(location["name"][-2:]) > 18 and self.options.key_rings:
+                        if "Shop Item" in location["name"] and int(location["name"][-2:]) > shop_item_count:
                             continue  # skip shop items that aren't enabled
                         if location['name'] in self.options.exclude_locations.value:
                             self.log(f"Skipping adding \"{location['name']}\" to goal \"{goal}\" because it is excluded.", "Debug")
+                            excluded_per_goal[goal].append(location['id'])
                             continue
                         self.get_region(reg).add_event(f"{location['name']} Victory{count}", f"VictoryCon{count}", rule=self.rule_from_dict(location['access_rule']))
                         victory_cons.append(f"VictoryCon{count}")
                         self.log(f"Added VictoryCon{count} event item for {location['name']}.", "Extra")
                         count += 1
+        
+        # handle cases where the player excluded all locations for a given goal
+        counts = {"Gnasty Gnorc": 1, "Ineptune": 1, "Red": 1, "Mecha-Red": 1, "Fireworks": 22, "Dragon Eggs": 80, "Dark Gems": 40, "Light Gems": 100, "Locked Chests": 52, "Shop Items": shop_item_count}
+        found_valid_goal = False
+        for goal in self.options.goal.value:
+            if len(excluded_per_goal[goal]) == counts[goal]:
+                self.log(f"All locations that belong to the \"{goal}\" goal were excluded by player.", "Warning")
+            elif not found_valid_goal:
+                found_valid_goal = True
+        
+        if not found_valid_goal and self.options.auto_corrections:
+            self.log(f"All locations for all selected goals were excluded, meaning there are no valid goals. Fixing by forcing Mecha-Red as the only goal.", "Warning")
+            loc = self.get_location("RL: Defeat Mecha-Red")
+            loc.parent_region.add_event(f"RL: Defeat Mecha-Red Victory1", "VictoryCon1", rule=HasAll('Double Jump', 'Fire Breath', 'Electric Breath'))  # hardcoded because no access to the json here
+            victory_cons.append(f"VictoryCon1")
+            count += 1
+            self.options.goal.value = ["Mecha-Red"]
+        elif not found_valid_goal:
+            self.log(f"All locations for all selected goals were excluded, meaning there are no valid goals. Halting generation.", "Warning")
+            raise OptionError("All locations for all selected goals were excluded, resulting in no valid goals. Please add a goal with at least one non-excluded location, or take out some of your exclusions.")
+        
         self.log(f"Set up {count-1} goal events.", "Debug")
 
         self.multiworld.completion_condition[self.player] = lambda state: state.has_all(victory_cons, self.player)
@@ -582,7 +606,7 @@ class SpyroAHTWorld(World):
                         location_name = f"{reg}: {gem_event['name']}"
                         if "[enemy]" in gem_event['name']: enemy_count += int(gem_event['gem_amount'])
                         self.log(f"Created gem event with location_name \"{location_name}\", item name \"{gem_event['name']}\", and access rule {gem_event['access_rule']}.", "Extra")
-                        self.get_region(reg).add_event(location_name, gem_event['name'], rule=self.rule_from_dict(gem_event["access_rule"]))
+                        self.get_region(reg).add_event(location_name, gem_event['name'], rule=self.rule_from_dict(gem_event["access_rule"]), show_in_spoiler=False)
                         
             self.log(f"enemy count total is {enemy_count}.", "Debug")
                     
