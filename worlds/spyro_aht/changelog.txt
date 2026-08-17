@@ -1,117 +1,38 @@
-2.0 (Release Candidate)
+2.0.0 (this is a lot)
+- Project things:
+	- Primary project developer has switched from Maya (XuaThaGrate) to Phoenix (PhoenixAki) as of 2.0. Hello hi that's me ^.^
+	- Module renamed from `spyro-aht` to `spyro_aht`.
+	- Added brand-new wiki containing any and all information pertaining to AHT AP.
+	- Added an open-source license to the project. In short, "do what you want with the code but don't sell it or profit off of it."
 
-- Major Feature Addition: Open World Mode
-    - Added option `open_world_mode` which allows for unlocking remote shop pads in multiple ways. Currently supported are full, randomized, progressive and reverse progressive levels, full levels, and full realms.
-    - This has MAJOR implications on the logic of the world. This was a massive undertaking to get supported, requiring an entire re-design of all logic rules for the game.
-    - THOROUGH testing is needed to ensure it all works. I've done what I can and it seems to all be fine, but the more eyes, the better.
+- Major Feature #1: "gem logic" system for use with shop_randomization:
+	- This comes bundled with a number of new options: gem_logic, blink_gems, non_blink_enemies, other_gems, and double_gems.
+	- If gem_logic is enabled, a series of logical events will map out your access to gems, and this is used to space out shop item purchases through the seed.
+	- If gem_logic is disabled, the randomized shop will work similarly to in the past, except prices are determined by the new options instead of from a random range.
 
-- Project Wiki
-    - Added a brand-new and written from scratch series of wiki pages to this GitHub repo that documents the randomizer.
-    - I put as much as I could think of in it, but may add to it more later. Just wanted to get the initial bits in there now, and anything that I had left as a note to myself to include.
+- Major Feature #2: open_world_mode:
+	- This mode sets the various Moneybags shop pads to be unlocked by various Archipelago items. Can be set to start with them all unlocked, each one unlocks individually, they unlock fully per level, etc.
+	- Each setting is fully supported logically and makes a dramatic impact on the "feel" of playing AHT AP. Players are expected to take advantage of teleporting around from shop pad to shop pad.
 
-- Realm Access Adjustments (to cooperate with open_world_mode better)    
-    - Enabling full open world mode will override your `starting_realms` choices and grant you all 4 access cards in sphere 0. This ensures smooth, simple traveling between realms.
-    - If using non-full open world mode, the only realm access cards that will be made are those included in `starting_realms`. All others will not be made.
-        - This is because the player will be expected, upon unlocking any shop in a non-starting realm, to pause and "teleport to HUB" to access the hub.
-        - Once this is done a single time, the game will then allow the player to teleport back to the realm via the realm teleporter as normal, without an access card.
+- Client Things:
+	- The client now has full Universal Tracker integration, including YAML-less tracking and proper reporting of randomized settings.
+	- 2 new commands: /check_goal (gives goal information) and /add_item (adds items to game memory directly, meant for debugging/testing).
+	- Custom deathlink messages now send when the player dies, depending on death animation.
+	- Client now enforces the right version of the game mod when connecting.
 
-- New option: pause_menu_patch
-    - Previously, pausing the game would always give the player the option to "hold Y to teleport to hub".
-    - Now, this is optional. pause_menu_patch offers a choice between that and a new mode "press Y to open shop" which opens a shop prompt out of thin air.
-    - Each has logical implications on open world mode which are accounted for.
-    
-- Gem Logic Fix & Expansion
-    - Updated the shop price calculation and gem collection logic to be more consistent across the board, which resolves an issue that would lead to shop items entering logic earlier than they were supposed to.
-    - Also added `non_blink_enemies` to allow for a 3rd type of gem collection scaling that affects all enemies that don't come from a Blink minigame.
-    
-- Debug Client Command `/add_item`
-    - Added a client command `/add_item` to help with situations in which your save file gets corrupted or otherwise lost and want to continue the playthrough.
-    - The scope of this command is limited to Dark Gems, Light Gems, Lockpicks, and Gems because there is a known bug in the client that prevents you from cheat console sending multiple of an item to AHT.
-    - This command gets around that by adding the amount to the game's memory directly. Because the cheat console works for every other type of item (abilities, access cards, etc.) I didn't feel it necessary to support them in `/add_item`, at least for now.
-    
-- Other Things
-    - Nearly every location in the world has been renamed to follow a new naming format. This allowed for setting Universal Tracker to sort them based on this new formatting which goes in vanilla level order -> sub-areas of level -> abilities and breaths before everything else aphabetically
-    - Game mod updated to have the in-game map icons render for all maps you have access to, not just the one you're currently loaded into.
-    - Updated double_gems to be usable when the shop is randomized at all (as in, regardless of gem_logic).
-    - The game mod and client now supports custom DeathLink messages! Have fun annoying your friends by dying intentionally to try to find them all >:3
-    - Added an open-source license to the project. Apparently Maya (previous dev) had one in an older repo for AHT, but I wasn't aware of that and got my own lol.
-        - Maya signed onto this new version. It sums up to being "do whatever you want with our code, but don't sell it or profit off of it". Read the actual license file for details :)
-    - Added 2 new generic filler items "Portable Heater for the Ice Princess" and "Apartment Lease for Teena".
-    - Fixed boss_lair_forcing only doing its logic if boss lair costs are non-vanilla.
-    - Figured out 2 issues that have been plagueing me for weeks that was slowing down my development workflow. It is now fixed and development is simplified :3
+- Mid-sized Things:
+	- There are now 10 different goals that can be chosen in any combination desired. boss_lair_forcing was introduced to allow for the now-previously default behavior of forcing your goal boss to have the most expensive lair.
+	- Realm access system overhauled. starting_realms decides which realms to start with access to, and their access card(s) are added to the starting inventory.
+	- New generation settings, including logging_level (logging system) and auto_corrections (automatic fixing of YAML issues).
+	- 4 types of filler items can now be enabled/disabled individually: Dragon Eggs, Beath Bombs, Gem Packs, and a new category "Generics", which do nothing, but have humorous names.
 
-2.0 (Beta Release 2)
-
-- NOTE: this release contains a known issue that wasn't resolvable prior to release. tl;dr: shop items may appear as in-logic sooner than they should be, but the underlying logic is correct.
-    - For example, if your second shop item costs 6,500, it may appear as in-logic when you have access to less than 6,500 gems.
-    - You will not *actually* be expected to buy that item until you *do* have access to 6,500 gems. This is effectively just a visual bug in trackers.
-    - Figuring out the cause is proving complicated. I'm releasing this as-is because I suspect it will be easier to figure out after once I get the last phase of the 2.0 update a bit more in place.
-
-- New Goaling System: non-boss goals are now supported, as well as mixing and matching goals in a fully customizable form!
-    - You can choose between beating any of the 4 bosses, flaming all fireworks, collecting all of each collectible (dark gems, dragon eggs, light gems), opening all locked chests, and buying all shop items.
-    - You can also choose "Random". Each "Random" in the list will be replaced with a goal that hasn't already been selected yet. A new option exclude_from_random_goal allows for excluding goals from being randomly chosen.
-    
-- Re-implemented the old shop randomization system via the gem_logic option.
-    - This was added for people who dislike the new system using gem logic to space out shop items.
-    - One slight difference, though: shop item prices are determined using gem_collection and blink_gems regardless of gem_logic. To do otherwise would require re-adding shop_cost_min and shop_cost_max solely for when gem_logic is false, which felt like an unnecessary use of YAML space.    
-    
-- Removed realm_access and simplified realm access logic into starting_realms.
-    - Realm Access Cards are now always in the item pool. As a result, "Defeat <boss name>" locations are now always enabled, instead of being disabled when access cards are gone (since access cards are never gone now).
-    - Players can still choose to have access to multiple (or all) realms by listing multiple in the option. All realms chosen will have their cards added to the player's start inventory. "Starter Checks: Starting Realm Access" is no longer a thing.
-    - Also, renamed the access cards and starting_realm options to be the actual realm names and not just the start level name (e.g. Volcanic Isle Access Card instead of Stormy Beach Access Card).
-    
-- New Option: boss_lair_forcing
-    - This option replaces the now-previously default behavior of making the goal boss's lair the most expensive. Now that bosses are not guaranteed to be the one and only goal, this functionality was moved to this option.
-    - Players can choose whether they want a specific boss to have the highest cost, regardless of whether that boss is part of their goal or not.
-
-- New Option Group: Generation Settings
-	- Includes logging_level which provides detail to the Archipelago log as specified.
-	- Includes auto_corrections which decides whether to automatically fix some YAML issues or to always halt generations when issues are encountered.
-        
-- Other Things:
-    - Fixed an issue leading to the client crashing without Universal Tracker installed. It should load fine both ways now.
-    - Expanded location groups to have bosses, dark gems, dragon eggs, light gems, locked chests, and fireworks.
-    - Took out an OptionError preventing generation if movement & shop randomization is off and starting with only 1 non-Dragon Kingdom realm.
-    - Stopped forcing Double Jump to be an early item, since it didn't impact generation success/fail rate enough to justify having anymore. Majority of times, it winds up being an early item anyway.
-    - Majorly overhauled some back-end stuff related to how the world loads in logic information for regions, locations, and gem events. This shouldn't impact the player experience at all, but it makes my development life SO SO SO SO SO much easier now that it's dealt with.
-    - Improved the distribution method of filler items.
-    - Flipped randomize_minigames to vanilla_minigame_rewards. Same exact feature, but opposite logic to be slightly easier to understand semantically.
-    - Renamed gem_collection to non_blink_gems. Not a huge fan of this name, but it's a bit better and I don't think there's any better options.
-    - Added start_inventory_from_pool to YAML. The only difference between it and the standard start_inventory is that start_inventory_from_pool will replace any items listed there with filler, while start_inventory keeps the original copy of items in the world.
-
-2.0 (Beta Release 1)
-- This apworld has officially switched hands to being primarily maintained by PhoenixAki.
-    - From Phoenix: hello little people in my computer :) I only got into Archipelago in February 2026 and started
-    making contributions to worlds in April (including both 1.0.9 and 1.0.10 here). I started taking on bigger updates,
-    and this 2.0.0 update is one of the proudest programming projects of my life thus far ^.^ Ebbe is still working on the mod
-    for AHT to pair with Archipelago, but I have taken over hosting the primary AHT randomizer repo from Maya, the original
-    developer of the apworld and client side of the project. This may change back in the future when she is less busy, we'll see.
-
-- Major Back-End Change: completely redesigned the logical regions of the apworld. Should not impact the player experience (barring
-any logic bugs), but this was a prerequisite for both of the major feature additions in 2.0.0.
-    - One positive effect of this is that accessing the shop in Stormy Beach now properly requires you to have Double Jump. It did not before.
-
-- Major Client Change: the client is now built on top of Universal Tracker (UT), and is fully integrated with it.
-    - This means the client has a built-in "tracker page" if the player has UT installed.
-        - If UT is not installed, the AHT client will revert to its old state.
-        - However, the map icons feature in the game mod now require having UT, as UT is the sole source of that information now.
-        - Similarly, the pause menu text about how many gems you have available and are expected to get is also fueled by UT.
-    - Another benefit of this is that randomized costs for boss lairs, light gem doors, and gadgets will now be correctly reported by UT (and the UT page in the client).
-    
-- Major Feature Addition: new shop randomization behavior
-    - Gem logic was added, meaning during generation and playback, logic will know how many gems are obtainable to you.
-    - The shop, when randomized, utilizes this to now space out the shop items throughout the seed, instead of them all being in logic at sphere 1. The shop will not take your gems anymore (and remote shops won't upcharge you) because the shop items are now based on your total gems collected.
-    - This was accompanied by a series of YAML changes, including new options [filler_items, gem_collection, blink_gems, double_gems] and removal of options [shop_cost_min, shop_cost_max]
-    
-- Various smaller additions, improvements, and fixes/tweaks:
-    - Hotfix 1 (12:15am 7/17/26): removed an old restrictive start preventative measure that was no longer needed and led to some shop items being marked free falsely.
-    - The client now checks for the right version of the game mod and prevents connection if it doesn't match (currently version 8).
-    - New option teleport_across_realms which lets you teleport from remote shop pads in one realm to another realm directly.
-    - Improved YAML flow with improved wording, option grouping, and simplifying options.
-    - Fixed typo in location group name for Molten Mount.
-    - Renamed project from spyro-aht -> spyro_aht.
-    - Updated spoiler file output to include shop prices and no longer include starting realm.
-    - Expanded starting_breath option (previously named randomize_breath) to allow explicit choosing of any breath, or none.
+- Smaller Things:
+	- Various game mod additions, including rendering of map icons on all maps instead of just the one you're currently in, and numerous other small/mid-sized things.
+	- Expanded location groups to also have all bosses, dark gems, dragon eggs, light gems, locked chests, fireworks, and minigames.
+	- 4 new quality of life/cosmetic options: pause_menu_patch, hint_shop_items, hide_shop_item_names, and teleport_across_realms.
+	- Starting breath can now be any of the 4 breaths, or none. This replaces old system which was none, fire, or a random choice.
+	- Condensed the various minigame randomization options into a single vanilla_minigame_rewards option.
+	- Renamed randomize_movement to movement_randomization to have similar semantics to shop_randomization.
 
 1.0.10
 - Added new client command /list_options with lists all YAML options as well as some randomized costs.
