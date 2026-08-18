@@ -33,7 +33,11 @@ class SpyroAHTCommands(ClientCommandProcessor):
         return True
     
     async def _cmd_add_item(self, item, amount) -> bool:
-        """Format: /add_item item_name amount. Adds an amount of an item to your game. Currently supports "dark_gem", "light_gem", "gems", and "lockpick". Please use responsibly and safely - minimal error checking is done. This is intended for use in situations where you lose your save file and want to recover the amount of gems you had before, and similar other file recovery situations. You can safely have up to 127 Dark Gems, Light Gems, and Lockpicks, and ~2.14 billion gems (though the game's HUD will hate you for that last one)."""
+        """Format: /add_item item_name amount.
+        Adds <amount> of <item_name> to the game's memory directly.
+        Currently supported items: "dark_gem", "light_gem", "gems", and "lockpick".
+        Please use responsibly - minimal error checking is done. High values risk crashing the game.
+        Intended for use in recovering save files, as well as testing and debugging."""
         types = {
             "dark_gem": [self.ctx.emu_client.addresses.DARK_GEM_COUNT, 1],
             "light_gem": [self.ctx.emu_client.addresses.LIGHT_GEM_COUNT, 1],
@@ -56,7 +60,8 @@ class SpyroAHTCommands(ClientCommandProcessor):
     async def _cmd_list_options(self) -> bool:
         # this is grossly repetitive, but it only runs when the player demands it so it's not a big deal
         # even if it was reformatted it'd still be the same amount of output and data lookup, it's just code cleanliness
-        """Displays the options you set for this seed (in the same order as YAML). Data is sourced directly from slot data, so if something doesn't line up here, check your YAML for mistakes. Much of this info is also viewable in-game by pausing and pressing R/L."""
+        """Displays seed information, retrieved directly from data sent from Archipelago.
+        Some of this info is also viewable on the pause menu."""
         
         # death link
         convert = {0: "disabled", 1: "shielded", 2: "enabled"}
@@ -166,7 +171,9 @@ class SpyroAHTCommands(ClientCommandProcessor):
         return True
 
     async def _cmd_check_goal(self, argument: str) -> bool:
-        """Details your remaining goal requirements. Run as "/check_goal overview" for an abbreviated overview of all goal requirements or as "/check_goal goal_name" for a more detailed breakdown of a specific goal's requirements."""
+        """Format: /check_goal overview OR /check_goal goal_name.
+        "overview" summarizes status of each enabled goal.
+        "goal_name" gives a detailed list of every unchecked location for that goal."""
         argument = argument.lower()  # just in case
         
         if argument == "overview":

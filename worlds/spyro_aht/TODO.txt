@@ -1,4 +1,3 @@
-TODO: fancify docstrings on client commands
 TODO: new location ID system
 TODO: decouple number of shop items from key_rings and into its own thing? key rings on vs. off would alter how many filler items there are but not necessarily shop item count
 TODO: allow for excluding full level's worth of gem events if put into exclude_locations

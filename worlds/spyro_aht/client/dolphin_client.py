@@ -194,7 +194,7 @@ class DolphinClient(GenericClient):
         dolphin_memory_engine.write_word(self.addresses.p_MW_SEED, (int(ctx._seed) & 0xffffffff))
         dolphin_memory_engine.write_byte(self.addresses.p_USE_KEY_RINGS, ctx.slot_data['key_rings'])
         dolphin_memory_engine.write_byte(self.addresses.p_FIREWORKS_ARE_RANDOMIZED, ctx.slot_data['firework_checks'])
-        dolphin_memory_engine.write_byte(self.addresses.p_UT_ENABLED, ctx.tracker_found)
+        dolphin_memory_engine.write_byte(self.addresses.p_UT_ENABLED, int(ctx.tracker_found))
 
         if ctx.slot_data['pause_menu_patch'] == 0:
             dolphin_memory_engine.write_byte(self.addresses.p_INSTANT_TELEPORT_MODE, 2)
@@ -346,8 +346,8 @@ class DolphinClient(GenericClient):
         non_blink_enemy_in_logic = (non_blink_enemies_available * ctx.slot_data['non_blink_enemies'] / 100)
         other_in_logic = (other_available * ctx.slot_data['other_gems'] / 100)
         
-        dolphin_memory_engine.write_word(self.addresses.g_GEMS_IN_LOGIC, blink_in_logic + non_blink_enemy_in_logic + other_in_logic)
-        dolphin_memory_engine.write_word(self.addresses.g_GEMS_AVAILABLE, blink_available + non_blink_enemies_available + other_available)
+        dolphin_memory_engine.write_word(self.addresses.g_GEMS_IN_LOGIC, int(blink_in_logic + non_blink_enemy_in_logic + other_in_logic))
+        dolphin_memory_engine.write_word(self.addresses.g_GEMS_AVAILABLE, int(blink_available + non_blink_enemies_available + other_available))
     
     async def allow_realm_access(self, id: int):
         current: list[bool] = list(struct.unpack(">????", dolphin_memory_engine.read_bytes(self.addresses.g_REALM_ACCESS, 4)))
