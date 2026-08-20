@@ -1,32 +1,24 @@
-TODO: new location ID system
-TODO: decouple number of shop items from key_rings and into its own thing? key rings on vs. off would alter how many filler items there are but not necessarily shop item count
-TODO: allow for excluding full level's worth of gem events if put into exclude_locations
-TODO: possibly expand location groups a bit? per-level collections like Dragon Village Dark Gems or similar
-TODO: potentially remove VanillaMinigameRewards? redundant and can be plando'd
-TODO: "automatic" setting for boss_lair_forcing to auto force highest cost onto goal bosses
-TODO: make starting_realms not require auto_corrections to get a random choice. Allow for entering random like goal?
-TODO: is it possible to prevent early goals because of !collect impacting goal locations?
-TODO: light gems sent when count is 100 don't get added? seemingly when sent from AP only (/add_items works)
-TODO: add "sent <item> to <player>" notification? mimic "received" type
-TODO: make updated logic spreadsheet or equivalent
-TODO: traps? capitalism trap that pops up a shop prompt, moneybags spam call of him playing "heyyyyy spyro I got some goods" etc.
-TODO: implement /event_inventory and /event_locations into client? they're only UT currently
-TODO: maybe review logic (again...) with more awareness of using CanReachRegion to simplify some things?
-TODO: trick support
-    platform in byrd area. double jumping to get Zoe zap in dark mine near green poles. what else?
-TODO: rule caching?
-TODO: make movement_randomization an optionset instead of toggling all 3 at once
-TODO: improve Generic filler selection process so it picks one of each before duplicating any others
-TODO: custom rule explanations?
-TODO: expand starting breath to be similar to starting realm? allow multiple starting?
-TODO: investigate what things needing glide actually need DJ as well vs. just glide
-TODO: client command that explains what a region is, mainly for open world purposes. maybe expand?
-    similarly, command of "what regions do I have access to?"
-TODO: research how many enemy gems are truly required so non_blink_enemies can advise people of the minimum
-TODO: make tool for testing gem access
-TODO: can we modify mission screen text for light gem doors? "Collect 45 light gems to open the door to a secret area" for example
-TODO: auto-populate game mod addresses from mod itself?
-TODO: is it possible to get gem logic pause text to accurately reflect the amount needed from a given minigame?
-    may or may not be doable on its own. less likely to be doable in a way that also factors in excluded locations
-TODO: is it possible to add an option for forcing early DJ?
-    conceptually of course it is, but idk if I can force early items in non __init__ world methods
+TODO whenever: make updated logic spreadsheet or equivalent
+
+TODO 2.1: starting_realms should allow for entering "Random" like goal so that random choice doesn't require auto_corrections to be set to 'fix'
+TODO 2.1: Improve the way the client reads game mod version while connecting. Game mod version should be set in consts and it should be read in using read_word
+TODO 2.1: Expand location groups to include per-level collections like "Dragon Village Dark Gems" and similar.
+TODO 2.1: Add "automatic" setting to boss_lair_forcing which forces all goal bosses (if any are part of goal) to have collectively the highest cost(s).
+TODO 2.1: Expand movement_randomization to allow for individual toggling of each instead of it being all or nothing.
+TODO 2.1: Improve "Generics" filler selection process to pick one of each before duplicating. Would ensure more variety in the humorous names each seed.
+TODO 2.1: Expand starting_breath to allow for starting with multiple breaths.
+
+TODO: Add support for tricks. Would not include huge game-wide things like infinite jumps - would be limited to smaller things.
+TODO: Investigate if caching rules is worth doing.
+TODO: Add project-level unit testing. Will likely require refactoring significant chunks of the project.
+TODO: Explore ways to communicate world logic better. For example, custom rule explanations and a command to do so, and/or a command that details what regions are accessible.
+TODO: Research what things in the game require only glide as opposed to DJ + glide to possibly loosen requirements in those spots. 
+TODO: Consider redoing location IDs to reflect the new region design and goals (such as numbering Dark Gems together).
+TODO: Consider allowing direct control over how many randomized shop items there are, separate to key_rings.
+TODO: Add ability to exclude a full level from gem logic if that level's location group is in exclude_locations.
+TODO: Consider removing vanilla_minigame_rewards because the functionality can be plando'd.
+TODO: Research ideas for traps and whether they're doable and worth the effort. Humorous examples include a "capitalism trap" which forces open the shop dialog when received. Could also repurpose "Spam Call from Moneybags" to be a trap which plays Moneybags audio.
+TODO: Investigate why the client prevents collectibles from being added if it'd put them over the game's vanilla maximum count. Not sure why it's in place and if it's needed.
+TODO: Add a "sent <item> to <player>" notification to the client similar to the one for receiving items or hints.
+TODO: Investigate if the mission menu text can be modified to reflect costs for Light Gem doors and other cost things.
+TODO: Fix game mod not displaying the right gem logic information when in minigames.
