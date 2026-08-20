@@ -14,6 +14,17 @@ from ..data import consts
 if TYPE_CHECKING:
     from ..context import SpyroAHTContext
 
+
+def retrieve_mod_version() -> tuple[int, int]:
+    mod_version_full = dolphin_memory_engine.read_word(0x80187620)
+    mod_version_major = mod_version_full >> 16
+    mod_version_minor = mod_version_full & 0xFFFF
+    if mod_version_major == 0:  # old mod versions reported only a single version in the space the minor version currently uses now. Need adjusting to match new format
+        return mod_version_minor, 0
+    else:
+        return mod_version_major, mod_version_minor
+
+
 class DolphinClient(GenericClient):
     def __init__(self) -> None:
         super().__init__()
@@ -49,15 +60,27 @@ class DolphinClient(GenericClient):
 
     async def connect(self):
         if not dolphin_memory_engine.is_hooked():
+            from CommonClient import logger
+            logger.info(f"Spyro: A Hero's Tail Archipelago (AHT AP) client initializing.")
+            logger.info(f"Detected client version: {consts.CLIENT_VERSION_STR}.")            
             dolphin_memory_engine.hook()
+            
             game_id = dolphin_memory_engine.read_bytes(0x80000000, 6)
+            logger.info(f"Detected game ID: {game_id.decode()!r}.")
             if game_id != b'G5SE7D':
-                dolphin_memory_engine.un_hook()
-                raise TypeError(f"Invalid or unsupported game id {game_id.decode()!r}")
-            mod_version = dolphin_memory_engine.read_byte(0x80187623)
-            if mod_version != 12:
-                dolphin_memory_engine.un_hook()
-                raise TypeError(f"Incorrect version of the game mod (detected version {mod_version}). Please update to version 12 and try again.")
+                # dolphin_memory_engine.un_hook()
+                logger.error("WARNING: Invalid or unsupported game ID.")
+                return False
+
+            mod_version_major, mod_version_minor = retrieve_mod_version()
+            logger.info(f"Detected game mod version: {mod_version_major}.{mod_version_minor}.")
+            
+            if mod_version_major != consts.MOD_MAJOR:
+                # dolphin_memory_engine.un_hook()
+                logger.error(f"WARNING: Mod major version {mod_version_major} is incompatible with AHT AP {consts.CLIENT_VERSION_STR}. Please update game mod to major version {consts.MOD_MAJOR}.")
+                return False
+            if mod_version_major == consts.MOD_MAJOR and mod_version_minor < consts.MOD_MINOR:
+                logger.warn(f"NOTICE: Mod minor version {mod_version_minor} is compatible with AHT AP {consts.CLIENT_VERSION_STR}, but there is at least one new minor version available which may contain new features or bugfixes. Update at your leisure.")
         self.ready.set()
     
     async def disconnect(self):
