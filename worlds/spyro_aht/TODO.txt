@@ -1,5 +1,6 @@
 TODO whenever: make updated logic spreadsheet or equivalent
 
+TODO 2.1: Add DeathLink amnesty (customizable how many real deaths are needed to trigger a DeathLink death).
 TODO 2.1: starting_realms should allow for entering "Random" like goal so that random choice doesn't require auto_corrections to be set to 'fix'
 TODO 2.1: Improve the way the client reads game mod version while connecting. Game mod version should be set in consts and it should be read in using read_word
 TODO 2.1: Expand location groups to include per-level collections like "Dragon Village Dark Gems" and similar.
