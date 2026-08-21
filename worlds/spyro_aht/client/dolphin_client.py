@@ -218,6 +218,8 @@ class DolphinClient(GenericClient):
         dolphin_memory_engine.write_byte(self.addresses.p_USE_KEY_RINGS, ctx.slot_data['key_rings'])
         dolphin_memory_engine.write_byte(self.addresses.p_FIREWORKS_ARE_RANDOMIZED, ctx.slot_data['firework_checks'])
         dolphin_memory_engine.write_byte(self.addresses.p_UT_ENABLED, int(ctx.tracker_found))
+        if ctx.slot_data['death_link']:
+            dolphin_memory_engine.write_byte(self.addresses.p_DEATHLINK_DEATHS_BEFORE_SEND, ctx.slot_data['death_link_amnesty'])
 
         if ctx.slot_data['pause_menu_patch'] == 0:
             dolphin_memory_engine.write_byte(self.addresses.p_INSTANT_TELEPORT_MODE, 2)

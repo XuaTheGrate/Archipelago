@@ -2,19 +2,27 @@ from dataclasses import dataclass
 
 from Options import OptionSet, PerGameCommonOptions, Toggle, Choice, Range, OptionGroup, StartInventoryPool, OptionList, Visibility
 
-###############UNGROUPED###############
+###############DEATHLINK###############
 class DeathLink(Choice):
-    """Determines death link behavior.
+    """Determines DeathLink behavior.
 
     disabled: Disabled.
-    Shielded: The Butterfly Jar will protect you from a DeathLink, if you have it.
-    Enabled: Enabled fully."""
+    Shielded: The Butterfly Jar will protect you from a received DeathLink death, if you have it.
+    Enabled: Enabled without shielding."""
     display_name = "DeathLink"
     option_disabled = 0
     option_shielded = 1
     option_enabled = 2
     default = 0
+    
 
+class DeathLinkAmnesty(Range):
+    """If DeathLink is enabled, this option decides how many in-game deaths need to occur before a DeathLink
+    death is sent out to the multiworld. The game mod tracks your deaths on the pause menu's box labeled "DL:"."""
+    display_name = "DeathLink Amnesty"
+    range_start = 1
+    range_end = 100
+    default = 1
 
 ###############GENERATION SETTINGS###############
 class LoggingLevel(OptionSet):
@@ -43,7 +51,6 @@ class AutoCorrections(Choice):
     option_halt = 0
     option_fix = 1
     default = 0
-
 
 ###############GOAL, CHECKS, AND ITEMS###############
 class Goal(OptionList):
@@ -467,6 +474,8 @@ class TeleportAcrossRealms(Toggle):
 @dataclass
 class SpyroAHTOptions(PerGameCommonOptions):
     death_link: DeathLink
+    death_link_amnesty: DeathLinkAmnesty
+    
     logging_level: LoggingLevel
     auto_corrections: AutoCorrections
     start_inventory_from_pool: StartInventoryPool
@@ -514,6 +523,9 @@ class SpyroAHTOptions(PerGameCommonOptions):
     
     
 spyro_options_groups = [
+    OptionGroup("DEATHLINK", [
+        DeathLink, DeathLinkAmnesty
+    ]),
     OptionGroup("GENERATION SETTINGS", [
         LoggingLevel, AutoCorrections
     ]),
