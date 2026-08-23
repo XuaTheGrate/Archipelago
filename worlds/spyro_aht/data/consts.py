@@ -3,8 +3,8 @@ from dataclasses import dataclass
 from enum import IntEnum, IntFlag
 from typing import Literal
 
-MOD_MAJOR = 13
-MOD_MINOR = 2
+MOD_MAJOR = 14
+MOD_MINOR = 0
 MOD_VERSION_STR = f"{MOD_MAJOR}.{MOD_MINOR}"
 
 CLIENT_MAJOR = 2
