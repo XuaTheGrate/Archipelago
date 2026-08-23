@@ -371,6 +371,8 @@ class SpyroAHTWorld(World):
         self._ut_active = True
         
         self.options.death_link.value = slot_data['death_link']
+        self.options.death_link_amnesty.value = slot_data['death_link_amnesty']
+        
         self.options.logging_level.value = slot_data['logging_level']
         self.options.auto_corrections.value = slot_data['auto_corrections']
         
@@ -853,6 +855,8 @@ class SpyroAHTWorld(World):
         self.log("Filling slot data.", "Info")
         slot_data: dict[str, Any] = {
             "death_link": self.options.death_link.value,
+            "death_link_amnesty": self.options.death_link_amnesty.value,
+            
             "logging_level": self.options.logging_level.value,
             "auto_corrections": self.options.auto_corrections.value,
             
