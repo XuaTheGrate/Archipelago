@@ -251,7 +251,7 @@ class SpyroAHTContext(SuperContext):
         self._in_logic_locations: list[str] = []
         
         # these cut back on repetitively scanning to-be-hinted locations after they've been hinted already
-        self.shop_hinted, self.bosses_hinted, self.minigames_hinted = False, False, False
+        self.shop_hinted = False
         
         # used for checking goal components
         self.goal_stuff_setup = False
@@ -574,19 +574,17 @@ class SpyroAHTContext(SuperContext):
     
     async def _location_scouts(self):
         locations = set()
-        if self.slot_data['hint_minigame_rewards'] and not self.minigames_hinted:
+        if self.slot_data['hint_minigame_rewards']:
             for obj, loc in consts.MINIGAME_OBJECTIVES.items():
                 flag = await self.emu_client.get_objective(obj)
                 if flag:
                     locations.update(loc)
-            self.minigames_hinted = True
         
-        if self.slot_data['hint_boss_rewards'] and not self.bosses_hinted:
+        if self.slot_data['hint_boss_rewards']:
             for obj, loc in consts.BOSS_OBJECTIVES.items():
                 flag = await self.emu_client.get_objective(obj)
                 if flag:
                     locations.add(loc)
-            self.bosses_hinted = True
         
         if self.slot_data['hint_shop_items'] and not self.shop_hinted:
             if self.slot_data['key_rings']: locations.update(consts.SHOP_ITEM_IDS[0:18])
