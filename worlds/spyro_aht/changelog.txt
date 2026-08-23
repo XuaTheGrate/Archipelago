@@ -1,3 +1,12 @@
+2.0.1 (hotfixes + small option addition)
+- Game mod update: new mod versioning system (now uses a major and minor version e.g. 13.1 or 14.0).
+  - Client has an improved ability to recognize version mismatches, as a result. It will output errors when the major mod version doesn't match, and softer warnings when using an outdated minor version.
+  - Major version is bumped whenever client compatibility is broken i.e. new addresses. Minor version is bumped for mod back-end changes that the client can still work with. Some exceptions apply (such as renaming 13.2 to 14.0 semi-arbitrarily). 
+- New option: death_link_amnesty. Players can choose how many in-game deaths it takes for a single DeathLink death to be sent.
+- Fix: Game mod updated to prevent charging underwater if player doesn't have charge as a movement ability.
+  - This overrides vanilla game behavior because AHT AP logic rules were inadvertently designed with this misunderstanding in mind. This was determined to be the simpler fix (instead of redesigning dozens of logic rules).
+- Fix: hint_minigame_rewards and hint_boss_rewards were not working due to an overzealous micro-optimization attempt which backfired :)
+
 2.0.0 (this is a lot)
 - Project things:
 	- Primary project developer has switched from Maya (XuaThaGrate) to Phoenix (PhoenixAki) as of 2.0. Hello hi that's me ^.^
