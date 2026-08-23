@@ -621,8 +621,6 @@ class SpyroAHTWorld(World):
                         if "[enemy]" in gem_event['name']: enemy_count += int(gem_event['gem_amount'])
                         self.log(f"Created gem event with location_name \"{location_name}\", item name \"{gem_event['name']}\", and access rule {gem_event['access_rule']}.", "Extra")
                         self.get_region(reg).add_event(location_name, gem_event['name'], rule=self.rule_from_dict(gem_event["access_rule"]), show_in_spoiler=False)
-                        
-            self.log(f"enemy count total is {enemy_count}.", "Debug")
                     
         # shop costs determined by multiple options. Doing after gem events in case of exclusions
         if self.options.shop_randomization.value == 1:

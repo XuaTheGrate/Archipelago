@@ -81,6 +81,8 @@ class DolphinClient(GenericClient):
                 return False
             if mod_version_major == consts.MOD_MAJOR and mod_version_minor < consts.MOD_MINOR:
                 logger.warn(f"NOTICE: Mod minor version {mod_version_minor} is compatible with AHT AP {consts.CLIENT_VERSION_STR}, but there is at least one new minor version available which may contain new features or bugfixes. Update at your leisure.")
+                
+            logger.info(f"Game mod version {mod_version_major}.{mod_version_minor} and AHT AP {consts.CLIENT_VERSION_STR} are compatible. Enjoy!")    
         self.ready.set()
     
     async def disconnect(self):
