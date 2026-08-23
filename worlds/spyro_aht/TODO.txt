@@ -1,3 +1,4 @@
+dummy edit for a commit to set up remote branch
 TODO whenever: make updated logic spreadsheet or equivalent
 
 TODO 2.1: starting_realms should allow for entering "Random" like goal so that random choice doesn't require auto_corrections to be set to 'fix'
