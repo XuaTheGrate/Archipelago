@@ -167,6 +167,10 @@ class StartingBreath(Choice):
 class MovementRandomization(Toggle):
     """All seeds start with 3 "Starter Checks" for Glide, Swim, and Charge. This option decides whether they will get
     pre-filled with Glide/Swim/Charge, or random items from Archipelago (which could potentially still be a type of movement).
+    
+    Note that you need to have the ability to charge in order to charge underwater. The vanilla game does not require this,
+    but AHT AP overrides this (as of game mod version 14.0). To be clear: if you have swim but not charge, you can still swim
+    underwater, but will be limited to paddling slowly, which is not enough to get through most acid swimming sections.
 
     If you don't want to randomize a subset of these, add them to start_inventory or start_inventory_from_pool."""
     display_name = "Randomize Movement"
