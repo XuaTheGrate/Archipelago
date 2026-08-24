@@ -249,7 +249,7 @@ REGION DFEntry: just the crocovile after ball gadget. dunno how else to do this 
 REGION DFSteepCanyon: first main chunk from shop up to vulture area (include going to the right and down whirlwind)
 	DFEntry -> DFSteepCanyon | Has('Double Jump')
 		would have DJ
-	DFCove -> DFSteepCanyon | True_()
+	DFCove -> DFSteepCanyon | Has('Glide')
 		would have DJ and Glide
 	ShopPads -> DFSteepCanyon | OpenWorldRule(['Dragonfly Falls - Steep Canyon'])
 		could have nothing
