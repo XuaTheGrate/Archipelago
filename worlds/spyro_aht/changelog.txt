@@ -6,6 +6,7 @@
 - Fix: Game mod updated to prevent charging underwater if player doesn't have charge as a movement ability.
   - This overrides vanilla game behavior because AHT AP logic rules were inadvertently designed with this misunderstanding in mind. This was determined to be the simpler fix (instead of redesigning dozens of logic rules).
 - Fix: hint_minigame_rewards and hint_boss_rewards were not working due to an overzealous micro-optimization attempt which backfired :)
+- Fix: Game mod now reports the right gem amounts on the pause menu when in minigames.
 
 2.0.0 (this is a lot)
 - Project things:
