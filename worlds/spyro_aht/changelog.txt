@@ -1,3 +1,6 @@
+2.0.2 (notification hotfix)
+- Fixed in-game notifications, which were inadvertently broken in 2.0.1.
+
 2.0.1 (hotfixes + small option addition)
 - Game mod update: new mod versioning system (now uses a major and minor version e.g. 13.1 or 14.0).
   - Client has an improved ability to recognize version mismatches, as a result. It will output errors when the major mod version doesn't match, and softer warnings when using an outdated minor version.
