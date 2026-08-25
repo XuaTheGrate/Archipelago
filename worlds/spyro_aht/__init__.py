@@ -519,15 +519,38 @@ class SpyroAHTWorld(World):
 
                 self._boss_lairs = [self.random.randint(bmin, bmax) for _ in range(4)]
         
-        if self.options.boss_lair_forcing.value > 0:  # if not "unchanged"
-            player_choice = self.options.boss_lair_forcing.value
-            highest = max(self._boss_lairs)
-            high_index = self._boss_lairs.index(highest)
-            convert = {1: "Gnasty Gnorc", 2: "Ineptune", 3: "Red", 4: "Mecha-Red"}
-            self.log(f"Satisfying boss_lair_forcing by swapping cost of {convert[high_index+1]} ({highest}) and {convert[player_choice]} ({self._boss_lairs[player_choice-1]}).", "Debug")
-            self._boss_lairs[high_index], self._boss_lairs[player_choice-1] = self._boss_lairs[player_choice-1], self._boss_lairs[high_index]
-                
-        self.log(f"Boss lair costs are {self._boss_lairs}.", "Debug")
+        self.log(f"Checking if boss lair costs need forcing. Costs are currently {self._boss_lairs}.", "Info")
+        lookup = ["Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red"]
+        forcing = self.options.boss_lair_forcing.value
+        if forcing != 0:
+            if 1 <= self.options.boss_lair_forcing.value <= 4: goal_boss_indices = [forcing-1]
+            else: goal_boss_indices = [lookup.index(boss) for boss in lookup if boss in self.options.goal.value]
+            non_goal_boss_indices = [index for index in [0, 1, 2, 3] if index not in goal_boss_indices]
+            
+            if len(goal_boss_indices) == 4:
+                self.log("boss_lair_forcing was set to automatic, but all 4 bosses are part of goal. Skipping cost swapping.", "Debug")
+            elif len(goal_boss_indices) == 0:
+                self.log("boss_lair_forcing was set to automatic, but you have no goal bosses. Skipping cost swapping.", "Debug")
+            else:
+                for goal_boss_index in goal_boss_indices:
+                    goal_boss_cost = self._boss_lairs[goal_boss_index]
+                    
+                    # find highest-costing non-goal boss
+                    highest_non_goal_index = non_goal_boss_indices[0]
+                    for non_goal_boss_index in non_goal_boss_indices:
+                        if self._boss_lairs[non_goal_boss_index] > self._boss_lairs[highest_non_goal_index]:
+                            highest_non_goal_index = non_goal_boss_index
+                    highest_non_goal_cost = self._boss_lairs[highest_non_goal_index]
+                    
+                    # swap if needed
+                    if self._boss_lairs[goal_boss_index] < highest_non_goal_cost:
+                        self.log(f"Swapping {lookup[goal_boss_index]}'s cost of {goal_boss_cost} and {lookup[highest_non_goal_index]}'s cost of {highest_non_goal_cost} as the former is smaller.", "Debug")
+                        self._boss_lairs[goal_boss_index] = highest_non_goal_cost
+                        self._boss_lairs[highest_non_goal_index] = goal_boss_cost
+                    else:
+                        self.log(f"Skipping swapping {lookup[goal_boss_index]}'s cost of {goal_boss_cost} and {lookup[highest_non_goal_index]}'s cost of {highest_non_goal_cost} as the former is already larger.", "Debug")
+            
+        self.log(f"Final boss lair costs are {self._boss_lairs}.", "Debug")
         
         self.log("Setting up Light Gem door costs.", "Info")
         if self.options.randomize_light_gem_door_costs.value != 0:

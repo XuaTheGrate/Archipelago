@@ -326,16 +326,24 @@ class BossLairDoorCostMax(Range):
 
 
 class BossLairForcing(Choice):
-    """This option lets you force a specific boss lair to have the highest Dark Gem cost of the generated costs.
-    This is accomplished by swapping the most expensive cost of the highest boss lair with the one selected below.
+    """This option decides if the generator should force a subset of boss lairs to have the most expensive Dark Gem costs.
+    This is useful if you want to ensure those bosses are accessed later in the run as opposed to possibly earlier.
+    Any adjustments from this option take place *after* costs have been decided through the above 3 options.
     
-    Selecting "unchanged" leaves boss lair costs untouched."""
+    unchanged: Leaves boss lair costs untouched.
+    gnasty_gnorc/ineptune/red/mecha_red: Forces the selected boss's lair to have the highest Dark Gem cost.
+    automatic: Forces all goal bosses to have the highest costs. If you have no goal bosses, or all 4 are goals, this will do nothing.
+      For example, if you have Ineptune and Red as goal bosses and select automatic, their costs will be swapped, as needed,
+      to ensure they have the 2 most expensive costs, while Gnasty Gnorc and Mecha-Red would have the 2 least expensive costs.
+      
+    """
     display_name = "Boss Lair Forcing"
     option_unchanged = 0
     option_gnasty_gnorc = 1
     option_ineptune = 2
     option_red = 3
     option_mecha_red = 4
+    option_automatic = 5
     default = 0
     
 
