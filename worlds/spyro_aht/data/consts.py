@@ -205,6 +205,14 @@ REALM_LEVEL_LOOKUP = {
     "Volcanic Isle": ["Stormy Beach", "Molten Mount", "Magma Falls", "Dark Mine", "Red's Laboratory"]
 }
 
+# used when generating location groups. Differs from REALM_LEVEL_LOOKUP in that it includes GG and separates MFt and MFb
+REALM_LEVEL_LISTS = {
+    "Dragon Kingdom": ["Dragon Village", "Crocovile Swamp", "Dragonfly Falls"],
+    "Lost Cities": ["Coastal Remains", "Cloudy Domain", "Sunken Ruins"],
+    "Icy Wilderness": ["Frostbite Village", "Gloomy Glacier", "Ice Citadel"],
+    "Volcanic Isle": ["Stormy Beach", "Molten Mount", "Magma Falls Top", "Magma Falls Bottom", "Dark Mine", "Red's Laboratory"]
+}
+
 class AddressList:
     p_LOCATION_BITFIELD: int
     p_KEYRING_BITFIELD: int

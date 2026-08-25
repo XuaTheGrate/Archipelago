@@ -14,7 +14,7 @@ from rule_builder.rules import Has, Rule, True_, And, False_, HasAny, HasAll
 from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import icon_paths
 from .options import MovementRandomization, SpyroAHTOptions, StartingBreath, spyro_options_groups
-from .data.consts import LEVEL_SHOP_LOOKUP, REALM_LEVEL_LOOKUP
+from .data.consts import LEVEL_SHOP_LOOKUP, REALM_LEVEL_LOOKUP, REALM_LEVEL_LISTS
 
 icon_paths['spyro_aht'] = f'ap:{__name__}/icons/dark_gem_icon.png'
 
@@ -65,6 +65,7 @@ loc_names_to_ids = _location_name_to_id(_load_file("locations.json"))
 
 def create_location_groups(location_data) -> dict[str, set[str]]:
     level_lookup = {
+        "Starter Checks": "Starter Checks",
         "DV": "Dragon Village",
         "CS": "Crocovile Swamp",
         "DF": "Dragonfly Falls",
@@ -86,36 +87,54 @@ def create_location_groups(location_data) -> dict[str, set[str]]:
     loc_groups = defaultdict(set)
     for region in location_data.values():
         for location in region['locations']:
-            if location['name'].split(': ')[0] in level_lookup:
-                abbreviation = location['name'].split(': ')[0]
-                loc_groups[level_lookup[abbreviation]].add(location['name'])
+            abbreviation = location['name'].split(': ')[0]
+            level = level_lookup[abbreviation]  # may be starter checks or shop items. Otherwise, guaranteed to be a level name
+            realm = "N/A"  # only here to keep Python from a warning below. Only stays N/A for starter checks and shop items, and goes unused in those cases
+            for realm_lookup in REALM_LEVEL_LISTS.keys():
+                if level in REALM_LEVEL_LISTS[realm_lookup]:
+                    realm = realm_lookup
+                    break
+                    
+            loc_groups[level_lookup[abbreviation]].add(location['name'])
+            
             if "Defeat" in location['name'] or "Breath from" in location['name']:  # bosses
                 loc_groups["All Bosses"].add(location['name'])
             if ": Dark Gem" in location['name']:
                 loc_groups["All Dark Gems"].add(location['name'])
+                loc_groups[f"{level} Dark Gems"].add(location['name'])
+                loc_groups[f"{realm} Dark Gems"].add(location['name'])
             if ": Dragon Egg" in location['name']:
                 loc_groups["All Dragon Eggs"].add(location['name'])
+                loc_groups[f"{level} Dragon Eggs"].add(location['name'])
+                loc_groups[f"{realm} Dragon Eggs"].add(location['name'])
             if ": Light Gem" in location['name']:
                 loc_groups["All Light Gems"].add(location['name'])
+                loc_groups[f"{level} Light Gems"].add(location['name'])
+                loc_groups[f"{realm} Light Gems"].add(location['name'])
             if "Locked Chest" in location['name']:
                 loc_groups["All Locked Chests"].add(location['name'])
+                loc_groups[f"{level} Locked Chests"].add(location['name'])
+                loc_groups[f"{realm} Locked Chests"].add(location['name'])
             if ": Firework" in location['name']:
                 loc_groups["All Fireworks"].add(location['name'])
-    
-    for minigame_location in minigame_locs:
-        if "Sgt. Byrd" in minigame_location:
-            loc_groups["Sgt. Byrd Minigames"].add(minigame_location)
-            loc_groups["All Minigames"].add(minigame_location)
-        elif "Blink" in minigame_location:
-            loc_groups["Blink Minigames"].add(minigame_location)
-            loc_groups["All Minigames"].add(minigame_location)
-        elif "Sparx" in minigame_location:
-            loc_groups["Sparx Minigames"].add(minigame_location)
-            loc_groups["All Minigames"].add(minigame_location)
-        else:
-            loc_groups["Turret Minigames"].add(minigame_location)
-            loc_groups["All Minigames"].add(minigame_location)
-        
+                loc_groups[f"{level} Fireworks"].add(location['name'])
+                loc_groups[f"{realm} Fireworks"].add(location['name'])
+            if "Sgt. Byrd" in location['name']:
+                loc_groups["Sgt. Byrd Minigames"].add(location['name'])
+                loc_groups["All Minigames"].add(location['name'])
+                loc_groups[f"{realm} Minigames"].add(location['name'])
+            if "Blink" in location['name']:
+                loc_groups["Blink Minigames"].add(location['name'])
+                loc_groups["All Minigames"].add(location['name'])
+                loc_groups[f"{realm} Minigames"].add(location['name'])
+            if "Sparx" in location['name']:
+                loc_groups["Sparx Minigames"].add(location['name'])
+                loc_groups["All Minigames"].add(location['name'])
+                loc_groups[f"{realm} Minigames"].add(location['name'])
+            if "Fredneck" in location['name'] or "Turtle Mother" in location['name'] or "Peggy" in location['name'] or "Wally" in location['name']:
+                loc_groups["Turret Minigames"].add(location['name'])
+                loc_groups["All Minigames"].add(location['name'])
+                loc_groups[f"{realm} Minigames"].add(location['name'])
     return loc_groups
 
 
