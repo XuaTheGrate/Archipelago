@@ -63,9 +63,13 @@ class SpyroAHTCommands(ClientCommandProcessor):
         """Displays seed information, retrieved directly from data sent from Archipelago.
         Some of this info is also viewable on the pause menu."""
         
+        self.output("---------------DEATHLINK---------------")
         # death link
-        convert = {0: "disabled", 1: "shielded", 2: "enabled"}
-        self.output(f"Death link is set to {convert[self.ctx.slot_data['death_link']]}.")
+        convert = {0: "disabled", 1: "enabled (shielded)", 2: "enabled"}
+        self.output(f"DeathLink is set to {convert[self.ctx.slot_data['death_link']]}.")
+        # amnesty
+        if self.ctx.slot_data["death_link"] != 0:
+            self.output(f"You chose to have DeathLink deaths be sent out every {self.ctx.slot_data['death_link_amnesty']} AHT death(s).")
         
         self.output("---------------GENERATION SETTINGS---------------")
         # logging level
@@ -97,11 +101,18 @@ class SpyroAHTCommands(ClientCommandProcessor):
         self.output(f"Enabled Filler Item Types: {output[:-2]}.")
         
         self.output("---------------START OF GAME---------------")
-        # movement & breath
-        output = "randomized" if self.ctx.slot_data["movement_randomization"] == 1 else "not randomized"
+        # movement randomization
+        output = ""
+        for movement in ["Glide", "Swim", "Charge"]:
+            if movement in self.ctx.slot_data["movement_randomization"]:
+                output += f"{movement} randomized, "
+            else:
+                output += f"{movement} not randomized, "
+        self.output(f"Movement randomization: you chose to have {output[:-2]}.")
+        # breath
         convert = {0: "fire", 1: "electric", 2: "water", 3: "ice", 4: "no"}
-        output_2 = convert[self.ctx.slot_data['starting_breath']]
-        self.output(f"Movement abilities are {output} and you start with {output_2} breath.")
+        output = convert[self.ctx.slot_data['starting_breath']]
+        self.output(f"You start with {output} breath.")
         # starting realm
         self.output(f"You chose to start with access to the following realm(s): {self.ctx.slot_data['starting_realms']}.")
 

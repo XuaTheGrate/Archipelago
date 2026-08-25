@@ -164,17 +164,18 @@ class StartingBreath(Choice):
     default = 0
 
 
-class MovementRandomization(Toggle):
-    """All seeds start with 3 "Starter Checks" for Glide, Swim, and Charge. This option decides whether they will get
-    pre-filled with Glide/Swim/Charge, or random items from Archipelago (which could potentially still be a type of movement).
+class MovementRandomization(OptionSet):
+    """This option lets you choose whether to randomize each of the 3 base movement abilities (glide, swim, and charge).
+    For example, "Starter Checks: Glide" will award a random item if glide is included below, otherwise it will award glide.
     
-    Note that you need to have the ability to charge in order to charge underwater. The vanilla game does not require this,
-    but AHT AP overrides this (as of game mod version 14.0). To be clear: if you have swim but not charge, you can still swim
-    underwater, but will be limited to paddling slowly, which is not enough to get through most acid swimming sections.
-
-    If you don't want to randomize a subset of these, add them to start_inventory or start_inventory_from_pool."""
-    display_name = "Randomize Movement"
-    default = 0
+    Note: vanilla AHT does not technically require you to have charge in oder to charge underwater, but AHT AP overrides
+    this and requires it. If you have swim but not charge, you can still swim, but will be limited to paddling slowly,
+    which is not enough to get through most acid swimming sections, and limits underwater gem collection.
+    
+    Valid Options: ["Glide", "Swim", "Charge"]"""
+    display_name = "Movement Randomization"
+    valid_keys = ("Glide", "Swim", "Charge")
+    default = frozenset()
 
 
 class StartingRealms(OptionSet):
@@ -186,7 +187,7 @@ class StartingRealms(OptionSet):
       via their "Depot" shop unlock. For example, unlocking "Frostbite Village - Frosty Depot" grants realm access to Icy Wilderness.
       See pause_menu_patch for a potential alteration to this.
         
-    Starting in Icy Wilderness with shop_randomization and movement_randomization disabled is disallowed due to impossible starts.
+    Starting in Icy Wilderness with shop_randomization and movement_randomization empty is disallowed due to impossible starts.
     If this is done and auto_corrections is set to 'fix', your starting realm will be changed to Dragon Kingdom.
     
     Valid Options: ["Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle"]"""

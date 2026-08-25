@@ -744,12 +744,15 @@ class SpyroAHTWorld(World):
                 break
         self.log(f"Starting breath is {breath_name}.", "Debug")
         
-        if self.options.movement_randomization.value == 0:
-            self.log(f"Placing vanilla movement abilities in starter checks.", "Debug")
-            self.get_location("Starter Checks: Swim").place_locked_item(self.create_item("Swim"))
-            self.get_location("Starter Checks: Charge").place_locked_item(self.create_item("Charge"))
-            self.get_location("Starter Checks: Glide").place_locked_item(self.create_item("Glide"))
-        
+        self.log("Checking movement randomization choice(s).", "Info")
+        skip_movements = []
+        for movement in ["Glide", "Swim", "Charge"]:
+            if movement not in self.options.movement_randomization.value:
+                self.get_location(f"Starter Checks: {movement}").place_locked_item(self.create_item(movement))
+                skip_movements.append(movement)
+            else:
+                self.log(f"{movement} will be randomized due to being listed in movement_randomization.", "Debug")
+            
         self.log("Setting up starting realm(s).", "Info")
         if self.options.open_world_mode.value == 1:  # all 4 if open world is on
             self.log("open_world_mode is set to full. Overriding starting_realms to start with all 4 realms.", "Info")
@@ -764,13 +767,13 @@ class SpyroAHTWorld(World):
             self._starting_realms = list(self.options.starting_realms.value)
         self.log(f"Starting Realms: {self._starting_realms}.", "Debug")
         
-        if len(self._starting_realms) == 1 and self._starting_realms[0] == "Icy Wilderness" and self.options.shop_randomization.value == 0 and self.options.movement_randomization.value == 0:
+        if len(self._starting_realms) == 1 and self._starting_realms[0] == "Icy Wilderness" and self.options.shop_randomization.value == 0 and len(self.options.movement_randomization.value) == 0:
             if self.options.auto_corrections:
-                self.log("Generations have a high frequency of failure if starting in Icy Wilderness with shop_randomization and movement_randomization disabled. Fixing by changing starting realm to Dragon Kingdom.", "Warning")
+                self.log("Generations have a high frequency of failure if starting in Icy Wilderness with shop_randomization disabled and movement_randomization empty. Fixing by changing starting realm to Dragon Kingdom.", "Warning")
                 self._starting_realms[0] = "Dragon Kingdom"
             else:
-                self.log("Generations have a high frequency of failure if starting in Icy Wilderness with shop_randomization and movement_randomization disabled. Halting generation.", "Warning")
-                raise OptionError("Can't start in Icy Wilderness if shop_randomization and movement_randomization are disabled if auto_corrections is disabled.", "Warning")
+                self.log("Generations have a high frequency of failure if starting in Icy Wilderness with shop_randomization disabled and movement_randomization empty. Halting generation.", "Warning")
+                raise OptionError("Can't start in Icy Wilderness if shop_randomization is disabled and movement_randomization is empty, if auto_corrections is disabled.", "Warning")
             
         # add starting realm choices to start inventory, if not already in start inventory
         self.log("Adding starting realm access cards and unlocking starting realm shops (if using open_world_mode).", "Info")
@@ -814,6 +817,9 @@ class SpyroAHTWorld(World):
                 self.log("Skipping creating item \"Double Gems\" because shop_randomization is enabled but double_gems is disabled.", "Debug")
                 continue
             
+            if item['name'] in skip_movements:
+                self.log(f"Skipping creating {item['name']} due to already being placed into Starter Checks: {item['name']}.", "Debug")
+            
             if self.options.open_world_mode.value != 0 and "Access Card" in item['name']:
                 # open world mode == 1 has access cards, but they're created and pre-collected above
                 # open world mode > 1 has no access cards besides the one(s) the player starts with, created and pre-collected above
@@ -834,8 +840,6 @@ class SpyroAHTWorld(World):
                     add = self._starting_breath != 2
                 case "Ice Breath":
                     add = self._starting_breath != 3
-                case "Glide" | "Charge" | "Swim":
-                    add = self.options.movement_randomization.value == 1
 
             for curr_option in item.get("option", ()):
                 option = getattr(self.options, curr_option['option'])
