@@ -152,20 +152,22 @@ class FillerItems(OptionSet):
     default = ("Dragon Eggs", "Breath Bombs", "Gem Packs", "Generics")
 
 ###############START OF GAME###############
-class StartingBreath(Choice):
-    """All seeds start with "Starter Checks: Breath". This option decides whether it will get pre-filled with a
-    breath of your choice, or a random item from Archipelago (which could potentially still be a breath)."""
-    display_name = "Starting Breath"
-    option_fire = 0
-    option_electric = 1
-    option_water = 2
-    option_ice = 3
-    option_none = 4
-    default = 0
+class StartingBreaths(OptionSet):
+    """Choose which breath(s) you want to start with.
+    
+    If multiple breaths are listed, all will be given (one into "Starter Checks: Breath", the rest into start inventory).
+    "None" will result in "Starter Checks: Breath" having a random item determined by Archipelago.
+    
+    If the list contains both "None" and breath(s) and auto_corrections is set to 'fix', the "None" will be discarded.
+    
+    Valid Options: ["Fire", "Electric", "Water", "Ice", "None"]"""
+    display_name = "Starting Breaths"
+    valid_keys = ("Fire", "Electric", "Water", "Ice", "None")
+    default = ("Fire",)
 
 
 class MovementRandomization(OptionSet):
-    """This option lets you choose whether to randomize each of the 3 base movement abilities (glide, swim, and charge).
+    """Choose whether to randomize each of the 3 base movement abilities (glide, swim, and charge).
     For example, "Starter Checks: Glide" will award a random item if glide is included below, otherwise it will award glide.
     
     Note: vanilla AHT does not technically require you to have charge in oder to charge underwater, but AHT AP overrides
@@ -187,7 +189,7 @@ class StartingRealms(OptionSet):
       via their "Depot" shop unlock. For example, unlocking "Frostbite Village - Frosty Depot" grants realm access to Icy Wilderness.
       See pause_menu_patch for a potential alteration to this.
         
-    Starting in Icy Wilderness with shop_randomization and movement_randomization empty is disallowed due to impossible starts.
+    Starting in Icy Wilderness with shop_randomization disabled and movement_randomization empty is disallowed due to impossible starts.
     If this is done and auto_corrections is set to 'fix', your starting realm will be changed to Dragon Kingdom.
     
     Valid Options: ["Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle"]"""
@@ -500,7 +502,7 @@ class SpyroAHTOptions(PerGameCommonOptions):
     vanilla_minigame_rewards: VanillaMinigameRewards
     filler_items: FillerItems
     
-    starting_breath: StartingBreath
+    starting_breaths: StartingBreaths
     movement_randomization: MovementRandomization
     starting_realms: StartingRealms
     
@@ -546,7 +548,7 @@ spyro_options_groups = [
         Goal, ExcludeFromRandomGoal, OpenWorldMode, FireworkChecks, VanillaMinigameRewards, FillerItems
     ]),
     OptionGroup("START OF GAME", [
-        StartingBreath, MovementRandomization, StartingRealms
+        StartingBreaths, MovementRandomization, StartingRealms
     ]),
     OptionGroup("SHOP & GEM LOGIC", [
         ShopRandomization, KeyRings, GemLogic, BlinkGems, NonBlinkEnemies, OtherGems, DoubleGems

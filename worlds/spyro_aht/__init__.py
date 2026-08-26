@@ -13,7 +13,7 @@ from Options import OptionError
 from rule_builder.rules import Has, Rule, True_, And, False_, HasAny, HasAll
 from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import icon_paths
-from .options import MovementRandomization, SpyroAHTOptions, StartingBreath, spyro_options_groups
+from .options import MovementRandomization, SpyroAHTOptions, StartingBreaths, spyro_options_groups
 from .data.consts import LEVEL_SHOP_LOOKUP, REALM_LEVEL_LOOKUP, REALM_LEVEL_LISTS
 
 icon_paths['spyro_aht'] = f'ap:{__name__}/icons/dark_gem_icon.png'
@@ -183,7 +183,7 @@ class SpyroAHTWorld(World):
         self._boss_lairs = [10, 20, 30, 40]
         self._gadget_costs = [8, 24, 40]  # ball, invincibility, supercharge
         self._starting_realms = []
-        self._starting_breath = -1  # represents none
+        self._starting_breaths = []
         self._classifications = {i['name']: ItemClassification(i['classification']) for i in _load_file("items.json")}
         self.shop_costs = []
         self.filler_categories: list = []
@@ -304,6 +304,15 @@ class SpyroAHTWorld(World):
         
         auto_corrections = self.options.auto_corrections.value  # storing locally as micro-optimization compared to checking option
         
+        self.log("Checking for issues with starting breath list.", "Debug")
+        bad_condition = len(self.options.starting_breaths.value) > 1 and "None" in self.options.starting_breaths.value
+        if bad_condition and auto_corrections:
+            self.log("Starting breath list contains both \"None\" and at least one breath. Fixing by removing the \"None\".", "Warning")
+            self.options.starting_breaths.value.remove("None")
+        else:
+            self.log("Starting breath list contains both \"None\" and at least one breath. Halting generation.", "Warning")
+            raise OptionError("Starting breath list cannot contain both \"None\" and breath(s) if auto_corrections is disabled.")
+        
         self.log("Checking for under/overfilled filler and goal lists.", "Debug")
         bad_condition = len(self.options.filler_items.value) == 0
         if bad_condition and auto_corrections:
@@ -402,7 +411,7 @@ class SpyroAHTWorld(World):
         self.options.vanilla_minigame_rewards.value = slot_data['vanilla_minigame_rewards']
         self.options.filler_items.value = slot_data['filler_items']
         
-        self.options.starting_breath.value = slot_data['starting_breath']
+        self.options.starting_breaths.value = slot_data['starting_breaths']
         self.options.movement_randomization.value = slot_data['movement_randomization']
         self.options.starting_realms.value = slot_data['starting_realms']
         
@@ -735,14 +744,20 @@ class SpyroAHTWorld(World):
                 if item == "Light Gem": minigames += 1
             counter += 1
         
-        self.log("Setting up starting breath.", "Info")
-        starting = self.options.starting_breath.value
-        for breath_num, breath_name in zip(range(4), ["Fire Breath", "Electric Breath", "Water Breath", "Ice Breath"]):
-            if starting == breath_num:
-                self.get_location("Starter Checks: Breath").place_locked_item(self.create_item(breath_name))
-                self._starting_breath = breath_num
-                break
-        self.log(f"Starting breath is {breath_name}.", "Debug")
+        self.log("Setting up starting breaths.", "Info")
+        starter_done = False
+        if "None" not in self.options.starting_breaths.value:  # if none is there at all, it will be the only thing there, thus nothing should be done
+            for breath in self.options.starting_breaths.value:
+                breath_name = f"{breath} Breath"
+                self._starting_breaths.append(breath_name)
+                if starter_done:
+                    self.log(f"Placing {breath_name} into start inventory.", "Debug")
+                    self.push_precollected(self.create_item(breath_name))
+                else:
+                    self.log(f"Placing {breath_name} into Starter Checks: Breath.", "Debug")
+                    self.get_location("Starter Checks: Breath").place_locked_item(self.create_item(breath_name))
+                    starter_done = True
+        self.log(f"Starting breath(s) are {self._starting_breaths}.", "Debug")
         
         self.log("Checking movement randomization choice(s).", "Info")
         skip_movements = []
@@ -819,6 +834,11 @@ class SpyroAHTWorld(World):
             
             if item['name'] in skip_movements:
                 self.log(f"Skipping creating {item['name']} due to already being placed into Starter Checks: {item['name']}.", "Debug")
+                continue
+                
+            if item['name'] in self._starting_breaths:
+                self.log(f"Skipping creating {item['name']} due to being selected as a starting breath.", "Debug")
+                continue
             
             if self.options.open_world_mode.value != 0 and "Access Card" in item['name']:
                 # open world mode == 1 has access cards, but they're created and pre-collected above
@@ -830,16 +850,6 @@ class SpyroAHTWorld(World):
                 continue  # non-open world has normal access card logic. only skip the ones pre-added, add the rest to the pool
             
             add = True
-
-            match item['name']:
-                case "Fire Breath":
-                    add = self._starting_breath != 0
-                case "Electric Breath":
-                    add = self._starting_breath != 1
-                case "Water Breath":
-                    add = self._starting_breath != 2
-                case "Ice Breath":
-                    add = self._starting_breath != 3
 
             for curr_option in item.get("option", ()):
                 option = getattr(self.options, curr_option['option'])
@@ -911,7 +921,7 @@ class SpyroAHTWorld(World):
             "vanilla_minigame_rewards": self.options.vanilla_minigame_rewards.value,
             "filler_items": self.options.filler_items.value,
 
-            "starting_breath": self.options.starting_breath.value,
+            "starting_breaths": self.options.starting_breaths.value,
             "movement_randomization": self.options.movement_randomization.value,
             "starting_realms": self._starting_realms,
 

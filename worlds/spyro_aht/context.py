@@ -109,11 +109,15 @@ class SpyroAHTCommands(ClientCommandProcessor):
             else:
                 output += f"{movement} not randomized, "
         self.output(f"Movement randomization: you chose to have {output[:-2]}.")
-        # breath
-        convert = {0: "fire", 1: "electric", 2: "water", 3: "ice", 4: "no"}
-        output = convert[self.ctx.slot_data['starting_breath']]
-        self.output(f"You start with {output} breath.")
-        # starting realm
+        # starting breath(s)
+        output = ""
+        for breath in ["Fire", "Electric", "Water", "Ice"]:
+            if breath in self.ctx.slot_data["starting_breaths"]:
+                output += f"{breath}, "
+        if output == "":
+            output += "no, "
+        self.output(f"You chose to start with {output[:-2]} breath(s).")
+        # starting realm(s)
         self.output(f"You chose to start with access to the following realm(s): {self.ctx.slot_data['starting_realms']}.")
 
         self.output("---------------SHOP---------------")
