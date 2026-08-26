@@ -3961,10 +3961,13 @@
             {
                 "name": "DFCove -> DFSteepCanyon",
                 "access_rule": {
-                    "rule": "True_",
+                    "rule": "Has",
                     "options": [],
                     "filtered_resolution": false,
-                    "args": {}
+                    "args": {
+                        "item_name": "Glide",
+                        "count": 1
+                    }
                 }
             },
             {

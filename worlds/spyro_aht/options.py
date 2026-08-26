@@ -152,41 +152,45 @@ class FillerItems(OptionSet):
     default = ("Dragon Eggs", "Breath Bombs", "Gem Packs", "Generics")
 
 ###############START OF GAME###############
-class StartingBreath(Choice):
-    """All seeds start with "Starter Checks: Breath". This option decides whether it will get pre-filled with a
-    breath of your choice, or a random item from Archipelago (which could potentially still be a breath)."""
-    display_name = "Starting Breath"
-    option_fire = 0
-    option_electric = 1
-    option_water = 2
-    option_ice = 3
-    option_none = 4
-    default = 0
-
-
-class MovementRandomization(Toggle):
-    """All seeds start with 3 "Starter Checks" for Glide, Swim, and Charge. This option decides whether they will get
-    pre-filled with Glide/Swim/Charge, or random items from Archipelago (which could potentially still be a type of movement).
+class StartingBreaths(OptionSet):
+    """Choose which breath(s) you want to start with.
     
-    Note that you need to have the ability to charge in order to charge underwater. The vanilla game does not require this,
-    but AHT AP overrides this (as of game mod version 14.0). To be clear: if you have swim but not charge, you can still swim
-    underwater, but will be limited to paddling slowly, which is not enough to get through most acid swimming sections.
+    If multiple breaths are listed, all will be given (one into "Starter Checks: Breath", the rest into your start inventory).
+    "None" will start you with no breath, meaning "Starter Checks: Breath" will have a random item determined by Archipelago.
+    If the list is left empty, 1 random breath will be chosen.
+    
+    If the list contains both "None" and breath(s) and auto_corrections is set to 'fix', the "None" will be discarded.
+    
+    Valid Options: ["Fire", "Electric", "Water", "Ice", "None"]"""
+    display_name = "Starting Breaths"
+    valid_keys = ("Fire", "Electric", "Water", "Ice", "None")
+    default = ("Fire",)
 
-    If you don't want to randomize a subset of these, add them to start_inventory or start_inventory_from_pool."""
-    display_name = "Randomize Movement"
-    default = 0
+
+class MovementRandomization(OptionSet):
+    """Choose whether to randomize each of the 3 base movement abilities (glide, swim, and charge).
+    For example, "Starter Checks: Glide" will award a random item if glide is included below, otherwise it will award glide.
+    
+    Note: vanilla AHT does not technically require you to have charge in oder to charge underwater, but AHT AP overrides
+    this and requires it. If you have swim but not charge, you can still swim, but will be limited to paddling slowly,
+    which is not enough to get through most acid swimming sections, and limits underwater gem collection.
+    
+    Valid Options: ["Glide", "Swim", "Charge"]"""
+    display_name = "Movement Randomization"
+    valid_keys = ("Glide", "Swim", "Charge")
+    default = frozenset()
 
 
 class StartingRealms(OptionSet):
     """Realm access is primarily controlled by "access cards" e.g. "Dragon Kingdom Access Card". Choose which realm(s) you will start with access cards for. 
     
-    If the list is left empty and auto_corrections is set to 'fix', 1 random realm will be chosen.
+    If the list is left empty, 1 random realm will be chosen.
     If open_world_mode is enabled and 'full', you will start with all 4 access cards.
     If open_world_mode is enabled and not 'full', you will start with access cards based on this option, but later realms will be unlocked
       via their "Depot" shop unlock. For example, unlocking "Frostbite Village - Frosty Depot" grants realm access to Icy Wilderness.
       See pause_menu_patch for a potential alteration to this.
         
-    Starting in Icy Wilderness with shop_randomization and movement_randomization disabled is disallowed due to impossible starts.
+    Starting in Icy Wilderness with shop_randomization disabled and movement_randomization empty is disallowed due to impossible starts.
     If this is done and auto_corrections is set to 'fix', your starting realm will be changed to Dragon Kingdom.
     
     Valid Options: ["Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle"]"""
@@ -326,16 +330,24 @@ class BossLairDoorCostMax(Range):
 
 
 class BossLairForcing(Choice):
-    """This option lets you force a specific boss lair to have the highest Dark Gem cost of the generated costs.
-    This is accomplished by swapping the most expensive cost of the highest boss lair with the one selected below.
+    """This option decides if the generator should force a subset of boss lairs to have the most expensive Dark Gem costs.
+    This is useful if you want to ensure those bosses are accessed later in the run as opposed to possibly earlier.
+    Any adjustments from this option take place *after* costs have been decided through the above 3 options.
     
-    Selecting "unchanged" leaves boss lair costs untouched."""
+    unchanged: Leaves boss lair costs untouched.
+    gnasty_gnorc/ineptune/red/mecha_red: Forces the selected boss's lair to have the highest Dark Gem cost.
+    automatic: Forces all goal bosses to have the highest costs. If you have no goal bosses, or all 4 are goals, this will do nothing.
+      For example, if you have Ineptune and Red as goal bosses and select automatic, their costs will be swapped, as needed,
+      to ensure they have the 2 most expensive costs, while Gnasty Gnorc and Mecha-Red would have the 2 least expensive costs.
+      
+    """
     display_name = "Boss Lair Forcing"
     option_unchanged = 0
     option_gnasty_gnorc = 1
     option_ineptune = 2
     option_red = 3
     option_mecha_red = 4
+    option_automatic = 5
     default = 0
     
 
@@ -491,7 +503,7 @@ class SpyroAHTOptions(PerGameCommonOptions):
     vanilla_minigame_rewards: VanillaMinigameRewards
     filler_items: FillerItems
     
-    starting_breath: StartingBreath
+    starting_breaths: StartingBreaths
     movement_randomization: MovementRandomization
     starting_realms: StartingRealms
     
@@ -537,7 +549,7 @@ spyro_options_groups = [
         Goal, ExcludeFromRandomGoal, OpenWorldMode, FireworkChecks, VanillaMinigameRewards, FillerItems
     ]),
     OptionGroup("START OF GAME", [
-        StartingBreath, MovementRandomization, StartingRealms
+        StartingBreaths, MovementRandomization, StartingRealms
     ]),
     OptionGroup("SHOP & GEM LOGIC", [
         ShopRandomization, KeyRings, GemLogic, BlinkGems, NonBlinkEnemies, OtherGems, DoubleGems

@@ -1,6 +1,7 @@
 import asyncio
 import pkgutil
 import logging
+import copy
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import Any, TextIO, override
@@ -13,8 +14,8 @@ from Options import OptionError
 from rule_builder.rules import Has, Rule, True_, And, False_, HasAny, HasAll
 from worlds.AutoWorld import World, WebWorld
 from worlds.LauncherComponents import icon_paths
-from .options import MovementRandomization, SpyroAHTOptions, StartingBreath, spyro_options_groups
-from .data.consts import LEVEL_SHOP_LOOKUP, REALM_LEVEL_LOOKUP
+from .options import MovementRandomization, SpyroAHTOptions, StartingBreaths, spyro_options_groups
+from .data.consts import LEVEL_SHOP_LOOKUP, REALM_LEVEL_LOOKUP, REALM_LEVEL_LISTS
 
 icon_paths['spyro_aht'] = f'ap:{__name__}/icons/dark_gem_icon.png'
 
@@ -65,6 +66,7 @@ loc_names_to_ids = _location_name_to_id(_load_file("locations.json"))
 
 def create_location_groups(location_data) -> dict[str, set[str]]:
     level_lookup = {
+        "Starter Checks": "Starter Checks",
         "DV": "Dragon Village",
         "CS": "Crocovile Swamp",
         "DF": "Dragonfly Falls",
@@ -86,36 +88,54 @@ def create_location_groups(location_data) -> dict[str, set[str]]:
     loc_groups = defaultdict(set)
     for region in location_data.values():
         for location in region['locations']:
-            if location['name'].split(': ')[0] in level_lookup:
-                abbreviation = location['name'].split(': ')[0]
-                loc_groups[level_lookup[abbreviation]].add(location['name'])
+            abbreviation = location['name'].split(': ')[0]
+            level = level_lookup[abbreviation]  # may be starter checks or shop items. Otherwise, guaranteed to be a level name
+            realm = "N/A"  # only here to keep Python from a warning below. Only stays N/A for starter checks and shop items, and goes unused in those cases
+            for realm_lookup in REALM_LEVEL_LISTS.keys():
+                if level in REALM_LEVEL_LISTS[realm_lookup]:
+                    realm = realm_lookup
+                    break
+                    
+            loc_groups[level_lookup[abbreviation]].add(location['name'])
+            
             if "Defeat" in location['name'] or "Breath from" in location['name']:  # bosses
                 loc_groups["All Bosses"].add(location['name'])
             if ": Dark Gem" in location['name']:
                 loc_groups["All Dark Gems"].add(location['name'])
+                loc_groups[f"{level} Dark Gems"].add(location['name'])
+                loc_groups[f"{realm} Dark Gems"].add(location['name'])
             if ": Dragon Egg" in location['name']:
                 loc_groups["All Dragon Eggs"].add(location['name'])
+                loc_groups[f"{level} Dragon Eggs"].add(location['name'])
+                loc_groups[f"{realm} Dragon Eggs"].add(location['name'])
             if ": Light Gem" in location['name']:
                 loc_groups["All Light Gems"].add(location['name'])
+                loc_groups[f"{level} Light Gems"].add(location['name'])
+                loc_groups[f"{realm} Light Gems"].add(location['name'])
             if "Locked Chest" in location['name']:
                 loc_groups["All Locked Chests"].add(location['name'])
+                loc_groups[f"{level} Locked Chests"].add(location['name'])
+                loc_groups[f"{realm} Locked Chests"].add(location['name'])
             if ": Firework" in location['name']:
                 loc_groups["All Fireworks"].add(location['name'])
-    
-    for minigame_location in minigame_locs:
-        if "Sgt. Byrd" in minigame_location:
-            loc_groups["Sgt. Byrd Minigames"].add(minigame_location)
-            loc_groups["All Minigames"].add(minigame_location)
-        elif "Blink" in minigame_location:
-            loc_groups["Blink Minigames"].add(minigame_location)
-            loc_groups["All Minigames"].add(minigame_location)
-        elif "Sparx" in minigame_location:
-            loc_groups["Sparx Minigames"].add(minigame_location)
-            loc_groups["All Minigames"].add(minigame_location)
-        else:
-            loc_groups["Turret Minigames"].add(minigame_location)
-            loc_groups["All Minigames"].add(minigame_location)
-        
+                loc_groups[f"{level} Fireworks"].add(location['name'])
+                loc_groups[f"{realm} Fireworks"].add(location['name'])
+            if "Sgt. Byrd" in location['name']:
+                loc_groups["Sgt. Byrd Minigames"].add(location['name'])
+                loc_groups["All Minigames"].add(location['name'])
+                loc_groups[f"{realm} Minigames"].add(location['name'])
+            if "Blink" in location['name']:
+                loc_groups["Blink Minigames"].add(location['name'])
+                loc_groups["All Minigames"].add(location['name'])
+                loc_groups[f"{realm} Minigames"].add(location['name'])
+            if "Sparx" in location['name']:
+                loc_groups["Sparx Minigames"].add(location['name'])
+                loc_groups["All Minigames"].add(location['name'])
+                loc_groups[f"{realm} Minigames"].add(location['name'])
+            if "Fredneck" in location['name'] or "Turtle Mother" in location['name'] or "Peggy" in location['name'] or "Wally" in location['name']:
+                loc_groups["Turret Minigames"].add(location['name'])
+                loc_groups["All Minigames"].add(location['name'])
+                loc_groups[f"{realm} Minigames"].add(location['name'])
     return loc_groups
 
 
@@ -164,11 +184,10 @@ class SpyroAHTWorld(World):
         self._boss_lairs = [10, 20, 30, 40]
         self._gadget_costs = [8, 24, 40]  # ball, invincibility, supercharge
         self._starting_realms = []
-        self._starting_breath = -1  # represents none
+        self._starting_breaths = []
         self._classifications = {i['name']: ItemClassification(i['classification']) for i in _load_file("items.json")}
         self.shop_costs = []
-        self.filler_categories: list = []
-        self.filler_items: list[list] = [[]]
+        self.filler_items: dict[str, list[str]] = {}
 
         # tracks IDs of all locations that are part of a goal but are excluded. Sent to client via slot data
         self.excluded_goal_ids = {"Gnasty Gnorc": [], "Ineptune": [], "Red": [], "Mecha-Red": [],
@@ -178,9 +197,8 @@ class SpyroAHTWorld(World):
     def get_filler_item_name(self):
         """Override of World.get_filler_item_name which returns a random filler item name.
         Used whenever start_inventory_from_pool is used."""
-        random_category = self.random.choice(self.filler_categories)
-        convert = {"Gem Packs": 0, "Dragon Eggs": 1, "Breath Bombs": 2, "Generics": 3}
-        random_choice = self.random.choice(self.filler_items[convert[random_category]])    
+        items = self.random.choice(list(self.filler_items.values()))
+        random_choice = self.random.choice(items)
         self.log(f"Replacing start_inventory_from_pool item with \"{random_choice}\".", "Info")
         return random_choice
             
@@ -285,6 +303,20 @@ class SpyroAHTWorld(World):
         
         auto_corrections = self.options.auto_corrections.value  # storing locally as micro-optimization compared to checking option
         
+        self.log("Checking for issues with starting breath list.", "Debug")
+        bad_condition = len(self.options.starting_breaths.value) > 1 and "None" in self.options.starting_breaths.value
+        if bad_condition and auto_corrections:
+            self.log("Starting breath list contains both \"None\" and at least one breath. Fixing by removing the \"None\".", "Warning")
+            self.options.starting_breaths.value.remove("None")
+        elif bad_condition:
+            self.log("Starting breath list contains both \"None\" and at least one breath. Halting generation.", "Warning")
+            raise OptionError("Starting breath list cannot contain both \"None\" and breath(s) if auto_corrections is disabled.")
+        
+        if len(self.options.starting_breaths.value) == 0:
+            random_breath = self.random.choice(["Fire", "Electric", "Water", "Ice"])
+            self.log(f"Starting breath list was left empty. {random_breath} Breath was chosen at random.", "Debug")
+            self.options.starting_breaths.value.add(random_breath)
+        
         self.log("Checking for under/overfilled filler and goal lists.", "Debug")
         bad_condition = len(self.options.filler_items.value) == 0
         if bad_condition and auto_corrections:
@@ -383,7 +415,7 @@ class SpyroAHTWorld(World):
         self.options.vanilla_minigame_rewards.value = slot_data['vanilla_minigame_rewards']
         self.options.filler_items.value = slot_data['filler_items']
         
-        self.options.starting_breath.value = slot_data['starting_breath']
+        self.options.starting_breaths.value = slot_data['starting_breaths']
         self.options.movement_randomization.value = slot_data['movement_randomization']
         self.options.starting_realms.value = slot_data['starting_realms']
         
@@ -519,15 +551,38 @@ class SpyroAHTWorld(World):
 
                 self._boss_lairs = [self.random.randint(bmin, bmax) for _ in range(4)]
         
-        if self.options.boss_lair_forcing.value > 0:  # if not "unchanged"
-            player_choice = self.options.boss_lair_forcing.value
-            highest = max(self._boss_lairs)
-            high_index = self._boss_lairs.index(highest)
-            convert = {1: "Gnasty Gnorc", 2: "Ineptune", 3: "Red", 4: "Mecha-Red"}
-            self.log(f"Satisfying boss_lair_forcing by swapping cost of {convert[high_index+1]} ({highest}) and {convert[player_choice]} ({self._boss_lairs[player_choice-1]}).", "Debug")
-            self._boss_lairs[high_index], self._boss_lairs[player_choice-1] = self._boss_lairs[player_choice-1], self._boss_lairs[high_index]
-                
-        self.log(f"Boss lair costs are {self._boss_lairs}.", "Debug")
+        self.log(f"Checking if boss lair costs need forcing. Costs are currently {self._boss_lairs}.", "Info")
+        lookup = ["Gnasty Gnorc", "Ineptune", "Red", "Mecha-Red"]
+        forcing = self.options.boss_lair_forcing.value
+        if forcing != 0:
+            if 1 <= self.options.boss_lair_forcing.value <= 4: goal_boss_indices = [forcing-1]
+            else: goal_boss_indices = [lookup.index(boss) for boss in lookup if boss in self.options.goal.value]
+            non_goal_boss_indices = [index for index in [0, 1, 2, 3] if index not in goal_boss_indices]
+            
+            if len(goal_boss_indices) == 4:
+                self.log("boss_lair_forcing was set to automatic, but all 4 bosses are part of goal. Skipping cost swapping.", "Debug")
+            elif len(goal_boss_indices) == 0:
+                self.log("boss_lair_forcing was set to automatic, but you have no goal bosses. Skipping cost swapping.", "Debug")
+            else:
+                for goal_boss_index in goal_boss_indices:
+                    goal_boss_cost = self._boss_lairs[goal_boss_index]
+                    
+                    # find highest-costing non-goal boss
+                    highest_non_goal_index = non_goal_boss_indices[0]
+                    for non_goal_boss_index in non_goal_boss_indices:
+                        if self._boss_lairs[non_goal_boss_index] > self._boss_lairs[highest_non_goal_index]:
+                            highest_non_goal_index = non_goal_boss_index
+                    highest_non_goal_cost = self._boss_lairs[highest_non_goal_index]
+                    
+                    # swap if needed
+                    if self._boss_lairs[goal_boss_index] < highest_non_goal_cost:
+                        self.log(f"Swapping {lookup[goal_boss_index]}'s cost of {goal_boss_cost} and {lookup[highest_non_goal_index]}'s cost of {highest_non_goal_cost} as the former is smaller.", "Debug")
+                        self._boss_lairs[goal_boss_index] = highest_non_goal_cost
+                        self._boss_lairs[highest_non_goal_index] = goal_boss_cost
+                    else:
+                        self.log(f"Skipping swapping {lookup[goal_boss_index]}'s cost of {goal_boss_cost} and {lookup[highest_non_goal_index]}'s cost of {highest_non_goal_cost} as the former is already larger.", "Debug")
+            
+        self.log(f"Final boss lair costs are {self._boss_lairs}.", "Debug")
         
         self.log("Setting up Light Gem door costs.", "Info")
         if self.options.randomize_light_gem_door_costs.value != 0:
@@ -648,31 +703,34 @@ class SpyroAHTWorld(World):
         """Helper method for create_items which returns an Item object."""
         return Item(name, self._classifications[name], self.item_name_to_id[name], self.player)
 
-    def setup_filler_list(self, item_data) -> tuple[list, list[list]]:
+    def setup_filler_list(self, item_data) -> tuple[dict[str, list], list[str]]:
         """Helper method which assembles a list of enabled filler item categories and the possible choices for each type."""
         self.log("Setting up filler item information.", "Info")
         
         all_filler_items = [item for item in item_data if item["group"] == "Filler"]
-        enabled_categories = []  # TODO: maybe change this to be a list of 4 true/falses to avoid having to convert indices later on?
-        final_filler_choices = [[], [], [], []]  # list of 4 lists, one for each category
+        enabled_filler_items: dict[str, list[str]] = {}
+        generics = []
         
         for category in ["Dragon Eggs", "Breath Bombs", "Gem Packs", "Generics"]:
             if category in self.options.filler_items.value:
-                enabled_categories.append(category)
-        self.log(f"Enabled filler categories: {enabled_categories}.", "Debug")
+                enabled_filler_items[category] = []
+                self.log(f"Filler category {category} is enabled.", "Debug")
+            else:
+                self.log(f"Filler category {category} is disabled.", "Debug")
+        self.log(f"Enabled filler categories: {list(enabled_filler_items.keys())}.", "Debug")
                 
         for filler_item in all_filler_items:
-            if filler_item["name"] == "Gem Pack" and "Gem Packs" in enabled_categories:
-                final_filler_choices[0].append(filler_item["name"])
-            elif filler_item["name"] == "Dragon Egg" and "Dragon Eggs" in enabled_categories:
-                final_filler_choices[1].append(filler_item["name"])
-            elif "Bomb" in filler_item["name"] and "Breath Bombs" in enabled_categories:
-                final_filler_choices[2].append(filler_item["name"])
-            elif filler_item.get("type", "") == "Generic" and "Generics" in enabled_categories:
-                final_filler_choices[3].append(filler_item["name"])
+            if filler_item["name"] == "Gem Pack" and "Gem Packs" in enabled_filler_items.keys():
+                enabled_filler_items["Gem Packs"].append(filler_item["name"])
+            elif filler_item["name"] == "Dragon Egg" and "Dragon Eggs" in enabled_filler_items.keys():
+                enabled_filler_items["Dragon Eggs"].append(filler_item["name"])
+            elif "Bomb" in filler_item["name"] and "Breath Bombs" in enabled_filler_items.keys():
+                enabled_filler_items["Breath Bombs"].append(filler_item["name"])
+            elif filler_item.get("type", "") == "Generic" and "Generics" in enabled_filler_items.keys():
+                enabled_filler_items["Generics"].append(filler_item["name"])
+                generics.append(filler_item["name"])
         
-        self.log(f"Enabled filler categories: {enabled_categories}. Final filler choices: {final_filler_choices}.", "Debug")
-        return enabled_categories, final_filler_choices
+        return enabled_filler_items, generics
     
     def create_items(self) -> None:
         item_data = _load_file("items.json")
@@ -693,42 +751,50 @@ class SpyroAHTWorld(World):
                 if item == "Light Gem": minigames += 1
             counter += 1
         
-        self.log("Setting up starting breath.", "Info")
-        starting = self.options.starting_breath.value
-        for breath_num, breath_name in zip(range(4), ["Fire Breath", "Electric Breath", "Water Breath", "Ice Breath"]):
-            if starting == breath_num:
-                self.get_location("Starter Checks: Breath").place_locked_item(self.create_item(breath_name))
-                self._starting_breath = breath_num
-                break
-        self.log(f"Starting breath is {breath_name}.", "Debug")
+        self.log("Setting up starting breaths.", "Info")
+        starter_done = False
+        if "None" not in self.options.starting_breaths.value:  # if none is there at all, it will be the only thing there, thus nothing should be done
+            for breath in self.options.starting_breaths.value:
+                breath_name = f"{breath} Breath"
+                self._starting_breaths.append(breath_name)
+                if starter_done:
+                    self.log(f"Placing {breath_name} into start inventory.", "Debug")
+                    self.push_precollected(self.create_item(breath_name))
+                else:
+                    self.log(f"Placing {breath_name} into Starter Checks: Breath.", "Debug")
+                    self.get_location("Starter Checks: Breath").place_locked_item(self.create_item(breath_name))
+                    starter_done = True
+        self.log(f"Starting breath(s) are {self._starting_breaths}.", "Debug")
         
-        if self.options.movement_randomization.value == 0:
-            self.log(f"Placing vanilla movement abilities in starter checks.", "Debug")
-            self.get_location("Starter Checks: Swim").place_locked_item(self.create_item("Swim"))
-            self.get_location("Starter Checks: Charge").place_locked_item(self.create_item("Charge"))
-            self.get_location("Starter Checks: Glide").place_locked_item(self.create_item("Glide"))
-        
+        self.log("Checking movement randomization choice(s).", "Info")
+        skip_movements = []
+        for movement in ["Glide", "Swim", "Charge"]:
+            if movement not in self.options.movement_randomization.value:
+                self.log(f"{movement} will be placed into Starter Checks: {movement}.", "Debug")
+                self.get_location(f"Starter Checks: {movement}").place_locked_item(self.create_item(movement))
+                skip_movements.append(movement)
+            else:
+                self.log(f"{movement} will be randomized due to being listed in movement_randomization.", "Debug")
+            
         self.log("Setting up starting realm(s).", "Info")
         if self.options.open_world_mode.value == 1:  # all 4 if open world is on
             self.log("open_world_mode is set to full. Overriding starting_realms to start with all 4 realms.", "Info")
             self._starting_realms = ['Dragon Kingdom', 'Lost Cities', 'Icy Wilderness', 'Volcanic Isle']
-        elif len(self.options.starting_realms.value) == 0 and self.options.auto_corrections:
-            self.log("starting_realms is empty. Fixing by picking one at random.", "Warning")
-            self._starting_realms.append(self.random.choice(["Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle"]))
         elif len(self.options.starting_realms.value) == 0:
-            self.log("starting_realms is empty. Halting generation.", "Warning")
-            raise OptionError("starting_realms cannot be empty with auto_corrections disabled.")
+            random_realm = self.random.choice(["Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle"])
+            self.log(f"starting_realms list was left empty. {random_realm} was chosen at random.", "Debug")
+            self._starting_realms.append(random_realm)
         else:
             self._starting_realms = list(self.options.starting_realms.value)
         self.log(f"Starting Realms: {self._starting_realms}.", "Debug")
         
-        if len(self._starting_realms) == 1 and self._starting_realms[0] == "Icy Wilderness" and self.options.shop_randomization.value == 0 and self.options.movement_randomization.value == 0:
+        if len(self._starting_realms) == 1 and self._starting_realms[0] == "Icy Wilderness" and self.options.shop_randomization.value == 0 and len(self.options.movement_randomization.value) == 0:
             if self.options.auto_corrections:
-                self.log("Generations have a high frequency of failure if starting in Icy Wilderness with shop_randomization and movement_randomization disabled. Fixing by changing starting realm to Dragon Kingdom.", "Warning")
+                self.log("Generations have a high frequency of failure if starting in Icy Wilderness with shop_randomization disabled and movement_randomization empty. Fixing by changing starting realm to Dragon Kingdom.", "Warning")
                 self._starting_realms[0] = "Dragon Kingdom"
             else:
-                self.log("Generations have a high frequency of failure if starting in Icy Wilderness with shop_randomization and movement_randomization disabled. Halting generation.", "Warning")
-                raise OptionError("Can't start in Icy Wilderness if shop_randomization and movement_randomization are disabled if auto_corrections is disabled.", "Warning")
+                self.log("Generations have a high frequency of failure if starting in Icy Wilderness with shop_randomization disabled and movement_randomization empty. Halting generation.", "Warning")
+                raise OptionError("Can't start in Icy Wilderness if shop_randomization is disabled and movement_randomization is empty, if auto_corrections is disabled.", "Warning")
             
         # add starting realm choices to start inventory, if not already in start inventory
         self.log("Adding starting realm access cards and unlocking starting realm shops (if using open_world_mode).", "Info")
@@ -772,6 +838,14 @@ class SpyroAHTWorld(World):
                 self.log("Skipping creating item \"Double Gems\" because shop_randomization is enabled but double_gems is disabled.", "Debug")
                 continue
             
+            if item['name'] in skip_movements:
+                self.log(f"Skipping creating {item['name']} due to already being placed into Starter Checks: {item['name']}.", "Debug")
+                continue
+                
+            if item['name'] in self._starting_breaths:
+                self.log(f"Skipping creating {item['name']} due to being selected as a starting breath.", "Debug")
+                continue
+            
             if self.options.open_world_mode.value != 0 and "Access Card" in item['name']:
                 # open world mode == 1 has access cards, but they're created and pre-collected above
                 # open world mode > 1 has no access cards besides the one(s) the player starts with, created and pre-collected above
@@ -782,18 +856,6 @@ class SpyroAHTWorld(World):
                 continue  # non-open world has normal access card logic. only skip the ones pre-added, add the rest to the pool
             
             add = True
-
-            match item['name']:
-                case "Fire Breath":
-                    add = self._starting_breath != 0
-                case "Electric Breath":
-                    add = self._starting_breath != 1
-                case "Water Breath":
-                    add = self._starting_breath != 2
-                case "Ice Breath":
-                    add = self._starting_breath != 3
-                case "Glide" | "Charge" | "Swim":
-                    add = self.options.movement_randomization.value == 1
 
             for curr_option in item.get("option", ()):
                 option = getattr(self.options, curr_option['option'])
@@ -824,18 +886,20 @@ class SpyroAHTWorld(World):
                     item_pool.append(self.create_item(item['name']))
                 self.log(f"Created {count} of item \"{item['name']}\".", "Extra")
                 
-        # add filler. Randomly chooses a category, then within the list of items for that category, randomly chooses one.
-        self.filler_categories, self.filler_items = self.setup_filler_list(item_data)
-        convert = {"Gem Packs": 0, "Dragon Eggs": 1, "Breath Bombs": 2, "Generics": 3}
+        # add filler. Randomly choose a category, randomly choose an item from that category.
+        # generics have extra logic to force variety in the choices before duplicating
+        self.filler_items, unchosen_generics = self.setup_filler_list(item_data)
+        reset_generics = copy.copy(unchosen_generics)
         while len(item_pool) < len(self.multiworld.get_unfilled_locations(self.player)):
-            random_category = self.random.choice(self.filler_categories)
-            while random_category not in self.filler_categories:
-                random_category = self.random.choice(self.filler_categories)
-            filler_choices = self.filler_items[convert[random_category]]
-            choice = self.random.choice(filler_choices)
+            category, items = self.random.choice(list(self.filler_items.items()))
+            choice = self.random.choice(items)
+            if category == "Generics":
+                if len(unchosen_generics) == 0: unchosen_generics = copy.copy(reset_generics)
+                while choice not in unchosen_generics:
+                    choice = self.random.choice(unchosen_generics)
+                unchosen_generics.remove(choice)
             self.log(f"Created filler item \"{choice}\".", "Extra")
             item_pool.append(self.create_item(choice))
-
         self.multiworld.itempool.extend(item_pool)
   
     def set_rules(self) -> None:
@@ -865,7 +929,7 @@ class SpyroAHTWorld(World):
             "vanilla_minigame_rewards": self.options.vanilla_minigame_rewards.value,
             "filler_items": self.options.filler_items.value,
 
-            "starting_breath": self.options.starting_breath.value,
+            "starting_breaths": self.options.starting_breaths.value,
             "movement_randomization": self.options.movement_randomization.value,
             "starting_realms": self._starting_realms,
 
