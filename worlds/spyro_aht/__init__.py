@@ -309,7 +309,7 @@ class SpyroAHTWorld(World):
         if bad_condition and auto_corrections:
             self.log("Starting breath list contains both \"None\" and at least one breath. Fixing by removing the \"None\".", "Warning")
             self.options.starting_breaths.value.remove("None")
-        else:
+        elif bad_condition:
             self.log("Starting breath list contains both \"None\" and at least one breath. Halting generation.", "Warning")
             raise OptionError("Starting breath list cannot contain both \"None\" and breath(s) if auto_corrections is disabled.")
         
@@ -763,6 +763,7 @@ class SpyroAHTWorld(World):
         skip_movements = []
         for movement in ["Glide", "Swim", "Charge"]:
             if movement not in self.options.movement_randomization.value:
+                self.log(f"{movement} will be placed into Starter Checks: {movement}.", "Debug")
                 self.get_location(f"Starter Checks: {movement}").place_locked_item(self.create_item(movement))
                 skip_movements.append(movement)
             else:
