@@ -313,6 +313,11 @@ class SpyroAHTWorld(World):
             self.log("Starting breath list contains both \"None\" and at least one breath. Halting generation.", "Warning")
             raise OptionError("Starting breath list cannot contain both \"None\" and breath(s) if auto_corrections is disabled.")
         
+        if len(self.options.starting_breaths.value) == 0:
+            random_breath = self.random.choice(["Fire Breath", "Electric Breath", "Water Breath", "Ice Breath"])
+            self.log(f"Starting breath list was left empty. {random_breath} was chosen at random.", "Debug")
+            self.options.starting_breaths.value.add(random_breath)
+        
         self.log("Checking for under/overfilled filler and goal lists.", "Debug")
         bad_condition = len(self.options.filler_items.value) == 0
         if bad_condition and auto_corrections:
@@ -773,12 +778,10 @@ class SpyroAHTWorld(World):
         if self.options.open_world_mode.value == 1:  # all 4 if open world is on
             self.log("open_world_mode is set to full. Overriding starting_realms to start with all 4 realms.", "Info")
             self._starting_realms = ['Dragon Kingdom', 'Lost Cities', 'Icy Wilderness', 'Volcanic Isle']
-        elif len(self.options.starting_realms.value) == 0 and self.options.auto_corrections:
-            self.log("starting_realms is empty. Fixing by picking one at random.", "Warning")
-            self._starting_realms.append(self.random.choice(["Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle"]))
         elif len(self.options.starting_realms.value) == 0:
-            self.log("starting_realms is empty. Halting generation.", "Warning")
-            raise OptionError("starting_realms cannot be empty with auto_corrections disabled.")
+            random_realm = self.random.choice(["Dragon Kingdom", "Lost Cities", "Icy Wilderness", "Volcanic Isle"])
+            self.log(f"starting_realms list was left empty. {random_realm} was chosen at random.", "Debug")
+            self._starting_realms.append(random_realm)
         else:
             self._starting_realms = list(self.options.starting_realms.value)
         self.log(f"Starting Realms: {self._starting_realms}.", "Debug")

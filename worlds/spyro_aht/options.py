@@ -155,8 +155,9 @@ class FillerItems(OptionSet):
 class StartingBreaths(OptionSet):
     """Choose which breath(s) you want to start with.
     
-    If multiple breaths are listed, all will be given (one into "Starter Checks: Breath", the rest into start inventory).
-    "None" will result in "Starter Checks: Breath" having a random item determined by Archipelago.
+    If multiple breaths are listed, all will be given (one into "Starter Checks: Breath", the rest into your start inventory).
+    "None" will start you with no breath, meaning "Starter Checks: Breath" will have a random item determined by Archipelago.
+    If the list is left empty, 1 random breath will be chosen.
     
     If the list contains both "None" and breath(s) and auto_corrections is set to 'fix', the "None" will be discarded.
     
@@ -183,7 +184,7 @@ class MovementRandomization(OptionSet):
 class StartingRealms(OptionSet):
     """Realm access is primarily controlled by "access cards" e.g. "Dragon Kingdom Access Card". Choose which realm(s) you will start with access cards for. 
     
-    If the list is left empty and auto_corrections is set to 'fix', 1 random realm will be chosen.
+    If the list is left empty, 1 random realm will be chosen.
     If open_world_mode is enabled and 'full', you will start with all 4 access cards.
     If open_world_mode is enabled and not 'full', you will start with access cards based on this option, but later realms will be unlocked
       via their "Depot" shop unlock. For example, unlocking "Frostbite Village - Frosty Depot" grants realm access to Icy Wilderness.
