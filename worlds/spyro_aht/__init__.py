@@ -1,6 +1,7 @@
 import asyncio
 import pkgutil
 import logging
+import copy
 from collections import defaultdict
 from dataclasses import dataclass
 from typing import Any, TextIO, override
@@ -186,8 +187,7 @@ class SpyroAHTWorld(World):
         self._starting_breaths = []
         self._classifications = {i['name']: ItemClassification(i['classification']) for i in _load_file("items.json")}
         self.shop_costs = []
-        self.filler_categories: list = []
-        self.filler_items: list[list] = [[]]
+        self.filler_items: dict[str, list[str]] = {}
 
         # tracks IDs of all locations that are part of a goal but are excluded. Sent to client via slot data
         self.excluded_goal_ids = {"Gnasty Gnorc": [], "Ineptune": [], "Red": [], "Mecha-Red": [],
@@ -197,9 +197,8 @@ class SpyroAHTWorld(World):
     def get_filler_item_name(self):
         """Override of World.get_filler_item_name which returns a random filler item name.
         Used whenever start_inventory_from_pool is used."""
-        random_category = self.random.choice(self.filler_categories)
-        convert = {"Gem Packs": 0, "Dragon Eggs": 1, "Breath Bombs": 2, "Generics": 3}
-        random_choice = self.random.choice(self.filler_items[convert[random_category]])    
+        items = self.random.choice(list(self.filler_items.values()))
+        random_choice = self.random.choice(items)
         self.log(f"Replacing start_inventory_from_pool item with \"{random_choice}\".", "Info")
         return random_choice
             
@@ -314,8 +313,8 @@ class SpyroAHTWorld(World):
             raise OptionError("Starting breath list cannot contain both \"None\" and breath(s) if auto_corrections is disabled.")
         
         if len(self.options.starting_breaths.value) == 0:
-            random_breath = self.random.choice(["Fire Breath", "Electric Breath", "Water Breath", "Ice Breath"])
-            self.log(f"Starting breath list was left empty. {random_breath} was chosen at random.", "Debug")
+            random_breath = self.random.choice(["Fire", "Electric", "Water", "Ice"])
+            self.log(f"Starting breath list was left empty. {random_breath} Breath was chosen at random.", "Debug")
             self.options.starting_breaths.value.add(random_breath)
         
         self.log("Checking for under/overfilled filler and goal lists.", "Debug")
@@ -704,31 +703,34 @@ class SpyroAHTWorld(World):
         """Helper method for create_items which returns an Item object."""
         return Item(name, self._classifications[name], self.item_name_to_id[name], self.player)
 
-    def setup_filler_list(self, item_data) -> tuple[list, list[list]]:
+    def setup_filler_list(self, item_data) -> tuple[dict[str, list], list[str]]:
         """Helper method which assembles a list of enabled filler item categories and the possible choices for each type."""
         self.log("Setting up filler item information.", "Info")
         
         all_filler_items = [item for item in item_data if item["group"] == "Filler"]
-        enabled_categories = []  # TODO: maybe change this to be a list of 4 true/falses to avoid having to convert indices later on?
-        final_filler_choices = [[], [], [], []]  # list of 4 lists, one for each category
+        enabled_filler_items: dict[str, list[str]] = {}
+        generics = []
         
         for category in ["Dragon Eggs", "Breath Bombs", "Gem Packs", "Generics"]:
             if category in self.options.filler_items.value:
-                enabled_categories.append(category)
-        self.log(f"Enabled filler categories: {enabled_categories}.", "Debug")
+                enabled_filler_items[category] = []
+                self.log(f"Filler category {category} is enabled.", "Debug")
+            else:
+                self.log(f"Filler category {category} is disabled.", "Debug")
+        self.log(f"Enabled filler categories: {list(enabled_filler_items.keys())}.", "Debug")
                 
         for filler_item in all_filler_items:
-            if filler_item["name"] == "Gem Pack" and "Gem Packs" in enabled_categories:
-                final_filler_choices[0].append(filler_item["name"])
-            elif filler_item["name"] == "Dragon Egg" and "Dragon Eggs" in enabled_categories:
-                final_filler_choices[1].append(filler_item["name"])
-            elif "Bomb" in filler_item["name"] and "Breath Bombs" in enabled_categories:
-                final_filler_choices[2].append(filler_item["name"])
-            elif filler_item.get("type", "") == "Generic" and "Generics" in enabled_categories:
-                final_filler_choices[3].append(filler_item["name"])
+            if filler_item["name"] == "Gem Pack" and "Gem Packs" in enabled_filler_items.keys():
+                enabled_filler_items["Gem Packs"].append(filler_item["name"])
+            elif filler_item["name"] == "Dragon Egg" and "Dragon Eggs" in enabled_filler_items.keys():
+                enabled_filler_items["Dragon Eggs"].append(filler_item["name"])
+            elif "Bomb" in filler_item["name"] and "Breath Bombs" in enabled_filler_items.keys():
+                enabled_filler_items["Breath Bombs"].append(filler_item["name"])
+            elif filler_item.get("type", "") == "Generic" and "Generics" in enabled_filler_items.keys():
+                enabled_filler_items["Generics"].append(filler_item["name"])
+                generics.append(filler_item["name"])
         
-        self.log(f"Enabled filler categories: {enabled_categories}. Final filler choices: {final_filler_choices}.", "Debug")
-        return enabled_categories, final_filler_choices
+        return enabled_filler_items, generics
     
     def create_items(self) -> None:
         item_data = _load_file("items.json")
@@ -884,18 +886,20 @@ class SpyroAHTWorld(World):
                     item_pool.append(self.create_item(item['name']))
                 self.log(f"Created {count} of item \"{item['name']}\".", "Extra")
                 
-        # add filler. Randomly chooses a category, then within the list of items for that category, randomly chooses one.
-        self.filler_categories, self.filler_items = self.setup_filler_list(item_data)
-        convert = {"Gem Packs": 0, "Dragon Eggs": 1, "Breath Bombs": 2, "Generics": 3}
+        # add filler. Randomly choose a category, randomly choose an item from that category.
+        # generics have extra logic to force variety in the choices before duplicating
+        self.filler_items, unchosen_generics = self.setup_filler_list(item_data)
+        reset_generics = copy.copy(unchosen_generics)
         while len(item_pool) < len(self.multiworld.get_unfilled_locations(self.player)):
-            random_category = self.random.choice(self.filler_categories)
-            while random_category not in self.filler_categories:
-                random_category = self.random.choice(self.filler_categories)
-            filler_choices = self.filler_items[convert[random_category]]
-            choice = self.random.choice(filler_choices)
+            category, items = self.random.choice(list(self.filler_items.items()))
+            choice = self.random.choice(items)
+            if category == "Generics":
+                if len(unchosen_generics) == 0: unchosen_generics = copy.copy(reset_generics)
+                while choice not in unchosen_generics:
+                    choice = self.random.choice(unchosen_generics)
+                unchosen_generics.remove(choice)
             self.log(f"Created filler item \"{choice}\".", "Extra")
             item_pool.append(self.create_item(choice))
-
         self.multiworld.itempool.extend(item_pool)
   
     def set_rules(self) -> None:
