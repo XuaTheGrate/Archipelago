@@ -171,7 +171,7 @@ class MovementRandomization(OptionSet):
     """Choose whether to randomize each of the 3 base movement abilities (glide, swim, and charge).
     For example, "Starter Checks: Glide" will award a random item if glide is included below, otherwise it will award glide.
     
-    Note: vanilla AHT does not technically require you to have charge in oder to charge underwater, but AHT AP overrides
+    Note: vanilla AHT does not technically require you to have charge in order to charge underwater, but AHT AP overrides
     this and requires it. If you have swim but not charge, you can still swim, but will be limited to paddling slowly,
     which is not enough to get through most acid swimming sections, and limits underwater gem collection.
     
