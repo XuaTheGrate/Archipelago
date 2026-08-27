@@ -741,11 +741,11 @@ class SpyroAHTWorld(World):
         
         self.log("Checking for vanilla minigame rewards.", "Info")
         # a bit weird but sets up big list of NPC names to associate to each minigame location
-        npc_names = ["Sgt. Byrd"] * 8 + ["Blink"] * 8 + ["Sparx"] * 8 + ["Fredneck"] * 2 + ["Turtle Mother"] * 2 + ["Peggy"] * 2 + ["Wally"] * 2
+        npc_names = ["Sgt. Byrd"] * 8 + ["Blink"] * 8 + ["Sparx"] * 8 + ["Turret"] * 8
         minigames, counter = 0, 0
         for npc, minigame_loc in zip(npc_names, minigame_locs):
             if npc in self.options.vanilla_minigame_rewards.value:
-                self.log(f"Making {npc}'s minigames vanilla.", "Debug")
+                self.log(f"Giving {npc} minigame vanilla reward.", "Debug")
                 item = "Dragon Egg" if counter % 2 == 0 else "Light Gem"
                 self.get_location(minigame_loc).place_locked_item(self.create_item(item))
                 if item == "Light Gem": minigames += 1

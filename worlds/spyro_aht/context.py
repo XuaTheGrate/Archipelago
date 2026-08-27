@@ -145,8 +145,8 @@ class SpyroAHTCommands(ClientCommandProcessor):
         self.output(f"The boss lair gates require, in vanilla realm order: {data[0]}, {data[1]}, {data[2]}, and {data[3]} Dark Gems.")
         # boss lair forcing
         data = self.ctx.slot_data["boss_lair_forcing"]
-        convert = {0: "none of the bosses", 1: "Gnasty Gnorc", 2: "Ineptune", 3: "Red", 4: "Mecha-Red"}
-        self.output(f"You chose to force {convert[data]} to have the highest boss lair cost.")
+        convert = {0: "none of the bosses", 1: "Gnasty Gnorc", 2: "Ineptune", 3: "Red", 4: "Mecha-Red", 5: "all goal bosses"}
+        self.output(f"You chose to force {convert[data]} to have the highest boss lair cost(s).")
         # light gem doors
         data = self.ctx.slot_data["light_gem_door_costs"]
         self.output(f"The Light Gem doors require, in vanilla realm order: {data[0]}, {data[1]}, {data[2]}, and {data[3]} Light Gems.")
