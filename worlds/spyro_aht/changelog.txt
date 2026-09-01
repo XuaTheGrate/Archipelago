@@ -1,4 +1,5 @@
 2.1.0 (various misc. things)
+- Fixed `vanilla_minigame_rewards` not working for turret minigames.
 - Fixed a missing glide requirement in Dragonfly Falls connecting the end of the level back to the start.
 - Improved error handling in /check_goal.
 - Removed glide requirement from the locked chest in the entry area of Dragonfly Falls.
