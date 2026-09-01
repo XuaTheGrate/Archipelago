@@ -145,8 +145,8 @@ class SpyroAHTCommands(ClientCommandProcessor):
         self.output(f"The boss lair gates require, in vanilla realm order: {data[0]}, {data[1]}, {data[2]}, and {data[3]} Dark Gems.")
         # boss lair forcing
         data = self.ctx.slot_data["boss_lair_forcing"]
-        convert = {0: "none of the bosses", 1: "Gnasty Gnorc", 2: "Ineptune", 3: "Red", 4: "Mecha-Red"}
-        self.output(f"You chose to force {convert[data]} to have the highest boss lair cost.")
+        convert = {0: "none of the bosses", 1: "Gnasty Gnorc", 2: "Ineptune", 3: "Red", 4: "Mecha-Red", 5: "all goal bosses"}
+        self.output(f"You chose to force {convert[data]} to have the highest boss lair cost(s).")
         # light gem doors
         data = self.ctx.slot_data["light_gem_door_costs"]
         self.output(f"The Light Gem doors require, in vanilla realm order: {data[0]}, {data[1]}, {data[2]}, and {data[3]} Light Gems.")
@@ -185,10 +185,18 @@ class SpyroAHTCommands(ClientCommandProcessor):
 
         return True
 
-    async def _cmd_check_goal(self, argument: str) -> bool:
+    async def _cmd_check_goal(self, argument: str = "") -> bool:
         """Format: /check_goal overview OR /check_goal goal_name.
         "overview" summarizes status of each enabled goal.
         "goal_name" gives a detailed list of every unchecked location for that goal."""
+        if argument == "":
+            self.output("Missing argument for. Run again as /check_goal overview or /check_goal goal_name.")
+            return True
+    
+        if self.ctx.goal_list is None or len(self.ctx.goal_list) == 0:
+            self.output("Command cannot be ran before entering your save file. Try again once loaded in. If you still receive this message then, please report this as a bug to the developers.")
+            return True
+        
         argument = argument.lower()  # just in case
         
         if argument == "overview":

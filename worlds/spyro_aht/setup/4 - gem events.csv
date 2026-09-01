@@ -66,7 +66,7 @@ CSAboveElder,500,armored chest via firework at top of tree,Has('Fire Breath')
 Dragonfly Falls,,,
 DFBallGadget,896,on ball gadget path,True_()
 DFEntry,25,[enemy] normal crocovile by entry area,"HasAny('Fire Breath', 'Electric Breath', 'Charge')"
-DFSteepCanyon,25,[enemy] normal crocovile by chest above entry,"And(Has('Glide'), HasAny('Fire Breath', 'Electric Breath', 'Charge'))"
+DFEntry,25,[enemy] normal crocovile by chest above entry,"And(Has('Double Jump'), HasAny('Fire Breath', 'Electric Breath', 'Charge'))"
 DFSteepCanyon,250,baskets,"HasAny('Double Jump', 'Charge', 'Fire Breath', 'Electric Breath', 'Water Breath', 'Ice Breath')"
 DFSteepCanyon,125,metal chests,"HasAny('Double Jump', 'Charge', 'Electric Breath')"
 DFSteepCanyon,90,headbash chests,Has('Double Jump')

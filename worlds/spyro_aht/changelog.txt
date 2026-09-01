@@ -1,5 +1,8 @@
 2.1.0 (various misc. things)
-- Fixed a missing glide requirement in Dragonfly Falls.
+- Fixed `vanilla_minigame_rewards` not working for turret minigames.
+- Fixed a missing glide requirement in Dragonfly Falls connecting the end of the level back to the start.
+- Improved error handling in /check_goal.
+- Removed glide requirement from the locked chest in the entry area of Dragonfly Falls.
 - Added `automatic` setting to `boss_lair_forcing` which forces all goal bosses (if any are part of goal) to have collectively the highest cost(s).
 - Expanded location groups to include per-level and per-realm groups for Dark Gems, Dragon Eggs, Light Gems, Fireworks, and Locked Chests. Some other misc. groups added as well (such as "Starter Checks").
 - Tweaked `movement_randomization` to allow for individual toggling of each ability, instead of it being all or nothing.

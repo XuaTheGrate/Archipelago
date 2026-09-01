@@ -3922,7 +3922,37 @@
                 }
             }
         ],
-        "locations": [],
+        "locations": [
+            {
+                "name": "DF: Light Gem in entry area in Locked Chest",
+                "id": 40,
+                "options": [],
+                "access_rule": {
+                    "rule": "And",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "children": [
+                        {
+                            "rule": "Has",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_name": "Double Jump",
+                                "count": 1
+                            }
+                        },
+                        {
+                            "rule": "LockedChestRule",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "level": "Dragonfly Falls"
+                            }
+                        }
+                    ]
+                }
+            }
+        ],
         "gem_events": [
             {
                 "name": "25 Gems ([enemy] normal crocovile by entry area)",
@@ -3939,6 +3969,39 @@
                             "Fire Breath"
                         ]
                     }
+                }
+            },
+            {
+                "name": "25 Gems ([enemy] normal crocovile by chest above entry)",
+                "gem_amount": 25,
+                "options": [],
+                "access_rule": {
+                    "rule": "And",
+                    "options": [],
+                    "filtered_resolution": false,
+                    "children": [
+                        {
+                            "rule": "Has",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_name": "Double Jump",
+                                "count": 1
+                            }
+                        },
+                        {
+                            "rule": "HasAny",
+                            "options": [],
+                            "filtered_resolution": false,
+                            "args": {
+                                "item_names": [
+                                    "Charge",
+                                    "Electric Breath",
+                                    "Fire Breath"
+                                ]
+                            }
+                        }
+                    ]
                 }
             }
         ]
@@ -3985,37 +4048,6 @@
             }
         ],
         "locations": [
-            {
-                "name": "DF: Light Gem in entry area in Locked Chest",
-                "id": 40,
-                "options": [],
-                "access_rule": {
-                    "rule": "And",
-                    "options": [],
-                    "filtered_resolution": false,
-                    "children": [
-                        {
-                            "rule": "HasAll",
-                            "options": [],
-                            "filtered_resolution": false,
-                            "args": {
-                                "item_names": [
-                                    "Double Jump",
-                                    "Glide"
-                                ]
-                            }
-                        },
-                        {
-                            "rule": "LockedChestRule",
-                            "options": [],
-                            "filtered_resolution": false,
-                            "args": {
-                                "level": "Dragonfly Falls"
-                            }
-                        }
-                    ]
-                }
-            },
             {
                 "name": "DF: Dark Gem in entry area behind chargeable wall",
                 "id": 41,
@@ -4082,39 +4114,6 @@
             }
         ],
         "gem_events": [
-            {
-                "name": "25 Gems ([enemy] normal crocovile by chest above entry)",
-                "gem_amount": 25,
-                "options": [],
-                "access_rule": {
-                    "rule": "And",
-                    "options": [],
-                    "filtered_resolution": false,
-                    "children": [
-                        {
-                            "rule": "Has",
-                            "options": [],
-                            "filtered_resolution": false,
-                            "args": {
-                                "item_name": "Glide",
-                                "count": 1
-                            }
-                        },
-                        {
-                            "rule": "HasAny",
-                            "options": [],
-                            "filtered_resolution": false,
-                            "args": {
-                                "item_names": [
-                                    "Charge",
-                                    "Electric Breath",
-                                    "Fire Breath"
-                                ]
-                            }
-                        }
-                    ]
-                }
-            },
             {
                 "name": "250 Gems (baskets)",
                 "gem_amount": 250,
