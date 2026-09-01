@@ -240,11 +240,13 @@ REGION DFBallGadget: ball gadget path
 	DFEntry -> DFBallGadget | BallGadget()
 		would have Ball Gadget
 
-REGION DFEntry: just the crocovile after ball gadget. dunno how else to do this tbh.
+REGION DFEntry: lower entry area (crocovile after ball gadget and the ledge with the chest)
 	DFBallGadget -> DFEntry | True_()
 		would have DJ and glide and Ball Gadget
 	DFSteepCanyon -> DFEntry | True_()
 		could have nothing
+	
+    LOCATION DFEntry | DF: Light Gem in entry area in Locked Chest | 40 | And(Has('Double Jump'), LockedChestRule('Dragonfly Falls'))
 
 REGION DFSteepCanyon: first main chunk from shop up to vulture area (include going to the right and down whirlwind)
 	DFEntry -> DFSteepCanyon | Has('Double Jump')
@@ -255,7 +257,6 @@ REGION DFSteepCanyon: first main chunk from shop up to vulture area (include goi
 		could have nothing
 	DFSteepCanyon -> ShopPads | True_()
 
-	LOCATION DFSteepCanyon | DF: Light Gem in entry area in Locked Chest | 40 | And(HasAll('Double Jump', 'Glide'), LockedChestRule('Dragonfly Falls'))
 	LOCATION DFSteepCanyon | DF: Dark Gem in entry area behind chargeable wall | 41 | HasAll('Charge', 'Double Jump')
 	LOCATION DFSteepCanyon | DF: Dragon Egg in entry area behind chargeable wall | 42 | HasAll('Charge', 'Double Jump')
 	LOCATION DFSteepCanyon | DF: Light Gem by canyon behind cannon door | 43 | HasAll('Double Jump', 'Glide')
