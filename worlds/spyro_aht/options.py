@@ -169,7 +169,8 @@ class StartingBreaths(OptionSet):
 
 class MovementRandomization(OptionSet):
     """Choose whether to randomize each of the 3 base movement abilities (glide, swim, and charge).
-    For example, "Starter Checks: Glide" will award a random item if glide is included below, otherwise it will award glide.
+    Each one listed below will be randomized, meaning you will start with a different random item from Archipelago in their place.
+    For example, "Starter Checks: Glide" will award a random Archipelago item if glide is listed below, otherwise it will award glide.
     
     Note: vanilla AHT does not technically require you to have charge in order to charge underwater, but AHT AP overrides
     this and requires it. If you have swim but not charge, you can still swim, but will be limited to paddling slowly,

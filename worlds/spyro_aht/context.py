@@ -185,10 +185,18 @@ class SpyroAHTCommands(ClientCommandProcessor):
 
         return True
 
-    async def _cmd_check_goal(self, argument: str) -> bool:
+    async def _cmd_check_goal(self, argument: str = "") -> bool:
         """Format: /check_goal overview OR /check_goal goal_name.
         "overview" summarizes status of each enabled goal.
         "goal_name" gives a detailed list of every unchecked location for that goal."""
+        if argument == "":
+            self.output("Missing argument for. Run again as /check_goal overview or /check_goal goal_name.")
+            return True
+    
+        if self.ctx.goal_list is None or len(self.ctx.goal_list) == 0:
+            self.output("Command cannot be ran before entering your save file. Try again once loaded in. If you still receive this message then, please report this as a bug to the developers.")
+            return True
+        
         argument = argument.lower()  # just in case
         
         if argument == "overview":
